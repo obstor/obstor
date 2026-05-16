@@ -79,17 +79,17 @@ func (m *serviceMap) register(rcvr interface{}, name string) error {
 		}
 		// First argument must be a pointer and must be http.Request.
 		reqType := mtype.In(1)
-		if reqType.Kind() != reflect.Ptr || reqType.Elem() != typeOfRequest {
+		if reqType.Kind() != reflect.Pointer || reqType.Elem() != typeOfRequest {
 			continue
 		}
 		// Second argument must be a pointer and must be exported.
 		args := mtype.In(2)
-		if args.Kind() != reflect.Ptr || !isExportedOrBuiltin(args) {
+		if args.Kind() != reflect.Pointer || !isExportedOrBuiltin(args) {
 			continue
 		}
 		// Third argument must be a pointer and must be exported.
 		reply := mtype.In(3)
-		if reply.Kind() != reflect.Ptr || !isExportedOrBuiltin(reply) {
+		if reply.Kind() != reflect.Pointer || !isExportedOrBuiltin(reply) {
 			continue
 		}
 		// Method needs one out: error.
@@ -153,7 +153,7 @@ func isExported(name string) bool {
 
 // isExportedOrBuiltin returns true if a type is exported or a builtin.
 func isExportedOrBuiltin(t reflect.Type) bool {
-	for t.Kind() == reflect.Ptr {
+	for t.Kind() == reflect.Pointer {
 		t = t.Elem()
 	}
 	// PkgPath will be non-empty even for an exported type,

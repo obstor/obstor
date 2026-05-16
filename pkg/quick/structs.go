@@ -33,7 +33,7 @@ type Struct struct {
 // newStruct creates a Struct from a value, dereferencing pointers as needed.
 func newStruct(v interface{}) *Struct {
 	rv := reflect.ValueOf(v)
-	for rv.Kind() == reflect.Ptr {
+	for rv.Kind() == reflect.Pointer {
 		rv = rv.Elem()
 	}
 	return &Struct{
@@ -96,7 +96,7 @@ func isStruct(v interface{}) bool {
 		return false
 	}
 	rv := reflect.ValueOf(v)
-	for rv.Kind() == reflect.Ptr {
+	for rv.Kind() == reflect.Pointer {
 		rv = rv.Elem()
 	}
 	return rv.Kind() == reflect.Struct

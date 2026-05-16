@@ -70,7 +70,7 @@ import (
 
 func extractBucketObject(args reflect.Value) (bucketName, objectName string) {
 	switch args.Kind() {
-	case reflect.Ptr:
+	case reflect.Pointer:
 		a := args.Elem()
 		for i := 0; i < a.NumField(); i++ {
 			switch a.Type().Field(i).Name {
