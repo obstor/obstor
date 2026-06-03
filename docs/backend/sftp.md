@@ -59,7 +59,7 @@ host:port/base-path
 - `/base-path` - Optional base directory on the SFTP server (defaults to `/`)
 
 Examples:
-```
+```ini
 sftp-server:22          # root directory on port 22
 sftp-server:2222/data   # /data directory on port 2222
 192.168.1.100:22/mnt    # /mnt directory on a specific IP

@@ -43,7 +43,7 @@ obstor backend nas /path/to/nfs-volume
 
 You'll need the path to the shared volume, e.g. `\\remote-server\smb`. Then run the following commands on all the nodes you'd like to launch Obstor.
 
-```cmd
+```bash
 set OBSTOR_ROOT_USER=my-username
 set OBSTOR_ROOT_PASSWORD=my-password
 obstor.exe backend nas \\remote-server\smb\export
@@ -53,7 +53,7 @@ obstor.exe backend nas \\remote-server\smb\export
 
 If a remote volume, e.g. `\\remote-server\smb` is mounted as a drive, e.g. `M:\`. You can use [`net use`](https://technet.microsoft.com/en-us/library/bb490717.aspx) command to map the drive to a folder.
 
-```cmd
+```bash
 set OBSTOR_ROOT_USER=my-username
 set OBSTOR_ROOT_PASSWORD=my-password
 net use m: \\remote-server\smb\export /P:Yes

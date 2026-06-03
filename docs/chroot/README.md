@@ -27,7 +27,6 @@ Endpoint:  http://192.168.1.92:9000  http://65.19.167.92:9000
 AccessKey: MVPSPBW4NP2CMV1W3TXD
 SecretKey: X3RKxEeFOI8InuNWoPsbG+XEVoaJVCqbvxe+PTOa
 ...
-...
 ```
 
 Instance is now accessible on the host at port 9000, proceed to access the Web browser at http://127.0.0.1:9000/

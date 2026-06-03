@@ -22,7 +22,7 @@ obstor server http://server{1...8}/mnt/hdd{1...16}
 
 or
 
-```sh
+```bash
 mc admin config set myobstor/ api requests_max=1600
 mc admin service restart myobstor/
 ```
@@ -46,7 +46,7 @@ obstor server http://server{1...8}/mnt/hdd{1...16}
 
 or
 
-```sh
+```bash
 mc admin config set myobstor/ api requests_max=1600 requests_deadline=2m
 mc admin service restart myobstor/
 ```

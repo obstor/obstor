@@ -31,7 +31,7 @@ services:
       retries: 3
 
   obstor2:
-    image: ghcr.io/cloudment/obstor:RELEASE.2021-04-22T15-44-28Z
+    image: ghcr.io/cloudment/obstor
     hostname: obstor2
     volumes:
       - obstor2-data:/export
@@ -62,7 +62,7 @@ services:
       retries: 3
 
   obstor3:
-    image: ghcr.io/cloudment/obstor:RELEASE.2021-04-22T15-44-28Z
+    image: ghcr.io/cloudment/obstor
     hostname: obstor3
     volumes:
       - obstor3-data:/export
@@ -93,7 +93,7 @@ services:
       retries: 3
 
   obstor4:
-    image: ghcr.io/cloudment/obstor:RELEASE.2021-04-22T15-44-28Z
+    image: ghcr.io/cloudment/obstor
     hostname: obstor4
     volumes:
       - obstor4-data:/export

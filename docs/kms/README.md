@@ -11,8 +11,8 @@ As the initial step, fetch the private key and certificate of the root identity:
 
 ```bash
 curl -sSL --tlsv1.2 \
-     -O 'https://raw.githubusercontent.com/minio/kes/master/root.key' \
-     -O 'https://raw.githubusercontent.com/minio/kes/master/root.cert'
+  -O 'https://raw.githubusercontent.com/minio/kes/master/root.key' \
+  -O 'https://raw.githubusercontent.com/minio/kes/master/root.cert'
 ```
 
 #### 2. Set the Obstor-KES configuration
@@ -101,7 +101,7 @@ export OBSTOR_KMS_AUTO_ENCRYPTION=on
 
 To verify auto-encryption, use the following `mc` command:
 
-```
+```bash
 mc cp test.file myobstor/bucket/
 test.file:   5 B / 5 B  ┃███████████████████████████████████┃  100.00% 337 B/s 0s
 ```

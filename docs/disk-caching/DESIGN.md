@@ -4,33 +4,33 @@ This document explains some basic assumptions and design approach, limits of the
 
 ## Command-line
 
-```
+```bash
 obstor backend <name> -h
 ...
 ...
   CACHE:
-     OBSTOR_CACHE_DRIVES: List of mounted cache drives or directories delimited by ","
-     OBSTOR_CACHE_EXCLUDE: List of cache exclusion patterns delimited by ","
-     OBSTOR_CACHE_QUOTA: Maximum permitted usage of the cache in percentage (0-100).
-     OBSTOR_CACHE_AFTER: Minimum number of access before caching an object.
-     OBSTOR_CACHE_WATERMARK_LOW: % of cache quota at which cache eviction stops
-     OBSTOR_CACHE_WATERMARK_HIGH: % of cache quota at which cache eviction starts
-     OBSTOR_CACHE_RANGE: set to "on" or "off" caching of independent range requests per object, defaults to "on"
+    OBSTOR_CACHE_DRIVES: List of mounted cache drives or directories delimited by ","
+    OBSTOR_CACHE_EXCLUDE: List of cache exclusion patterns delimited by ","
+    OBSTOR_CACHE_QUOTA: Maximum permitted usage of the cache in percentage (0-100).
+    OBSTOR_CACHE_AFTER: Minimum number of access before caching an object.
+    OBSTOR_CACHE_WATERMARK_LOW: % of cache quota at which cache eviction stops
+    OBSTOR_CACHE_WATERMARK_HIGH: % of cache quota at which cache eviction starts
+    OBSTOR_CACHE_RANGE: set to "on" or "off" caching of independent range requests per object, defaults to "on"
 
 
 ...
 ...
 
   Start Obstor backend to s3 with edge caching enabled on '/mnt/drive1', '/mnt/drive2' and '/mnt/export1 ... /mnt/export24',
-     exclude all objects under 'mybucket', exclude all objects with '.pdf' as extension. Cache only those objects accessed atleast 3 times. Garbage collection triggers in at high water mark (i.e. cache disk usage reaches 90% of cache quota) or at 72% and evicts oldest objects by access time until low watermark is reached ( 70% of cache quota) , i.e. 63% of disk usage.
-     $ export OBSTOR_CACHE_DRIVES="/mnt/drive1,/mnt/drive2,/mnt/export{1..24}"
-     $ export OBSTOR_CACHE_EXCLUDE="mybucket/*,*.pdf"
-     $ export OBSTOR_CACHE_QUOTA=80
-     $ export OBSTOR_CACHE_AFTER=3
-     $ export OBSTOR_CACHE_WATERMARK_LOW=70
-     $ export OBSTOR_CACHE_WATERMARK_HIGH=90
+    exclude all objects under 'mybucket', exclude all objects with '.pdf' as extension. Cache only those objects accessed atleast 3 times. Garbage collection triggers in at high water mark (i.e. cache disk usage reaches 90% of cache quota) or at 72% and evicts oldest objects by access time until low watermark is reached ( 70% of cache quota) , i.e. 63% of disk usage.
+    $ export OBSTOR_CACHE_DRIVES="/mnt/drive1,/mnt/drive2,/mnt/export{1..24}"
+    $ export OBSTOR_CACHE_EXCLUDE="mybucket/*,*.pdf"
+    $ export OBSTOR_CACHE_QUOTA=80
+    $ export OBSTOR_CACHE_AFTER=3
+    $ export OBSTOR_CACHE_WATERMARK_LOW=70
+    $ export OBSTOR_CACHE_WATERMARK_HIGH=90
 
-     $ obstor backend s3
+    $ obstor backend s3
 ```
 
 ### Run Obstor backend with cache on Docker Container

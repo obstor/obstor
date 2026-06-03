@@ -66,7 +66,7 @@ mc ls mygcs
 
 A response similar to this one should be displayed:
 
-```
+```ini
 [2026-05-22 01:50:43 PST]     0B ferenginar/
 [2026-05-26 21:43:51 PST]     0B my-container/
 [2026-05-26 22:10:11 PST]     0B test-container1/

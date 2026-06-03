@@ -68,7 +68,7 @@ On another terminal run `web-identity.go` a sample client application which obta
 
 ```bash
 $ go run docs/sts/web-identity.go -cid account -csec 072e7f00-4289-469c-9ab2-bbe843c7f5a8  -config-ep "http://localhost:8080/auth/realms/demo/.well-known/openid-configuration" -port 8888
-2018/12/26 17:49:36 listening on http://localhost:8888/
+2026/12/26 17:49:36 listening on http://localhost:8888/
 ```
 
 This will open the login page of keycloak, upon successful login, STS credentials along with any buckets discovered using the credentials will be printed on the screen, for example:

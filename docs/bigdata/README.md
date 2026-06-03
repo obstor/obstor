@@ -2,7 +2,7 @@
 
 ## 1. Cloud-native Architecture
 
-![cloud-native](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image1.png "cloud native architecture")
+![cloud-native](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/disaggregated-architecture.png "cloud native architecture")
 
 Kubernetes manages stateless Spark and Hive containers elastically on the compute nodes. Spark has native scheduler integration with Kubernetes. Hive, for legacy reasons, uses YARN scheduler on top of Kubernetes.
 
@@ -20,17 +20,17 @@ Obstor also supports multi-cluster, multi-site federation similar to AWS regions
 
 After successful installation navigate to the Ambari UI `http://<ambari-server>:8080/` and login using the default credentials: [**_username: admin, password: admin_**]
 
-![ambari-login](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image3.png "ambari login")
+![ambari-login](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/configure-services-overview.png "ambari login")
 
 ### 3.1 Configure Hadoop
 
 Navigate to **Services** -> **HDFS** -> **CONFIGS** -> **ADVANCED** as shown below
 
-![hdfs-configs](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image2.png "hdfs advanced configs")
+![hdfs-configs](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hadoop-config-1.png "hdfs advanced configs")
 
 Navigate to **Custom core-site** to configure Obstor parameters for `_s3a_` connector
 
-![s3a-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image5.png "custom core-site")
+![s3a-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hadoop-config-2.png "custom core-site")
 
 ```bash
 sudo pip install yq
@@ -97,21 +97,21 @@ The rest of the other optimization options are discussed in the links below
 
 Once the config changes are applied, proceed to restart **Hadoop** services.
 
-![hdfs-services](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image7.png "hdfs restart services")
+![hdfs-services](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hadoop-config-3.png "hdfs restart services")
 
 ### 3.2 Configure Spark2
 
 Navigate to **Services** -> **Spark2** -> **CONFIGS** as shown below
 
-![spark-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image6.png "spark config")
+![spark-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/spark-config-1.png "spark config")
 
 Navigate to “**Custom spark-defaults**” to configure Obstor parameters for `_s3a_` connector
 
-![spark-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image9.png "spark defaults")
+![spark-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/spark-config-2.png "spark defaults")
 
 Add the following optimal entries for _spark-defaults.conf_ to configure Spark with **Obstor**.
 
-```
+```bash
 spark.hadoop.fs.s3a.access.key obstor
 spark.hadoop.fs.s3a.secret.key obstor123
 spark.hadoop.fs.s3a.path.style.access true
@@ -143,17 +143,17 @@ spark.hadoop.fs.s3a.threads.max 2048 # maximum number of threads for S3A
 
 Once the config changes are applied, proceed to restart **Spark** services.
 
-![spark-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image12.png "spark restart services")
+![spark-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/spark-config-3.png "spark restart services")
 
 ### 3.3 Configure Hive
 
 Navigate to **Services** -> **Hive** -> **CONFIGS**-> **ADVANCED** as shown below
 
-![hive-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image10.png "hive advanced config")
+![hive-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hive-config-1.png "hive advanced config")
 
 Navigate to “**Custom hive-site**” to configure Obstor parameters for `_s3a_` connector
 
-![hive-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image11.png "hive advanced config")
+![hive-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hive-config-2.png "hive advanced config")
 
 Add the following optimal entries for `hive-site.xml` to configure Hive with **Obstor**.
 
@@ -168,11 +168,11 @@ mapreduce.input.fileinputformat.list-status.num-threads=50
 
 For more information about these options please visit [https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/performance.html](https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/performance.html)
 
-![hive-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image13.png "hive advanced custom config")
+![hive-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hive-config-3.png "hive advanced custom config")
 
 Once the config changes are applied, proceed to restart all Hive services.
 
-![hive-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image14.png "restart hive services")
+![hive-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hive-config-4.png "restart hive services")
 
 ## 4. Run Sample Applications
 
@@ -207,8 +207,8 @@ su spark
 
 The job should produce an output as shown below. Note the value of pi in the output.
 
-```
-17/03/22 23:21:10 INFO DAGScheduler: Job 0 finished: reduce at SparkPi.scala:38, took 1.302805 s
+```bash
+26/03/22 23:21:10 INFO DAGScheduler: Job 0 finished: reduce at SparkPi.scala:38, took 1.302805 s
 Pi is roughly 3.1445191445191445
 ```
 
@@ -235,10 +235,10 @@ The following example uses _log4j.properties_ as the input file:
 
 ```bash
 hadoop fs -copyFromLocal /etc/hadoop/conf/log4j.properties
-          s3a://testbucket/testdata
+  s3a://testbucket/testdata
 ```
 
-#### 4.2.2  Run the Spark shell:
+#### 4.2.2 Run the Spark shell:
 
 ```bash
 ./bin/spark-shell --master yarn-client --driver-memory 512m --executor-memory 512m
@@ -268,7 +268,7 @@ scala>
 
 *  At the _scala>_ prompt, submit the job by typing the following commands, Replace node names, file name, and file location with your values:
 
-```
+```sql
 scala> val file = sc.textFile("s3a://testbucket/testdata")
 file: org.apache.spark.rdd.RDD[String] = s3a://testbucket/testdata MapPartitionsRDD[1] at textFile at <console>:24
 
@@ -282,7 +282,7 @@ Use one of the following approaches to view job output:
 
 View output in the Scala shell:
 
-```
+```sql
 scala> counts.count()
 364
 ```
@@ -295,7 +295,7 @@ hadoop fs -ls s3a://testbucket/wordcount
 
 The output should be similar to the following:
 
-```
+```bash
 Found 3 items
 -rw-rw-rw-   1 spark spark          0 2026-05-04 01:36 s3a://testbucket/wordcount/_SUCCESS
 -rw-rw-rw-   1 spark spark       4956 2026-05-04 01:36 s3a://testbucket/wordcount/part-00000

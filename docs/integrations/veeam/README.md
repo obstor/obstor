@@ -30,7 +30,7 @@ Follow the steps from the Veeam documentation for adding Obstor as an object sto
 
 For Veeam Backup with Immutability, choose the amount of days you want to make backups immutable for
 
-![Choose Immutability Days for Object Store](https://raw.githubusercontent.com/cloudment/obstor/main/docs/integrations/veeam/screenshots/object_store_immutable_days.png)
+![Choose Immutability Days for Object Store](https://raw.githubusercontent.com/cloudment/obstor/main/docs/integrations/veeam/screenshots/veeam-object-store-immutable-days.png)
 
 ### Creating the Scale-out Backup Repository
 
@@ -53,7 +53,7 @@ For Veeam Backup with Immutability, choose the amount of days you want to make b
 
 - For Veeam Backup with Immutability, you can choose a number of restore points or days to make backups immutable.
 
-![Choose Immutability Options for Backups](https://raw.githubusercontent.com/cloudment/obstor/main/docs/integrations/veeam/screenshots/backup_job_immutable_days.png)
+![Choose Immutability Options for Backups](https://raw.githubusercontent.com/cloudment/obstor/main/docs/integrations/veeam/screenshots/veeam-backup-job-immutable-days.png)
 
 #### Backup Office 365 with VBO
 - Create a new bucket for VBO backups
@@ -64,7 +64,7 @@ mc mb -l myobstor/vbo
 
 - Under Backup Infrastructure, right click on Object Storage Repositories and choose "Add object storage"
 
-![Adding Object Storage to VBO Step 1](https://raw.githubusercontent.com/cloudment/obstor/main/docs/integrations/veeam/screenshots/1_add_object_store.png)
+![Adding Object Storage to VBO Step 1](https://raw.githubusercontent.com/cloudment/obstor/main/docs/integrations/veeam/screenshots/veeam-add-object-store.png)
 
 - Follow through the wizard as above for Veeam Backup and Replication as the steps are the same between both products
 
@@ -72,14 +72,14 @@ mc mb -l myobstor/vbo
 
 - Follow the wizard.  Under the "Object Storage Backup Repository" section, choose the Obstor object storage you created above
 
-![Adding Object Storage to VBO Backup Repository](https://raw.githubusercontent.com/cloudment/obstor/main/docs/integrations/veeam/screenshots/6_add_sobr_with_object_store.png)
+![Adding Object Storage to VBO Backup Repository](https://raw.githubusercontent.com/cloudment/obstor/main/docs/integrations/veeam/screenshots/veeam-add-sobr.png)
 
 - When you create your backup job, choose the backup repository you created above.
 
 ## Test the setup
 The next time the backup job runs, you can use the  `mc admin trace myobstor` command and verify traffic is flowing to the Obstor nodes. For Veeam Backup and Replication you will need to wait for the backup to complete to the performance tier before it migrates data to the capacity tier (i.e., Obstor).
 
-```
+```bash
 20:09:10.216 [200 OK] s3.GetObject veeam-obstor01:9000/vbo/Veeam/Backup365/vbotest/Organizations/6571606ecbc4455dbfe23b83f6f45597/Webs/ca2d0986229b4ec88e3a217ef8f04a1d/Items/efaa67764b304e77badb213d131beab6/f4f0cf600f494c3eb702d8eafe0fabcc.aac07493e6cd4c71845d2495a4e1e19b 139.178.68.158    9.789ms      ↑ 90 B ↓ 8.5 KiB
 20:09:10.244 [200 OK] s3.GetObject veeam-obstor01:9000/vbo/Veeam/Backup365/vbotest/RepositoryLock/cad99aceb50c49ecb9e07246c3b9fadc_bfd985e5deec4cebaf481847f2c34797 139.178.68.158    16.21ms      ↑ 90 B ↓ 402 B
 20:09:10.283 [200 OK] s3.PutObject veeam-obstor01:9000/vbo/Veeam/Backup365/vbotest/CommonInfo/WebRestorePoints/18f1aba8f55f4ac6b805c4de653eb781 139.178.68.158    29.787ms     ↑ 1005 B ↓ 296 B

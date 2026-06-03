@@ -2,7 +2,7 @@
 This document explains the design, architecture and advanced use cases of the Obstor distributed server.
 
 ## Command-line
-```
+```bash
 NAME:
   obstor server - start object storage server
 
@@ -80,12 +80,12 @@ Expected expansion
 ```go
 // hashes the key returning an integer.
 func sipHashMod(key string, cardinality int, id [16]byte) int {
-        if cardinality <= 0 {
-                return -1
-        }
-        sip := siphash.New(id[:])
-        sip.Write([]byte(key))
-        return int(sip.Sum64() % uint64(cardinality))
+  if cardinality <= 0 {
+    return -1
+  }
+  sip := siphash.New(id[:])
+  sip.Write([]byte(key))
+  return int(sip.Sum64() % uint64(cardinality))
 }
 ```
 Input for the key is the object name specified in `PutObject()`, returns a unique index. This index is one of the erasure sets where the object will reside. This function is a consistent hash for a given object name i.e for a given object name the index returned is always the same.
@@ -114,19 +114,19 @@ Refer to the sizing guide with details on the default parity count chosen for di
 Obstor places new objects in server pools based on proportionate free space, per pool. Following pseudo code demonstrates this behavior.
 ```go
 func getAvailablePoolIdx(ctx context.Context) int {
-        serverPools := z.getServerPoolsAvailableSpace(ctx)
-        total := serverPools.TotalAvailable()
-        // choose when we reach this many
-        choose := rand.Uint64() % total
-        atTotal := uint64(0)
-        for _, pool := range serverPools {
-                atTotal += pool.Available
-                if atTotal > choose && pool.Available > 0 {
-                        return pool.Index
-                }
-        }
-        // Should not happen, but print values just in case.
-        panic(fmt.Errorf("reached end of serverPools (total: %v, atTotal: %v, choose: %v)", total, atTotal, choose))
+  serverPools := z.getServerPoolsAvailableSpace(ctx)
+  total := serverPools.TotalAvailable()
+  // choose when we reach this many
+  choose := rand.Uint64() % total
+  atTotal := uint64(0)
+  for _, pool := range serverPools {
+    atTotal += pool.Available
+    if atTotal > choose && pool.Available > 0 {
+      return pool.Index
+    }
+  }
+  // Should not happen, but print values just in case.
+  panic(fmt.Errorf("reached end of serverPools (total: %v, atTotal: %v, choose: %v)", total, atTotal, choose))
 }
 ```
 

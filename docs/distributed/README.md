@@ -49,7 +49,7 @@ __NOTE:__
 
 Example 1: Start distributed Obstor instance on n nodes with m drives each mounted at `/export1` to `/exportm` (pictured below), by running this command on all the n nodes:
 
-![Distributed Obstor, n nodes with m drives each](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/Architecture-diagram_distributed_nm.png)
+![Distributed Obstor, n nodes with m drives each](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/architecture-distributed.png)
 
 #### GNU/Linux and macOS
 

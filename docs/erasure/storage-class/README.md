@@ -53,7 +53,6 @@ The default value for the `STANDARD` storage class depends on the number of volu
 | 6-7              |                 EC:3  |
 | 8 or more        |                 EC:4  |
 
-Prior to the ``RELEASE.2021-01-30T00-20-58Z`` Obstor release, the default `STANDARD` value was `EC(N/2)` where `N` was the number of erasure set drives.
 For more complete documentation on Erasure Set sizing, see the [Obstor Documentation on Erasure Sets](/docs/erasure).
 
 ### Allowed values for REDUCED_REDUNDANCY storage class

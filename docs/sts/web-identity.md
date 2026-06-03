@@ -112,7 +112,7 @@ Testing with an example
 
 ```bash
 $ go run web-identity.go -cid 204367807228-ok7601k6gj1pgge7m09h7d79co8p35xx.apps.googleusercontent.com -csec XsT_PgPdT1nO9DD45rMLJw7G
-2018/12/26 17:49:36 listening on http://localhost:8080/
+2026/12/26 17:49:36 listening on http://localhost:8080/
 ```
 
 > NOTE: for a reasonable test outcome, make sure the assumed user has at least permission/policy to list all buckets. That policy would look like below:

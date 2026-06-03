@@ -2,8 +2,6 @@
 
 ## Configuration Directory
 
-Till Obstor release `RELEASE.2026-08-02T23-11-36Z`, Obstor server configuration file (`config.json`) was stored in the configuration directory specified by `--config-dir` or defaulted to `${HOME}/.obstor`. However from releases after `RELEASE.2026-08-18T03-49-57Z`, the configuration file (only), has been migrated to the storage backend (storage backend is the directory passed to Obstor server while starting the server).
-
 You can specify the location of your existing config using `--config-dir`, Obstor will migrate the `config.json` to your backend storage. Your current `config.json` will be renamed upon successful migration as `config.json.deprecated` in your current `--config-dir`. All your existing configurations are honored after this migration.
 
 Additionally `--config-dir` is now a legacy option which will is scheduled for removal in future, so please update your local startup, ansible scripts accordingly.
@@ -59,7 +57,7 @@ Once the migration is complete, server will automatically unset the `OBSTOR_ROOT
 > **NOTE: Make sure to remove `OBSTOR_ROOT_USER_OLD` and `OBSTOR_ROOT_PASSWORD_OLD` in scripts or service files before next service restarts of the server to avoid double encryption of your existing contents.**
 
 #### Region
-```
+```bash
 KEY:
 region  label the location of the server
 
@@ -69,7 +67,7 @@ comment  (sentence)  optionally add a comment to this setting
 ```
 
 or environment variables
-```
+```bash
 KEY:
 region  label the location of the server
 
@@ -88,7 +86,7 @@ obstor server /data
 ### Storage Class
 By default, parity for objects with standard storage class is set to `N/2`, and parity for objects with reduced redundancy storage class objects is set to `2`. Read more about storage class support in Obstor server [here](/docs/erasure/storage-class).
 
-```
+```bash
 KEY:
 storage_class  define object level redundancy
 
@@ -99,7 +97,7 @@ comment   (sentence)  optionally add a comment to this setting
 ```
 
 or environment variables
-```
+```bash
 KEY:
 storage_class  define object level redundancy
 
@@ -112,7 +110,7 @@ OBSTOR_STORAGE_CLASS_COMMENT   (sentence)  optionally add a comment to this sett
 ### Cache
 Obstor provides caching storage tier for primarily backend deployments, allowing you to cache content for faster reads, cost savings on repeated downloads from the cloud.
 
-```
+```bash
 KEY:
 cache  add caching storage tier
 
@@ -126,7 +124,7 @@ comment  (sentence)  optionally add a comment to this setting
 ```
 
 or environment variables
-```
+```bash
 KEY:
 cache  add caching storage tier
 
@@ -144,7 +142,7 @@ Obstor supports storing encrypted IAM assets and bucket DNS records on etcd.
 
 > NOTE: if *path_prefix* is set then Obstor will not federate your buckets, namespaced IAM assets are assumed as isolated tenants, only buckets are considered globally unique but performing a lookup with a *bucket* which belongs to a different tenant will fail unlike federated setups where Obstor would port-forward and route the request to relevant cluster accordingly. This is a special feature, federated deployments should not need to set *path_prefix*.
 
-```
+```bash
 KEY:
 etcd  federate multiple clusters for IAM and Bucket DNS
 
@@ -158,7 +156,7 @@ comment          (sentence)  optionally add a comment to this setting
 ```
 
 or environment variables
-```
+```bash
 KEY:
 etcd  federate multiple clusters for IAM and Bucket DNS
 
@@ -174,7 +172,7 @@ OBSTOR_ETCD_COMMENT          (sentence)  optionally add a comment to this settin
 ### API
 By default, there is no limitation on the number of concurrent requests that a server/cluster processes at the same time. However, it is possible to impose such limitation using the API subsystem. Read more about throttling limitation in Obstor server [here](/docs/throttle).
 
-```
+```bash
 KEY:
 api  manage global HTTP API call specific features, such as throttling, authentication types, etc.
 
@@ -187,7 +185,7 @@ remote_transport_deadline  (duration)  set the deadline for API requests on remo
 
 or environment variables
 
-```
+```bash
 OBSTOR_API_REQUESTS_MAX               (number)    set the maximum number of concurrent requests, e.g. "1600"
 OBSTOR_API_REQUESTS_DEADLINE          (duration)  set the deadline for API requests waiting to be processed e.g. "1m"
 OBSTOR_API_CORS_ALLOW_ORIGIN          (csv)       set comma separated list of origins allowed for CORS requests e.g. "https://example1.com,https://example2.com"
@@ -197,7 +195,7 @@ OBSTOR_API_REMOTE_TRANSPORT_DEADLINE  (duration)  set the deadline for API reque
 #### Notifications
 Notification targets supported by Obstor are in the following list. To configure individual targets please refer to more detailed documentation [here](/docs/bucket/notifications)
 
-```
+```bash
 notify_webhook        publish bucket notifications to webhook endpoints
 notify_amqp           publish bucket notifications to AMQP endpoints
 notify_kafka          publish bucket notifications to Kafka endpoints
@@ -225,7 +223,7 @@ All configuration changes can be made using the `mc admin config` get/set/reset/
 
 e.g: `mc admin config set myobstor/ etcd` returns available `etcd` config args
 
-```
+```bash
 ~ mc admin config set play/ etcd
 KEY:
 etcd  federate multiple clusters for IAM and Bucket DNS
@@ -240,7 +238,7 @@ comment          (sentence)  optionally add a comment to this setting
 ```
 
 To get ENV equivalent for each config args use `--env` flag
-```
+```bash
 ~ mc admin config set play/ etcd --env
 KEY:
 etcd  federate multiple clusters for IAM and Bucket DNS
@@ -260,7 +258,7 @@ This behavior is consistent across all keys, each key self documents itself with
 
 The following sub-systems are dynamic i.e., configuration parameters for each sub-systems can be changed while the server is running without any restarts.
 
-```
+```bash
 api                   manage global HTTP API call specific features, such as throttling, authentication types, etc.
 heal                  manage object healing frequency and bitrot verification checks
 scanner               manage namespace scanning for usage calculation, lifecycle, healing and more
@@ -274,7 +272,7 @@ Data usage scanner is enabled by default. The following configuration settings a
 
 In most setups this will keep the scanner slow enough to not impact overall system performance. Setting the `delay` key to a *lower* value will make the scanner faster and setting it to 0 will make the scanner run at full speed (not recommended in production). Setting it to a higher value will make the scanner slower, consuming less resources with the trade off of not collecting metrics for operations like healing and disk usage as fast.
 
-```
+```bash
 ~ mc admin config set alias/ scanner
 KEY:
 scanner  manage namespace scanning for usage calculation, lifecycle, healing and more
@@ -300,7 +298,7 @@ Healing is enabled by default. The following configuration settings allow for mo
 
 In most setups this is sufficient to heal the content after drive replacements. Setting `max_delay` to a *lower* value and setting `max_io` to a *higher* value would make heal go faster.
 
-```
+```bash
 ~ mc admin config set alias/ heal
 KEY:
 heal  manage object healing frequency and bitrot verification checks

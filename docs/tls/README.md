@@ -49,9 +49,9 @@ go run generate_cert.go -ca --host "10.10.0.3"
 
 A response similar to this one should be displayed:
 
-```
-2018/11/21 10:16:18 wrote cert.pem
-2018/11/21 10:16:18 wrote key.pem
+```bash
+2026/11/21 10:16:18 wrote cert.pem
+2026/11/21 10:16:18 wrote key.pem
 ```
 
 Rename `cert.pem` to `public.crt` and `key.pem` to `private.key`.

@@ -38,24 +38,24 @@ obstor backend nas /path/to/nfs-volume
 Example 1: Start Obstor instance on a shared backend mounted and available at `\\remote-server\cifs`.
 
 On windows server1
-```cmd
+```bash
 obstor.exe backend nas \\remote-server\cifs\data
 ```
 
 On windows server2
-```cmd
+```bash
 obstor.exe backend nas \\remote-server\cifs\data
 ```
 
 Alternatively if `\\remote-server\cifs` is mounted as `D:\` drive.
 
 On windows server1
-```cmd
+```bash
 obstor.exe backend nas D:\data
 ```
 
 On windows server2
-```cmd
+```bash
 obstor.exe backend nas D:\data
 ```
 

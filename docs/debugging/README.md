@@ -53,7 +53,7 @@ The output printed will be of the form
      ** THIS FILE MAY CONTAIN SENSITIVE INFORMATION ABOUT YOUR ENVIRONMENT **
      ** PLEASE INSPECT CONTENTS BEFORE SHARING IT ON ANY PUBLIC FORUM **
 *********************************************************************************
-mc: Health data saved to dc-11-health_20200321053323.json.gz
+mc: Health data saved to dc-11-health_20260321053323.json.gz
 ```
 
 The gzipped output contains debugging information for your system

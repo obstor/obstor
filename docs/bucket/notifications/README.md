@@ -78,7 +78,7 @@ Install RabbitMQ from [here](https://www.rabbitmq.com/).
 
 The AMQP configuration is located under the sub-system `notify_amqp` top-level key. Create a configuration key-value pair here for your AMQP instance. The key is a name for your AMQP endpoint, and the value is a collection of key-value parameters described in the table below.
 
-```
+```bash
 KEY:
 notify_amqp[:name]  publish bucket notifications to AMQP endpoints
 
@@ -100,7 +100,7 @@ comment        (sentence)  optionally add a comment to this setting
 
 Or environment variables
 
-```
+```bash
 KEY:
 notify_amqp[:name]  publish bucket notifications to AMQP endpoints
 
@@ -202,7 +202,7 @@ You should receive the following event notification via RabbitMQ once the upload
 
 ```bash
 python rabbit.py
-'{"Records":[{"eventVersion":"2.0","eventSource":"aws:s3","awsRegion":"","eventTime":"2016–09–08T22:34:38.226Z","eventName":"s3:ObjectCreated:Put","userIdentity":{"principalId":"obstor"},"requestParameters":{"sourceIPAddress":"10.1.10.150:44576"},"responseElements":{},"s3":{"s3SchemaVersion":"1.0","configurationId":"Config","bucket":{"name":"images","ownerIdentity":{"principalId":"obstor"},"arn":"arn:aws:s3:::images"},"object":{"key":"myphoto.jpg","size":200436,"sequencer":"147279EAF9F40933"}}}],"level":"info","msg":"","time":"2016–09–08T15:34:38–07:00"}'
+'{"Records":[{"eventVersion":"2.0","eventSource":"aws:s3","awsRegion":"","eventTime":"2026–09–08T22:34:38.226Z","eventName":"s3:ObjectCreated:Put","userIdentity":{"principalId":"obstor"},"requestParameters":{"sourceIPAddress":"10.1.10.150:44576"},"responseElements":{},"s3":{"s3SchemaVersion":"1.0","configurationId":"Config","bucket":{"name":"images","ownerIdentity":{"principalId":"obstor"},"arn":"arn:aws:s3:::images"},"object":{"key":"myphoto.jpg","size":200436,"sequencer":"147279EAF9F40933"}}}],"level":"info","msg":"","time":"2026–09–08T15:34:38–07:00"}'
 ```
 
 <a name="MQTT"></a>
@@ -215,7 +215,7 @@ Install an MQTT Broker from [here](https://mosquitto.org/).
 
 The MQTT configuration is located as `notify_mqtt` key. Create a configuration key-value pair here for your MQTT instance. The key is a name for your MQTT endpoint, and the value is a collection of key-value parameters described in the table below.
 
-```
+```bash
 KEY:
 notify_mqtt[:name]  publish bucket notifications to MQTT endpoints
 
@@ -234,7 +234,7 @@ comment              (sentence)  optionally add a comment to this setting
 
 or environment variables
 
-```
+```bash
 KEY:
 notify_mqtt[:name]  publish bucket notifications to MQTT endpoints
 
@@ -327,7 +327,7 @@ You should receive the following event notification via MQTT once the upload com
 
 ```bash
 python mqtt.py
-{“Records”:[{“eventVersion”:”2.0",”eventSource”:”aws:s3",”awsRegion”:”",”eventTime”:”2016–09–08T22:34:38.226Z”,”eventName”:”s3:ObjectCreated:Put”,”userIdentity”:{“principalId”:”obstor”},”requestParameters”:{“sourceIPAddress”:”10.1.10.150:44576"},”responseElements”:{},”s3":{“s3SchemaVersion”:”1.0",”configurationId”:”Config”,”bucket”:{“name”:”images”,”ownerIdentity”:{“principalId”:”obstor”},”arn”:”arn:aws:s3:::images”},”object”:{“key”:”myphoto.jpg”,”size”:200436,”sequencer”:”147279EAF9F40933"}}}],”level”:”info”,”msg”:””,”time”:”2016–09–08T15:34:38–07:00"}
+{“Records”:[{“eventVersion”:”2.0",”eventSource”:”aws:s3",”awsRegion”:”",”eventTime”:”2026–09–08T22:34:38.226Z”,”eventName”:”s3:ObjectCreated:Put”,”userIdentity”:{“principalId”:”obstor”},”requestParameters”:{“sourceIPAddress”:”10.1.10.150:44576"},”responseElements”:{},”s3":{“s3SchemaVersion”:”1.0",”configurationId”:”Config”,”bucket”:{“name”:”images”,”ownerIdentity”:{“principalId”:”obstor”},”arn”:”arn:aws:s3:::images”},”object”:{“key”:”myphoto.jpg”,”size”:200436,”sequencer”:”147279EAF9F40933"}}}],”level”:”info”,”msg”:””,”time”:”2026–09–08T15:34:38–07:00"}
 ```
 
 <a name="Elasticsearch"></a>
@@ -352,7 +352,7 @@ Obstor requires a 5.x series version of Elasticsearch. This is the latest major 
 
 The Elasticsearch configuration is located in the `notify_elasticsearch` key. Create a configuration key-value pair here for your Elasticsearch instance. The key is a name for your Elasticsearch endpoint, and the value is a collection of key-value parameters described in the table below.
 
-```
+```bash
 KEY:
 notify_elasticsearch[:name]  publish bucket notifications to Elasticsearch endpoints
 
@@ -369,7 +369,7 @@ comment      (sentence)           optionally add a comment to this setting
 
 or environment variables
 
-```
+```bash
 KEY:
 notify_elasticsearch[:name]  publish bucket notifications to Elasticsearch endpoints
 
@@ -456,7 +456,7 @@ $ curl  "http://localhost:9200/obstor_events/_search?pretty=true"
               "eventVersion" : "2.0",
               "eventSource" : "obstor:s3",
               "awsRegion" : "",
-              "eventTime" : "2017-03-30T08:00:41Z",
+              "eventTime" : "2026-03-30T08:00:41Z",
               "eventName" : "s3:ObjectCreated:Put",
               "userIdentity" : {
                 "principalId" : "obstor"
@@ -488,7 +488,7 @@ $ curl  "http://localhost:9200/obstor_events/_search?pretty=true"
               "source" : {
                 "host" : "127.0.0.1",
                 "port" : "38062",
-                "userAgent" : "Obstor (linux; amd64) minio-go/2.0.3 mc/2017-02-15T17:57:25Z"
+                "userAgent" : "Obstor (linux; amd64) minio-go/2.0.3 mc/2026-02-15T17:57:25Z"
               }
             }
           ]
@@ -521,7 +521,7 @@ The steps below show how to use this notification target in `namespace` and `acc
 
 The Obstor server configuration file is stored on the backend in json format.The Redis configuration is located in the `redis` key under the `notify` top-level key. Create a configuration key-value pair here for your Redis instance. The key is a name for your Redis endpoint, and the value is a collection of key-value parameters described in the table below.
 
-```
+```bash
 KEY:
 notify_redis[:name]  publish bucket notifications to Redis datastores
 
@@ -537,7 +537,7 @@ comment      (sentence)           optionally add a comment to this setting
 
 or environment variables
 
-```
+```bash
 KEY:
 notify_redis[:name]  publish bucket notifications to Redis datastores
 
@@ -605,7 +605,7 @@ In the previous terminal, you will now see the operation that Obstor performs on
 127.0.0.1:6379> monitor
 OK
 1490686879.650649 [0 172.17.0.1:44710] "PING"
-1490686879.651061 [0 172.17.0.1:44710] "HSET" "obstor_events" "images/myphoto.jpg" "{\"Records\":[{\"eventVersion\":\"2.0\",\"eventSource\":\"obstor:s3\",\"awsRegion\":\"\",\"eventTime\":\"2017-03-28T07:41:19Z\",\"eventName\":\"s3:ObjectCreated:Put\",\"userIdentity\":{\"principalId\":\"obstor\"},\"requestParameters\":{\"sourceIPAddress\":\"127.0.0.1:52234\"},\"responseElements\":{\"x-amz-request-id\":\"14AFFBD1ACE5F632\",\"x-obstor-origin-endpoint\":\"http://192.168.86.115:9000\"},\"s3\":{\"s3SchemaVersion\":\"1.0\",\"configurationId\":\"Config\",\"bucket\":{\"name\":\"images\",\"ownerIdentity\":{\"principalId\":\"obstor\"},\"arn\":\"arn:aws:s3:::images\"},\"object\":{\"key\":\"myphoto.jpg\",\"size\":2586,\"eTag\":\"5d284463f9da279f060f0ea4d11af098\",\"sequencer\":\"14AFFBD1ACE5F632\"}},\"source\":{\"host\":\"127.0.0.1\",\"port\":\"52234\",\"userAgent\":\"Obstor (linux; amd64) minio-go/2.0.3 mc/2017-02-15T17:57:25Z\"}}]}"
+1490686879.651061 [0 172.17.0.1:44710] "HSET" "obstor_events" "images/myphoto.jpg" "{\"Records\":[{\"eventVersion\":\"2.0\",\"eventSource\":\"obstor:s3\",\"awsRegion\":\"\",\"eventTime\":\"2026-03-28T07:41:19Z\",\"eventName\":\"s3:ObjectCreated:Put\",\"userIdentity\":{\"principalId\":\"obstor\"},\"requestParameters\":{\"sourceIPAddress\":\"127.0.0.1:52234\"},\"responseElements\":{\"x-amz-request-id\":\"14AFFBD1ACE5F632\",\"x-obstor-origin-endpoint\":\"http://192.168.86.115:9000\"},\"s3\":{\"s3SchemaVersion\":\"1.0\",\"configurationId\":\"Config\",\"bucket\":{\"name\":\"images\",\"ownerIdentity\":{\"principalId\":\"obstor\"},\"arn\":\"arn:aws:s3:::images\"},\"object\":{\"key\":\"myphoto.jpg\",\"size\":2586,\"eTag\":\"5d284463f9da279f060f0ea4d11af098\",\"sequencer\":\"14AFFBD1ACE5F632\"}},\"source\":{\"host\":\"127.0.0.1\",\"port\":\"52234\",\"userAgent\":\"Obstor (linux; amd64) minio-go/2.0.3 mc/2026-02-15T17:57:25Z\"}}]}"
 ```
 
 Here we see that Obstor performed `HSET` on `obstor_events` key.
@@ -622,7 +622,7 @@ Install NATS from [here](http://nats.io/).
 
 Obstor supports persistent event store. The persistent store will backup events when the NATS broker goes offline and replays it when the broker comes back online. The event store can be configured by setting the directory path in `queue_dir` field and the maximum limit of events in the queue_dir in `queue_limit` field. For eg, the `queue_dir` can be `/home/events` and `queue_limit` can be `1000`. By default, the `queue_limit` is set to 100000.
 
-```
+```bash
 KEY:
 notify_nats[:name]  publish bucket notifications to NATS endpoints
 
@@ -648,7 +648,7 @@ comment                           (sentence)  optionally add a comment to this s
 ```
 
 or environment variables
-```
+```bash
 KEY:
 notify_nats[:name]  publish bucket notifications to NATS endpoints
 
@@ -738,8 +738,8 @@ func main() {
 
 ```bash
 go run nats.go
-2016/10/12 06:39:18 Connected
-2016/10/12 06:39:18 Subscribing to subject 'bucketevents'
+2026/10/12 06:39:18 Connected
+2026/10/12 06:39:18 Subscribing to subject 'bucketevents'
 ```
 
 Open another terminal and upload a JPEG image into `images` bucket.
@@ -752,9 +752,9 @@ The example `nats.go` program prints event notification to console.
 
 ```bash
 go run nats.go
-2016/10/12 06:51:26 Connected
-2016/10/12 06:51:26 Subscribing to subject 'bucketevents'
-2016/10/12 06:51:33 Received message '{"EventType":"s3:ObjectCreated:Put","Key":"images/myphoto.jpg","Records":[{"eventVersion":"2.0","eventSource":"aws:s3","awsRegion":"","eventTime":"2016-10-12T13:51:33Z","eventName":"s3:ObjectCreated:Put","userIdentity":{"principalId":"obstor"},"requestParameters":{"sourceIPAddress":"[::1]:57106"},"responseElements":{},"s3":{"s3SchemaVersion":"1.0","configurationId":"Config","bucket":{"name":"images","ownerIdentity":{"principalId":"obstor"},"arn":"arn:aws:s3:::images"},"object":{"key":"myphoto.jpg","size":56060,"eTag":"1d97bf45ecb37f7a7b699418070df08f","sequencer":"147CCD1AE054BFD0"}}}],"level":"info","msg":"","time":"2016-10-12T06:51:33-07:00"}
+2026/10/12 06:51:26 Connected
+2026/10/12 06:51:26 Subscribing to subject 'bucketevents'
+2026/10/12 06:51:33 Received message '{"EventType":"s3:ObjectCreated:Put","Key":"images/myphoto.jpg","Records":[{"eventVersion":"2.0","eventSource":"aws:s3","awsRegion":"","eventTime":"2026-10-12T13:51:33Z","eventName":"s3:ObjectCreated:Put","userIdentity":{"principalId":"obstor"},"requestParameters":{"sourceIPAddress":"[::1]:57106"},"responseElements":{},"s3":{"s3SchemaVersion":"1.0","configurationId":"Config","bucket":{"name":"images","ownerIdentity":{"principalId":"obstor"},"arn":"arn:aws:s3:::images"},"object":{"key":"myphoto.jpg","size":56060,"eTag":"1d97bf45ecb37f7a7b699418070df08f","sequencer":"147CCD1AE054BFD0"}}}],"level":"info","msg":"","time":"2026-10-12T06:51:33-07:00"}
 ```
 
 If you use NATS Streaming server, check out this sample program below to log the bucket notification added to NATS.
@@ -816,8 +816,8 @@ func main() {
 
 ```bash
 go run nats.go
-2017/07/07 11:47:40 Connected
-2017/07/07 11:47:40 Subscribing to subject 'bucketevents'
+2026/07/07 11:47:40 Connected
+2026/07/07 11:47:40 Subscribing to subject 'bucketevents'
 ```
 
 Open another terminal and upload a JPEG image into `images` bucket.
@@ -828,35 +828,13 @@ mc cp myphoto.jpg myobstor/images
 
 The example `nats.go` program prints event notification to console.
 
-```
-Received a message: {"EventType":"s3:ObjectCreated:Put","Key":"images/myphoto.jpg","Records":[{"eventVersion":"2.0","eventSource":"obstor:s3","awsRegion":"","eventTime":"2017-07-07T18:46:37Z","eventName":"s3:ObjectCreated:Put","userIdentity":{"principalId":"obstor"},"requestParameters":{"sourceIPAddress":"192.168.1.80:55328"},"responseElements":{"x-amz-request-id":"14CF20BD1EFD5B93","x-obstor-origin-endpoint":"http://127.0.0.1:9000"},"s3":{"s3SchemaVersion":"1.0","configurationId":"Config","bucket":{"name":"images","ownerIdentity":{"principalId":"obstor"},"arn":"arn:aws:s3:::images"},"object":{"key":"myphoto.jpg","size":248682,"eTag":"f1671feacb8bbf7b0397c6e9364e8c92","contentType":"image/jpeg","userDefined":{"content-type":"image/jpeg"},"versionId":"1","sequencer":"14CF20BD1EFD5B93"}},"source":{"host":"192.168.1.80","port":"55328","userAgent":"Obstor (linux; amd64) minio-go/2.0.4 mc/DEVELOPMENT.GOGET"}}],"level":"info","msg":"","time":"2017-07-07T11:46:37-07:00"}
+```json
+Received a message: {"EventType":"s3:ObjectCreated:Put","Key":"images/myphoto.jpg","Records":[{"eventVersion":"2.0","eventSource":"obstor:s3","awsRegion":"","eventTime":"2026-07-07T18:46:37Z","eventName":"s3:ObjectCreated:Put","userIdentity":{"principalId":"obstor"},"requestParameters":{"sourceIPAddress":"192.168.1.80:55328"},"responseElements":{"x-amz-request-id":"14CF20BD1EFD5B93","x-obstor-origin-endpoint":"http://127.0.0.1:9000"},"s3":{"s3SchemaVersion":"1.0","configurationId":"Config","bucket":{"name":"images","ownerIdentity":{"principalId":"obstor"},"arn":"arn:aws:s3:::images"},"object":{"key":"myphoto.jpg","size":248682,"eTag":"f1671feacb8bbf7b0397c6e9364e8c92","contentType":"image/jpeg","userDefined":{"content-type":"image/jpeg"},"versionId":"1","sequencer":"14CF20BD1EFD5B93"}},"source":{"host":"192.168.1.80","port":"55328","userAgent":"Obstor (linux; amd64) minio-go/2.0.4 mc/DEVELOPMENT.GOGET"}}],"level":"info","msg":"","time":"2026-07-07T11:46:37-07:00"}
 ```
 
 <a name="PostgreSQL"></a>
 
 ## Publish Obstor events via PostgreSQL
-
-> NOTE: Until release RELEASE.2026-04-10T03-34-42Z PostgreSQL notification used to support following options:
->
-> ```
-> host                (hostname)           Postgres server hostname (used only if `connection_string` is empty)
-> port                (port)               Postgres server port, defaults to `5432` (used only if `connection_string` is empty)
-> username            (string)             database username (used only if `connection_string` is empty)
-> password            (string)             database password (used only if `connection_string` is empty)
-> database            (string)             database name (used only if `connection_string` is empty)
-> ```
->
-> These are now deprecated, if you plan to upgrade to any releases after *RELEASE.2026-04-10T03-34-42Z* make sure
-> to migrate to only using *connection_string* option. To migrate, once you have upgraded all the servers use the
-> following command to update the existing notification targets.
->
-> ```bash
-> mc admin config set myobstor/ notify_postgres[:name] connection_string="host=hostname port=2832 username=psqluser password=psqlpass database=bucketevents"
-> ```
->
-> Please make sure this step is carried out, without this step PostgreSQL notification targets will not work,
-> an error message will be shown on the console upon server upgrade/restart, make sure to follow the above
-> instructions appropriately. For further questions please join our https://pgg.net/discord
 
 Install [PostgreSQL](https://www.postgresql.org/) database server. For illustrative purposes, we have set the "postgres" user password as `password` and created a database called `obstor_events` to store the events.
 
@@ -876,7 +854,7 @@ Obstor requires PostgreSQL version 17 or above. Obstor uses the [`INSERT ON CONF
 
 The PostgreSQL configuration is located in the `notify_postgresql` key. Create a configuration key-value pair here for your PostgreSQL instance. The key is a name for your PostgreSQL endpoint, and the value is a collection of key-value parameters described in the table below.
 
-```
+```bash
 KEY:
 notify_postgres[:name]  publish bucket notifications to Postgres databases
 
@@ -891,7 +869,7 @@ comment              (sentence)           optionally add a comment to this setti
 ```
 
 or environment variables
-```
+```bash
 KEY:
 notify_postgres[:name]  publish bucket notifications to Postgres databases
 
@@ -962,35 +940,13 @@ obstor_events=# select * from bucketevents;
 
 key                 |                      value
 --------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- images/myphoto.jpg | {"Records": [{"s3": {"bucket": {"arn": "arn:aws:s3:::images", "name": "images", "ownerIdentity": {"principalId": "obstor"}}, "object": {"key": "myphoto.jpg", "eTag": "1d97bf45ecb37f7a7b699418070df08f", "size": 56060, "sequencer": "147CE57C70B31931"}, "configurationId": "Config", "s3SchemaVersion": "1.0"}, "awsRegion": "", "eventName": "s3:ObjectCreated:Put", "eventTime": "2016-10-12T21:18:20Z", "eventSource": "aws:s3", "eventVersion": "2.0", "userIdentity": {"principalId": "obstor"}, "responseElements": {}, "requestParameters": {"sourceIPAddress": "[::1]:39706"}}]}
+ images/myphoto.jpg | {"Records": [{"s3": {"bucket": {"arn": "arn:aws:s3:::images", "name": "images", "ownerIdentity": {"principalId": "obstor"}}, "object": {"key": "myphoto.jpg", "eTag": "1d97bf45ecb37f7a7b699418070df08f", "size": 56060, "sequencer": "147CE57C70B31931"}, "configurationId": "Config", "s3SchemaVersion": "1.0"}, "awsRegion": "", "eventName": "s3:ObjectCreated:Put", "eventTime": "2026-10-12T21:18:20Z", "eventSource": "aws:s3", "eventVersion": "2.0", "userIdentity": {"principalId": "obstor"}, "responseElements": {}, "requestParameters": {"sourceIPAddress": "[::1]:39706"}}]}
 (1 row)
 ```
 
 <a name="MySQL"></a>
 
 ## Publish Obstor events via MySQL
-
-> NOTE: Until release RELEASE.2026-04-10T03-34-42Z MySQL notification used to support following options:
->
-> ```
-> host         (hostname)           MySQL server hostname (used only if `dsn_string` is empty)
-> port         (port)               MySQL server port (used only if `dsn_string` is empty)
-> username     (string)             database username (used only if `dsn_string` is empty)
-> password     (string)             database password (used only if `dsn_string` is empty)
-> database     (string)             database name (used only if `dsn_string` is empty)
-> ```
->
-> These are now deprecated, if you plan to upgrade to any releases after *RELEASE.2026-04-10T03-34-42Z* make sure
-> to migrate to only using *dsn_string* option. To migrate, once you have upgraded all the servers use the
-> following command to update the existing notification targets.
->
-> ```bash
-> mc admin config set myobstor/ notify_mysql[:name] dsn_string="mysqluser:mysqlpass@tcp(localhost:2832)/bucketevents"
-> ```
->
-> Please make sure this step is carried out, without this step MySQL notification targets will not work,
-> an error message will be shown on the console upon server upgrade/restart, make sure to follow the above
-> instructions appropriately. For further questions please join our https://pgg.net/discord
 
 Install MySQL from [here](https://dev.mysql.com/downloads/mysql/). For illustrative purposes, we have set the root password as `password` and created a database called `obstordb` to store the events.
 
@@ -1010,7 +966,7 @@ Obstor requires MySQL version 8.0 or above. Obstor uses the [JSON](https://dev.m
 
 The MySQL configuration is located in the `notify_mysql` key. Create a configuration key-value pair here for your MySQL instance. The key is a name for your MySQL endpoint, and the value is a collection of key-value parameters described in the table below.
 
-```
+```bash
 KEY:
 notify_mysql[:name]  publish bucket notifications to MySQL databases. When multiple MySQL server endpoints are needed, a user specified "name" can be added for each configuration, (e.g."notify_mysql:myinstance").
 
@@ -1025,7 +981,7 @@ comment              (sentence)           optionally add a comment to this setti
 ```
 
 or environment variables
-```
+```bash
 KEY:
 notify_mysql[:name]  publish bucket notifications to MySQL databases
 
@@ -1098,7 +1054,7 @@ mysql> select * from obstor_images;
 +--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | key_name           | value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 +--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| images/myphoto.jpg | {"Records": [{"s3": {"bucket": {"arn": "arn:aws:s3:::images", "name": "images", "ownerIdentity": {"principalId": "obstor"}}, "object": {"key": "myphoto.jpg", "eTag": "467886be95c8ecfd71a2900e3f461b4f", "size": 26, "sequencer": "14AC59476F809FD3"}, "configurationId": "Config", "s3SchemaVersion": "1.0"}, "awsRegion": "", "eventName": "s3:ObjectCreated:Put", "eventTime": "2017-03-16T11:29:00Z", "eventSource": "aws:s3", "eventVersion": "2.0", "userIdentity": {"principalId": "obstor"}, "responseElements": {"x-amz-request-id": "14AC59476F809FD3", "x-obstor-origin-endpoint": "http://192.168.86.110:9000"}, "requestParameters": {"sourceIPAddress": "127.0.0.1:38260"}}]} |
+| images/myphoto.jpg | {"Records": [{"s3": {"bucket": {"arn": "arn:aws:s3:::images", "name": "images", "ownerIdentity": {"principalId": "obstor"}}, "object": {"key": "myphoto.jpg", "eTag": "467886be95c8ecfd71a2900e3f461b4f", "size": 26, "sequencer": "14AC59476F809FD3"}, "configurationId": "Config", "s3SchemaVersion": "1.0"}, "awsRegion": "", "eventName": "s3:ObjectCreated:Put", "eventTime": "2026-03-16T11:29:00Z", "eventSource": "aws:s3", "eventVersion": "2.0", "userIdentity": {"principalId": "obstor"}, "responseElements": {"x-amz-request-id": "14AC59476F809FD3", "x-obstor-origin-endpoint": "http://192.168.86.110:9000"}, "requestParameters": {"sourceIPAddress": "127.0.0.1:38260"}}]} |
 +--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 1 row in set (0.01 sec)
 
@@ -1118,7 +1074,7 @@ Obstor requires Kafka version 0.10 or 0.9. Internally Obstor uses the [Shopify/s
 
 Obstor supports persistent event store. The persistent store will backup events when the kafka broker goes offline and replays it when the broker comes back online. The event store can be configured by setting the directory path in `queue_dir` field and the maximum limit of events in the queue_dir in `queue_limit` field. For eg, the `queue_dir` can be `/home/events` and `queue_limit` can be `1000`. By default, the `queue_limit` is set to 100000.
 
-```
+```bash
 KEY:
 notify_kafka[:name]  publish bucket notifications to Kafka endpoints
 
@@ -1141,7 +1097,7 @@ comment          (sentence)  optionally add a comment to this setting
 ```
 
 or environment variables
-```
+```bash
 KEY:
 notify_kafka[:name]  publish bucket notifications to Kafka endpoints
 
@@ -1271,7 +1227,7 @@ kafkacat -b localhost:9092 -t bucketevents
 
 Obstor supports persistent event store. The persistent store will backup events when the webhook goes offline and replays it when the broker comes back online. The event store can be configured by setting the directory path in `queue_dir` field and the maximum limit of events in the queue_dir in `queue_limit` field. For eg, the `queue_dir` can be `/home/events` and `queue_limit` can be `1000`. By default, the `queue_limit` is set to 100000.
 
-```
+```bash
 KEY:
 notify_webhook[:name]  publish bucket notifications to webhook endpoints
 
@@ -1286,7 +1242,7 @@ comment      (sentence)  optionally add a comment to this setting
 ```
 
 or environment variables
-```
+```bash
 KEY:
 notify_webhook[:name]  publish bucket notifications to webhook endpoints
 
@@ -1360,7 +1316,7 @@ Wait a few moments, then check the bucket’s contents with mc ls — you wi
 
 ```bash
 mc ls myobstor/images-thumbnail
-[2017-02-08 11:39:40 IST]   992B images-thumbnail.jpg
+[2026-02-08 11:39:40 IST]   992B images-thumbnail.jpg
 ```
 
 <a name="NSQ"></a>
@@ -1380,7 +1336,7 @@ Obstor supports persistent event store. The persistent store will backup events 
 
 To update the configuration, use `mc admin config get` command to get the current configuration for `notify_nsq`.
 
-```
+```bash
 KEY:
 notify_nsq[:name]  publish bucket notifications to NSQ endpoints
 
@@ -1395,7 +1351,7 @@ comment          (sentence)  optionally add a comment to this setting
 ```
 
 or environment variables
-```
+```bash
 KEY:
 notify_nsq[:name]  publish bucket notifications to NSQ endpoints
 
@@ -1451,5 +1407,5 @@ mc cp gopher.jpg myobstor/images
 You should receive the following event notification via NSQ once the upload completes.
 
 ```json
-{"EventName":"s3:ObjectCreated:Put","Key":"images/gopher.jpg","Records":[{"eventVersion":"2.0","eventSource":"obstor:s3","awsRegion":"","eventTime":"2018-10-31T09:31:11Z","eventName":"s3:ObjectCreated:Put","userIdentity":{"principalId":"21EJ9HYV110O8NVX2VMS"},"requestParameters":{"sourceIPAddress":"10.1.1.1"},"responseElements":{"x-amz-request-id":"1562A792DAA53426","x-obstor-origin-endpoint":"http://10.0.3.1:9000"},"s3":{"s3SchemaVersion":"1.0","configurationId":"Config","bucket":{"name":"images","ownerIdentity":{"principalId":"21EJ9HYV110O8NVX2VMS"},"arn":"arn:aws:s3:::images"},"object":{"key":"gopher.jpg","size":162023,"eTag":"5337769ffa594e742408ad3f30713cd7","contentType":"image/jpeg","userMetadata":{"content-type":"image/jpeg"},"versionId":"1","sequencer":"1562A792DAA53426"}},"source":{"host":"","port":"","userAgent":"Obstor (linux; amd64) minio-go/v6.0.8 mc/DEVELOPMENT.GOGET"}}]}
+{"EventName":"s3:ObjectCreated:Put","Key":"images/gopher.jpg","Records":[{"eventVersion":"2.0","eventSource":"obstor:s3","awsRegion":"","eventTime":"2026-10-31T09:31:11Z","eventName":"s3:ObjectCreated:Put","userIdentity":{"principalId":"21EJ9HYV110O8NVX2VMS"},"requestParameters":{"sourceIPAddress":"10.1.1.1"},"responseElements":{"x-amz-request-id":"1562A792DAA53426","x-obstor-origin-endpoint":"http://10.0.3.1:9000"},"s3":{"s3SchemaVersion":"1.0","configurationId":"Config","bucket":{"name":"images","ownerIdentity":{"principalId":"21EJ9HYV110O8NVX2VMS"},"arn":"arn:aws:s3:::images"},"object":{"key":"gopher.jpg","size":162023,"eTag":"5337769ffa594e742408ad3f30713cd7","contentType":"image/jpeg","userMetadata":{"content-type":"image/jpeg"},"versionId":"1","sequencer":"1562A792DAA53426"}},"source":{"host":"","port":"","userAgent":"Obstor (linux; amd64) minio-go/v6.0.8 mc/DEVELOPMENT.GOGET"}}]}
 ```

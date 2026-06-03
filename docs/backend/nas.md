@@ -61,7 +61,7 @@ For example,
 
 Consider the following webhook target config.
 
-```
+```bash
 notify_webhook:1 endpoint=http://localhost:8080/ auth_token= queue_limit=0 queue_dir=/tmp/webhk client_cert= client_key=
 ```
 

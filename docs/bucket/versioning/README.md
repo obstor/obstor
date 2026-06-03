@@ -10,25 +10,25 @@ Only Obstor generates version IDs, and they can't be edited. Version IDs are sim
 
 When you PUT an object in a versioning-enabled bucket, the noncurrent version is not overwritten. The following figure shows that when a new version of `spark.csv` is PUT into a bucket that already contains an object with the same name, the original object (ID = `ede336f2`) remains in the bucket, Obstor generates a new version (ID = `fae684da`), and adds the newer version to the bucket.
 
-![put](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning_PUT_versionEnabled.png)
+![put](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning-put-enabled.png)
 
 This means accidental overwrites or deletes of objects are protected, allows previous version of on object to be retrieved.
 
 When you DELETE an object, all versions remain in the bucket and Obstor adds a delete marker, as shown below:
 
-![delete](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning_DELETE_versionEnabled.png)
+![delete](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning-delete-enabled.png)
 
 Now the delete marker becomes the current version of the object. GET requests by default always retrieve the latest stored version. So performing a simple GET object request when the current version is a delete marker would return `404` `The specified key does not exist` as shown below:
 
-![get](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning_GET_versionEnabled.png)
+![get](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning-get-enabled.png)
 
 GET requests by specifying a version ID as shown below, you can retrieve the specific object version `fae684da`.
 
-![get_version_id](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning_GET_versionEnabled_id.png)
+![get_version_id](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning-get-enabled-id.png)
 
 To permanently delete an object you need to specify the version you want to delete, only the user with appropriate permissions can permanently delete a version.  As shown below DELETE request called with a specific version id permanently deletes an object from a bucket. Delete marker is not added for DELETE requests with version id.
 
-![delete_version_id](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning_DELETE_versionEnabled_id.png)
+![delete_version_id](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning-delete-enabled-id.png)
 
 ## Concepts
 - All Buckets on Obstor are always in one of the following states: unversioned (the default) and all other existing deployments, versioning-enabled, or versioning-suspended.
@@ -64,7 +64,7 @@ Only users with explicit permissions or the root credential can configure the ve
 
 ### EnableVersioning() API
 
-```
+```java
 import net.obstor.EnableVersioningArgs;
 import net.obstor.MinioClient;
 import net.obstor.errors.MinioException;
@@ -105,7 +105,7 @@ public class EnableVersioning {
 
 ### isVersioningEnabled() API
 
-```
+```java
 public class IsVersioningEnabled {
   /** MinioClient.isVersioningEnabled() example. */
   public static void main(String[] args)

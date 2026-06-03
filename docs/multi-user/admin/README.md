@@ -13,7 +13,7 @@ Use [`mc admin policy`](/docs/multi-user/admin) to create custom admin policies.
 
 Create new canned policy file `adminManageUser.json`. This policy enables admin user to
 manage other users.
-```bash
+```json
 cat > adminManageUser.json << EOF
 {
   "Version": "2012-10-17",

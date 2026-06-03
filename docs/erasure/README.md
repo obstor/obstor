@@ -14,7 +14,7 @@ In 12 drive example above, with Obstor server running in the default configurati
 
 Erasure code protects data from multiple drives failure, unlike RAID or replication. For example, RAID6 can protect against two drive failure whereas in Obstor erasure code you can lose as many as half of drives and still the data remains safe. Further, Obstor's erasure code is at the object level and can heal one object at a time. For RAID, healing can be done only at the volume level which translates into high downtime. As Obstor encodes each object individually, it can heal objects incrementally. Storage servers once deployed should not require drive replacement or healing for the lifetime of the server. Obstor's erasure coded backend is designed for operational efficiency and takes full advantage of hardware acceleration whenever available.
 
-![Erasure](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/erasure-code.jpg)
+![Erasure](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/erasure-code.svg)
 
 ## What is Bit Rot protection?
 

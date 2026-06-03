@@ -26,7 +26,7 @@ $ awscli s3api put-object-lock-configuration --bucket mybucket --object-lock-con
 PutObject API allows setting per object retention mode and retention duration using `x-amz-object-lock-mode` and `x-amz-object-lock-retain-until-date` headers. This takes precedence over any bucket object lock configuration w.r.t retention.
 
 ```sh
-aws s3api put-object --bucket testbucket --key lockme --object-lock-mode GOVERNANCE --object-lock-retain-until-date "2019-11-20"  --body /etc/issue
+aws s3api put-object --bucket testbucket --key lockme --object-lock-mode GOVERNANCE --object-lock-retain-until-date "2026-11-20"  --body /etc/issue
 ```
 
 See https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock-overview.html for AWS S3 spec on object locking and permissions required for object retention and governance bypass overrides.

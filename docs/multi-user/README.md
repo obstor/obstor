@@ -13,7 +13,7 @@ In this document we will explain in detail on how to configure multiple users.
 Use [`mc admin policy`](/docs/multi-user/admin) to create canned policies. Server provides a default set of canned policies namely `writeonly`, `readonly` and `readwrite` *(these policies apply to all resources on the server)*. These can be overridden by custom policies using `mc admin policy` command.
 
 Create new canned policy file `getonly.json`. This policy enables users to download all objects under `my-bucketname`.
-```bash
+```json
 cat > getonly.json << EOF
 {
   "Version": "2012-10-17",

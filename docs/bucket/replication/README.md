@@ -116,17 +116,17 @@ The replication configuration can now be added to the source bucket by applying 
       "DeleteReplication": { "Status": "Disabled" },
       "Filter" : {
         "And": {
-            "Prefix": "Tax",
-            "Tags": [
-                {
-                "Key": "Year",
-                "Value": "2019"
-                },
-                {
-                "Key": "Company",
-                "Value": "AcmeCorp"
-                }
-            ]
+          "Prefix": "Tax",
+          "Tags": [
+            {
+              "Key": "Year",
+              "Value": "2026"
+            },
+            {
+              "Key": "Company",
+              "Value": "AcmeCorp"
+            }
+          ]
         }
       },
       "Destination": {
@@ -146,9 +146,9 @@ Replication status can be seen in the metadata on the source and destination obj
 
 To perform bi-directional replication, repeat the above process on the target site - this time setting the source bucket as the replication target. It is recommended that replication be run in a system with atleast two CPU's available to the process, so that replication can run in its own thread.
 
-![put](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/replication/PUT_bucket_replication.png)
+![put](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/replication/put-bucket-replication.png)
 
-![head](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/replication/HEAD_bucket_replication.png)
+![head](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/replication/head-bucket-replication.png)
 
 ## Obstor Extension
 ### Replicating Deletes
@@ -163,7 +163,7 @@ To add a replication rule allowing both delete marker replication, versioned del
 
 Additional permission of "s3:ReplicateDelete" action would need to be specified on the access key configured for the target cluster if Delete Marker replication or versioned delete replication is enabled.
 ```bash
-mc replicate add myobstor/srcbucket/Tax --priority 1 --arn "arn:obstor:replication:us-east-1:c5be6b16-769d-432a-9ef1-4567081f3566:destbucket" --tags "Year=2019&Company=AcmeCorp" --storage-class "STANDARD" --remote-bucket "destbucket" --replicate "delete,delete-marker"
+mc replicate add myobstor/srcbucket/Tax --priority 1 --arn "arn:obstor:replication:us-east-1:c5be6b16-769d-432a-9ef1-4567081f3566:destbucket" --tags "Year=2026&Company=AcmeCorp" --storage-class "STANDARD" --remote-bucket "destbucket" --replicate "delete,delete-marker"
 Replication configuration applied successfully to myobstor/srcbucket.
 ```
 
@@ -171,7 +171,7 @@ Replication configuration applied successfully to myobstor/srcbucket.
 
 Status of delete marker replication can be viewed by doing a GET/HEAD on the object version - it will return a `X-Obstor-Replication-DeleteMarker-Status` header and http response code of `405`. In the case of permanent deletes, if the delete replication is pending or failed to propagate to the target cluster, GET/HEAD will return additional `X-Obstor-Replication-Delete-Status` header and a http response code of `405`.
 
-![delete](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/replication/DELETE_bucket_replication.png)
+![delete](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/replication/delete-bucket-replication.png)
 
 The status of replication can be monitored by configuring event notifications on the source and target buckets using `mc event add`.On the source side, the `s3:PutObject`, `s3:Replication:OperationCompletedReplication` and `s3:Replication:OperationFailedReplication` events show the status of replication in the `X-Amz-Replication-Status` metadata.
 

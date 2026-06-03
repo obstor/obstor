@@ -9,14 +9,14 @@
 These are the current entries
 ```go
 var (
-        // XL header specifies the format
-        // one extra byte left for future use
-        xlHeader = [4]byte{'X', 'L', '2', ' '}
+  // XL header specifies the format
+  // one extra byte left for future use
+  xlHeader = [4]byte{'X', 'L', '2', ' '}
 
-        // XLv2 version 1 specifies the current
-        // version of the XLv2 format, 3 extra bytes
-        // left for future use.
-        xlVersionV1 = [4]byte{'1', ' ', ' ', ' '}
+  // XLv2 version 1 specifies the current
+  // version of the XLv2 format, 3 extra bytes
+  // left for future use.
+  xlVersionV1 = [4]byte{'1', ' ', ' ', ' '}
 )
 ```
 

@@ -43,7 +43,7 @@ LDAP STS configuration can be performed via Obstor's standard configuration API 
 
 LDAP is configured via the following environment variables:
 
-```
+```bash
 $ mc admin config set myobstor identity_ldap --env
 KEY:
 identity_ldap  enable LDAP SSO support
@@ -78,7 +78,7 @@ This service account is used by the Obstor server to lookup a user's DN given th
 
 This mode is enabled by setting the following variables:
 
-```
+```bash
 OBSTOR_IDENTITY_LDAP_LOOKUP_BIND_DN          (string)    DN for LDAP read-only service account used to perform DN and group lookups
 OBSTOR_IDENTITY_LDAP_LOOKUP_BIND_PASSWORD    (string)    Password for LDAP read-only service account used to perform DN and group lookups
 OBSTOR_IDENTITY_LDAP_USER_DN_SEARCH_BASE_DN  (string)    Base LDAP DN to search for user DN
@@ -95,7 +95,7 @@ The DN to use to login to LDAP is computed from a username format configuration 
 
 This mode is enabled by setting the following variables:
 
-```
+```bash
 OBSTOR_IDENTITY_LDAP_USERNAME_FORMAT         (list)      ";" separated list of username bind DNs e.g. "uid=%s,cn=accounts,dc=myldapserver,dc=com"
 ```
 
@@ -103,7 +103,7 @@ OBSTOR_IDENTITY_LDAP_USERNAME_FORMAT         (list)      ";" separated list of u
 
 Obstor can be configured to find the groups of a user from AD/LDAP by specifying the folllowing variables:
 
-```
+```bash
 OBSTOR_IDENTITY_LDAP_GROUP_SEARCH_FILTER     (string)    search filter for groups e.g. "(&(objectclass=groupOfNames)(memberUid=%s))"
 OBSTOR_IDENTITY_LDAP_GROUP_SEARCH_BASE_DN    (list)      ";" separated list of group search base DNs e.g. "dc=myldapserver,dc=com"
 ```

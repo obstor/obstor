@@ -1,6 +1,6 @@
 # Bucket Quota Configuration Quickstart Guide
 
-![quota](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/quota/bucketquota.png)
+![quota](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/quota/bucket-quota.png)
 
 Buckets can be configured to have one of two types of quota configuration - FIFO and Hard quota.
 

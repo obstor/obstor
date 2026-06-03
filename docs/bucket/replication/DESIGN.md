@@ -41,17 +41,17 @@ Existing object replication, replica modification sync for 2-way replication and
 
 ### Metadata for object replication
 
-```
+```json
 ...
-    "MetaSys": {},
-        "MetaUsr": {
-          "X-Amz-Replication-Status": "COMPLETED",
-          "content-type": "application/octet-stream",
-          "etag": "8315e643ed6a5d7c9962fc0a8ef9c11f"
-        },
-        "PartASizes": [
-          26
-        ],
+"MetaSys": {},
+  "MetaUsr": {
+    "X-Amz-Replication-Status": "COMPLETED",
+    "content-type": "application/octet-stream",
+    "etag": "8315e643ed6a5d7c9962fc0a8ef9c11f"
+  },
+  "PartASizes": [
+    26
+  ],
 ...
 ```
 
@@ -59,30 +59,30 @@ Existing object replication, replica modification sync for 2-way replication and
 
 ```json
 {
-      "DelObj": {
-        "ID": "8+jguy20TOuzUCN2PTrESA==",
-        "MTime": 1613601949645331516,
-        "MetaSys": {
-          "X-Amz-Replication-Status": "Q09NUExFVEVE"
-        }
-      },
-      "Type": 2
+  "DelObj": {
+    "ID": "8+jguy20TOuzUCN2PTrESA==",
+    "MTime": 1613601949645331516,
+    "MetaSys": {
+      "X-Amz-Replication-Status": "Q09NUExFVEVE"
     }
+  },
+  "Type": 2
+}
 ```
 
 ### Additional replication metadata for versioned delete
 
 ```json
 {
-      "DelObj": {
-        "ID": "8+jguy20TOuzUCN2PTrESA==",
-        "MTime": 1613601949645331516,
-        "MetaSys": {
-          "purgestatus": "RkFJTEVE"
-        }
-      },
-      "Type": 2
+  "DelObj": {
+    "ID": "8+jguy20TOuzUCN2PTrESA==",
+    "MTime": 1613601949645331516,
+    "MetaSys": {
+      "purgestatus": "RkFJTEVE"
     }
+  },
+  "Type": 2
+}
 ```
 
 ## Explore Further

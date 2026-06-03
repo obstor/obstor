@@ -35,7 +35,7 @@ X-Amz-Bucket-Region: us-east-1
 X-Obstor-Write-Quorum: 3
 X-Amz-Request-Id: 16239D6AB80EBECF
 X-Xss-Protection: 1; mode=block
-Date: Tue, 21 Jul 2020 00:36:14 GMT
+Date: Tue, 21 Jul 2026 00:36:14 GMT
 ```
 
 #### Clustr-readable probe
@@ -53,7 +53,7 @@ X-Amz-Bucket-Region: us-east-1
 X-Obstor-Write-Quorum: 3
 X-Amz-Request-Id: 16239D6AB80EBECF
 X-Xss-Protection: 1; mode=block
-Date: Tue, 21 Jul 2020 00:36:14 GMT
+Date: Tue, 21 Jul 2026 00:36:14 GMT
 ```
 
 #### Checking cluster health for maintenance
@@ -71,5 +71,5 @@ X-Amz-Bucket-Region: us-east-1
 X-Amz-Request-Id: 16239D63820C6E76
 X-Xss-Protection: 1; mode=block
 X-Obstor-Write-Quorum: 3
-Date: Tue, 21 Jul 2020 00:35:43 GMT
+Date: Tue, 21 Jul 2026 00:35:43 GMT
 ```

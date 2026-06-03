@@ -77,10 +77,6 @@ it is randomized which cluster might provision the bucket.
 
 ### 3. Upgrading to `etcdv3` API
 
-Users running Obstor federation from release `RELEASE.2026-06-09T03-43-35Z` to `RELEASE.2026-07-10T01-42-11Z`, should migrate the existing bucket data on etcd server to `etcdv3` API, and update CoreDNS version to `1.2.0` before updating their Obstor server to the latest version.
-
-Here is some background on why this is needed - Obstor server release `RELEASE.2026-06-09T03-43-35Z` to `RELEASE.2026-07-10T01-42-11Z` used etcdv2 API to store bucket data to etcd server. This was due to `etcdv3` support not available for CoreDNS server. So, even if Obstor used `etcdv3` API to store bucket data, CoreDNS wouldn't be able to read and serve it as DNS records.
-
 Now that CoreDNS [supports etcdv3](https://coredns.io/2018/07/11/coredns-1.2.0-release/), Obstor server uses `etcdv3` API to store bucket data to etcd server. As `etcdv2` and `etcdv3` APIs are not compatible, data stored using `etcdv2` API is not visible to the `etcdv3` API. So, bucket data stored by previous Obstor version will not be visible to current Obstor version, until a migration is done.
 
 CoreOS team has documented the steps required to migrate existing data from `etcdv2` to `etcdv3` in [this blog post](https://coreos.com/blog/migrating-applications-etcd-v3.html). Please refer the post and migrate etcd data to `etcdv3` API.

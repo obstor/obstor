@@ -86,29 +86,29 @@ More details about supported KMS implementations and configuration can be found 
 The Obstor server requests a new data key from the KMS for each uploaded object and uses that data key as EK. Additionally it stores the encrypted form of the data key and the master key ID as part of the object metadata. The plain data only resides in RAM during the en/decryption process. The Obstor server does not store any SSE-related key at the KMS. Instead the KMS is treated as trusted component that performs key sealing/unsealing operations to build a key hierarchy:
 
 ```
-                                                          CMK (master key)
-                                                           |
-                       +-----------------------------------+-----------------------------------+
-                       |                                   |                                   |
-               +-------+----------------+          +-------+----------------+                 ...
-               |  EK_1 | EK_1_encrypted |          |  EK_2 | EK_2_encrypted |
-               +---+----------+---------+          +---+----------+---------+
-                   |          |                        |          |
-                   |          |                        |          |
-               +---+---+      |                    +---+---+      |
-               | KEK_1 |      |                    | KEK_2 |      |
-               +---+---+      |                    +---+---+      |
-                   |          |                        |          |
-                   |          |                        |          |
-               +---+---+      |                    +---+---+      |
-               | OEK_1 |      |                    | OEK_2 |      |
-               +---+---+      |                    +---+---+      |
-                              |                                   |
-                              |                                   |
-                              |                                   |
-                    +---------+---------+               +---------+---------+
-                    | object_metadata_1 |               | object_metadata_2 |
-                    +-------------------+               +-------------------+
+                                                CMK (master key)
+                                                |
+            +-----------------------------------+-----------------------------------+
+            |                                   |                                   |
+    +-------+----------------+          +-------+----------------+                 ...
+    |  EK_1 | EK_1_encrypted |          |  EK_2 | EK_2_encrypted |
+    +---+----------+---------+          +---+----------+---------+
+        |          |                        |          |
+        |          |                        |          |
+    +---+---+      |                    +---+---+      |
+    | KEK_1 |      |                    | KEK_2 |      |
+    +---+---+      |                    +---+---+      |
+        |          |                        |          |
+        |          |                        |          |
+    +---+---+      |                    +---+---+      |
+    | OEK_1 |      |                    | OEK_2 |      |
+    +---+---+      |                    +---+---+      |
+                    |                                   |
+                    |                                   |
+                    |                                   |
+        +---------+---------+               +---------+---------+
+        | object_metadata_1 |               | object_metadata_2 |
+        +-------------------+               +-------------------+
 ```
 <center>Figure 2 - KMS key hierarchy</center>
 
@@ -118,31 +118,31 @@ The Obstor server requests a new data key from the KMS for each uploaded object 
 The Obstor server supports key rotation for SSE-S3 encrypted objects. The obstor server decrypts the OEK using the current encrypted data key and the master key ID of the object metadata. If this succeeds, the server requests a new data key from the KMS using the master key ID of the **current Obstor KMS configuration** and re-wraps the *OEK* with a new *KEK* derived from the new data key / EK:
 
 ```
-              object metadata                                         KMS
-                    |                                                  |
-                    |                     +----------------+        1a |  +-------+
-                    |-------------------->| EK_1_encrypted |-----------|->| CMK_1 |
-                    |                     +----------------+           |  +---+---+
-                    |                                                  |      |
-                    |              +---------------+       +------+ 1b |      |
-                    |------------->| OEK_encrypted |       | EK_1 |<---|------+
-                    |              +-------+-------+       +------+    |
-                    |                       \             /            |
-                    |                        \___  2  ___/             |
-                    |                            \___/                 |
-                    |                              |                   |
-                    |                           +--+--+                |
-                    |                           | OEK |                |  +-------+
-                    |                           +--+--+                |  | CMK_2 |
-                    |                              |                   |  +---+---+
-                    |                              |                   |      |
-                    | 5     +----------------+     |4      +------+ 3a |      |
-                    |<------| OEK_encrypted' |<----+-------| EK_2 |<---|------+
-                    |       +----------------+             +------+    |      |
-                    |                    +----------------+         3b |      |
-                    |<-------------------| EK_2_encrypted |<-----------|------+
-                    |                    +----------------+            |
-                    |                                                  |
+    object metadata                                         KMS
+        |                                                  |
+        |                     +----------------+        1a |  +-------+
+        |-------------------->| EK_1_encrypted |-----------|->| CMK_1 |
+        |                     +----------------+           |  +---+---+
+        |                                                  |      |
+        |              +---------------+       +------+ 1b |      |
+        |------------->| OEK_encrypted |       | EK_1 |<---|------+
+        |              +-------+-------+       +------+    |
+        |                       \             /            |
+        |                        \___  2  ___/             |
+        |                            \___/                 |
+        |                              |                   |
+        |                           +--+--+                |
+        |                           | OEK |                |  +-------+
+        |                           +--+--+                |  | CMK_2 |
+        |                              |                   |  +---+---+
+        |                              |                   |      |
+        | 5     +----------------+     |4      +------+ 3a |      |
+        |<------| OEK_encrypted' |<----+-------| EK_2 |<---|------+
+        |       +----------------+             +------+    |      |
+        |                    +----------------+         3b |      |
+        |<-------------------| EK_2_encrypted |<-----------|------+
+        |                    +----------------+            |
+        |                                                  |
 
 
 1a) Send encrypted data key and master key ID to KMS.

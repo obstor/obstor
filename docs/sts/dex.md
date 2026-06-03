@@ -33,8 +33,8 @@ time="2026-05-12T20:45:50Z" level=info msg="listening (http) on 0.0.0.0:5556"
 
 ```bash
 ~ go run web-identity.go -cid example-app -csec ZXhhbXBsZS1hcHAtc2VjcmV0 \
-     -config-ep http://127.0.0.1:5556/dex/.well-known/openid-configuration \
-     -cscopes groups,openid,email,profile
+  -config-ep http://127.0.0.1:5556/dex/.well-known/openid-configuration \
+  -cscopes groups,openid,email,profile
 ```
 
 ```bash
