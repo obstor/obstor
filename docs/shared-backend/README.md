@@ -29,7 +29,7 @@ To run Obstor shared backend instances, you need to start multiple Obstor server
 - All the nodes running shared Obstor need to have same access key and secret key. To achieve this, we export access key and secret key as environment variables on all the nodes before executing Obstor server command.
 - The drive paths below are for demonstration purposes only, you need to replace these with the actual drive paths/folders.
 
-#### Obstor shared mode on Ubuntu 16.04 LTS.
+#### Obstor shared mode on Ubuntu 26.04 LTS.
 
 You'll need the path to the shared volume, e.g. `/path/to/nfs-volume`. Then run the following commands on all the nodes you'd like to launch Obstor.
 
@@ -39,7 +39,7 @@ export OBSTOR_ROOT_PASSWORD=<SECRET_KEY>
 obstor backend nas /path/to/nfs-volume
 ```
 
-#### Obstor shared mode on Windows 2012 Server
+#### Obstor shared mode on Windows Server 2025
 
 You'll need the path to the shared volume, e.g. `\\remote-server\smb`. Then run the following commands on all the nodes you'd like to launch Obstor.
 

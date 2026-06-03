@@ -870,7 +870,7 @@ The steps below show how to use this notification target in `namespace` format. 
 
 ### Step 1: Ensure minimum requirements are met
 
-Obstor requires PostgreSQL version 9.5 or above. Obstor uses the [`INSERT ON CONFLICT`](https://www.postgresql.org/docs/9.5/static/sql-insert.html#SQL-ON-CONFLICT) (aka UPSERT) feature, introduced in version 9.5 and the [JSONB](https://www.postgresql.org/docs/9.4/static/datatype-json.html) data-type introduced in version 9.4.
+Obstor requires PostgreSQL version 17 or above. Obstor uses the [`INSERT ON CONFLICT`](https://www.postgresql.org/docs/9.5/static/sql-insert.html#SQL-ON-CONFLICT) (aka UPSERT) feature, introduced in version 9.5 and the [JSONB](https://www.postgresql.org/docs/9.4/static/datatype-json.html) data-type introduced in version 9.4.
 
 ### Step 2: Add PostgreSQL endpoint to Obstor
 
@@ -1004,7 +1004,7 @@ The steps below show how to use this notification target in `namespace` format. 
 
 ### Step 1: Ensure minimum requirements are met
 
-Obstor requires MySQL version 5.7.8 or above. Obstor uses the [JSON](https://dev.mysql.com/doc/refman/5.7/en/json.html) data-type introduced in version 5.7.8. We tested this setup on MySQL 5.7.17.
+Obstor requires MySQL version 8.0 or above. Obstor uses the [JSON](https://dev.mysql.com/doc/refman/8.4/en/json.html) data-type introduced in version 5.7.8. We tested this setup on MySQL 8.4.
 
 ### Step 2: Add MySQL server endpoint configuration to Obstor
 

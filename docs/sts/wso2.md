@@ -3,7 +3,7 @@ WSO2 is an Identity Server open source and is released under Apache Software Lic
 
 ## Get started
 ### 1. Prerequisites
-- JAVA 1.8 and above installed already and JAVA_HOME points to JAVA 1.8 installation.
+- JAVA 25 and above installed already and JAVA_HOME points to JAVA 25 installation.
 - Download WSO2 follow their [installation guide](https://docs.wso2.com/display/IS540/Installation+Guide).
 
 ### 2. Configure WSO2

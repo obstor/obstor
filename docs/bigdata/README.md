@@ -1,4 +1,4 @@
-# Disaggregated HDP Spark and Hive with Obstor
+# Disaggregated Spark and Hive with Obstor
 
 ## 1. Cloud-native Architecture
 
@@ -12,9 +12,7 @@ Obstor also supports multi-cluster, multi-site federation similar to AWS regions
 
 ## 2. Prerequisites
 
-*  Install Hortonworks Distribution using this [guide.](https://docs.hortonworks.com/HDPDocuments/Ambari-2.7.1.0/bk_ambari-installation/content/ch_Installing_Ambari.html)
-   *   [Setup Ambari](https://docs.hortonworks.com/HDPDocuments/Ambari-2.7.1.0/bk_ambari-installation/content/set_up_the_ambari_server.html) which automatically sets up YARN
-   *   [Installing Spark](https://docs.hortonworks.com/HDPDocuments/HDP3/HDP-3.0.1/installing-spark/content/installing_spark.html)
+*  Install a Hadoop cluster with Spark and Hive. Follow the [Apache Hadoop](https://hadoop.apache.org/docs/stable/) cluster setup (which configures YARN) and the [Apache Spark](https://spark.apache.org/docs/latest/) installation guides.
 *  Install Obstor Distributed Server using one of the guides below.
    *   [Deployment based on Kubernetes](/docs/orchestration/kubernetes)
 
@@ -95,7 +93,7 @@ fs.s3a.threads.max=2048 # Maximum number of threads for S3A
 The rest of the other optimization options are discussed in the links below
 
 *  [https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/index.html](https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/index.html)
-*  [https://hadoop.apache.org/docs/r3.1.1/hadoop-aws/tools/hadoop-aws/committers.html](https://hadoop.apache.org/docs/r3.1.1/hadoop-aws/tools/hadoop-aws/committers.html)
+*  [https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/committers.html](https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/committers.html)
 
 Once the config changes are applied, proceed to restart **Hadoop** services.
 
@@ -168,7 +166,7 @@ hive.mv.files.threads=40
 mapreduce.input.fileinputformat.list-status.num-threads=50
 ```
 
-For more information about these options please visit [https://www.cloudera.com/documentation/enterprise/5-11-x/topics/admin_hive_on_s3_tuning.html](https://www.cloudera.com/documentation/enterprise/5-11-x/topics/admin_hive_on_s3_tuning.html)
+For more information about these options please visit [https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/performance.html](https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/performance.html)
 
 ![hive-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image13.png "hive advanced custom config")
 
@@ -191,7 +189,7 @@ Follow these steps to run the Spark Pi example:
 *  Navigate to a node with the Spark client and access the spark2-client directory:
 
 ```bash
-cd /usr/hdp/current/spark2-client
+cd $SPARK_HOME
 su spark
 ```
 
@@ -227,7 +225,7 @@ The following example submits WordCount code to the Scala shell. Select an input
 *  Navigate to a node with Spark client and access the spark2-client directory:
 
 ```bash
-cd /usr/hdp/current/spark2-client
+cd $SPARK_HOME
 su spark
 ```
 

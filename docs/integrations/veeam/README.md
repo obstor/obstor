@@ -3,7 +3,7 @@
 When using Veeam Backup and Replication, you can use S3-compatible object storage such as Obstor as a capacity tier for backups.  This disaggregates storage for the Veeam infrastructure and allows you to retain control of your data. With the ease of use of setup and administration of Obstor, it allows a Veeam backup admin to easily deploy their own object store for capacity tiering.
 
 __Prerequisites__
-- One or both of Veeam Backup and Replication with support for S3-compatible object store (e.g. 9.5.4) and Veeam Backup for Office365 (VBO)
+- One or both of Veeam Backup and Replication with support for S3-compatible object store (e.g. 12.3) and Veeam Backup for Office365 (VBO)
 - Obstor object storage set up
 - Veeam requires TLS connections to the object storage.  This can be configured per the [TLS guide](/docs/tls)
 - The S3 bucket, Access Key and Secret Key have to be created before and outside of Veeam.

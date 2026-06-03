@@ -19,7 +19,7 @@ Restrictions
 
 Running Obstor instances on shared backend is no different than running on a stand-alone disk. There are no special configuration changes required to enable this feature. Access to files stored on NAS volume are locked and synchronized by default. Following examples will clarify this further for each operating system of your choice:
 
-### Ubuntu 16.04 LTS
+### Ubuntu 26.04 LTS
 
 Example 1: Start Obstor instance on a shared backend mounted and available at `/path/to/nfs-volume`.
 
@@ -33,7 +33,7 @@ On linux server2
 obstor backend nas /path/to/nfs-volume
 ```
 
-### Windows 2012 Server
+### Windows Server 2025
 
 Example 1: Start Obstor instance on a shared backend mounted and available at `\\remote-server\cifs`.
 

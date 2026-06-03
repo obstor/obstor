@@ -3,20 +3,20 @@ etcd is a distributed key value store that provides a reliable way to store data
 
 ## Get started
 ### 1. Prerequisites
-- Docker 18.03 or above, refer here for [installation](https://docs.docker.com/install/).
+- Docker 29.5.2 or above, refer here for [installation](https://docs.docker.com/install/).
 
 ### 2. Start etcd
 etcd uses `gcr.io/etcd-development/etcd` as a primary container registry.
 
 ```bash
 rm -rf /tmp/etcd-data.tmp && mkdir -p /tmp/etcd-data.tmp && \
-  docker rmi gcr.io/etcd-development/etcd:v3.3.9 || true && \
+  docker rmi gcr.io/etcd-development/etcd:v3.6.12 || true && \
   docker run \
   -p 2379:2379 \
   -p 2380:2380 \
   --mount type=bind,source=/tmp/etcd-data.tmp,destination=/etcd-data \
-  --name etcd-gcr-v3.3.9 \
-  gcr.io/etcd-development/etcd:v3.3.9 \
+  --name etcd-gcr-v3.6.12 \
+  gcr.io/etcd-development/etcd:v3.6.12 \
   /usr/local/bin/etcd \
   --name s1 \
   --data-dir /etcd-data \
@@ -29,7 +29,7 @@ rm -rf /tmp/etcd-data.tmp && mkdir -p /tmp/etcd-data.tmp && \
   --initial-cluster-state new
 ```
 
-You may also setup etcd with TLS following this documentation [here](https://coreos.com/etcd/docs/latest/op-guide/security.html)
+You may also setup etcd with TLS following this documentation [here](https://etcd.io/docs/v3.6/op-guide/security/)
 
 ### 3. Setup Obstor with etcd
 Obstor server expects environment variable for etcd as `OBSTOR_ETCD_ENDPOINTS`, this environment variable takes many comma separated entries.
