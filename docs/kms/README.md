@@ -4,12 +4,12 @@ Obstor uses a key-management-system (KMS) to support SSE-S3. If a client request
 
 ## Quick Start
 
-Obstor supports multiple KMS implementations via our [KES](https://github.com/minio/kes#kes) project. We run a KES instance at `https://play.obstor.net:7373` for you to experiment and quickly get started. To run Obstor with a KMS just fetch the root identity, set the following environment variables and then start your Obstor server. If you havn't installed Obstor, yet, then follow the Obstor [install instructions](https://obstor.net/docs/obstor-quickstart-guide) first.
+Obstor supports multiple KMS implementations via our [KES](https://github.com/minio/kes#kes) project. We run a KES instance at `https://play.obstor.net:7373` for you to experiment and quickly get started. To run Obstor with a KMS just fetch the root identity, set the following environment variables and then start your Obstor server. If you havn't installed Obstor, yet, then follow the Obstor install instructions first.
 
 #### 1. Fetch the root identity
 As the initial step, fetch the private key and certificate of the root identity:
 
-```sh
+```bash
 curl -sSL --tlsv1.2 \
      -O 'https://raw.githubusercontent.com/minio/kes/master/root.key' \
      -O 'https://raw.githubusercontent.com/minio/kes/master/root.cert'
@@ -17,7 +17,7 @@ curl -sSL --tlsv1.2 \
 
 #### 2. Set the Obstor-KES configuration
 
-```sh
+```bash
 export OBSTOR_KMS_KES_ENDPOINT=https://play.obstor.net:7373
 export OBSTOR_KMS_KES_KEY_FILE=root.key
 export OBSTOR_KMS_KES_CERT_FILE=root.cert
@@ -26,7 +26,7 @@ export OBSTOR_KMS_KES_KEY_NAME=my-obstor-key
 
 #### 3. Start the Obstor Server
 
-```sh
+```bash
 export OBSTOR_ROOT_USER=obstor
 export OBSTOR_ROOT_PASSWORD=obstor123
 obstor server ~/export
@@ -66,7 +66,7 @@ The Obstor-KES configuration is always the same - regardless of the underlying K
 
 ### Further references
 
-- [Run Obstor with TLS / HTTPS](https://obstor.net/docs/how-to-secure-access-to-obstor-server-with-tls)
+- [Run Obstor with TLS / HTTPS](/docs/tls)
 - [Tweak the KES server configuration](https://github.com/minio/kes/wiki/Configuration)
 - [Run a load balancer infront of KES](https://github.com/minio/kes/wiki/TLS-Proxy)
 - [Understand the KES server concepts](https://github.com/minio/kes/wiki/Concepts)
@@ -76,12 +76,12 @@ Auto-Encryption is useful when Obstor administrator wants to ensure that all dat
 
 ### Using `mc encrypt` (recommended)
 Obstor automatically encrypts all objects on buckets if KMS is successfully configured and bucket encryption configuration is enabled for each bucket as shown below:
-```
+```bash
 mc encrypt set sse-s3 myobstor/bucket/
 ```
 
 Verify if Obstor has `sse-s3` enabled
-```
+```bash
 mc encrypt info myobstor/bucket/
 Auto encryption 'sse-s3' is enabled
 ```
@@ -90,7 +90,7 @@ Auto encryption 'sse-s3' is enabled
 > NOTE: The following ENV might be removed in future, you are advised to move to the previously recommended approach using `mc encrypt`. S3 backend supports encryption at backend layer which may  be dropped in favor of simplicity at a later time. It is advised that S3 backend users migrate to Obstor server mode or enable encryption at REST at the backend.
 
 Obstor automatically encrypts all objects on buckets if KMS is successfully configured and following ENV is enabled:
-```
+```bash
 export OBSTOR_KMS_AUTO_ENCRYPTION=on
 ```
 
@@ -103,10 +103,10 @@ To verify auto-encryption, use the following `mc` command:
 
 ```
 mc cp test.file myobstor/bucket/
-test.file:              5 B / 5 B  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  100.00% 337 B/s 0s
+test.file:   5 B / 5 B  ┃███████████████████████████████████┃  100.00% 337 B/s 0s
 ```
 
-```
+```bash
 mc stat myobstor/bucket/test.file
 Name      : test.file
 ...
@@ -116,8 +116,8 @@ Encrypted :
 
 ## Explore Further
 
-- [Use `mc` with Obstor Server](https://obstor.net/docs/obstor-client-quickstart-guide)
-- [Use `aws-cli` with Obstor Server](https://obstor.net/docs/aws-cli-with-obstor)
-- [Use `s3cmd` with Obstor Server](https://obstor.net/docs/s3cmd-with-obstor)
-- [Use `minio-go` SDK with Obstor Server](https://obstor.net/docs/golang-client-quickstart-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- Use `mc` with Obstor Server
+- Use `aws-cli` with Obstor Server
+- Use `s3cmd` with Obstor Server
+- Use `minio-go` SDK with Obstor Server
+- [The Obstor documentation website](/docs)

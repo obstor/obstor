@@ -9,7 +9,7 @@ Disk caching feature here refers to the use of caching disks to store content cl
 
 ### 1. Prerequisites
 
-Install Obstor - [Obstor Quickstart Guide](https://obstor.net/docs/obstor-quickstart-guide).
+Install Obstor - Obstor Quickstart Guide.
 
 ### 2. Run Obstor backend with cache
 
@@ -35,13 +35,13 @@ In the example above this means that  `OBSTOR_CACHE_WATERMARK_LOW` is effectivel
 
 ### 3. Test your setup
 
-To test this setup, access the Obstor backend via browser or [`mc`](https://obstor.net/docs/obstor-client-quickstart-guide). You’ll see the uploaded files are accessible from all the Obstor endpoints.
+To test this setup, access the Obstor backend via browser or `mc`. You’ll see the uploaded files are accessible from all the Obstor endpoints.
 
 # Explore Further
 
-- [Disk cache design](DESIGN.md)
-- [Use `mc` with Obstor Server](https://obstor.net/docs/obstor-client-quickstart-guide)
-- [Use `aws-cli` with Obstor Server](https://obstor.net/docs/aws-cli-with-obstor)
-- [Use `s3cmd` with Obstor Server](https://obstor.net/docs/s3cmd-with-obstor)
-- [Use `minio-go` SDK with Obstor Server](https://obstor.net/docs/golang-client-quickstart-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- [Disk cache design](/docs/disk-caching/DESIGN)
+- Use `mc` with Obstor Server
+- Use `aws-cli` with Obstor Server
+- Use `s3cmd` with Obstor Server
+- Use `minio-go` SDK with Obstor Server
+- [The Obstor documentation website](/docs)

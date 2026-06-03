@@ -4,26 +4,26 @@ When using Veeam Backup and Replication, you can use S3-compatible object storag
 
 __Prerequisites__
 - One or both of Veeam Backup and Replication with support for S3-compatible object store (e.g. 9.5.4) and Veeam Backup for Office365 (VBO)
-- Obstor object storage set up per https://obstor.net/docs/obstor-quickstart-guide
-- Veeam requires TLS connections to the object storage.  This can be configured per https://obstor.net/docs/how-to-secure-access-to-obstor-server-with-tls
+- Obstor object storage set up
+- Veeam requires TLS connections to the object storage.  This can be configured per the [TLS guide](/docs/tls)
 - The S3 bucket, Access Key and Secret Key have to be created before and outside of Veeam.
-- Configure the obstor client for the Veeam Obstor endpoint - https://obstor.net/docs/obstor-client-quickstart-guide
+- Configure the obstor client for the Veeam Obstor endpoint
 
 ## Setting up an S3-compatible object store for Veeam Backup and Replication
 ### Create a bucket for Veeam backups
 Create a bucket for Veeam Backup, e.g.,
 
-```
+```bash
 mc mb myobstor/veeambackup
 ```
 
 > NOTE: For Veeam Backup with Immutability, create the bucket with object lock enabled, e.g.,
 
-```
+```bash
 mc mb -l myobstor/veeambackup
 ```
 
-> Object locking requires erasure coding enabled on the obstor server. For more information see https://obstor.net/docs/obstor-erasure-code-quickstart-guide.
+> Object locking requires erasure coding enabled on the obstor server. For more information see the [Erasure Code guide](/docs/erasure).
 
 ### Add Obstor as an object store for Veeam
 Follow the steps from the Veeam documentation for adding Obstor as an object store - https://helpcenter.veeam.com/docs/backup/vsphere/adding_s3c_object_storage.html?ver=100
@@ -58,7 +58,7 @@ For Veeam Backup with Immutability, choose the amount of days you want to make b
 #### Backup Office 365 with VBO
 - Create a new bucket for VBO backups
 
-```
+```bash
 mc mb -l myobstor/vbo
 ```
 
@@ -80,7 +80,7 @@ mc mb -l myobstor/vbo
 The next time the backup job runs, you can use the  `mc admin trace myobstor` command and verify traffic is flowing to the Obstor nodes. For Veeam Backup and Replication you will need to wait for the backup to complete to the performance tier before it migrates data to the capacity tier (i.e., Obstor).
 
 ```
-20:09:10.216 [200 OK] s3.GetObject veeam-minio01:9000/vbo/Veeam/Backup365/vbotest/Organizations/6571606ecbc4455dbfe23b83f6f45597/Webs/ca2d0986229b4ec88e3a217ef8f04a1d/Items/efaa67764b304e77badb213d131beab6/f4f0cf600f494c3eb702d8eafe0fabcc.aac07493e6cd4c71845d2495a4e1e19b 139.178.68.158    9.789ms      ↑ 90 B ↓ 8.5 KiB
-20:09:10.244 [200 OK] s3.GetObject veeam-minio01:9000/vbo/Veeam/Backup365/vbotest/RepositoryLock/cad99aceb50c49ecb9e07246c3b9fadc_bfd985e5deec4cebaf481847f2c34797 139.178.68.158    16.21ms      ↑ 90 B ↓ 402 B
-20:09:10.283 [200 OK] s3.PutObject veeam-minio01:9000/vbo/Veeam/Backup365/vbotest/CommonInfo/WebRestorePoints/18f1aba8f55f4ac6b805c4de653eb781 139.178.68.158    29.787ms     ↑ 1005 B ↓ 296 B
+20:09:10.216 [200 OK] s3.GetObject veeam-obstor01:9000/vbo/Veeam/Backup365/vbotest/Organizations/6571606ecbc4455dbfe23b83f6f45597/Webs/ca2d0986229b4ec88e3a217ef8f04a1d/Items/efaa67764b304e77badb213d131beab6/f4f0cf600f494c3eb702d8eafe0fabcc.aac07493e6cd4c71845d2495a4e1e19b 139.178.68.158    9.789ms      ↑ 90 B ↓ 8.5 KiB
+20:09:10.244 [200 OK] s3.GetObject veeam-obstor01:9000/vbo/Veeam/Backup365/vbotest/RepositoryLock/cad99aceb50c49ecb9e07246c3b9fadc_bfd985e5deec4cebaf481847f2c34797 139.178.68.158    16.21ms      ↑ 90 B ↓ 402 B
+20:09:10.283 [200 OK] s3.PutObject veeam-obstor01:9000/vbo/Veeam/Backup365/vbotest/CommonInfo/WebRestorePoints/18f1aba8f55f4ac6b805c4de653eb781 139.178.68.158    29.787ms     ↑ 1005 B ↓ 296 B
 ```

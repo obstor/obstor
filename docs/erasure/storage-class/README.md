@@ -2,7 +2,7 @@
 
 Obstor server supports storage class in erasure coding mode. This allows configurable data and parity disks per object.
 
-This page is intended as a summary of Obstor Erasure Coding. For a more complete explanation, see https://obstor.net/docs/obstor/baremetal/concepts/erasure-coding.
+This page is intended as a summary of Obstor Erasure Coding. For a more complete explanation, see the [Erasure Coding guide](/docs/erasure).
 
 ## Overview
 
@@ -54,7 +54,7 @@ The default value for the `STANDARD` storage class depends on the number of volu
 | 8 or more        |                 EC:4  |
 
 Prior to the ``RELEASE.2021-01-30T00-20-58Z`` Obstor release, the default `STANDARD` value was `EC(N/2)` where `N` was the number of erasure set drives.
-For more complete documentation on Erasure Set sizing, see the [Obstor Documentation on Erasure Sets](https://obstor.net/docs/obstor/baremetal/concepts/erasure-coding#erasure-sets).
+For more complete documentation on Erasure Set sizing, see the [Obstor Documentation on Erasure Sets](/docs/erasure).
 
 ### Allowed values for REDUCED_REDUNDANCY storage class
 
@@ -83,7 +83,7 @@ export OBSTOR_STORAGE_CLASS_STANDARD=EC:3
 export OBSTOR_STORAGE_CLASS_RRS=EC:2
 ```
 
-Storage class can also be set via `mc admin config` get/set commands to update the configuration. Refer [storage class](https://obstor.net/docs/config#storage-class) for
+Storage class can also be set via `mc admin config` get/set commands to update the configuration. Refer [storage class](/docs/config#storage-class) for
 more details.
 
 *Note*
@@ -101,22 +101,22 @@ In below example `minio-go` is used to set the storage class to `REDUCED_REDUNDA
 ```go
 s3Client, err := obstor.New("localhost:9000", "YOUR-ACCESSKEYID", "YOUR-SECRETACCESSKEY", true)
 if err != nil {
-	log.Fatalln(err)
+  log.Fatalln(err)
 }
 
 object, err := os.Open("my-testfile")
 if err != nil {
-	log.Fatalln(err)
+  log.Fatalln(err)
 }
 defer object.Close()
 objectStat, err := object.Stat()
 if err != nil {
-	log.Fatalln(err)
+  log.Fatalln(err)
 }
 
 n, err := s3Client.PutObject("my-bucketname", "my-objectname", object, objectStat.Size(), obstor.PutObjectOptions{ContentType: "application/octet-stream", StorageClass: "REDUCED_REDUNDANCY"})
 if err != nil {
-	log.Fatalln(err)
+  log.Fatalln(err)
 }
 log.Println("Uploaded", "my-objectname", " of size: ", n, "Successfully.")
 ```

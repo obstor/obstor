@@ -10,20 +10,20 @@ Install Dex by following [Dex Getting Started Guide](https://dexidp.io/docs/gett
 
 ```
 ~ ./bin/dex serve dex.yaml
-time="2020-07-12T20:45:50Z" level=info msg="config issuer: http://127.0.0.1:5556/dex"
-time="2020-07-12T20:45:50Z" level=info msg="config storage: sqlite3"
-time="2020-07-12T20:45:50Z" level=info msg="config static client: Example App"
-time="2020-07-12T20:45:50Z" level=info msg="config connector: mock"
-time="2020-07-12T20:45:50Z" level=info msg="config connector: local passwords enabled"
-time="2020-07-12T20:45:50Z" level=info msg="config response types accepted: [code token id_token]"
-time="2020-07-12T20:45:50Z" level=info msg="config using password grant connector: local"
-time="2020-07-12T20:45:50Z" level=info msg="config signing keys expire after: 3h0m0s"
-time="2020-07-12T20:45:50Z" level=info msg="config id tokens valid for: 3h0m0s"
-time="2020-07-12T20:45:50Z" level=info msg="listening (http) on 0.0.0.0:5556"
+time="2026-05-12T20:45:50Z" level=info msg="config issuer: http://127.0.0.1:5556/dex"
+time="2026-05-12T20:45:50Z" level=info msg="config storage: sqlite3"
+time="2026-05-12T20:45:50Z" level=info msg="config static client: Example App"
+time="2026-05-12T20:45:50Z" level=info msg="config connector: mock"
+time="2026-05-12T20:45:50Z" level=info msg="config connector: local passwords enabled"
+time="2026-05-12T20:45:50Z" level=info msg="config response types accepted: [code token id_token]"
+time="2026-05-12T20:45:50Z" level=info msg="config using password grant connector: local"
+time="2026-05-12T20:45:50Z" level=info msg="config signing keys expire after: 3h0m0s"
+time="2026-05-12T20:45:50Z" level=info msg="config id tokens valid for: 3h0m0s"
+time="2026-05-12T20:45:50Z" level=info msg="listening (http) on 0.0.0.0:5556"
 ```
 
 ### Configure Obstor server with Dex
-```
+```bash
 ~ export OBSTOR_IDENTITY_OPENID_CLAIM_NAME=name
 ~ export OBSTOR_IDENTITY_OPENID_CONFIG_URL=http://127.0.0.1:5556/dex/.well-known/openid-configuration
 ~ obstor server ~/test
@@ -31,13 +31,13 @@ time="2020-07-12T20:45:50Z" level=info msg="listening (http) on 0.0.0.0:5556"
 
 ### Run the `web-identity.go`
 
-```
+```bash
 ~ go run web-identity.go -cid example-app -csec ZXhhbXBsZS1hcHAtc2VjcmV0 \
      -config-ep http://127.0.0.1:5556/dex/.well-known/openid-configuration \
      -cscopes groups,openid,email,profile
 ```
 
-```
+```bash
 ~ mc admin policy add admin allaccess.json
 ```
 
@@ -67,26 +67,26 @@ You will be redirected to dex login screen - click "Login with email", enter use
 and then click "Grant access"
 
 On the browser now you shall see the list of buckets output, along with your temporary credentials obtained from Obstor.
-```
+```json
 {
-	"buckets": [
-		"dl.obstor.equipment",
-		"dl.obstor.service-fulfillment",
-		"testbucket"
-	],
-	"credentials": {
-		"AccessKeyID": "Q31CVS1PSCJ4OTK2YVEM",
-		"SecretAccessKey": "rmDEOKARqKYmEyjWGhmhLpzcncyu7Jf8aZ9bjDic",
-		"SessionToken": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJRMzFDVlMxUFNDSjRPVEsyWVZFTSIsImF0X2hhc2giOiI4amItZFE2OXRtZEVueUZaMUttNWhnIiwiYXVkIjoiZXhhbXBsZS1hcHAiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV4cCI6IjE1OTQ2MDAxODIiLCJpYXQiOjE1OTQ1ODkzODQsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NTU1Ni9kZXgiLCJuYW1lIjoiYWRtaW4iLCJzdWIiOiJDaVF3T0dFNE5qZzBZaTFrWWpnNExUUmlOek10T1RCaE9TMHpZMlF4TmpZeFpqVTBOallTQld4dlkyRnMifQ.nrbzIJz99Om7TvJ04jnSTmhvlM7aR9hMM1Aqjp2ONJ1UKYCvegBLrTu6cYR968_OpmnAGJ8vkd7sIjUjtR4zbw",
-		"SignerType": 1
-	}
+  "buckets": [
+    "dl.obstor.equipment",
+    "dl.obstor.service-fulfillment",
+    "testbucket"
+  ],
+  "credentials": {
+    "AccessKeyID": "Q31CVS1PSCJ4OTK2YVEM",
+    "SecretAccessKey": "rmDEOKARqKYmEyjWGhmhLpzcncyu7Jf8aZ9bjDic",
+    "SessionToken": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJRMzFDVlMxUFNDSjRPVEsyWVZFTSIsImF0X2hhc2giOiI4amItZFE2OXRtZEVueUZaMUttNWhnIiwiYXVkIjoiZXhhbXBsZS1hcHAiLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV4cCI6IjE1OTQ2MDAxODIiLCJpYXQiOjE1OTQ1ODkzODQsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NTU1Ni9kZXgiLCJuYW1lIjoiYWRtaW4iLCJzdWIiOiJDaVF3T0dFNE5qZzBZaTFrWWpnNExUUmlOek10T1RCaE9TMHpZMlF4TmpZeFpqVTBOallTQld4dlkyRnMifQ.nrbzIJz99Om7TvJ04jnSTmhvlM7aR9hMM1Aqjp2ONJ1UKYCvegBLrTu6cYR968_OpmnAGJ8vkd7sIjUjtR4zbw",
+    "SignerType": 1
+  }
 }
 ```
 
 Now you have successfully configured Dex IdP with Obstor.
 
 > NOTE: Dex supports groups with external connectors so you can use `groups` as policy claim instead of `name`.
-```
+```bash
 export OBSTOR_IDENTITY_OPENID_CLAIM_NAME=groups
 ```
 
@@ -94,5 +94,5 @@ and add relevant policies on Obstor using `mc admin policy add myobstor/ <group_
 
 ## Explore Further
 
-- [Obstor STS Quickstart Guide](https://obstor.net/docs/obstor-sts-quickstart-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- [Obstor STS Quickstart Guide](/docs/sts)
+- [The Obstor documentation website](/docs)

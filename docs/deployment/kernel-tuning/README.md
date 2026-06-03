@@ -7,7 +7,7 @@ List of kernel tuning recommendations for Obstor server deployments, a copy of t
 > alternative to boost performance to mask underlying hardware problems. Under all circumstances it is recommended
 > to perform this tuning only after performing benchmarks for the hardware with expected baseline results.
 
-```
+```bash
 #!/bin/bash
 
 cat > sysctl.conf <<EOF

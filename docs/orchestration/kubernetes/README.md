@@ -8,7 +8,7 @@ There are multiple options to deploy Obstor on Kubernetes:
 
 - Obstor-Operator: Operator offers seamless way to create and update highly available distributed Obstor clusters. Refer [Obstor Operator documentation](https://github.com/minio/minio-operator/blob/master/README.md) for more details.
 
-- Helm Chart: Obstor Helm Chart offers customizable and easy Obstor deployment with a single command. Refer [Obstor Helm Chart documentation](https://github.com/minio/charts) for more details.
+- Helm Chart: Obstor Helm Chart offers customizable and easy Obstor deployment with a single command.
 
 ## Monitoring Obstor in Kubernetes
 
@@ -16,6 +16,6 @@ Obstor server exposes un-authenticated liveness endpoints so Kubernetes can nati
 
 ## Explore Further
 
-- [Obstor Erasure Code QuickStart Guide](https://obstor.net/docs/obstor-erasure-code-quickstart-guide)
+- [Obstor Erasure Code QuickStart Guide](/docs/erasure)
 - [Kubernetes Documentation](https://kubernetes.io/docs/home/)
 - [Helm package manager for kubernetes](https://helm.sh/)

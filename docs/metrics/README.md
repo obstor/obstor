@@ -9,7 +9,7 @@ Obstor server has two healthcheck related un-authenticated endpoints, a liveness
 - Liveness probe available at `/obstor/health/live`
 - Cluster probe available at `/obstor/health/cluster`
 
-Read more on how to use these endpoints in [Obstor healthcheck guide](healthcheck/README.md).
+Read more on how to use these endpoints in [Obstor healthcheck guide](/docs/metrics/healthcheck).
 
 ### Prometheus Probe
 
@@ -19,7 +19,7 @@ Obstor allows reading metrics for the entire cluster from any single node. This 
 The additional node specific metrics which include additional go metrics or process metrics are exposed at
 `<Address for Obstor Node>/obstor/v2/metrics/node`.
 
-To use this endpoint, setup Prometheus to scrape data from this endpoint. Read more on how to configure and use Prometheus to monitor Obstor server in [How to monitor Obstor server with Prometheus](prometheus/README.md).
+To use this endpoint, setup Prometheus to scrape data from this endpoint. Read more on how to configure and use Prometheus to monitor Obstor server in [How to monitor Obstor server with Prometheus](/docs/metrics/prometheus).
 
 **Deprecated metrics monitoring**
 

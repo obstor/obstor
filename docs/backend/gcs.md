@@ -1,6 +1,6 @@
 # Obstor GCS Backend
 
-Obstor GCS Backend allows you to access Google Cloud Storage (GCS) with S3-compatible APIs and [other supported protocols](https://obstor.net/docs/protocols)
+Obstor GCS Backend allows you to access Google Cloud Storage (GCS) with S3-compatible APIs and [other supported protocols](/docs/protocols)
 
 - [Run Obstor Backend for GCS](#run-obstor-backend-for-gcs)
 - [Test Using Browser Dashboard](#test-using-obstor-browser)
@@ -20,7 +20,7 @@ Obstor GCS Backend allows you to access Google Cloud Storage (GCS) with S3-compa
 **Note:** For alternate ways to set up *Application Default Credentials*, see [Setting Up Authentication for Server to Server Production Applications](https://developers.google.com/identity/protocols/application-default-credentials).
 
 ### 1.2 Run Obstor GCS Backend Using Docker
-```sh
+```bash
 docker run -p 9000:9000 --name gcs-s3 \
  -v /path/to/credentials.json:/credentials.json \
  -e "GOOGLE_APPLICATION_CREDENTIALS=/credentials.json" \
@@ -31,7 +31,7 @@ docker run -p 9000:9000 --name gcs-s3 \
 
 ### 1.3 Run Obstor GCS Backend Using the Obstor Binary
 
-```sh
+```bash
 export GOOGLE_APPLICATION_CREDENTIALS=/path/to/credentials.json
 export OBSTOR_ROOT_USER=obstoraccesskey
 export OBSTOR_ROOT_PASSWORD=obstorsecretkey
@@ -52,7 +52,7 @@ Obstor Client is a command-line tool called `mc` that provides UNIX-like command
 
 Use the following command to configure the backend:
 
-```sh
+```bash
 mc alias set mygcs http://backend-ip:9000 obstoraccesskey obstorsecretkey
 ```
 
@@ -60,16 +60,16 @@ mc alias set mygcs http://backend-ip:9000 obstoraccesskey obstorsecretkey
 
 Use the following command to list the containers on GCS:
 
-```sh
+```bash
 mc ls mygcs
 ```
 
 A response similar to this one should be displayed:
 
 ```
-[2017-02-22 01:50:43 PST]     0B ferenginar/
-[2017-02-26 21:43:51 PST]     0B my-container/
-[2017-02-26 22:10:11 PST]     0B test-container1/
+[2026-05-22 01:50:43 PST]     0B ferenginar/
+[2026-05-26 21:43:51 PST]     0B my-container/
+[2026-05-26 22:10:11 PST]     0B test-container1/
 ```
 
 ### 3.3 Known limitations
@@ -83,7 +83,7 @@ Other limitations:
 * Bucket notification APIs are not supported.
 
 ## <a name="explore-further"></a>4. Explore Further
-- [Supported Protocols](https://obstor.net/docs/protocols) - S3, SFTP, and more
-- [`mc` command-line interface](https://obstor.net/docs/obstor-client-quickstart-guide)
-- [`aws` command-line interface](https://obstor.net/docs/aws-cli-with-obstor)
-- [`minio-go` Go SDK](https://obstor.net/docs/golang-client-quickstart-guide)
+- [Supported Protocols](/docs/protocols) - S3, SFTP, and more
+- `mc` command-line interface
+- `aws` command-line interface
+- `minio-go` Go SDK

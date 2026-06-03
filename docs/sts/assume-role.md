@@ -68,7 +68,7 @@ http://obstor:9000/?Action=AssumeRole&DurationSeconds=3600&Version=2011-06-15&Po
 ```
 
 ## Sample Response
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <AssumeRoleResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <AssumeRoleResult>
@@ -79,7 +79,7 @@ http://obstor:9000/?Action=AssumeRole&DurationSeconds=3600&Version=2011-06-15&Po
     <Credentials>
       <AccessKeyId>Y4RJU1RNFGK48LGO9I2S</AccessKeyId>
       <SecretAccessKey>sYLRKS1Z7hSjluf6gEbb9066hnx315wHTiACPAjg</SecretAccessKey>
-      <Expiration>2019-08-08T20:26:12Z</Expiration>
+      <Expiration>2026-08-08T20:26:12Z</Expiration>
       <SessionToken>eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJZNFJKVTFSTkZHSzQ4TEdPOUkyUyIsImF1ZCI6IlBvRWdYUDZ1Vk80NUlzRU5SbmdEWGo1QXU1WWEiLCJhenAiOiJQb0VnWFA2dVZPNDVJc0VOUm5nRFhqNUF1NVlhIiwiZXhwIjoxNTQxODExMDcxLCJpYXQiOjE1NDE4MDc0NzEsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0Ojk0NDMvb2F1dGgyL3Rva2VuIiwianRpIjoiYTBiMjc2MjktZWUxYS00M2JmLTg3MzktZjMzNzRhNGNkYmMwIn0.ewHqKVFTaP-j_kgZrcOEKroNUjk10GEp8bqQjxBbYVovV0nHO985VnRESFbcT6XMDDKHZiWqN2vi_ETX_u3Q-w</SessionToken>
     </Credentials>
   </AssumeRoleResult>
@@ -90,18 +90,18 @@ http://obstor:9000/?Action=AssumeRole&DurationSeconds=3600&Version=2011-06-15&Po
 ```
 
 ## Using AssumeRole API
-```
+```bash
 $ export OBSTOR_ROOT_USER=obstor
 $ export OBSTOR_ROOT_PASSWORD=obstor123
 $ obstor server ~/test
 ```
 
-Create new users following the multi-user guide [here](https://obstor.net/docs/obstor-multi-user-quickstart-guide)
+Create new users following the multi-user guide [here](/docs/multi-user)
 
 Testing with an example
 > Use the same username and password created in the previous steps.
 
-```
+```toml
 [foobar]
 region = us-east-1
 aws_access_key_id = foobar
@@ -110,21 +110,21 @@ aws_secret_access_key = foo12345
 
 > NOTE: In the following commands `--role-arn` and `--role-session-name` are not meaningful for Obstor and can be set to any value satisfying the command line requirements.
 
-```
+```json
 $ aws --profile foobar --endpoint-url http://localhost:9000 sts assume-role --policy '{"Version":"2012-10-17","Statement":[{"Sid":"Stmt1","Effect":"Allow","Action":"s3:*","Resource":"arn:aws:s3:::*"}]}' --role-arn arn:xxx:xxx:xxx:xxxx --role-session-name anything
 {
-    "AssumedRoleUser": {
-        "Arn": ""
-    },
-    "Credentials": {
-        "SecretAccessKey": "xbnWUoNKgFxi+uv3RI9UgqP3tULQMdI+Hj+4psd4",
-        "SessionToken": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJLOURUSU1VVlpYRVhKTDNBVFVPWSIsImV4cCI6MzYwMDAwMDAwMDAwMCwicG9saWN5IjoidGVzdCJ9.PetK5wWUcnCJkMYv6TEs7HqlA4x_vViykQ8b2T_6hapFGJTO34sfTwqBnHF6lAiWxRoZXco11B0R7y58WAsrQw",
-        "Expiration": "2019-02-20T19:56:59-08:00",
-        "AccessKeyId": "K9DTIMUVZXEXJL3ATUOY"
-    }
+  "AssumedRoleUser": {
+    "Arn": ""
+  },
+  "Credentials": {
+    "SecretAccessKey": "xbnWUoNKgFxi+uv3RI9UgqP3tULQMdI+Hj+4psd4",
+    "SessionToken": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJLOURUSU1VVlpYRVhKTDNBVFVPWSIsImV4cCI6MzYwMDAwMDAwMDAwMCwicG9saWN5IjoidGVzdCJ9.PetK5wWUcnCJkMYv6TEs7HqlA4x_vViykQ8b2T_6hapFGJTO34sfTwqBnHF6lAiWxRoZXco11B0R7y58WAsrQw",
+    "Expiration": "2026-05-20T19:56:59-08:00",
+    "AccessKeyId": "K9DTIMUVZXEXJL3ATUOY"
+  }
 }
 ```
 
 ## Explore Further
-- [Obstor Admin Complete Guide](https://obstor.net/docs/obstor-admin-complete-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- Obstor Admin Complete Guide
+- [The Obstor documentation website](/docs)

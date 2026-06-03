@@ -81,16 +81,16 @@ An example here shows how the contention is handled with GetObject().
 GetObject() holds a read lock on `fs.json`.
 
 ```go
-	fsMetaPath := pathJoin(fs.fsPath, minioMetaBucket, bucketMetaPrefix, bucket, object, fsMetaJSONFile)
-	rlk, err := fs.rwPool.Open(fsMetaPath)
-	if err != nil {
-		return toObjectErr(err, bucket, object)
-	}
-	defer rlk.Close()
+  fsMetaPath := pathJoin(fs.fsPath, minioMetaBucket, bucketMetaPrefix, bucket, object, fsMetaJSONFile)
+  rlk, err := fs.rwPool.Open(fsMetaPath)
+  if err != nil {
+    return toObjectErr(err, bucket, object)
+  }
+  defer rlk.Close()
 
 ... you can perform other operations here ...
 
-	_, err = io.Copy(writer, reader)
+  _, err = io.Copy(writer, reader)
 
 ... after successful copy operation unlocks the read lock ...
 ```
@@ -98,19 +98,19 @@ GetObject() holds a read lock on `fs.json`.
 A concurrent PutObject is requested on the same object, PutObject() attempts a write lock on `fs.json`.
 
 ```go
-	fsMetaPath := pathJoin(fs.fsPath, minioMetaBucket, bucketMetaPrefix, bucket, object, fsMetaJSONFile)
-	wlk, err := fs.rwPool.Create(fsMetaPath)
-	if err != nil {
-		return ObjectInfo{}, toObjectErr(err, bucket, object)
-	}
-	// This close will allow for locks to be synchronized on `fs.json`.
-	defer wlk.Close()
+  fsMetaPath := pathJoin(fs.fsPath, minioMetaBucket, bucketMetaPrefix, bucket, object, fsMetaJSONFile)
+  wlk, err := fs.rwPool.Create(fsMetaPath)
+  if err != nil {
+    return ObjectInfo{}, toObjectErr(err, bucket, object)
+  }
+  // This close will allow for locks to be synchronized on `fs.json`.
+  defer wlk.Close()
 ```
 
 Now from the above snippet the following code one can notice that until the GetObject() returns writing to the client. Following portion of the code will block.
 
 ```go
-	wlk, err := fs.rwPool.Create(fsMetaPath)
+  wlk, err := fs.rwPool.Create(fsMetaPath)
 ```
 
 This restriction is needed so that corrupted data is not returned to the client in between I/O. The logic works vice-versa as well an on-going PutObject(), GetObject() would wait for the PutObject() to complete.
@@ -119,18 +119,18 @@ This restriction is needed so that corrupted data is not returned to the client 
 
 Consider for example 3 servers sharing the same backend
 
-On minio1
+On obstor1
 
 - DeleteObject(object1) --> lock acquired on `fs.json` while object1 is being deleted.
 
-On minio2
+On obstor2
 
 - PutObject(object1) --> lock waiting until DeleteObject finishes.
 
-On minio3
+On obstor3
 
-- PutObject(object1) --> (concurrent request during PutObject minio2 checking if `fs.json` exists)
+- PutObject(object1) --> (concurrent request during PutObject obstor2 checking if `fs.json` exists)
 
-Once lock is acquired the minio2 validates if the file really exists to avoid obtaining lock on an fd which is already deleted. But this situation calls for a race with a third server which is also attempting to write the same file before the minio2 can validate if the file exists. It might be potentially possible `fs.json` is created so the lock acquired by minio2 might be invalid and can lead to a potential inconsistency.
+Once lock is acquired the obstor2 validates if the file really exists to avoid obtaining lock on an fd which is already deleted. But this situation calls for a race with a third server which is also attempting to write the same file before the obstor2 can validate if the file exists. It might be potentially possible `fs.json` is created so the lock acquired by obstor2 might be invalid and can lead to a potential inconsistency.
 
 This is a known problem and cannot be solved by POSIX fcntl locks. These are considered to be the limits of shared filesystem.

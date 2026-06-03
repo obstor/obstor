@@ -1,6 +1,6 @@
 # Bucket Replication Design
 
-This document explains the design approach of server side bucket replication. If you're looking to get started with replication, we suggest you go through the [Bucket replication guide](README.md) first.
+This document explains the design approach of server side bucket replication. If you're looking to get started with replication, we suggest you go through the [Bucket replication guide](/docs/bucket/replication) first.
 
 ## Overview
 Replication relies on immutability provided by versioning to sync objects between the configured source and replication target.
@@ -57,7 +57,7 @@ Existing object replication, replica modification sync for 2-way replication and
 
 ### Additional replication metadata for DeleteMarker
 
-```
+```json
 {
       "DelObj": {
         "ID": "8+jguy20TOuzUCN2PTrESA==",
@@ -72,7 +72,7 @@ Existing object replication, replica modification sync for 2-way replication and
 
 ### Additional replication metadata for versioned delete
 
-```
+```json
 {
       "DelObj": {
         "ID": "8+jguy20TOuzUCN2PTrESA==",
@@ -86,5 +86,5 @@ Existing object replication, replica modification sync for 2-way replication and
 ```
 
 ## Explore Further
-- [Obstor Bucket Versioning Implementation](https://obstor.net/docs/obstor-bucket-versioning-guide)
-- [Obstor Client Quickstart Guide](https://obstor.net/docs/obstor-client-quickstart-guide)
+- [Obstor Bucket Versioning Implementation](/docs/bucket/versioning)
+- Obstor Client Quickstart Guide

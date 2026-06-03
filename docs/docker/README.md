@@ -6,7 +6,7 @@ Docker installed on your machine. Download the relevant installer from [here](ht
 ## Run Standalone Obstor on Docker.
 Obstor needs a persistent volume to store configuration and application data. However, for testing purposes, you can launch Obstor by simply passing a directory (`/data` in the example below). This directory gets created in the container filesystem at the time of container start. But all the data is lost after container exits.
 
-```sh
+```bash
 docker run -p 9000:9000 \
   -e "OBSTOR_ROOT_USER=AKIAIOSFODNN7EXAMPLE" \
   -e "OBSTOR_ROOT_PASSWORD=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" \
@@ -16,7 +16,7 @@ docker run -p 9000:9000 \
 To create a Obstor container with persistent storage, you need to map local persistent directories from the host OS to virtual config `~/.obstor` and export `/data` directories. To do this, run the below commands
 
 #### GNU/Linux and macOS
-```sh
+```bash
 docker run -p 9000:9000 \
   --name obstor1 \
   -v /mnt/data:/data \
@@ -26,7 +26,7 @@ docker run -p 9000:9000 \
 ```
 
 #### Windows
-```sh
+```bash
 docker run -p 9000:9000 \
   --name obstor1 \
   -v D:\data:/data \
@@ -36,7 +36,7 @@ docker run -p 9000:9000 \
 ```
 
 ## Run Distributed Obstor on Docker
-Distributed Obstor can be deployed via [Docker Compose](https://obstor.net/docs/deploy-obstor-on-docker-compose) or [Swarm mode](https://obstor.net/docs/deploy-obstor-on-docker-swarm). The major difference between these two being, Docker Compose creates a single host, multi-container deployment, while Swarm mode creates a multi-host, multi-container deployment.
+Distributed Obstor can be deployed via [Docker Compose](/docs/orchestration/docker-compose) or [Swarm mode](/docs/orchestration/docker-swarm). The major difference between these two being, Docker Compose creates a single host, multi-container deployment, while Swarm mode creates a multi-host, multi-container deployment.
 
 This means Docker Compose lets you quickly get started with Distributed Obstor on your computer - ideal for development, testing, staging environments. While deploying Distributed Obstor on Swarm offers a more robust, production level deployment.
 
@@ -46,7 +46,7 @@ This means Docker Compose lets you quickly get started with Distributed Obstor o
 To override Obstor's auto-generated keys, you may pass secret and access keys explicitly as environment variables. Obstor server also allows regular strings as access and secret keys.
 
 #### GNU/Linux and macOS
-```sh
+```bash
 docker run -p 9000:9000 --name obstor1 \
   -e "OBSTOR_ROOT_USER=AKIAIOSFODNN7EXAMPLE" \
   -e "OBSTOR_ROOT_PASSWORD=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" \
@@ -55,7 +55,7 @@ docker run -p 9000:9000 --name obstor1 \
 ```
 
 #### Windows
-```powershell
+```bash
 docker run -p 9000:9000 --name obstor1 \
   -e "OBSTOR_ROOT_USER=AKIAIOSFODNN7EXAMPLE" \
   -e "OBSTOR_ROOT_PASSWORD=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" \
@@ -70,7 +70,7 @@ Docker provides standardized mechanisms to run docker containers as non-root use
 On Linux and macOS you can use `--user` to run the container as regular user.
 
 > NOTE: make sure --user has write permission to *${HOME}/data* prior to using `--user`.
-```sh
+```bash
 mkdir -p ${HOME}/data
 docker run -p 9000:9000 \
   --user $(id -u):$(id -g) \
@@ -82,11 +82,11 @@ docker run -p 9000:9000 \
 ```
 
 #### Windows
-On windows you would need to use [Docker integrated windows authentication](https://success.docker.com/article/modernizing-traditional-dot-net-applications#integratedwindowsauthentication) and [Create a container with Active Directory Support](https://blogs.msdn.microsoft.com/containerstuff/2017/01/30/create-a-container-with-active-directory-support/)
+On windows you would need to use Docker integrated windows authentication and [Create a container with Active Directory Support](https://blogs.msdn.microsoft.com/containerstuff/2017/01/30/create-a-container-with-active-directory-support/)
 
 > NOTE: make sure your AD/Windows user has write permissions to *D:\data* prior to using `credentialspec=`.
 
-```powershell
+```bash
 docker run -p 9000:9000 \
   --name obstor1 \
   --security-opt "credentialspec=file://myuser.json"
@@ -99,13 +99,13 @@ docker run -p 9000:9000 \
 ### Obstor Custom Access and Secret Keys using Docker secrets
 To override Obstor's auto-generated keys, you may pass secret and access keys explicitly by creating access and secret keys as [Docker secrets](https://docs.docker.com/engine/swarm/secrets/). Obstor server also allows regular strings as access and secret keys.
 
-```
+```bash
 echo "AKIAIOSFODNN7EXAMPLE" | docker secret create access_key -
 echo "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" | docker secret create secret_key -
 ```
 
 Create a Obstor service using `docker service` to read from Docker secrets.
-```
+```bash
 docker service create --name="obstor-service" --secret="access_key" --secret="secret_key" ghcr.io/cloudment/obstor server /data
 ```
 
@@ -113,7 +113,7 @@ Read more about `docker service` [here](https://docs.docker.com/engine/swarm/how
 
 #### Obstor Custom Access and Secret Key files
 To use other secret names follow the instructions above and replace `access_key` and `secret_key` with your custom names (e.g. `my_secret_key`,`my_custom_key`). Run your service with
-```
+```bash
 docker service create --name="obstor-service" \
   --secret="my_access_key" \
   --secret="my_secret_key" \
@@ -122,7 +122,7 @@ docker service create --name="obstor-service" \
   ghcr.io/cloudment/obstor server /data
 ```
 `OBSTOR_ROOT_USER_FILE` and `OBSTOR_ROOT_PASSWORD_FILE` also support custom absolute paths, in case Docker secrets are mounted to custom locations or other tools are used to mount secrets into the container. For example, HashiCorp Vault injects secrets to `/vault/secrets`. With the custom names above, set the environment variables to
-```
+```bash
 OBSTOR_ROOT_USER_FILE=/vault/secrets/my_access_key
 OBSTOR_ROOT_PASSWORD_FILE=/vault/secrets/my_secret_key
 ```
@@ -130,7 +130,7 @@ OBSTOR_ROOT_PASSWORD_FILE=/vault/secrets/my_secret_key
 ### Retrieving Container ID
 To use Docker commands on a specific container, you need to know the `Container ID` for that container. To get the `Container ID`, run
 
-```sh
+```bash
 docker ps -a
 ```
 
@@ -139,32 +139,32 @@ docker ps -a
 ### Starting and Stopping Containers
 To start a stopped container, you can use the [`docker start`](https://docs.docker.com/engine/reference/commandline/start/) command.
 
-```sh
+```bash
 docker start <container_id>
 ```
 
 To stop a running container, you can use the [`docker stop`](https://docs.docker.com/engine/reference/commandline/stop/) command.
-```sh
+```bash
 docker stop <container_id>
 ```
 
 ### Obstor container logs
 To access Obstor logs, you can use the [`docker logs`](https://docs.docker.com/engine/reference/commandline/logs/) command.
 
-```sh
+```bash
 docker logs <container_id>
 ```
 
 ### Monitor Obstor Docker Container
 To monitor the resources used by Obstor container, you can use the [`docker stats`](https://docs.docker.com/engine/reference/commandline/stats/) command.
 
-```sh
+```bash
 docker stats <container_id>
 ```
 
 ## Explore Further
 
-* [Deploy Obstor on Docker Compose](https://obstor.net/docs/deploy-obstor-on-docker-compose)
-* [Deploy Obstor on Docker Swarm](https://obstor.net/docs/deploy-obstor-on-docker-swarm)
-* [Distributed Obstor Quickstart Guide](https://obstor.net/docs/distributed-obstor-quickstart-guide)
-* [Obstor Erasure Code QuickStart Guide](https://obstor.net/docs/obstor-erasure-code-quickstart-guide)
+* [Deploy Obstor on Docker Compose](/docs/orchestration/docker-compose)
+* [Deploy Obstor on Docker Swarm](/docs/orchestration/docker-swarm)
+* [Distributed Obstor Quickstart Guide](/docs/distributed)
+* [Obstor Erasure Code QuickStart Guide](/docs/erasure)

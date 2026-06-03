@@ -6,7 +6,7 @@ Obstor protects data against hardware failures and silent data corruption using 
 
 Erasure code is a mathematical algorithm to reconstruct missing or corrupted data. Obstor uses Reed-Solomon code to shard objects into variable data and parity blocks. For example, in a 12 drive setup, an object can be sharded to a variable number of data and parity blocks across all the drives - ranging from six data and six parity blocks to ten data and two parity blocks.
 
-By default, Obstor shards the objects across N/2 data and N/2 parity drives. Though, you can use [storage classes](https://obstor.net/docs/erasure/storage-class) to use a custom configuration. We recommend N/2 data and parity blocks, as it ensures the best protection from drive failures.
+By default, Obstor shards the objects across N/2 data and N/2 parity drives. Though, you can use [storage classes](/docs/erasure/storage-class) to use a custom configuration. We recommend N/2 data and parity blocks, as it ensures the best protection from drive failures.
 
 In 12 drive example above, with Obstor server running in the default configuration, you can lose any of the six drives and still reconstruct the data reliably from the remaining drives.
 
@@ -14,7 +14,7 @@ In 12 drive example above, with Obstor server running in the default configurati
 
 Erasure code protects data from multiple drives failure, unlike RAID or replication. For example, RAID6 can protect against two drive failure whereas in Obstor erasure code you can lose as many as half of drives and still the data remains safe. Further, Obstor's erasure code is at the object level and can heal one object at a time. For RAID, healing can be done only at the volume level which translates into high downtime. As Obstor encodes each object individually, it can heal objects incrementally. Storage servers once deployed should not require drive replacement or healing for the lifetime of the server. Obstor's erasure coded backend is designed for operational efficiency and takes full advantage of hardware acceleration whenever available.
 
-![Erasure](https://obstor.net/docs/screenshots/erasure-code.jpg)
+![Erasure](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/erasure-code.jpg)
 
 ## What is Bit Rot protection?
 
@@ -26,7 +26,7 @@ Obstor's erasure coded backend uses high speed [HighwayHash](https://github.com/
 
 Obstor divides the drives you provide into erasure-coding sets of *4 to 16* drives.  Therefore, the number of drives you present must be a multiple of one of these numbers.  Each object is written to a single erasure-coding set.
 
-Minio uses the largest possible EC set size which divides into the number of drives given. For example, *18 drives* are configured as *2 sets of 9 drives*, and *24 drives* are configured as *2 sets of 12 drives*.  This is true for scenarios when running Obstor as a standalone erasure coded deployment. In [distributed setup however node (affinity) based](https://obstor.net/docs/distributed-obstor-quickstart-guide) erasure stripe sizes are chosen.
+Obstor uses the largest possible EC set size which divides into the number of drives given. For example, *18 drives* are configured as *2 sets of 9 drives*, and *24 drives* are configured as *2 sets of 12 drives*.  This is true for scenarios when running Obstor as a standalone erasure coded deployment. In [distributed setup however node (affinity) based](/docs/distributed) erasure stripe sizes are chosen.
 
 The drives should all be of approximately the same size.
 
@@ -34,7 +34,7 @@ The drives should all be of approximately the same size.
 
 ### 1. Prerequisites
 
-Install Obstor - [Obstor Quickstart Guide](https://obstor.net/docs/obstor-quickstart-guide)
+Install Obstor - Obstor Quickstart Guide
 
 ### 2. Run Obstor Server with Erasure Code
 

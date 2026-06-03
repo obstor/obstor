@@ -1,6 +1,6 @@
 # Disk Caching Design
 
-This document explains some basic assumptions and design approach, limits of the disk caching feature. If you're looking to get started with disk cache, we suggest you go through the [getting started document](README.md) first.
+This document explains some basic assumptions and design approach, limits of the disk caching feature. If you're looking to get started with disk cache, we suggest you go through the [getting started document](/docs/disk-caching) first.
 
 ## Command-line
 
@@ -37,7 +37,7 @@ obstor backend <name> -h
 ### Stable
 Cache drives need to have `strictatime` or `relatime` enabled for disk caching feature. In this example, mount the xfs file system on /mnt/cache with `strictatime` or `relatime` enabled.
 
-```sh
+```bash
 truncate -s 4G /tmp/data
 
 mkfs.xfs /tmp/data     # build xfs filesystem on /tmp/data
@@ -49,9 +49,9 @@ sudo mount -o relatime /tmp/data /mnt/cache # mount xfs on /mnt/cache with atime
 docker pull ghcr.io/cloudment/obstor
 
 docker run --net=host -e OBSTOR_ROOT_USER={s3-access-key} -e OBSTOR_ROOT_PASSWORD={s3-secret-key} \
-    -e OBSTOR_CACHE_DRIVES=/cache -e OBSTOR_CACHE_QUOTA=99 -e OBSTOR_CACHE_AFTER=0 \
-    -e OBSTOR_CACHE_WATERMARK_LOW=90 -e OBSTOR_CACHE_WATERMARK_HIGH=95 \
-    -v /mnt/cache:/cache  ghcr.io/cloudment/obstor:latest backend s3
+  -e OBSTOR_CACHE_DRIVES=/cache -e OBSTOR_CACHE_QUOTA=99 -e OBSTOR_CACHE_AFTER=0 \
+  -e OBSTOR_CACHE_WATERMARK_LOW=90 -e OBSTOR_CACHE_WATERMARK_HIGH=95 \
+  -v /mnt/cache:/cache  ghcr.io/cloudment/obstor:latest backend s3
 ```
 
 ## Assumptions

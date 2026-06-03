@@ -5,15 +5,15 @@ Obstor supports multiple long term users in addition to default user created dur
 In this document we will explain in detail on how to configure multiple users.
 
 ### 1. Prerequisites
-- Install mc - [Obstor Client Quickstart Guide](https://obstor.net/docs/obstor-client-quickstart-guide)
-- Install Obstor - [Obstor Quickstart Guide](https://obstor.net/docs/obstor-quickstart-guide)
-- Configure etcd (optional needed only in backend or federation mode) - [Etcd V3 Quickstart Guide](https://obstor.net/docs/sts/etcd)
+- Install mc - Obstor Client Quickstart Guide
+- Install Obstor - Obstor Quickstart Guide
+- Configure etcd (optional needed only in backend or federation mode) - [Etcd V3 Quickstart Guide](/docs/sts/etcd)
 
 ### 2. Create a new user with canned policy
-Use [`mc admin policy`](https://obstor.net/docs/obstor-admin-complete-guide#policies) to create canned policies. Server provides a default set of canned policies namely `writeonly`, `readonly` and `readwrite` *(these policies apply to all resources on the server)*. These can be overridden by custom policies using `mc admin policy` command.
+Use [`mc admin policy`](/docs/multi-user/admin) to create canned policies. Server provides a default set of canned policies namely `writeonly`, `readonly` and `readwrite` *(these policies apply to all resources on the server)*. These can be overridden by custom policies using `mc admin policy` command.
 
 Create new canned policy file `getonly.json`. This policy enables users to download all objects under `my-bucketname`.
-```json
+```bash
 cat > getonly.json << EOF
 {
   "Version": "2012-10-17",
@@ -34,81 +34,81 @@ EOF
 ```
 
 Create new canned policy by name `getonly` using `getonly.json` policy file.
-```
+```bash
 mc admin policy add myobstor getonly getonly.json
 ```
 
 Create a new user `newuser` on Obstor use `mc admin user`.
-```
+```bash
 mc admin user add myobstor newuser newuser123
 ```
 
 Once the user is successfully created you can now apply the `getonly` policy for this user.
-```
+```bash
 mc admin policy set myobstor getonly user=newuser
 ```
 
 ### 3. Create a new group
-```
+```bash
 mc admin group add myobstor newgroup newuser
 ```
 
 Once the group is successfully created you can now apply the `getonly` policy for this group.
-```
+```bash
 mc admin policy set myobstor getonly group=newgroup
 ```
 
 ### 4. Disable user
 Disable user `newuser`.
-```
+```bash
 mc admin user disable myobstor newuser
 ```
 
 Disable group `newgroup`.
-```
+```bash
 mc admin group disable myobstor newgroup
 ```
 
 ### 5. Remove user
 Remove the user `newuser`.
-```
+```bash
 mc admin user remove myobstor newuser
 ```
 
 Remove the user `newuser` from a group.
-```
+```bash
 mc admin group remove myobstor newgroup newuser
 ```
 
 Remove the group `newgroup`.
-```
+```bash
 mc admin group remove myobstor newgroup
 ```
 
 ### 6. Change user or group policy
 Change the policy for user `newuser` to `putonly` canned policy.
-```
+```bash
 mc admin policy set myobstor putonly user=newuser
 ```
 
 Change the policy for group `newgroup` to `putonly` canned policy.
-```
+```bash
 mc admin policy set myobstor putonly group=newgroup
 ```
 
 ### 7. List all users or groups
 List all enabled and disabled users.
-```
+```bash
 mc admin user list myobstor
 ```
 
 List all enabled or disabled groups.
-```
+```bash
 mc admin group list myobstor
 ```
 
 ### 8. Configure `mc`
-```
+```bash
 mc alias set myobstor-newuser http://localhost:9000 newuser newuser123 --api s3v4
 mc cat myobstor-newuser/my-bucketname/my-objectname
 ```
@@ -118,7 +118,7 @@ You can use policy variables in the *Resource* element and in string comparisons
 
 You can use a policy variable in the Resource element, but only in the resource portion of the ARN. This portion of the ARN appears after the 5th colon (:). You can't use a variable to replace parts of the ARN before the 5th colon, such as the service or account. The following policy might be attached to a group. It gives each of the users in the group full programmatic access to a user-specific object (their own "home directory") in Obstor.
 
-```
+```json
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -169,7 +169,7 @@ List of policy variables for OpenID based STS.
 ```
 
 Following example shows OpenID users with full programmatic access to a OpenID user-specific directory (their own "home directory") in Obstor.
-```
+```json
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -192,7 +192,7 @@ Following example shows OpenID users with full programmatic access to a OpenID u
 ```
 
 If the user is authenticating using an STS credential which was authorized from AD/LDAP we allow `ldap:*` variables, currently only supports `ldap:user`. Following example shows LDAP users full programmatic access to a LDAP user-specific directory (their own "home directory") in Obstor.
-```
+```json
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -222,7 +222,7 @@ If the user is authenticating using an STS credential which was authorized from 
 - *aws:SecureTransport* - This is a Boolean value that represents whether the request was sent over TLS.
 - *aws:SourceIp* - This is the requester's IP address, for use with IP address conditions. If running behind Nginx like proxies, Obstor preserve's the source IP.
 
-```
+```json
 {
   "Version": "2012-10-17",
   "Statement": {
@@ -239,7 +239,7 @@ If the user is authenticating using an STS credential which was authorized from 
 
 
 ## Explore Further
-- [Obstor Client Complete Guide](https://obstor.net/docs/obstor-client-complete-guide)
-- [Obstor STS Quickstart Guide](https://obstor.net/docs/obstor-sts-quickstart-guide)
-- [Obstor Admin Complete Guide](https://obstor.net/docs/obstor-admin-complete-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- Obstor Client Complete Guide
+- [Obstor STS Quickstart Guide](/docs/sts)
+- Obstor Admin Complete Guide
+- [The Obstor documentation website](/docs)

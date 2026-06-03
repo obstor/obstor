@@ -2,11 +2,11 @@
 
 Obstor shared mode lets you use single [NAS](https://en.wikipedia.org/wiki/Network-attached_storage) (like NFS, GlusterFS, and other
 distributed filesystems) as the storage backend for multiple Obstor servers. Synchronization among Obstor servers is taken care by design.
-Read more about the Obstor shared mode design [here](DESIGN.md).
+Read more about the Obstor shared mode design [here](/docs/shared-backend/DESIGN).
 
 Obstor shared mode is developed to solve several real world use cases, without any special configuration changes. Some of these are
 
-- You have already invested in NAS and would like to use Obstor to add S3 and [other protocol](https://obstor.net/docs/protocols) compatibility to your storage tier.
+- You have already invested in NAS and would like to use Obstor to add S3 and [other protocol](/docs/protocols) compatibility to your storage tier.
 - You need to use NAS with an S3 interface due to your application architecture requirements.
 - You expect huge traffic and need a load balanced S3-compatible server, serving files from a single NAS backend.
 
@@ -18,7 +18,7 @@ If you're aware of stand-alone Obstor set up, the installation and running remai
 
 ## 1. Prerequisites
 
-Install Obstor - [Obstor Quickstart Guide](https://obstor.net/docs/obstor-quickstart-guide).
+Install Obstor - Obstor Quickstart Guide.
 
 ## 2. Run Obstor on Shared Backend
 
@@ -62,11 +62,11 @@ obstor.exe backend nas M:\export
 
 ## 3. Test your setup
 
-To test this setup, access the Obstor server via browser or [`mc`](https://obstor.net/docs/obstor-client-quickstart-guide). You’ll see the uploaded files are accessible from the all the Obstor shared backend endpoints.
+To test this setup, access the Obstor server via browser or `mc`. You’ll see the uploaded files are accessible from the all the Obstor shared backend endpoints.
 
 ## Explore Further
-- [Use `mc` with Obstor Server](https://obstor.net/docs/obstor-client-quickstart-guide)
-- [Use `aws-cli` with Obstor Server](https://obstor.net/docs/aws-cli-with-obstor)
-- [Use `s3cmd` with Obstor Server](https://obstor.net/docs/s3cmd-with-obstor)
-- [Use `minio-go` SDK with Obstor Server](https://obstor.net/docs/golang-client-quickstart-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- Use `mc` with Obstor Server
+- Use `aws-cli` with Obstor Server
+- Use `s3cmd` with Obstor Server
+- Use `minio-go` SDK with Obstor Server
+- [The Obstor documentation website](/docs)

@@ -10,7 +10,7 @@ Independent of retention, an object can also be under legal hold. This effective
 
 ### 1. Prerequisites
 
-- Install Obstor - [Obstor Quickstart Guide](https://obstor.net/docs/obstor-quickstart-guide)
+- Install Obstor - Obstor Quickstart Guide
 - Install `awscli` - [Installing AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 
 ### 2. Set bucket WORM configuration
@@ -53,8 +53,8 @@ See https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock-overview.html fo
 
 ## Explore Further
 
-- [Use `mc` with Obstor Server](https://obstor.net/docs/obstor-client-quickstart-guide)
-- [Use `aws-cli` with Obstor Server](https://obstor.net/docs/aws-cli-with-obstor)
-- [Use `s3cmd` with Obstor Server](https://obstor.net/docs/s3cmd-with-obstor)
-- [Use `minio-go` SDK with Obstor Server](https://obstor.net/docs/golang-client-quickstart-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- Use `mc` with Obstor Server
+- Use `aws-cli` with Obstor Server
+- Use `s3cmd` with Obstor Server
+- Use `minio-go` SDK with Obstor Server
+- [The Obstor documentation website](/docs)

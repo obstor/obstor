@@ -2,13 +2,13 @@
 
 ## Configuration Directory
 
-Till Obstor release `RELEASE.2018-08-02T23-11-36Z`, Obstor server configuration file (`config.json`) was stored in the configuration directory specified by `--config-dir` or defaulted to `${HOME}/.obstor`. However from releases after `RELEASE.2018-08-18T03-49-57Z`, the configuration file (only), has been migrated to the storage backend (storage backend is the directory passed to Obstor server while starting the server).
+Till Obstor release `RELEASE.2026-08-02T23-11-36Z`, Obstor server configuration file (`config.json`) was stored in the configuration directory specified by `--config-dir` or defaulted to `${HOME}/.obstor`. However from releases after `RELEASE.2026-08-18T03-49-57Z`, the configuration file (only), has been migrated to the storage backend (storage backend is the directory passed to Obstor server while starting the server).
 
 You can specify the location of your existing config using `--config-dir`, Obstor will migrate the `config.json` to your backend storage. Your current `config.json` will be renamed upon successful migration as `config.json.deprecated` in your current `--config-dir`. All your existing configurations are honored after this migration.
 
 Additionally `--config-dir` is now a legacy option which will is scheduled for removal in future, so please update your local startup, ansible scripts accordingly.
 
-```sh
+```bash
 obstor server /data
 ```
 
@@ -16,11 +16,11 @@ Obstor also encrypts all the config, IAM and policies content with admin credent
 
 ### Certificate Directory
 
-TLS certificates by default are stored under ``${HOME}/.obstor/certs`` directory. You need to place certificates here to enable `HTTPS` based access. Read more about [How to secure access to Obstor server with TLS](https://obstor.net/docs/how-to-secure-access-to-obstor-server-with-tls).
+TLS certificates by default are stored under ``${HOME}/.obstor/certs`` directory. You need to place certificates here to enable `HTTPS` based access. Read more about [How to secure access to Obstor server with TLS](/docs/tls).
 
 Following is the directory structure for Obstor server with TLS certificates.
 
-```sh
+```bash
 $ mc tree --files ~/.obstor
 /home/user1/.obstor
 └─ certs
@@ -34,7 +34,7 @@ You can provide a custom certs directory using `--certs-dir` command line option
 #### Credentials
 On Obstor admin credentials or root credentials are only allowed to be changed using ENVs namely `OBSTOR_ROOT_USER` and `OBSTOR_ROOT_PASSWORD`. Using the combination of these two values Obstor encrypts the config stored at the backend.
 
-```sh
+```bash
 export OBSTOR_ROOT_USER=obstor
 export OBSTOR_ROOT_PASSWORD=obstor13
 obstor server /data
@@ -46,7 +46,7 @@ Additionally if you wish to change the admin credentials, then Obstor will autom
 
 > Old ENVs are never remembered in memory and are destroyed right after they are used to migrate your existing content with new credentials. You are safe to remove them after the server as successfully started, by restarting the services once again.
 
-```sh
+```bash
 export OBSTOR_ROOT_USER=newobstor
 export OBSTOR_ROOT_PASSWORD=newobstor123
 export OBSTOR_ROOT_USER_OLD=obstor
@@ -80,13 +80,13 @@ OBSTOR_REGION_COMMENT  (sentence)  optionally add a comment to this setting
 
 Example:
 
-```sh
+```bash
 export OBSTOR_REGION_NAME="my_region"
 obstor server /data
 ```
 
 ### Storage Class
-By default, parity for objects with standard storage class is set to `N/2`, and parity for objects with reduced redundancy storage class objects is set to `2`. Read more about storage class support in Obstor server [here](https://obstor.net/docs/erasure/storage-class).
+By default, parity for objects with standard storage class is set to `N/2`, and parity for objects with reduced redundancy storage class objects is set to `2`. Read more about storage class support in Obstor server [here](/docs/erasure/storage-class).
 
 ```
 KEY:
@@ -172,7 +172,7 @@ OBSTOR_ETCD_COMMENT          (sentence)  optionally add a comment to this settin
 ```
 
 ### API
-By default, there is no limitation on the number of concurrent requests that a server/cluster processes at the same time. However, it is possible to impose such limitation using the API subsystem. Read more about throttling limitation in Obstor server [here](https://obstor.net/docs/throttle).
+By default, there is no limitation on the number of concurrent requests that a server/cluster processes at the same time. However, it is possible to impose such limitation using the API subsystem. Read more about throttling limitation in Obstor server [here](/docs/throttle).
 
 ```
 KEY:
@@ -195,7 +195,7 @@ OBSTOR_API_REMOTE_TRANSPORT_DEADLINE  (duration)  set the deadline for API reque
 ```
 
 #### Notifications
-Notification targets supported by Obstor are in the following list. To configure individual targets please refer to more detailed documentation [here](https://obstor.net/docs/obstor-bucket-notification-guide)
+Notification targets supported by Obstor are in the following list. To configure individual targets please refer to more detailed documentation [here](/docs/bucket/notifications)
 
 ```
 notify_webhook        publish bucket notifications to webhook endpoints
@@ -211,15 +211,15 @@ notify_redis          publish bucket notifications to Redis datastores
 ```
 
 ### Accessing configuration
-All configuration changes can be made using [`mc admin config` get/set/reset/export/import commands](https://github.com/minio/mc/blob/master/docs/obstor-admin-complete-guide.md).
+All configuration changes can be made using the `mc admin config` get/set/reset/export/import commands.
 
 #### List all config keys available
-```
+```bash
 ~ mc admin config set myobstor/
 ```
 
 #### Obtain help for each key
-```
+```bash
 ~ mc admin config set myobstor/ <key>
 ```
 
@@ -286,7 +286,7 @@ max_wait  (duration)  maximum wait time between operations, defaults to '15s'
 
 Example: Following setting will decrease the scanner speed by a factor of 3, reducing the system resource use, but increasing the latency of updates being reflected.
 
-```sh
+```bash
 ~ mc admin config set alias/ scanner delay=30.0
 ```
 
@@ -313,7 +313,7 @@ max_io      (int)       maximum IO requests allowed between objects to slow down
 
 Example: The following settings will increase the heal operation speed by allowing healing operation to run without delay up to `100` concurrent requests, and the maximum delay between each heal operation is set to `300ms`.
 
-```sh
+```bash
 ~ mc admin config set alias/ heal max_delay=300ms max_io=100
 ```
 
@@ -330,7 +330,7 @@ Enable or disable access to web UI. By default it is set to `on`. You may overri
 
 Example:
 
-```sh
+```bash
 export OBSTOR_BROWSER=off
 obstor server /data
 ```
@@ -340,17 +340,17 @@ obstor server /data
 By default, Obstor supports path-style requests that are of the format http://example.com/bucket/object. `OBSTOR_DOMAIN` environment variable is used to enable virtual-host-style requests. If the request `Host` header matches with `(.+).example.com` then the matched pattern `$1` is used as bucket and the path is used as object. More information on path-style and virtual-host-style [here](http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAPI.html)
 Example:
 
-```sh
+```bash
 export OBSTOR_DOMAIN=example.com
 obstor server /data
 ```
 
 For advanced use cases `OBSTOR_DOMAIN` environment variable supports multiple-domains with comma separated values.
-```sh
+```bash
 export OBSTOR_DOMAIN=sub1.example.com,sub2.example.com
 obstor server /data
 ```
 
 ## Explore Further
-* [Obstor Quickstart Guide](https://obstor.net/docs/obstor-quickstart-guide)
-* [Configure Obstor Server with TLS](https://obstor.net/docs/how-to-secure-access-to-obstor-server-with-tls)
+* Obstor Quickstart Guide
+* [Configure Obstor Server with TLS](/docs/tls)

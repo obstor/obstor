@@ -19,7 +19,7 @@ will increase speed when the content can be compressed.
 
 ### 1. Prerequisites
 
-Install Obstor - [Obstor Quickstart Guide](https://obstor.net/docs/obstor-quickstart-guide).
+Install Obstor - Obstor Quickstart Guide.
 
 ### 2. Run Obstor with compression
 
@@ -126,8 +126,8 @@ the data directory to view the size of the object.
 
 ## Explore Further
 
-- [Use `mc` with Obstor Server](https://obstor.net/docs/obstor-client-quickstart-guide)
-- [Use `aws-cli` with Obstor Server](https://obstor.net/docs/aws-cli-with-obstor)
-- [Use `s3cmd` with Obstor Server](https://obstor.net/docs/s3cmd-with-obstor)
-- [Use `minio-go` SDK with Obstor Server](https://obstor.net/docs/golang-client-quickstart-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- Use `mc` with Obstor Server
+- Use `aws-cli` with Obstor Server
+- Use `s3cmd` with Obstor Server
+- Use `minio-go` SDK with Obstor Server
+- [The Obstor documentation website](/docs)

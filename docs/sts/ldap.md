@@ -114,7 +114,7 @@ When a user logs in via the STS API, the Obstor server queries the AD/LDAP serve
 
 If a self-signed certificate is being used, the certificate can be added to Obstor's certificates directory, so it can be trusted by the server. An example setup for development or experimentation:
 
-```shell
+```bash
 export OBSTOR_IDENTITY_LDAP_SERVER_ADDR=myldapserver.com:636
 export OBSTOR_IDENTITY_LDAP_USERNAME_FORMAT="uid=%s,cn=accounts,dc=myldapserver,dc=com"
 export OBSTOR_IDENTITY_LDAP_GROUP_SEARCH_BASE_DN="dc=myldapserver,dc=com"
@@ -141,17 +141,17 @@ Access policies may be configured on a group or on a user directly. Access polic
 
 To define a new policy, you can use the [AWS policy generator](https://awspolicygen.s3.amazonaws.com/policygen.html). Copy the policy into a text file `mypolicy.json` and issue the command like so:
 
-```sh
+```bash
 mc admin policy add myobstor mypolicy mypolicy.json
 ```
 
 To assign the policy to a user or group, use the full DN of the user or group:
 
-```sh
+```bash
 mc admin policy set myobstor mypolicy user='uid=james,cn=accounts,dc=myldapserver,dc=com'
 ```
 
-```sh
+```bash
 mc admin policy set myobstor mypolicy group='cn=projectx,ou=groups,ou=hwengg,dc=min,dc=io'
 ```
 
@@ -208,7 +208,7 @@ http://obstor.cluster:9000?Action=AssumeRoleWithLDAPIdentity&LDAPUsername=foouse
 ```
 
 ## Sample Response
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <AssumeRoleWithLDAPIdentityResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <AssumeRoleWithLDAPIdentityResult>
@@ -219,7 +219,7 @@ http://obstor.cluster:9000?Action=AssumeRoleWithLDAPIdentity&LDAPUsername=foouse
     <Credentials>
       <AccessKeyId>Y4RJU1RNFGK48LGO9I2S</AccessKeyId>
       <SecretAccessKey>sYLRKS1Z7hSjluf6gEbb9066hnx315wHTiACPAjg</SecretAccessKey>
-      <Expiration>2019-08-08T20:26:12Z</Expiration>
+      <Expiration>2026-08-08T20:26:12Z</Expiration>
       <SessionToken>eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJZNFJKVTFSTkZHSzQ4TEdPOUkyUyIsImF1ZCI6IlBvRWdYUDZ1Vk80NUlzRU5SbmdEWGo1QXU1WWEiLCJhenAiOiJQb0VnWFA2dVZPNDVJc0VOUm5nRFhqNUF1NVlhIiwiZXhwIjoxNTQxODExMDcxLCJpYXQiOjE1NDE4MDc0NzEsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0Ojk0NDMvb2F1dGgyL3Rva2VuIiwianRpIjoiYTBiMjc2MjktZWUxYS00M2JmLTg3MzktZjMzNzRhNGNkYmMwIn0.ewHqKVFTaP-j_kgZrcOEKroNUjk10GEp8bqQjxBbYVovV0nHO985VnRESFbcT6XMDDKHZiWqN2vi_ETX_u3Q-w</SessionToken>
     </Credentials>
   </AssumeRoleWithLDAPIdentity>
@@ -230,7 +230,7 @@ http://obstor.cluster:9000?Action=AssumeRoleWithLDAPIdentity&LDAPUsername=foouse
 ## Using LDAP STS API
 
 With multiple OU hierarchies for users, and multiple group search base DN's.
-```
+```bash
 $ export OBSTOR_ROOT_USER=obstor
 $ export OBSTOR_ROOT_PASSWORD=obstor123
 $ export OBSTOR_IDENTITY_LDAP_SERVER_ADDR='my.ldap-active-dir-server.com:636'
@@ -240,15 +240,15 @@ $ export OBSTOR_IDENTITY_LDAP_GROUP_SEARCH_FILTER='(&(objectclass=group)(member=
 $ obstor server ~/test
 ```
 You can make sure it works appropriately using our [example program](https://raw.githubusercontent.com/cloudment/obstor/main/docs/sts/ldap.go):
-```
+```bash
 $ go run ldap.go -u foouser -p foopassword
 
 ##### Credentials
 {
-        "accessKey": "NUIBORZYTV2HG2BMRSXR",
-        "secretKey": "qQlP5O7CFPc5m5IXf1vYhuVTFj7BRVJqh0FqZ86S",
-        "expiration": "2018-08-21T17:10:29-07:00",
-        "sessionToken": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJOVUlCT1JaWVRWMkhHMkJNUlNYUiIsImF1ZCI6IlBvRWdYUDZ1Vk80NUlzRU5SbmdEWGo1QXU1WWEiLCJhenAiOiJQb0VnWFA2dVZPNDVJc0VOUm5nRFhqNUF1NVlhIiwiZXhwIjoxNTM0ODk2NjI5LCJpYXQiOjE1MzQ4OTMwMjksImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0Ojk0NDMvb2F1dGgyL3Rva2VuIiwianRpIjoiNjY2OTZjZTctN2U1Ny00ZjU5LWI0MWQtM2E1YTMzZGZiNjA4In0.eJONnVaSVHypiXKEARSMnSKgr-2mlC2Sr4fEGJitLcJF_at3LeNdTHv0_oHsv6ZZA3zueVGgFlVXMlREgr9LXA"
+  "accessKey": "NUIBORZYTV2HG2BMRSXR",
+  "secretKey": "qQlP5O7CFPc5m5IXf1vYhuVTFj7BRVJqh0FqZ86S",
+  "expiration": "2026-08-21T17:10:29-07:00",
+  "sessionToken": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJOVUlCT1JaWVRWMkhHMkJNUlNYUiIsImF1ZCI6IlBvRWdYUDZ1Vk80NUlzRU5SbmdEWGo1QXU1WWEiLCJhenAiOiJQb0VnWFA2dVZPNDVJc0VOUm5nRFhqNUF1NVlhIiwiZXhwIjoxNTM0ODk2NjI5LCJpYXQiOjE1MzQ4OTMwMjksImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0Ojk0NDMvb2F1dGgyL3Rva2VuIiwianRpIjoiNjY2OTZjZTctN2U1Ny00ZjU5LWI0MWQtM2E1YTMzZGZiNjA4In0.eJONnVaSVHypiXKEARSMnSKgr-2mlC2Sr4fEGJitLcJF_at3LeNdTHv0_oHsv6ZZA3zueVGgFlVXMlREgr9LXA"
 }
 ```
 
@@ -256,5 +256,5 @@ $ go run ldap.go -u foouser -p foopassword
 **LDAP STS credentials are not yet supported on Obstor Browser UI, we may add this feature in future releases.**
 
 ## Explore Further
-- [Obstor Admin Complete Guide](https://obstor.net/docs/obstor-admin-complete-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- Obstor Admin Complete Guide
+- [The Obstor documentation website](/docs)

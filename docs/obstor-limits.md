@@ -29,7 +29,7 @@
 |Maximum object size| 5 TiB|
 |Minimum object size| 0 B|
 |Maximum object size per PUT operation| 5 TiB|
-|Maximum number of parts per upload| 	10,000|
+|Maximum number of parts per upload|   10,000|
 |Part size|5 MiB to 5 GiB. Last part can be 0 B to 5 GiB|
 |Maximum number of parts returned per list parts request| 10000|
 |Maximum number of objects returned per list objects request| 10000|
@@ -40,15 +40,15 @@ We found the following APIs to be redundant or less useful outside of AWS S3. If
 
 #### List of Amazon S3 Bucket API's not supported on Obstor
 
-- BucketACL (Use [bucket policies](https://obstor.net/docs/obstor-client-complete-guide#policy) instead)
+- BucketACL (Use [bucket policies](/docs/multi-user/admin) instead)
 - BucketCORS (CORS enabled by default on all buckets for all HTTP verbs)
 - BucketWebsite (Use [`caddy`](https://github.com/caddyserver/caddy) or [`nginx`](https://www.nginx.com/resources/wiki/))
-- BucketAnalytics, BucketMetrics, BucketLogging (Use [bucket notification](https://obstor.net/docs/obstor-client-complete-guide#events) APIs)
+- BucketAnalytics, BucketMetrics, BucketLogging (Use [bucket notification](/docs/bucket/notifications) APIs)
 - BucketRequestPayment
 
 #### List of Amazon S3 Object API's not supported on Obstor
 
-- ObjectACL (Use [bucket policies](https://obstor.net/docs/obstor-client-complete-guide#policy) instead)
+- ObjectACL (Use [bucket policies](/docs/multi-user/admin) instead)
 - ObjectTorrent
 
 ### Object name restrictions on Obstor

@@ -4,15 +4,15 @@ This document explains how to configure Obstor server with TLS certificates on K
 
 ## 1. Prerequisites
 
-- Familiarity with [Obstor deployment process on Kubernetes](https://obstor.net/docs/deploy-obstor-on-kubernetes).
+- Familiarity with [Obstor deployment process on Kubernetes](/docs/orchestration/kubernetes).
 
 - Kubernetes cluster with `kubectl` configured.
 
-- Acquire TLS certificates, either from a CA or [create self-signed certificates](https://obstor.net/docs/how-to-secure-access-to-obstor-server-with-tls).
+- Acquire TLS certificates, either from a CA or [create self-signed certificates](/docs/tls).
 
-For a [distributed Obstor setup](https://obstor.net/docs/distributed-obstor-quickstart-guide), where there are multiple pods with different domain names expected to run, you will either need wildcard certificates valid for all the domains or have specific certificates for each domain. If you are going to use specific certificates, make sure to create Kubernetes secrets accordingly.
+For a [distributed Obstor setup](/docs/distributed), where there are multiple pods with different domain names expected to run, you will either need wildcard certificates valid for all the domains or have specific certificates for each domain. If you are going to use specific certificates, make sure to create Kubernetes secrets accordingly.
 
-For testing purposes, here is [how to create self-signed certificates](https://obstor.net/docs/tls#3-generate-self-signed-certificates).
+For testing purposes, here is [how to create self-signed certificates](/docs/tls).
 
 ## 2. Create Kubernetes secret
 
@@ -41,26 +41,26 @@ Whether you are planning to use Kubernetes StatefulSet or Kubernetes Deployment,
 If you're using certificates provided by a CA, add the below section in your yaml file under `spec.volumes[]`
 
 ```yaml
-    volumes:
-      - name: secret-volume
-        secret:
-          secretName: tls-ssl-obstor
-          items:
-          - key: public.crt
-            path: public.crt
-          - key: private.key
-            path: private.key
-          - key: public.crt
-            path: CAs/public.crt
+volumes:
+  - name: secret-volume
+    secret:
+      secretName: tls-ssl-obstor
+      items:
+      - key: public.crt
+        path: public.crt
+      - key: private.key
+        path: private.key
+      - key: public.crt
+        path: CAs/public.crt
 ```
 
 Note that the `secretName` should be same as the secret name created in previous step. Then add the below section under
 `spec.containers[].volumeMounts[]`
 
 ```yaml
-    volumeMounts:
-        - name: secret-volume
-          mountPath: /<user-running-obstor>/.obstor/certs
+volumeMounts:
+  - name: secret-volume
+    mountPath: /<user-running-obstor>/.obstor/certs
 ```
 
 Here the name of `volumeMount` should match the name of `volume` created previously. Also `mountPath` must be set to the path of

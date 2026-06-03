@@ -1,7 +1,7 @@
 # Obstor Server Debugging Guide
 
 ### HTTP Trace
-HTTP tracing can be enabled by using [`mc admin trace`](https://github.com/minio/mc/blob/master/docs/obstor-admin-complete-guide.md#command-trace---display-obstor-server-http-trace) command.
+HTTP tracing can be enabled by using the `mc admin trace` command.
 
 Example:
 ```sh

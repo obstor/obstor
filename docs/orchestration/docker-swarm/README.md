@@ -12,12 +12,12 @@ As of [Docker Engine v1.13.0](https://blog.docker.com/2017/01/whats-new-in-docke
 ## 2. Create a Swarm
 Create a swarm on the manager node by running
 
-```shell
+```bash
 docker swarm init --advertise-addr <MANAGER-IP>
 ```
 Once the swarm is initialized, you'll see the below response.
 
-```shell
+```bash
 docker swarm join \
   --token  SWMTKN-1-49nj1cmql0jkz5s954yi3oex3nedyz0fb0xx14ie39trti4wxv-8vxv8rssmk743ojnwacrr2e7c \
   192.168.99.100:2377
@@ -27,7 +27,7 @@ You can now [add worker nodes](https://docs.docker.com/engine/swarm/swarm-tutori
 
 ## 3. Create Docker secrets for Obstor
 
-```shell
+```bash
 echo "AKIAIOSFODNN7EXAMPLE" | docker secret create access_key -
 echo "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" | docker secret create secret_key -
 ```
@@ -38,43 +38,43 @@ The example Obstor stack uses 4 Docker volumes, which are created automatically 
 Otherwise Docker will create a new volume upon restart of the service on another Docker node, which is not in sync with the other volumes and the stack will fail to start healthy.
 Before deploying the stack, add labels to the Docker nodes where you want the obstor services to run:
 
-```
-docker node update --label-add minio1=true <DOCKER-NODE1>
-docker node update --label-add minio2=true <DOCKER-NODE2>
-docker node update --label-add minio3=true <DOCKER-NODE3>
-docker node update --label-add minio4=true <DOCKER-NODE4>
+```bash
+docker node update --label-add obstor1=true <DOCKER-NODE1>
+docker node update --label-add obstor2=true <DOCKER-NODE2>
+docker node update --label-add obstor3=true <DOCKER-NODE3>
+docker node update --label-add obstor4=true <DOCKER-NODE4>
 ```
 
 It is possible to run more than one obstor service on one Docker Node. Set the labels accordingly.
 
 Download the [Docker Compose file](https://github.com/cloudment/obstor/blob/main/docs/orchestration/docker-swarm/docker-compose-secrets.yaml?raw=true) on your Swarm master. Then execute the command
 
-```shell
-docker stack deploy --compose-file=docker-compose-secrets.yaml minio_stack
+```bash
+docker stack deploy --compose-file=docker-compose-secrets.yaml obstor_stack
 ```
 
-This deploys services described in the Compose file as Docker stack `minio_stack`. Look up the `docker stack` [command reference](https://docs.docker.com/engine/reference/commandline/stack/) for more info.
+This deploys services described in the Compose file as Docker stack `obstor_stack`. Look up the `docker stack` [command reference](https://docs.docker.com/engine/reference/commandline/stack/) for more info.
 
-After the stack is successfully deployed, you should be able to access Obstor server via [Obstor Client](https://obstor.net/docs/obstor-client-complete-guide) `mc` or your browser at http://[Node_Public_IP_Address]:[Expose_Port_on_Host]
+After the stack is successfully deployed, you should be able to access Obstor server via Obstor Client `mc` or your browser at http://[Node_Public_IP_Address]:[Expose_Port_on_Host]
 
 ## 4. Remove distributed Obstor services
 
 Remove the distributed Obstor services and related network by
 
-```shell
-docker stack rm minio_stack
+```bash
+docker stack rm obstor_stack
 ```
 Swarm doesn't automatically remove host volumes created for services. This may lead to corruption when a new Obstor service is created in the swarm. So, we recommend removing all the volumes used by Obstor, manually. To do this, logon to each node in the swarm and run
 
-```shell
+```bash
 docker volume prune
 ```
 This will remove all the volumes not associated with any container.
 
 ## 5. Accessing Obstor services
 
-The services are exposed, by default, on the internal overlay network by their services names (minio1, minio2, ...).
-The docker-compose.yml file also exposes the Obstor services behind a single alias on the minio_distributed network.
+The services are exposed, by default, on the internal overlay network by their services names (obstor1, obstor2, ...).
+The docker-compose.yml file also exposes the Obstor services behind a single alias on the obstor_distributed network.
 
 Services in the Swarm which are attached to that network can interact with the host "obstor-cluster" instead of individual services' hostnames.  This provides a simple way to loosely load balance across all the Obstor services in the Swarm as well as simplifies configuration and management.
 
@@ -88,7 +88,7 @@ Services in the Swarm which are attached to that network can interact with the h
   * Update the command section in each service. Specifically, add the drive location to be used as storage on the new service.
   * Update the port number to exposed for the new service.
 
-  Read more about distributed Obstor [here](https://obstor.net/docs/distributed-obstor-quickstart-guide).
+  Read more about distributed Obstor [here](/docs/distributed).
 
 * By default the services use `local` volume driver. Refer to [Docker documentation](https://docs.docker.com/compose/compose-file/#/volume-configuration-reference) to explore further options.
 
@@ -98,6 +98,6 @@ Services in the Swarm which are attached to that network can interact with the h
 
 ### Explore Further
 - [Overview of Docker Swarm mode](https://docs.docker.com/engine/swarm/)
-- [Obstor Docker Quickstart Guide](https://obstor.net/docs/obstor-docker-quickstart-guide)
-- [Deploy Obstor on Docker Compose](https://obstor.net/docs/deploy-obstor-on-docker-compose)
-- [Obstor Erasure Code QuickStart Guide](https://obstor.net/docs/obstor-erasure-code-quickstart-guide)
+- [Obstor Docker Quickstart Guide](/docs/docker)
+- [Deploy Obstor on Docker Compose](/docs/orchestration/docker-compose)
+- [Obstor Erasure Code QuickStart Guide](/docs/erasure)

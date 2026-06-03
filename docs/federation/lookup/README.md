@@ -6,7 +6,7 @@ This document explains how to configure Obstor with `Bucket lookup from DNS` sty
 ## Get started
 
 ### 1. Prerequisites
-Install Obstor - [Obstor Quickstart Guide](https://obstor.net/docs/obstor-quickstart-guide).
+Install Obstor - Obstor Quickstart Guide.
 
 ### 2. Run Obstor in federated mode
 Bucket lookup from DNS federation requires two dependencies
@@ -77,9 +77,9 @@ it is randomized which cluster might provision the bucket.
 
 ### 3. Upgrading to `etcdv3` API
 
-Users running Obstor federation from release `RELEASE.2018-06-09T03-43-35Z` to `RELEASE.2018-07-10T01-42-11Z`, should migrate the existing bucket data on etcd server to `etcdv3` API, and update CoreDNS version to `1.2.0` before updating their Obstor server to the latest version.
+Users running Obstor federation from release `RELEASE.2026-06-09T03-43-35Z` to `RELEASE.2026-07-10T01-42-11Z`, should migrate the existing bucket data on etcd server to `etcdv3` API, and update CoreDNS version to `1.2.0` before updating their Obstor server to the latest version.
 
-Here is some background on why this is needed - Obstor server release `RELEASE.2018-06-09T03-43-35Z` to `RELEASE.2018-07-10T01-42-11Z` used etcdv2 API to store bucket data to etcd server. This was due to `etcdv3` support not available for CoreDNS server. So, even if Obstor used `etcdv3` API to store bucket data, CoreDNS wouldn't be able to read and serve it as DNS records.
+Here is some background on why this is needed - Obstor server release `RELEASE.2026-06-09T03-43-35Z` to `RELEASE.2026-07-10T01-42-11Z` used etcdv2 API to store bucket data to etcd server. This was due to `etcdv3` support not available for CoreDNS server. So, even if Obstor used `etcdv3` API to store bucket data, CoreDNS wouldn't be able to read and serve it as DNS records.
 
 Now that CoreDNS [supports etcdv3](https://coredns.io/2018/07/11/coredns-1.2.0-release/), Obstor server uses `etcdv3` API to store bucket data to etcd server. As `etcdv2` and `etcdv3` APIs are not compatible, data stored using `etcdv2` API is not visible to the `etcdv3` API. So, bucket data stored by previous Obstor version will not be visible to current Obstor version, until a migration is done.
 
@@ -87,12 +87,12 @@ CoreOS team has documented the steps required to migrate existing data from `etc
 
 ### 4. Test your setup
 
-To test this setup, access the Obstor server via browser or [`mc`](https://obstor.net/docs/obstor-client-quickstart-guide). You’ll see the uploaded files are accessible from the all the Obstor endpoints.
+To test this setup, access the Obstor server via browser or `mc`. You’ll see the uploaded files are accessible from the all the Obstor endpoints.
 
 # Explore Further
 
-- [Use `mc` with Obstor Server](https://obstor.net/docs/obstor-client-quickstart-guide)
-- [Use `aws-cli` with Obstor Server](https://obstor.net/docs/aws-cli-with-obstor)
-- [Use `s3cmd` with Obstor Server](https://obstor.net/docs/s3cmd-with-obstor)
-- [Use `minio-go` SDK with Obstor Server](https://obstor.net/docs/golang-client-quickstart-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- Use `mc` with Obstor Server
+- Use `aws-cli` with Obstor Server
+- Use `s3cmd` with Obstor Server
+- Use `minio-go` SDK with Obstor Server
+- [The Obstor documentation website](/docs)

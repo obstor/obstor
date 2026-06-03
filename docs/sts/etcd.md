@@ -6,9 +6,9 @@ etcd is a distributed key value store that provides a reliable way to store data
 - Docker 18.03 or above, refer here for [installation](https://docs.docker.com/install/).
 
 ### 2. Start etcd
-etcd uses [gcr.io/etcd-development/etcd](https://console.cloud.google.com/gcr/images/etcd-development/GLOBAL/etcd) as a primary container registry.
+etcd uses `gcr.io/etcd-development/etcd` as a primary container registry.
 
-```
+```bash
 rm -rf /tmp/etcd-data.tmp && mkdir -p /tmp/etcd-data.tmp && \
   docker rmi gcr.io/etcd-development/etcd:v3.3.9 || true && \
   docker run \
@@ -33,7 +33,7 @@ You may also setup etcd with TLS following this documentation [here](https://cor
 
 ### 3. Setup Obstor with etcd
 Obstor server expects environment variable for etcd as `OBSTOR_ETCD_ENDPOINTS`, this environment variable takes many comma separated entries.
-```
+```bash
 export OBSTOR_ETCD_ENDPOINTS=http://localhost:2379
 obstor server /data
 ```
@@ -43,22 +43,22 @@ NOTE: If `etcd` is configured with `Client-to-server authentication with HTTPS c
 ### 4. Test with Obstor STS API
 Once etcd is configured, **any STS configuration** will work including Client Grants, Web Identity or AD/LDAP.
 
-For example, you can configure STS with Client Grants (KeyCloak) using the guides at [Obstor STS Quickstart Guide](https://obstor.net/docs/obstor-sts-quickstart-guide) and [KeyCloak Configuration Guide](keycloak.md). Once this is done, STS credentials can be generated:
+For example, you can configure STS with Client Grants using the guides at [Obstor STS Quickstart Guide](/docs/sts). Once this is done, STS credentials can be generated:
 
-```
+```bash
 go run client-grants.go -cid PoEgXP6uVO45IsENRngDXj5Au5Ya -csec eKsw6z8CtOJVBtrOWvhRWL4TUCga
 
 ##### Credentials
 {
-	"accessKey": "IRBLVDGN5QGMDCMO1X8V",
-	"secretKey": "KzS3UZKE7xqNdtRbKyfcWgxBS6P1G4kwZn4DXKuY",
-	"expiration": "2018-08-21T15:49:38-07:00",
-	"sessionToken": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJJUkJMVkRHTjVRR01EQ01PMVg4ViIsImF1ZCI6IlBvRWdYUDZ1Vk80NUlzRU5SbmdEWGo1QXU1WWEiLCJhenAiOiJQb0VnWFA2dVZPNDVJc0VOUm5nRFhqNUF1NVlhIiwiZXhwIjoxNTM0ODkxNzc4LCJpYXQiOjE1MzQ4ODgxNzgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0Ojk0NDMvb2F1dGgyL3Rva2VuIiwianRpIjoiMTg0NDMyOWMtZDY1YS00OGEzLTgyMjgtOWRmNzNmZTgzZDU2In0.4rKsZ8VkZnIS_ALzfTJ9UbEKPFlQVvIyuHw6AWTJcDFDVgQA2ooQHmH9wUDnhXBi1M7o8yWJ47DXP-TLPhwCgQ"
+  "accessKey": "IRBLVDGN5QGMDCMO1X8V",
+  "secretKey": "KzS3UZKE7xqNdtRbKyfcWgxBS6P1G4kwZn4DXKuY",
+  "expiration": "2026-08-21T15:49:38-07:00",
+  "sessionToken": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJJUkJMVkRHTjVRR01EQ01PMVg4ViIsImF1ZCI6IlBvRWdYUDZ1Vk80NUlzRU5SbmdEWGo1QXU1WWEiLCJhenAiOiJQb0VnWFA2dVZPNDVJc0VOUm5nRFhqNUF1NVlhIiwiZXhwIjoxNTM0ODkxNzc4LCJpYXQiOjE1MzQ4ODgxNzgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0Ojk0NDMvb2F1dGgyL3Rva2VuIiwianRpIjoiMTg0NDMyOWMtZDY1YS00OGEzLTgyMjgtOWRmNzNmZTgzZDU2In0.4rKsZ8VkZnIS_ALzfTJ9UbEKPFlQVvIyuHw6AWTJcDFDVgQA2ooQHmH9wUDnhXBi1M7o8yWJ47DXP-TLPhwCgQ"
 }
 ```
 
-These credentials can now be used to perform Obstor API operations, these credentials automatically expire in 1hr. To understand more about credential expiry duration and client grants STS API read further [here](client-grants.md).
+These credentials can now be used to perform Obstor API operations, these credentials automatically expire in 1hr. To understand more about credential expiry duration and client grants STS API read further [here](/docs/sts/client-grants).
 
 ## Explore Further
-- [Obstor STS Quickstart Guide](https://obstor.net/docs/obstor-sts-quickstart-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- [Obstor STS Quickstart Guide](/docs/sts)
+- [The Obstor documentation website](/docs)

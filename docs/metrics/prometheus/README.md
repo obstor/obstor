@@ -20,21 +20,21 @@ Obstor exports Prometheus compatible data by default as an authorized endpoint a
 - [List of metrics exposed by Obstor](#list-of-metrics-exposed-by-obstor)
 
 ## Prerequisites
-To get started with Obstor, refer [Obstor QuickStart Document](https://obstor.net/docs/obstor-quickstart-guide).
+To get started with Obstor, refer Obstor QuickStart Document.
 Follow below steps to get started with Obstor monitoring using Prometheus.
 
 ### 1. Download Prometheus
 
 [Download the latest release](https://prometheus.io/download) of Prometheus for your platform, then extract it
 
-```sh
+```bash
 tar xvfz prometheus-*.tar.gz
 cd prometheus-*
 ```
 
 Prometheus server is a single binary called `prometheus` (or `prometheus.exe` on Microsoft Windows). Run the binary and pass `--help` flag to see available options
 
-```sh
+```bash
 ./prometheus --help
 usage: prometheus [<flags>]
 
@@ -49,7 +49,7 @@ Refer [Prometheus documentation](https://prometheus.io/docs/introduction/first_s
 
 Obstor supports two authentication modes for Prometheus either `jwt` or `public`, by default Obstor runs in `jwt` mode. To allow public access without authentication for prometheus metrics set environment as follows.
 
-```
+```bash
 export OBSTOR_PROMETHEUS_AUTH_TYPE="public"
 obstor server ~/test
 ```
@@ -60,7 +60,7 @@ obstor server ~/test
 
 > If Obstor is configured to expose metrics without authentication, you don't need to use `mc` to generate prometheus config. You can skip reading further and move to 3.2 section.
 
-The Prometheus endpoint in Obstor requires authentication by default. Prometheus supports a bearer token approach to authenticate prometheus scrape requests, override the default Prometheus config with the one generated using mc. To generate a Prometheus config for an alias, use [mc](https://obstor.net/docs/obstor-client-quickstart-guide) as follows `mc admin prometheus generate <alias>`.
+The Prometheus endpoint in Obstor requires authentication by default. Prometheus supports a bearer token approach to authenticate prometheus scrape requests, override the default Prometheus config with the one generated using mc. To generate a Prometheus config for an alias, use mc as follows `mc admin prometheus generate <alias>`.
 
 The command will generate the `scrape_configs` section of the prometheus.yml as follows:
 
@@ -108,7 +108,7 @@ To authorize every scrape request, copy and paste the generated `scrape_configs`
 
 Start (or) Restart Prometheus service by running
 
-```sh
+```bash
 ./prometheus --config.file=prometheus.yml
 ```
 
@@ -117,16 +117,16 @@ Here `prometheus.yml` is the name of configuration file. You can now see Obstor 
 ### 6. Configure Grafana
 
 After Prometheus is configured, you can use Grafana to visualize Obstor metrics.
-Refer the [document here to setup Grafana with Obstor prometheus metrics](grafana/README.md).
+Refer the [document here to setup Grafana with Obstor prometheus metrics](/docs/metrics/prometheus/grafana).
 
 ## List of metrics exposed by Obstor
 
 Obstor server exposes the following metrics on `/obstor/v2/metrics/cluster` endpoint. All of these can be accessed via Prometheus dashboard. A sample list of exposed metrics along with their definition is available in the demo server at
 
-```sh
+```bash
 curl https://play.obstor.net/obstor/v2/metrics/cluster
 ```
 
 ### List of metrics reported
 
-[The list of metrics reported can be here](list.md)
+[The list of metrics reported can be here](/docs/metrics/prometheus/list)

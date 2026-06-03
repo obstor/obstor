@@ -81,7 +81,7 @@ server only assumes that the KMS provides two services:
 
 - `DecryptKey`: Takes a key ID and an encrypted data key and returns the plain data key - the decryption of the encrypted data key using the master key referenced by the key ID - on success or an error otherwise.
 
-More details about supported KMS implementations and configuration can be found at the [KMS guide](https://obstor.net/docs/kms).
+More details about supported KMS implementations and configuration can be found at the [KMS guide](/docs/kms).
 
 The Obstor server requests a new data key from the KMS for each uploaded object and uses that data key as EK. Additionally it stores the encrypted form of the data key and the master key ID as part of the object metadata. The plain data only resides in RAM during the en/decryption process. The Obstor server does not store any SSE-related key at the KMS. Instead the KMS is treated as trusted component that performs key sealing/unsealing operations to build a key hierarchy:
 
@@ -155,7 +155,7 @@ The Obstor server supports key rotation for SSE-S3 encrypted objects. The obstor
  ```
 <center>Figure 3 - KMS data key rotation</center>
 
-Only the root/admin user can perform an SSE-S3 key rotation using the Admin-API via [mc](https://github.com/minio/mc). For more details about how to perform key management operations using the CLI refer to [mc admin guide](https://github.com/minio/mc/blob/master/docs/obstor-admin-complete-guide.md) or run `mc admin kms key`.
+Only the root/admin user can perform an SSE-S3 key rotation using the Admin-API via [mc](https://github.com/minio/mc). For more details about how to perform key management operations using the CLI run `mc admin kms key`.
 
 #### Secure Erasure and Locking
 

@@ -13,16 +13,16 @@ Following are advantages for using temporary credentials:
 ## Identity Federation
 |AuthN | Description |
 | :---------------------- | ------------------------------------------ |
-| [**Client grants**](client-grants.md) | Let applications request `client_grants` using any well-known third party identity provider such as KeyCloak, Okta. This is known as the client grants approach to temporary access. Using this approach helps clients keep Obstor credentials to be secured. Obstor STS supports client grants, tested against identity providers such as KeyCloak, Okta. |
-| [**WebIdentity**](web-identity.md) | Let users request temporary credentials using any OpenID(OIDC) compatible web identity providers such as KeyCloak, Dex, Facebook, Google etc. |
-| [**AssumeRole**](assume-role.md) | Let Obstor users request temporary credentials using user access and secret keys. |
-| [**AD/LDAP**](ldap.md) | Let AD/LDAP users request temporary credentials using AD/LDAP username and password. |
+| [**Client grants**](/docs/sts/client-grants) | Let applications request `client_grants` using any well-known third party identity provider such as KeyCloak, Okta. This is known as the client grants approach to temporary access. Using this approach helps clients keep Obstor credentials to be secured. Obstor STS supports client grants, tested against identity providers such as KeyCloak, Okta. |
+| [**WebIdentity**](/docs/sts/web-identity) | Let users request temporary credentials using any OpenID(OIDC) compatible web identity providers such as KeyCloak, Dex, Facebook, Google etc. |
+| [**AssumeRole**](/docs/sts/assume-role) | Let Obstor users request temporary credentials using user access and secret keys. |
+| [**AD/LDAP**](/docs/sts/ldap) | Let AD/LDAP users request temporary credentials using AD/LDAP username and password. |
 
 ### Understanding JWT Claims
 > NOTE: JWT claims are only meant for WebIdentity and ClientGrants.
 > AssumeRole or LDAP users can skip the entire portion and directly visit one of the links below.
-> - [**AssumeRole**](assume-role.md)
-> - [**AD/LDAP**](ldap.md)
+> - [**AssumeRole**](/docs/sts/assume-role)
+> - [**AD/LDAP**](/docs/sts/ldap)
 
 The access token received is a signed JSON Web Token (JWT). Use a JWT decoder to decode the access token to access the payload of the token that includes following JWT claims, `policy` claim is mandatory and should be present as part of your JWT claim. Without this claim the generated credentials will not have access to any resources on the server, using these credentials application would receive 'Access Denied' errors.
 
@@ -33,16 +33,15 @@ The access token received is a signed JSON Web Token (JWT). Use a JWT decoder to
 ## Get started
 In this document we will explain in detail on how to configure all the prerequisites.
 
-> NOTE: If you are interested in AssumeRole API only, skip to [here](assume-role.md)
+> NOTE: If you are interested in AssumeRole API only, skip to [here](/docs/sts/assume-role)
 
 ### Prerequisites
-- [Configuring keycloak](keycloak.md)
-- [Configuring etcd (optional needed only in backend or federation mode)](etcd.md)
+- [Configuring etcd (optional needed only in backend or federation mode)](/docs/sts/etcd)
 
 ### Setup Obstor with Keycloak
 Make sure we have followed the previous step and configured each software independently, once done we can now proceed to use Obstor STS API and Obstor server to use these credentials to perform object API operations.
 
-```
+```bash
 export OBSTOR_ROOT_USER=obstor
 export OBSTOR_ROOT_PASSWORD=obstor123
 export OBSTOR_IDENTITY_OPENID_CONFIG_URL=http://localhost:8080/auth/realms/demo/.well-known/openid-configuration
@@ -55,7 +54,7 @@ Make sure we have followed the previous step and configured each software indepe
 
 > NOTE: Obstor backend requires etcd to be configured to use STS API.
 
-```
+```bash
 export OBSTOR_ROOT_USER=aws_access_key
 export OBSTOR_ROOT_PASSWORD=aws_secret_key
 export OBSTOR_IDENTITY_OPENID_CONFIG_URL=http://localhost:8080/auth/realms/demo/.well-known/openid-configuration
@@ -67,14 +66,14 @@ obstor backend s3
 ### Using WebIdentiy API
 On another terminal run `web-identity.go` a sample client application which obtains JWT access tokens from an identity provider, in our case its Keycloak. Uses the returned access token response to get new temporary credentials from the Obstor server using the STS API call `AssumeRoleWithWebIdentity`.
 
-```
+```bash
 $ go run docs/sts/web-identity.go -cid account -csec 072e7f00-4289-469c-9ab2-bbe843c7f5a8  -config-ep "http://localhost:8080/auth/realms/demo/.well-known/openid-configuration" -port 8888
 2018/12/26 17:49:36 listening on http://localhost:8888/
 ```
 
 This will open the login page of keycloak, upon successful login, STS credentials along with any buckets discovered using the credentials will be printed on the screen, for example:
 
-```
+```json
 {
   "buckets": [
     "bucket-x"
@@ -101,5 +100,5 @@ These credentials can now be used to perform Obstor API operations.
   the user should see now the buckets and objects they have access to.
 
 ## Explore Further
-- [Obstor Admin Complete Guide](https://obstor.net/docs/obstor-admin-complete-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- Obstor Admin Complete Guide
+- [The Obstor documentation website](/docs)

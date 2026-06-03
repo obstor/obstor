@@ -8,7 +8,7 @@ Obstor in distributed mode can help you setup a highly-available storage system 
 
 ### Data protection
 
-Distributed Obstor provides protection against multiple node/drive failures and [bit rot](https://obstor.net/docs/erasure#what-is-bit-rot-protection) using [erasure code](https://obstor.net/docs/obstor-erasure-code-quickstart-guide). As the minimum disks required for distributed Obstor is 4 (same as minimum disks required for erasure coding), erasure code automatically kicks in as you launch distributed Obstor.
+Distributed Obstor provides protection against multiple node/drive failures and [bit rot](/docs/erasure#what-is-bit-rot-protection) using [erasure code](/docs/erasure). As the minimum disks required for distributed Obstor is 4 (same as minimum disks required for erasure coding), erasure code automatically kicks in as you launch distributed Obstor.
 
 ### High availability
 
@@ -16,7 +16,7 @@ A stand-alone Obstor server would go down if the server hosting the disks goes o
 
 For example, an 16-server distributed setup with 200 disks per node would continue serving files, up to 4 servers can be offline in default configuration i.e around 800 disks down Obstor would continue to read and write objects.
 
-Refer to sizing guide for more understanding on default values chosen depending on your erasure stripe size [here](https://obstor.net/docs/distributed/sizing). Parity settings can be changed using [storage classes](https://obstor.net/docs/erasure/storage-class).
+Refer to sizing guide for more understanding on default values chosen depending on your erasure stripe size [here](/docs/distributed/SIZING). Parity settings can be changed using [storage classes](/docs/erasure/storage-class).
 
 ### Consistency Guarantees
 
@@ -28,7 +28,7 @@ If you're aware of stand-alone Obstor set up, the process remains largely the sa
 
 ## 1. Prerequisites
 
-Install Obstor - [Obstor Quickstart Guide](https://obstor.net/docs/obstor-quickstart-guide).
+Install Obstor - Obstor Quickstart Guide.
 
 ## 2. Run distributed Obstor
 
@@ -53,7 +53,7 @@ Example 1: Start distributed Obstor instance on n nodes with m drives each mount
 
 #### GNU/Linux and macOS
 
-```sh
+```bash
 export OBSTOR_ROOT_USER=<ACCESS_KEY>
 export OBSTOR_ROOT_PASSWORD=<SECRET_KEY>
 obstor server http://host{1...n}/export{1...m}
@@ -66,14 +66,14 @@ obstor server http://host{1...n}/export{1...m}
 #### Expanding existing distributed setup
 Obstor supports expanding distributed erasure coded clusters by specifying new set of clusters on the command-line as shown below:
 
-```sh
+```bash
 export OBSTOR_ROOT_USER=<ACCESS_KEY>
 export OBSTOR_ROOT_PASSWORD=<SECRET_KEY>
 obstor server http://host{1...n}/export{1...m} http://host{o...z}/export{1...m}
 ```
 
 For example:
-```
+```bash
 obstor server http://host{1...4}/export{1...16} http://host{5...12}/export{1...16}
 ```
 
@@ -82,12 +82,12 @@ Now the server has expanded total storage by _(newly_added_servers\*m)_ more dis
 > __NOTE:__ __Each pool you add must have the same erasure coding parity configuration as the original pool, so the same data redundancy SLA is maintained.__
 
 ## 3. Test your setup
-To test this setup, access the Obstor server via browser or [`mc`](https://obstor.net/docs/obstor-client-quickstart-guide).
+To test this setup, access the Obstor server via browser or `mc`.
 
 ## Explore Further
-- [Obstor Erasure Code QuickStart Guide](https://obstor.net/docs/obstor-erasure-code-quickstart-guide)
-- [Use `mc` with Obstor Server](https://obstor.net/docs/obstor-client-quickstart-guide)
-- [Use `aws-cli` with Obstor Server](https://obstor.net/docs/aws-cli-with-obstor)
-- [Use `s3cmd` with Obstor Server](https://obstor.net/docs/s3cmd-with-obstor)
-- [Use `minio-go` SDK with Obstor Server](https://obstor.net/docs/golang-client-quickstart-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- [Obstor Erasure Code QuickStart Guide](/docs/erasure)
+- Use `mc` with Obstor Server
+- Use `aws-cli` with Obstor Server
+- Use `s3cmd` with Obstor Server
+- Use `minio-go` SDK with Obstor Server
+- [The Obstor documentation website](/docs)

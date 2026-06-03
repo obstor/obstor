@@ -1,5 +1,5 @@
 # Obstor HDFS Backend
-Obstor HDFS backend adds S3 API and [other supported protocol](https://obstor.net/docs/protocols) support to Hadoop HDFS filesystem. Applications can use both the S3 and file APIs concurrently without requiring any data migration. Since the backend is stateless and shared-nothing, you may elastically provision as many Obstor instances as needed to distribute the load.
+Obstor HDFS backend adds S3 API and [other supported protocol](/docs/protocols) support to Hadoop HDFS filesystem. Applications can use both the S3 and file APIs concurrently without requiring any data migration. Since the backend is stateless and shared-nothing, you may elastically provision as many Obstor instances as needed to distribute the load.
 
 > NOTE: Intention of this backend implementation it to make it easy to migrate your existing data on HDFS clusters to Obstor clusters using standard tools like `mc` or `aws-cli`, if the goal is to use HDFS perpetually we recommend that HDFS should be used directly for all write operations.
 
@@ -7,14 +7,14 @@ Obstor HDFS backend adds S3 API and [other supported protocol](https://obstor.ne
 
 ### Using Binary
 Namenode information is obtained by reading `core-site.xml` automatically from your hadoop environment variables *$HADOOP_HOME*
-```
+```bash
 export OBSTOR_ROOT_USER=obstor
 export OBSTOR_ROOT_PASSWORD=obstor123
 obstor backend hdfs
 ```
 
 You can also override the namenode endpoint as shown below.
-```
+```bash
 export OBSTOR_ROOT_USER=obstor
 export OBSTOR_ROOT_PASSWORD=obstor123
 obstor backend hdfs hdfs://namenode:8200
@@ -22,7 +22,7 @@ obstor backend hdfs hdfs://namenode:8200
 
 ### Using Docker
 Using docker is experimental, most Hadoop environments are not dockerized and may require additional steps in getting this to work properly. You are better off just using the binary in this situation.
-```
+```bash
 docker run -p 9000:9000 \
  --name hdfs-s3 \
  -e "OBSTOR_ROOT_USER=obstor" \
@@ -44,13 +44,13 @@ To enable kerberos authentication, you need to set `hadoop.security.authenticati
 ```
 
 Obstor will load `krb5.conf` from environment variable `KRB5_CONFIG` or default location `/etc/krb5.conf`.
-```sh
+```bash
 export KRB5_CONFIG=/path/to/krb5.conf
 ```
 
 If you want Obstor to use ccache for authentication, set environment variable `KRB5CCNAME` to the credential cache file path,
 or Obstor will use the default location `/tmp/krb5cc_%{uid}`.
-```sh
+```bash
 export KRB5CCNAME=/path/to/krb5cc
 ```
 
@@ -62,7 +62,7 @@ If you prefer to use keytab, with automatically renewal, you need to config thre
 
 Please note that the username is not principal name.
 
-```sh
+```bash
 export KRB5KEYTAB=/path/to/keytab
 export KRB5USERNAME=hdfs
 export KRB5REALM=REALM.COM
@@ -79,17 +79,17 @@ export KRB5REALM=REALM.COM
 
 ### Configure `mc`
 
-```
+```bash
 mc alias set myhdfs http://backend-ip:9000 access_key secret_key
 ```
 
 ### List buckets on hdfs
 
-```
+```bash
 mc ls myhdfs
-[2017-02-22 01:50:43 PST]     0B user/
-[2017-02-26 21:43:51 PST]     0B datasets/
-[2017-02-26 22:10:11 PST]     0B assets/
+[2026-05-22 01:50:43 PST]     0B user/
+[2026-05-26 21:43:51 PST]     0B datasets/
+[2026-05-26 22:10:11 PST]     0B assets/
 ```
 
 ### Known limitations
@@ -101,7 +101,7 @@ Backend inherits the following limitations of HDFS storage layer:
 - Concurrent multipart operations are not supported (HDFS lacks safe locking support, or poorly implemented)
 
 ## Explore Further
-- [Supported Protocols](https://obstor.net/docs/protocols) - S3, SFTP, and more
-- [`mc` command-line interface](https://obstor.net/docs/obstor-client-quickstart-guide)
-- [`aws` command-line interface](https://obstor.net/docs/aws-cli-with-obstor)
-- [`minio-go` Go SDK](https://obstor.net/docs/golang-client-quickstart-guide)
+- [Supported Protocols](/docs/protocols) - S3, SFTP, and more
+- `mc` command-line interface
+- `aws` command-line interface
+- `minio-go` Go SDK

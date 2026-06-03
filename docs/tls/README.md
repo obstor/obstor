@@ -9,11 +9,11 @@ This guide explains how to configure Obstor Server with TLS certificates on Linu
 
 ## <a name="install-obstor-server"></a>1. Install Obstor Server
 
-Install Obstor Server using the instructions in the [Obstor Quickstart Guide](http://obstor.net/docs/obstor-quickstart-guide).
+Install Obstor Server using the instructions in the Obstor Quickstart Guide.
 
 ## <a name="use-an-existing-key-and-certificate-with-obstor"></a>2. Use an Existing Key and Certificate with Obstor
 
-This section describes how to use a private key and public certificate that have been obtained from a certificate authority (CA). If these files have not been obtained, skip to [3. Generate Self-signed Certificates](#generate-use-self-signed-keys-certificates) or generate them with [Let's Encrypt](https://letsencrypt.org) using these instructions: [Generate Let's Encrypt certificate using Certbot for Obstor](https://obstor.net/docs/generate-let-s-encypt-certificate-using-concert-for-obstor).
+This section describes how to use a private key and public certificate that have been obtained from a certificate authority (CA). If these files have not been obtained, skip to [3. Generate Self-signed Certificates](#generate-use-self-signed-keys-certificates) or generate them with [Let's Encrypt](https://letsencrypt.org) using these instructions: [Generate Let's Encrypt certificate using Certbot for Obstor](/docs/tls).
 
 Copy the existing private key and public certificate to the `certs` directory. The default certs directory is:
 * **Linux:** `${HOME}/.obstor/certs`
@@ -43,7 +43,7 @@ Download [`generate_cert.go`](https://golang.org/src/crypto/tls/generate_cert.go
 
 `generate_cert.go` is a simple *Go* tool to generate self-signed certificates, and provides SAN certificates with DNS and IP entries:
 
-```sh
+```bash
 go run generate_cert.go -ca --host "10.10.0.3"
 ```
 
@@ -68,7 +68,7 @@ Use one of the following methods to generate a certificate using `openssl`:
 
 Use the following command to generate a private key with ECDSA:
 
-```sh
+```bash
 openssl ecparam -genkey -name prime256v1 | openssl ec -out private.key
 ```
 
@@ -81,7 +81,7 @@ writing EC key
 
 Alternatively, use the following command to generate a private ECDSA key protected by a password:
 
-```sh
+```bash
 openssl ecparam -genkey -name prime256v1 | openssl ec -aes256 -out private.key -passout pass:PASSWORD
 ```
 
@@ -91,7 +91,7 @@ openssl ecparam -genkey -name prime256v1 | openssl ec -aes256 -out private.key -
 
 Use the following command to generate a private key with RSA:
 
-```sh
+```bash
 openssl genrsa -out private.key 2048
 ```
 A response similar to this one should be displayed:
@@ -105,19 +105,19 @@ e is 65537 (0x10001)
 
 Alternatively, use the following command to generate a private RSA key protected by a password:
 
-```sh
+```bash
 openssl genrsa -aes256 -passout pass:PASSWORD -out private.key 2048
 ```
 
 **Note:** When using a password-protected private key, the password must be provided through the environment variable `OBSTOR_CERT_PASSWD` using the following command:
 
-```sh
+```bash
 export OBSTOR_CERT_PASSWD=<PASSWORD>
 ```
 
 The default OpenSSL format for private encrypted keys is PKCS-8, but Obstor only supports PKCS-1. An RSA key that has been formatted with PKCS-8 can be converted to PKCS-1 using the following command:
 
-```sh
+```bash
 openssl rsa -in private-pkcs8-key.key -aes256 -passout pass:PASSWORD -out private.key
 ```
 
@@ -125,7 +125,7 @@ openssl rsa -in private-pkcs8-key.key -aes256 -passout pass:PASSWORD -out privat
 
 Create a file named `openssl.conf` with the content below. Set `IP.1` and/or `DNS.1` to point to the correct IP/DNS addresses:
 
-```sh
+```ini
 [req]
 distinguished_name = req_distinguished_name
 x509_extensions = v3_req
@@ -149,7 +149,7 @@ DNS.1 = localhost
 
 Run `openssl` by specifying the configuration file and enter a passphrase if prompted:
 
-```sh
+```bash
 openssl req -new -x509 -nodes -days 730 -key private.key -out public.crt -config openssl.conf
 ```
 
@@ -162,7 +162,7 @@ Download and decompress the Windows version of GnuTLS from [here](http://www.gnu
 
 Use PowerShell to add the path of the extracted GnuTLS binary to the system path:
 
-```
+```bash
 setx path "%path%;C:\Users\MyUser\Downloads\gnutls-3.4.9-w64\bin"
 ```
 
@@ -171,7 +171,7 @@ setx path "%path%;C:\Users\MyUser\Downloads\gnutls-3.4.9-w64\bin"
 #### 3.3.2 Generate a private key:
 Run the following command to generate a private `.key` file:
 
-```
+```bash
 certtool.exe --generate-privkey --outfile private.key
 ```
 
@@ -185,7 +185,7 @@ Generating a 3072 bit RSA private key...
 
 Create a file called `cert.cnf` with the content below. This file contains all of the information necessary to generate a certificate using `certtool.exe`:
 
-```
+```ini
 # X.509 Certificate options
 #
 # DN options
@@ -222,7 +222,7 @@ tls_www_server
 
 Run `certtool.exe` and specify the configuration file to generate a certificate:
 
-```
+```bash
 certtool.exe --generate-self-signed --load-privkey private.key --template cert.cnf --outfile public.crt
 ```
 
@@ -233,7 +233,7 @@ Obstor can connect to other servers, including Obstor nodes or other server type
 * **Windows**: `C:\Users\<Username>\.obstor\certs\CAs`
 
 # Explore Further
-* [TLS Configuration for Obstor server on Kubernetes](kubernetes)
-* [Obstor Client Complete Guide](https://obstor.net/docs/obstor-client-complete-guide)
-* [Generate Let's Encrypt Certificate](https://obstor.net/docs/generate-let-s-encypt-certificate-using-concert-for-obstor)
-* [Setup nginx Proxy with Obstor Server](https://obstor.net/docs/setup-nginx-proxy-with-obstor)
+* [TLS Configuration for Obstor server on Kubernetes](/docs/tls/kubernetes)
+* Obstor Client Complete Guide
+* [Generate Let's Encrypt Certificate](/docs/tls)
+* Setup nginx Proxy with Obstor Server

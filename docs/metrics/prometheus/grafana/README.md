@@ -4,7 +4,7 @@
 
 ## Prerequisites
 
-- Prometheus and Obstor configured as explained in [document here](https://obstor.net/docs/metrics/prometheus).
+- Prometheus and Obstor configured as explained in [document here](/docs/metrics/prometheus).
 - Grafana installed as explained [here](https://grafana.com/grafana/download).
 
 ## Obstor Grafana Dashboard

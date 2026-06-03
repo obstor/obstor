@@ -10,7 +10,7 @@ You can use the Select API to query objects with following features:
 
 Type inference and automatic conversion of values is performed based on the context when the value is un-typed (such as when reading CSV data). If present, the CAST function overrides automatic conversion.
 
-The [mc sql](https://obstor.net/docs/obstor-client-complete-guide#sql) command can be used for executing queries using the command line.
+The [mc sql](/docs/select) command can be used for executing queries using the command line.
 
 (*) Parquet is disabled on the Obstor server by default. See below how to enable it.
 
@@ -24,7 +24,7 @@ To enable Parquet set the environment variable `OBSTOR_API_SELECT_PARQUET=on`.
 # Example using Python API
 
 ## 1. Prerequisites
-- Install Obstor Server from [here](http://obstor.net/docs/obstor-quickstart-guide).
+- Install Obstor Server from here.
 - Familiarity with AWS S3 API.
 - Familiarity with Python and installing dependencies.
 
@@ -104,12 +104,12 @@ Stats details bytesProcessed:
 For a more detailed SELECT SQL reference, please see [here](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference-select.html)
 
 ## 5. Explore Further
-- [Use `mc` with Obstor Server](https://obstor.net/docs/obstor-client-quickstart-guide)
-- [Use `mc sql` with Obstor Server](https://obstor.net/docs/obstor-client-complete-guide#sql)
-- [Use `minio-go` SDK with Obstor Server](https://obstor.net/docs/golang-client-quickstart-guide)
-- [Use `aws-cli` with Obstor Server](https://obstor.net/docs/aws-cli-with-obstor)
-- [Use `s3cmd` with Obstor Server](https://obstor.net/docs/s3cmd-with-obstor)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- Use `mc` with Obstor Server
+- [Use `mc sql` with Obstor Server](/docs/select)
+- Use `minio-go` SDK with Obstor Server
+- Use `aws-cli` with Obstor Server
+- Use `s3cmd` with Obstor Server
+- [The Obstor documentation website](/docs)
 
 ## 6. Implementation Status
 - Full AWS S3 [SELECT SQL](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference-select.html) syntax is supported.

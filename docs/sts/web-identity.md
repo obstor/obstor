@@ -71,7 +71,7 @@ http://obstor.cluster:9000?Action=AssumeRoleWithWebIdentity&DurationSeconds=3600
 ```
 
 ## Sample Response
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <AssumeRoleWithWebIdentityResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <AssumeRoleWithWebIdentityResult>
@@ -82,7 +82,7 @@ http://obstor.cluster:9000?Action=AssumeRoleWithWebIdentity&DurationSeconds=3600
     <Credentials>
       <AccessKeyId>Y4RJU1RNFGK48LGO9I2S</AccessKeyId>
       <SecretAccessKey>sYLRKS1Z7hSjluf6gEbb9066hnx315wHTiACPAjg</SecretAccessKey>
-      <Expiration>2019-08-08T20:26:12Z</Expiration>
+      <Expiration>2026-08-08T20:26:12Z</Expiration>
       <SessionToken>eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJZNFJKVTFSTkZHSzQ4TEdPOUkyUyIsImF1ZCI6IlBvRWdYUDZ1Vk80NUlzRU5SbmdEWGo1QXU1WWEiLCJhenAiOiJQb0VnWFA2dVZPNDVJc0VOUm5nRFhqNUF1NVlhIiwiZXhwIjoxNTQxODExMDcxLCJpYXQiOjE1NDE4MDc0NzEsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0Ojk0NDMvb2F1dGgyL3Rva2VuIiwianRpIjoiYTBiMjc2MjktZWUxYS00M2JmLTg3MzktZjMzNzRhNGNkYmMwIn0.ewHqKVFTaP-j_kgZrcOEKroNUjk10GEp8bqQjxBbYVovV0nHO985VnRESFbcT6XMDDKHZiWqN2vi_ETX_u3Q-w</SessionToken>
     </Credentials>
   </AssumeRoleWithWebIdentityResult>
@@ -91,7 +91,7 @@ http://obstor.cluster:9000?Action=AssumeRoleWithWebIdentity&DurationSeconds=3600
 ```
 
 ## Using WebIdentity API
-```
+```bash
 export OBSTOR_ROOT_USER=obstor
 export OBSTOR_ROOT_PASSWORD=obstor123
 export OBSTOR_IDENTITY_OPENID_CONFIG_URL=https://accounts.google.com/.well-known/openid-configuration
@@ -102,7 +102,7 @@ obstor server /mnt/export
 ```
 
 or using `mc`
-```
+```bash
 mc admin config get myobstor identity_openid
 identity_openid config_url=https://accounts.google.com/.well-known/openid-configuration client_id=843351d4-1080-11ea-aa20-271ecba3924a
 ```
@@ -110,13 +110,13 @@ identity_openid config_url=https://accounts.google.com/.well-known/openid-config
 Testing with an example
 > Visit [Google Developer Console](https://console.cloud.google.com) under Project, APIs, Credentials to get your OAuth2 client credentials. Add `http://localhost:8080/oauth2/callback` as a valid OAuth2 Redirect URL.
 
-```
+```bash
 $ go run web-identity.go -cid 204367807228-ok7601k6gj1pgge7m09h7d79co8p35xx.apps.googleusercontent.com -csec XsT_PgPdT1nO9DD45rMLJw7G
 2018/12/26 17:49:36 listening on http://localhost:8080/
 ```
 
 > NOTE: for a reasonable test outcome, make sure the assumed user has at least permission/policy to list all buckets. That policy would look like below:
-```
+```json
 {
   "version": "2012-10-17",
   "statement": [
@@ -144,11 +144,11 @@ $ go run web-identity.go -cid 204367807228-ok7601k6gj1pgge7m09h7d79co8p35xx.apps
 ## Using Browser Dashboard
 To support WebIdentity login on Obstor Browser, set openid configuration and restart Obstor
 
-```
+```bash
 mc admin config set myobstor identity_openid config_url="<CONFIG_URL>" client_id="<client_identifier>"
 ```
 
-```
+```bash
 mc admin service restart myobstor
 ```
 
@@ -164,5 +164,5 @@ JWT token returned by the Identity Provider should include a custom claim for th
 - Upon successful login on Identity Provider page the user will be automatically logged into Obstor Browser
 
 ## Explore Further
-- [Obstor Admin Complete Guide](https://obstor.net/docs/obstor-admin-complete-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- Obstor Admin Complete Guide
+- [The Obstor documentation website](/docs)

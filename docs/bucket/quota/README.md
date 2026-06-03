@@ -10,8 +10,8 @@ Buckets can be configured to have one of two types of quota configuration - FIFO
 > NOTE: Bucket quotas are not supported under backend or standalone single disk deployments.
 
 ## Prerequisites
-- Install Obstor - [Obstor Quickstart Guide](https://obstor.net/docs/obstor-quickstart-guide).
-- [Use `mc` with Obstor Server](https://obstor.net/docs/obstor-client-quickstart-guide)
+- Install Obstor - Obstor Quickstart Guide.
+- Use `mc` with Obstor Server
 
 ## Set bucket quota configuration
 

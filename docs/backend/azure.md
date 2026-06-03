@@ -1,9 +1,9 @@
 # Obstor Azure Backend
-Obstor Backend adds S3 and [other supported protocol](https://obstor.net/docs/protocols) compatibility to Microsoft Azure Blob Storage.
+Obstor Backend adds S3 and [other supported protocol](/docs/protocols) compatibility to Microsoft Azure Blob Storage.
 
 ## Run Obstor Backend for Microsoft Azure Blob Storage
 ### Using Docker
-```
+```bash
 docker run -p 9000:9000 --name azure-s3 \
  -e "OBSTOR_ROOT_USER=azurestorageaccountname" \
  -e "OBSTOR_ROOT_PASSWORD=azurestorageaccountkey" \
@@ -11,7 +11,7 @@ docker run -p 9000:9000 --name azure-s3 \
 ```
 
 ### Using Binary
-```
+```bash
 export OBSTOR_ROOT_USER=azureaccountname
 export OBSTOR_ROOT_PASSWORD=azureaccountkey
 obstor backend azure
@@ -24,16 +24,16 @@ Obstor Backend comes with an embedded web based object browser. Point your web b
 `mc` provides a modern alternative to UNIX commands such as ls, cat, cp, mirror, diff etc. It supports filesystems and S3-compatible cloud storage services.
 
 ### Configure `mc`
-```
+```bash
 mc alias set myazure http://backend-ip:9000 azureaccountname azureaccountkey
 ```
 
 ### List containers on Microsoft Azure
-```
+```bash
 mc ls myazure
-[2017-02-22 01:50:43 PST]     0B ferenginar/
-[2017-02-26 21:43:51 PST]     0B my-container/
-[2017-02-26 22:10:11 PST]     0B test-container1/
+[2026-05-22 01:50:43 PST]     0B ferenginar/
+[2026-05-26 21:43:51 PST]     0B my-container/
+[2026-05-26 22:10:11 PST]     0B test-container1/
 ```
 
 ### Use custom access/secret keys
@@ -53,7 +53,7 @@ Other limitations:
 - Bucket notification APIs are not supported.
 
 ## Explore Further
-- [Supported Protocols](https://obstor.net/docs/protocols) - S3, SFTP, and more
-- [`mc` command-line interface](https://obstor.net/docs/obstor-client-quickstart-guide)
-- [`aws` command-line interface](https://obstor.net/docs/aws-cli-with-obstor)
-- [`minio-go` Go SDK](https://obstor.net/docs/golang-client-quickstart-guide)
+- [Supported Protocols](/docs/protocols) - S3, SFTP, and more
+- `mc` command-line interface
+- `aws` command-line interface
+- `minio-go` Go SDK

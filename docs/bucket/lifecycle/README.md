@@ -3,39 +3,39 @@
 Enable object lifecycle configuration on buckets to setup automatic deletion of objects after a specified number of days or a specified date.
 
 ## 1. Prerequisites
-- Install Obstor - [Obstor Quickstart Guide](https://obstor.net/docs/obstor-quickstart-guide).
-- Install `mc` - [mc Quickstart Guide](https://obstor.net/docs/obstor-client-quickstart-guide)
+- Install Obstor - Obstor Quickstart Guide.
+- Install `mc` - mc Quickstart Guide
 
 ## 2. Enable bucket lifecycle configuration
 
-- Create a bucket lifecycle configuration which expires the objects under the prefix `old/` on `2020-01-01T00:00:00.000Z` date and the objects under `temp/` after 7 days.
+- Create a bucket lifecycle configuration which expires the objects under the prefix `old/` on `2026-01-01T00:00:00.000Z` date and the objects under `temp/` after 7 days.
 - Enable bucket lifecycle configuration using `mc`:
 
-```sh
+```bash
 $ mc ilm import play/testbucket <<EOF
 {
-    "Rules": [
-        {
-            "Expiration": {
-                "Date": "2020-01-01T00:00:00.000Z"
-            },
-            "ID": "OldPictures",
-            "Filter": {
-                "Prefix": "old/"
-            },
-            "Status": "Enabled"
-        },
-        {
-            "Expiration": {
-                "Days": 7
-            },
-            "ID": "TempUploads",
-            "Filter": {
-                "Prefix": "temp/"
-            },
-            "Status": "Enabled"
-        }
-    ]
+  "Rules": [
+    {
+      "Expiration": {
+        "Date": "2026-01-01T00:00:00.000Z"
+      },
+      "ID": "OldPictures",
+      "Filter": {
+        "Prefix": "old/"
+      },
+      "Status": "Enabled"
+    },
+    {
+      "Expiration": {
+        "Days": 7
+      },
+      "ID": "TempUploads",
+      "Filter": {
+        "Prefix": "temp/"
+      },
+      "Status": "Enabled"
+    }
+  ]
 }
 EOF
 ```
@@ -45,7 +45,7 @@ Lifecycle configuration imported successfully to `play/testbucket`.
 ```
 
 - List the current settings
-```
+```bash
 $ mc ilm ls play/testbucket
      ID     |  Prefix  |  Enabled   | Expiry |  Date/Days   |  Transition  |    Date/Days     |  Storage-Class   |       Tags
 ------------|----------|------------|--------|--------------|--------------|------------------|------------------|------------------
@@ -57,27 +57,27 @@ TempUploads |  temp/   |    ✓       |  ✓     |   7 day(s)   |     ✗       
 
 ## 3. Activate ILM versioning features
 
-This will only work with a versioned bucket, take a look at [Bucket Versioning Guide](https://obstor.net/docs/obstor-bucket-versioning-guide) for more understanding.
+This will only work with a versioned bucket, take a look at [Bucket Versioning Guide](/docs/bucket/versioning) for more understanding.
 
 ### 3.1 Automatic removal of non current objects versions
 
 A non-current object version is a version which is not the latest for a given object. It is possible to set up an automatic removal of non-current versions when a version becomes older than a given number of days.
 
 e.g., To scan objects stored under `user-uploads/` prefix and remove versions older than one year.
-```
+```json
 {
-    "Rules": [
-        {
-            "ID": "Removing all old versions",
-            "Filter": {
-                "Prefix": "users-uploads/"
-            },
-            "NoncurrentVersionExpiration": {
-                "NoncurrentDays": 365
-            },
-            "Status": "Enabled"
-        }
-    ]
+  "Rules": [
+    {
+      "ID": "Removing all old versions",
+      "Filter": {
+        "Prefix": "users-uploads/"
+      },
+      "NoncurrentVersionExpiration": {
+        "NoncurrentDays": 365
+      },
+      "Status": "Enabled"
+    }
+  ]
 }
 ```
 
@@ -85,20 +85,20 @@ e.g., To scan objects stored under `user-uploads/` prefix and remove versions ol
 
 When an object has only one version as a delete marker, the latter can be automatically removed after a certain number of days using the following configuration:
 
-```
+```json
 {
-    "Rules": [
-        {
-            "ID": "Removing all delete markers",
-            "Expiration": {
-                "DeleteMarker": true
-            },
-            "Status": "Enabled"
-        }
-    ]
+  "Rules": [
+    {
+      "ID": "Removing all delete markers",
+      "Expiration": {
+        "DeleteMarker": true
+      },
+      "Status": "Enabled"
+    }
+  ]
 }
 ```
 
 ## Explore Further
-- [Obstor | Golang Client API Reference](https://obstor.net/docs/golang-client-api-reference#SetBucketLifecycle)
+- [Obstor | Golang Client API Reference](/docs/bucket/lifecycle)
 - [Object Lifecycle Management](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html)

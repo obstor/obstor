@@ -38,10 +38,10 @@ Distributed instances are now accessible on the host at ports 9000, proceed to a
   * Update the command section in each service.
   * Add a new Obstor server instance to the upstream directive in the Nginx configuration file.
 
-  Read more about distributed Obstor [here](https://obstor.net/docs/distributed-obstor-quickstart-guide).
+  Read more about distributed Obstor [here](/docs/distributed).
 
 ### Explore Further
 - [Overview of Docker Compose](https://docs.docker.com/compose/overview/)
-- [Obstor Docker Quickstart Guide](https://obstor.net/docs/obstor-docker-quickstart-guide)
-- [Deploy Obstor on Docker Swarm](https://obstor.net/docs/deploy-obstor-on-docker-swarm)
-- [Obstor Erasure Code QuickStart Guide](https://obstor.net/docs/obstor-erasure-code-quickstart-guide)
+- [Obstor Docker Quickstart Guide](/docs/docker)
+- [Deploy Obstor on Docker Swarm](/docs/orchestration/docker-swarm)
+- [Obstor Erasure Code QuickStart Guide](/docs/erasure)

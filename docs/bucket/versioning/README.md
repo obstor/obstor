@@ -39,20 +39,20 @@ To permanently delete an object you need to specify the version you want to dele
 
 ## How to configure versioning on a bucket
 Each bucket created has a versioning configuration associated with it. By default bucket is unversioned as shown below
-```
+```xml
 <VersioningConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
 </VersioningConfiguration>
 ```
 
 To enable versioning, you send a request to Obstor with a versioning configuration with Status set to `Enabled`.
-```
+```xml
 <VersioningConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
   <Status>Enabled</Status>
 </VersioningConfiguration>
 ```
 
 Similarly to suspend versioning set the configuration with Status set to `Suspended`.
-```
+```xml
 <VersioningConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
   <Status>Suspended</Status>
 </VersioningConfiguration>
@@ -160,7 +160,7 @@ public class IsVersioningEnabled {
 ```
 
 ## Explore Further
-- [Use `minio-java` SDK with Obstor Server](https://obstor.net/docs/java-client-quickstart-guide)
-- [Object Lock and Immutablity Guide](https://obstor.net/docs/obstor-bucket-object-lock-guide)
-- [Obstor Admin Complete Guide](https://obstor.net/docs/obstor-admin-complete-guide)
-- [The Obstor documentation website](https://obstor.net/docs/obstor)
+- Use `minio-java` SDK with Obstor Server
+- [Object Lock and Immutablity Guide](/docs/bucket/retention)
+- Obstor Admin Complete Guide
+- [The Obstor documentation website](/docs)

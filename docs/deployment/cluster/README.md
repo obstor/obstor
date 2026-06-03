@@ -16,13 +16,13 @@ The default replication factor is **3** - every block is stored on 3 independent
 
 This model provides strong consistency (read-after-write, list-after-write) while tolerating individual drive and node failures.
 
-> **NOTE:** Block-level replication differs from erasure coding. Replication stores full copies of each block, trading storage efficiency for simplicity and faster recovery. For erasure-coded deployments, see [Erasure Code Guide](https://obstor.net/docs/erasure).
+> **NOTE:** Block-level replication differs from erasure coding. Replication stores full copies of each block, trading storage efficiency for simplicity and faster recovery. For erasure-coded deployments, see [Erasure Code Guide](/docs/erasure).
 
 ## Node Quotas
 
 You can set per-node storage capacity limits using the `OBSTOR_NODE_CAPACITY` environment variable. When a node reaches its capacity threshold, Obstor automatically routes new writes to other nodes in the cluster.
 
-```sh
+```bash
 export OBSTOR_NODE_CAPACITY=10T
 ```
 
@@ -30,7 +30,7 @@ Accepted units: `K` (kilobytes), `M` (megabytes), `G` (gigabytes), `T` (terabyte
 
 Examples:
 
-```sh
+```bash
 # 10 terabytes per node
 export OBSTOR_NODE_CAPACITY=10T
 
@@ -52,7 +52,7 @@ When capacity is reached on a node:
 
 - 3 servers (physical or virtual), each with 4 dedicated drives mounted at `/mnt/data1` through `/mnt/data4`.
 - Network connectivity between all nodes on port `9000` (S3 API) and port `9001` (console).
-- Obstor binary installed on all nodes - [Obstor Quickstart Guide](https://obstor.net/docs/obstor-quickstart-guide).
+- Obstor binary installed on all nodes - Obstor Quickstart Guide.
 - System clocks synchronized via NTP (nodes should be within 15 minutes of each other).
 
 ### Environment Variables
@@ -71,7 +71,7 @@ Set the following environment variables on **all nodes** before starting the ser
 
 ### Step 1: Start Node 1 (us-east-1)
 
-```sh
+```bash
 export OBSTOR_ROOT_USER=admin
 export OBSTOR_ROOT_PASSWORD=secret
 export OBSTOR_ZONE=us-east-1
@@ -84,7 +84,7 @@ export OBSTOR_CONSISTENCY_MODE=consistent
 
 ### Step 2: Start Node 2 (eu-west-1)
 
-```sh
+```bash
 export OBSTOR_ROOT_USER=admin
 export OBSTOR_ROOT_PASSWORD=secret
 export OBSTOR_ZONE=eu-west-1
@@ -97,7 +97,7 @@ export OBSTOR_CONSISTENCY_MODE=consistent
 
 ### Step 3: Start Node 3 (ap-southeast-1)
 
-```sh
+```bash
 export OBSTOR_ROOT_USER=admin
 export OBSTOR_ROOT_PASSWORD=secret
 export OBSTOR_ZONE=ap-southeast-1
@@ -112,7 +112,7 @@ export OBSTOR_CONSISTENCY_MODE=consistent
 
 Instead of starting nodes independently, use the distributed mode syntax to connect all nodes into a single cluster. Run this command on **every node**:
 
-```sh
+```bash
 OBSTOR_ROOT_USER=admin \
 OBSTOR_ROOT_PASSWORD=secret \
 OBSTOR_ZONE=us-east-1 \
@@ -180,7 +180,7 @@ Data survives on remaining drives. Obstor detects the missing blocks and initiat
 2. Mount the new drive at the same path (e.g. `/mnt/data2`).
 3. Restart the Obstor server on the affected node.
 
-```sh
+```bash
 # After replacing /mnt/data2 on node1
 ./obstor server http://node{1...3}/mnt/data{1...4}
 ```
@@ -197,7 +197,7 @@ As long as **read quorum** is met, reads continue to succeed. With replication f
 2. Start Obstor with fresh drives on the replacement node.
 3. Obstor automatically syncs missing blocks from the remaining nodes.
 
-```sh
+```bash
 # On the replacement node3
 export OBSTOR_ROOT_USER=admin
 export OBSTOR_ROOT_PASSWORD=secret

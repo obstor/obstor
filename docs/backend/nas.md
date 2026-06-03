@@ -1,6 +1,6 @@
 # Obstor NAS Backend
 
-Obstor Backend adds S3 and [other supported protocol](https://obstor.net/docs/protocols) compatibility to NAS storage. You may run multiple obstor instances on the same shared NAS volume as a distributed object backend.
+Obstor Backend adds S3 and [other supported protocol](/docs/protocols) compatibility to NAS storage. You may run multiple obstor instances on the same shared NAS volume as a distributed object backend.
 
 ## Run Obstor Backend for NAS Storage
 
@@ -8,7 +8,7 @@ Obstor Backend adds S3 and [other supported protocol](https://obstor.net/docs/pr
 
 Please ensure to replace `/shared/nasvol` with actual mount path.
 
-```
+```bash
 docker run -p 9000:9000 --name nas-s3 \
  -e "OBSTOR_ROOT_USER=obstor" \
  -e "OBSTOR_ROOT_PASSWORD=obstor123" \
@@ -18,7 +18,7 @@ docker run -p 9000:9000 --name nas-s3 \
 
 ### Using Binary
 
-```
+```bash
 export OBSTOR_ROOT_USER=obstor
 export OBSTOR_ROOT_PASSWORD=obstor123
 obstor backend nas /shared/nasvol
@@ -36,17 +36,17 @@ Obstor Backend comes with an embedded web based object browser. Point your web b
 
 ### Configure `mc`
 
-```
+```bash
 mc alias set mynas http://backend-ip:9000 access_key secret_key
 ```
 
 ### List buckets on nas
 
-```
+```bash
 mc ls mynas
-[2017-02-22 01:50:43 PST]     0B ferenginar/
-[2017-02-26 21:43:51 PST]     0B my-bucket/
-[2017-02-26 22:10:11 PST]     0B test-bucket1/
+[2026-05-22 01:50:43 PST]     0B ferenginar/
+[2026-05-26 21:43:51 PST]     0B my-bucket/
+[2026-05-26 22:10:11 PST]     0B test-bucket1/
 ```
 
 ### The file-based config settings are deprecated in NAS
@@ -67,7 +67,7 @@ notify_webhook:1 endpoint=http://localhost:8080/ auth_token= queue_limit=0 queue
 
 The corresponding environment variable setting can be
 
-```
+```bash
 export OBSTOR_NOTIFY_WEBHOOK_ENABLE_1=on
 export OBSTOR_NOTIFY_WEBHOOK_ENDPOINT_1=http://localhost:8080/
 export OBSTOR_NOTIFY_WEBHOOK_QUEUE_DIR_1=/tmp/webhk
@@ -93,7 +93,7 @@ NAS backend implementation allows symlinks on regular files,
 *Directory symlinks is not and will not be supported as there are no safe ways to handle them.*
 
 ## Explore Further
-- [Supported Protocols](https://obstor.net/docs/protocols) - S3, SFTP, and more
-- [`mc` command-line interface](https://obstor.net/docs/obstor-client-quickstart-guide)
-- [`aws` command-line interface](https://obstor.net/docs/aws-cli-with-obstor)
-- [`minio-go` Go SDK](https://obstor.net/docs/golang-client-quickstart-guide)
+- [Supported Protocols](/docs/protocols) - S3, SFTP, and more
+- `mc` command-line interface
+- `aws` command-line interface
+- `minio-go` Go SDK

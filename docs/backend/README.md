@@ -1,15 +1,15 @@
 # Obstor Backend
-Obstor Backend adds S3 and [other supported protocol](https://obstor.net/docs/protocols) compatibility to third-party cloud storage providers.
+Obstor Backend adds S3 and [other supported protocol](/docs/protocols) compatibility to third-party cloud storage providers.
 
 ## Supported Backends
-- [NAS](nas.md)
-- [Microsoft Azure Blob Storage](azure.md)
-- [HDFS](hdfs.md)
-- [S3](s3.md)
-- [Google Cloud Storage](gcs.md)
-- [SFTP](sftp.md)
+- [NAS](/docs/backend/nas)
+- [Microsoft Azure Blob Storage](/docs/backend/azure)
+- [HDFS](/docs/backend/hdfs)
+- [S3](/docs/backend/s3)
+- [Google Cloud Storage](/docs/backend/gcs)
+- [SFTP](/docs/backend/sftp)
 
 ## Explore Further
-- [Supported Protocols](https://obstor.net/docs/protocols) - S3, SFTP, and more
-- [`mc` command-line interface](https://obstor.net/docs/obstor-client-quickstart-guide)
-- [`aws` command-line interface](https://obstor.net/docs/aws-cli-with-obstor)
+- [Supported Protocols](/docs/protocols) - S3, SFTP, and more
+- `mc` command-line interface
+- `aws` command-line interface

@@ -16,8 +16,7 @@ Obstor also supports multi-cluster, multi-site federation similar to AWS regions
    *   [Setup Ambari](https://docs.hortonworks.com/HDPDocuments/Ambari-2.7.1.0/bk_ambari-installation/content/set_up_the_ambari_server.html) which automatically sets up YARN
    *   [Installing Spark](https://docs.hortonworks.com/HDPDocuments/HDP3/HDP-3.0.1/installing-spark/content/installing_spark.html)
 *  Install Obstor Distributed Server using one of the guides below.
-   *   [Deployment based on Kubernetes](https://obstor.net/docs/deploy-obstor-on-kubernetes#obstor-distributed-server-deployment)
-   *   [Deployment based on Obstor Helm Chart](https://github.com/helm/charts/tree/master/stable/obstor)
+   *   [Deployment based on Kubernetes](/docs/orchestration/kubernetes)
 
 ## 3. Configure Hadoop, Spark, Hive to use Obstor
 
@@ -35,14 +34,14 @@ Navigate to **Custom core-site** to configure Obstor parameters for `_s3a_` conn
 
 ![s3a-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/image5.png "custom core-site")
 
-```
+```bash
 sudo pip install yq
 alias kv-pairify='xq ".configuration[]" | jq ".[]" | jq -r ".name + \"=\" + .value"'
 ```
 
 Let's take for example a set of 12 compute nodes with an aggregate memory of *1.2TiB*, we need to do following settings for optimal results. Add the following optimal entries for _core-site.xml_ to configure _s3a_ with **Obstor**. Most important options here are
 
-```
+```bash
 cat ${HADOOP_CONF_DIR}/core-site.xml | kv-pairify | grep "mapred"
 
 mapred.maxthreads.generate.mapoutput=2 # Num threads to write map outputs
@@ -60,7 +59,7 @@ S3A is the connector to use S3 and other S3-compatible object stores such as Obs
 
 It was found that the directory staging committer was the fastest among the three, S3A connector should be configured with the following parameters for optimal results:
 
-```
+```bash
 cat ${HADOOP_CONF_DIR}/core-site.xml | kv-pairify | grep "s3a"
 
 fs.s3a.access.key=obstor
@@ -160,7 +159,7 @@ Navigate to “**Custom hive-site**” to configure Obstor parameters for `_s3a_
 
 Add the following optimal entries for `hive-site.xml` to configure Hive with **Obstor**.
 
-```
+```ini
 hive.blobstore.use.blobstore.as.scratchdir=true
 hive.exec.input.listing.max.threads=50
 hive.load.dynamic.partitions.thread=25
@@ -191,21 +190,21 @@ Follow these steps to run the Spark Pi example:
 *  When the job runs, the library can now use **Obstor** during intermediate processing.
 *  Navigate to a node with the Spark client and access the spark2-client directory:
 
-```
+```bash
 cd /usr/hdp/current/spark2-client
 su spark
 ```
 
 *  Run the Apache Spark Pi job in yarn-client mode, using code from **org.apache.spark**:
 
-```
+```bash
 ./bin/spark-submit --class org.apache.spark.examples.SparkPi \
-    --master yarn-client \
-    --num-executors 1 \
-    --driver-memory 512m \
-    --executor-memory 512m \
-    --executor-cores 1 \
-    examples/jars/spark-examples*.jar 10
+  --master yarn-client \
+  --num-executors 1 \
+  --driver-memory 512m \
+  --executor-memory 512m \
+  --executor-cores 1 \
+  examples/jars/spark-examples*.jar 10
 ```
 
 The job should produce an output as shown below. Note the value of pi in the output.
@@ -227,7 +226,7 @@ The following example submits WordCount code to the Scala shell. Select an input
 *  When the job runs, the library can now use **Obstor** during intermediate processing.
 *  Navigate to a node with Spark client and access the spark2-client directory:
 
-```
+```bash
 cd /usr/hdp/current/spark2-client
 su spark
 ```
@@ -236,14 +235,14 @@ The following example uses _log4j.properties_ as the input file:
 
 #### 4.2.1 Upload the input file to HDFS:
 
-```
+```bash
 hadoop fs -copyFromLocal /etc/hadoop/conf/log4j.properties
           s3a://testbucket/testdata
 ```
 
 #### 4.2.2  Run the Spark shell:
 
-```
+```bash
 ./bin/spark-shell --master yarn-client --driver-memory 512m --executor-memory 512m
 ```
 
@@ -292,7 +291,7 @@ scala> counts.count()
 
 To view the output from Obstor exit the Scala shell. View WordCount job status:
 
-```
+```bash
 hadoop fs -ls s3a://testbucket/wordcount
 ```
 
@@ -300,7 +299,7 @@ The output should be similar to the following:
 
 ```
 Found 3 items
--rw-rw-rw-   1 spark spark          0 2019-05-04 01:36 s3a://testbucket/wordcount/_SUCCESS
--rw-rw-rw-   1 spark spark       4956 2019-05-04 01:36 s3a://testbucket/wordcount/part-00000
--rw-rw-rw-   1 spark spark       5616 2019-05-04 01:36 s3a://testbucket/wordcount/part-00001
+-rw-rw-rw-   1 spark spark          0 2026-05-04 01:36 s3a://testbucket/wordcount/_SUCCESS
+-rw-rw-rw-   1 spark spark       4956 2026-05-04 01:36 s3a://testbucket/wordcount/part-00000
+-rw-rw-rw-   1 spark spark       5616 2026-05-04 01:36 s3a://testbucket/wordcount/part-00001
 ```

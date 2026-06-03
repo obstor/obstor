@@ -22,13 +22,13 @@ DIR:
 ## Common usage
 
 Standalone erasure coded configuration with 4 sets with 16 disks each.
-```
+```bash
 obstor server dir{1...64}
 ```
 
 Distributed erasure coded configuration with 64 sets with 16 disks each.
 
-```
+```bash
 obstor server http://host{1...16}/export{1...64}
 ```
 
@@ -50,7 +50,7 @@ Expansion of ellipses and choice of erasure sets based on this expansion is an a
 
 - In this algorithm, we also make sure that we spread the disks out evenly. Obstor server expands ellipses passed as arguments. Here is a sample expansion to demonstrate the process.
 
-```
+```bash
 obstor server http://host{1...2}/export{1...8}
 ```
 
@@ -98,7 +98,7 @@ Input for the key is the object name specified in `PutObject()`, returns a uniqu
 
 __There are no limits on how many server pools can be combined__
 
-```
+```bash
 obstor server http://host{1...32}/export{1...32} http://host{1...12}/export{1...12}
 ```
 
@@ -109,7 +109,7 @@ In above example there are two server pools
 
 > Notice the requirement of common SLA here original cluster had 1024 drives with 16 drives per erasure set with default parity of '4', second pool is expected to have a minimum of 8 drives per erasure set to match the original cluster SLA (parity count) of '4'. '12' drives stripe per erasure set in the second pool satisfies the original pool's parity count.
 
-Refer to the sizing guide with details on the default parity count chosen for different erasure stripe sizes [here](SIZING.md)
+Refer to the sizing guide with details on the default parity count chosen for different erasure stripe sizes [here](/docs/distributed/SIZING)
 
 Obstor places new objects in server pools based on proportionate free space, per pool. Following pseudo code demonstrates this behavior.
 ```go
@@ -135,21 +135,21 @@ func getAvailablePoolIdx(ctx context.Context) int {
 ### Advanced use cases with multiple ellipses
 
 Standalone erasure coded configuration with 4 sets with 16 disks each, which spawns disks across controllers.
-```
+```bash
 obstor server /mnt/controller{1...4}/data{1...16}
 ```
 
 Standalone erasure coded configuration with 16 sets, 16 disks per set, across mounts and controllers.
-```
+```bash
 obstor server /mnt{1...4}/controller{1...4}/data{1...16}
 ```
 
 Distributed erasure coded configuration with 2 sets, 16 disks per set across hosts.
-```
+```bash
 obstor server http://host{1...32}/disk1
 ```
 
 Distributed erasure coded configuration with rack level redundancy 32 sets in total, 16 disks per set.
-```
+```bash
 obstor server http://rack{1...4}-host{1...8}.example.net/export{1...16}
 ```

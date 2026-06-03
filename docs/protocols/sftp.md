@@ -16,7 +16,7 @@ Obstor includes a built-in SFTP server that allows any standard SFTP client to a
 
 Start Obstor with the SFTP flag enabled:
 
-```sh
+```bash
 export OBSTOR_ROOT_USER=admin
 export OBSTOR_ROOT_PASSWORD=password
 obstor server /data --sftp-address :9002
@@ -28,7 +28,7 @@ The SFTP server will listen on port `9002` by default.
 
 Use any standard SFTP client to connect:
 
-```sh
+```bash
 sftp -P 9002 admin@localhost
 ```
 
@@ -42,7 +42,7 @@ sftp://admin:password@localhost:9002
 
 Once connected, standard SFTP commands work as expected:
 
-```sh
+```bash
 sftp> ls
 sftp> put myfile.txt mybucket/myfile.txt
 sftp> get mybucket/myfile.txt localfile.txt
@@ -56,7 +56,7 @@ sftp> rm mybucket/myfile.txt
 
 Configure the SFTP listening address:
 
-```sh
+```bash
 obstor server /data --sftp-address :2222
 ```
 
@@ -64,7 +64,7 @@ obstor server /data --sftp-address :2222
 
 Obstor auto-generates SSH host keys on first startup. To use custom host keys:
 
-```sh
+```bash
 obstor server /data --sftp-address :9002 --sftp-ssh-key /path/to/ssh_host_rsa_key
 ```
 
@@ -72,7 +72,7 @@ obstor server /data --sftp-address :9002 --sftp-ssh-key /path/to/ssh_host_rsa_ke
 
 SFTP uses SSH protocol encryption by default. For additional TLS encryption on the S3 API:
 
-```sh
+```bash
 obstor server /data \
   --sftp-address :9002 \
   --certs-dir /path/to/certs
@@ -88,14 +88,14 @@ SFTP access uses the same IAM system as the S3 API:
 
 ### Creating an SFTP User
 
-```sh
-mc admin user add myminio sftpuser sftppassword
-mc admin policy attach myminio readwrite --user sftpuser
+```bash
+mc admin user add myobstor sftpuser sftppassword
+mc admin policy attach myobstor readwrite --user sftpuser
 ```
 
 The user can then connect via SFTP:
 
-```sh
+```bash
 sftp -P 9002 sftpuser@your-server
 ```
 
@@ -121,7 +121,7 @@ The SFTP server works with all standard SFTP clients:
 
 ## Explore Further
 
-- [Obstor Distributed Mode](https://obstor.net/docs/distributed) - deploy across multiple nodes
-- [TLS Configuration](https://obstor.net/docs/tls) - secure your deployment
-- [IAM & Policies](https://obstor.net/docs/multi-user) - manage user access
-- [S3 Backend](https://obstor.net/docs/backend/s3) - S3 API compatibility details
+- [Obstor Distributed Mode](/docs/distributed) - deploy across multiple nodes
+- [TLS Configuration](/docs/tls) - secure your deployment
+- [IAM & Policies](/docs/multi-user) - manage user access
+- [S3 Backend](/docs/backend/s3) - S3 API compatibility details

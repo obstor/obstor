@@ -2,9 +2,9 @@
 
 Bucket replication is designed to replicate selected objects in a bucket to a destination bucket.
 
-The contents of this page have been migrated to the new [Obstor Baremetal Documentation: Bucket Replication](https://obstor.net/docs/obstor/baremetal/replication/replication-overview#) page. The [Bucket Replication](https://obstor.net/docs/obstor/baremetal/replication/replication-overview#) section includes dedicated tutorials for configuring one-way "Active-Passive" and two-way "Active-Active" bucket replication. Please update your bookmarks to use the new Obstor documentation, as this legacy documentation will be deprecated and removed in the future.
+The contents of this page have been migrated to the new [Obstor Baremetal Documentation: Bucket Replication](/docs/bucket/replication) page. The [Bucket Replication](/docs/bucket/replication) section includes dedicated tutorials for configuring one-way "Active-Passive" and two-way "Active-Active" bucket replication. Please update your bookmarks to use the new Obstor documentation, as this legacy documentation will be deprecated and removed in the future.
 
-To replicate objects in a bucket to a destination bucket on a target site either in the same cluster or a different cluster, start by enabling [versioning](https://obstor.net/docs/obstor-bucket-versioning-guide) for both source and destination buckets. Finally, the target site and the destination bucket need to be configured on the source Obstor server.
+To replicate objects in a bucket to a destination bucket on a target site either in the same cluster or a different cluster, start by enabling [versioning](/docs/bucket/versioning) for both source and destination buckets. Finally, the target site and the destination bucket need to be configured on the source Obstor server.
 
 ## Highlights
 - Supports source and destination buckets to have the same name unlike AWS S3, addresses variety of usecases such as *Splunk*, *Veeam* site to site DR.
@@ -17,7 +17,7 @@ Ensure that versioning is enabled on the source and target buckets with `mc vers
 
 Create a replication target on the source cluster as shown below:
 
-```
+```bash
 mc admin bucket remote add myobstor/srcbucket https://accessKey:secretKey@replica-endpoint:9000/destbucket --service replication --region us-east-1
 Role ARN = 'arn:obstor:replication:us-east-1:c5be6b16-769d-432a-9ef1-4567081f3566:destbucket'
 ```
@@ -25,7 +25,7 @@ Role ARN = 'arn:obstor:replication:us-east-1:c5be6b16-769d-432a-9ef1-4567081f356
 >  The user running the above command needs *s3:GetReplicationConfiguration* and *s3:GetBucketVersioning* permission on the source cluster. We do not recommend running root credentials/super admin with replication, instead create a dedicated user. The access credentials used at the destination requires *s3:ReplicateObject* permission.
 
 The following minimal permission policy is needed by admin user setting up replication on the `source`:
-```
+```json
 {
  "Version": "2012-10-17",
  "Statement": [
@@ -56,7 +56,7 @@ The following minimal permission policy is needed by admin user setting up repli
 ```
 
 The access key provided for the replication *target* cluster should have these minimal permissions:
-```
+```json
 {
  "Version": "2012-10-17",
  "Statement": [
@@ -95,10 +95,10 @@ The access key provided for the replication *target* cluster should have these m
  ]
 }
 ```
-Please note that the permissions required by the admin user on the target cluster can be more fine grained to exclude permissions like "s3:ReplicateDelete", "s3:GetBucketObjectLockConfiguration" etc depending on whether delete replication rules are set up or if object locking is disabled on `destbucket`. The above policies assume that replication of objects, tags and delete marker replication are all enabled on object lock enabled buckets. A sample script to setup replication is provided [here](setup_replication.sh)
+Please note that the permissions required by the admin user on the target cluster can be more fine grained to exclude permissions like "s3:ReplicateDelete", "s3:GetBucketObjectLockConfiguration" etc depending on whether delete replication rules are set up or if object locking is disabled on `destbucket`. The above policies assume that replication of objects, tags and delete marker replication are all enabled on object lock enabled buckets. A sample script to setup replication is provided [here](https://github.com/cloudment/obstor/blob/main/docs/bucket/replication/setup_replication.sh)
 
 Once successfully created and authorized, the `mc admin bucket remote add` command generates a replication target ARN.  This command lists all the currently authorized replication targets:
-```
+```bash
 mc admin bucket remote ls myobstor/srcbucket --service "replication"
 Role ARN = 'arn:obstor:replication:us-east-1:c5be6b16-769d-432a-9ef1-4567081f3566:destbucket'
 ```
@@ -140,7 +140,7 @@ The replication configuration can now be added to the source bucket by applying 
 
 The replication configuration follows [AWS S3 Spec](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-add-config.html). Any objects uploaded to the source bucket that meet replication criteria will now be automatically replicated by the Obstor server to the remote destination bucket. Replication can be disabled at any time by disabling specific rules in the configuration or deleting the replication configuration entirely.
 
-When object locking is used in conjunction with replication, both source and destination buckets needs to have [object locking](https://obstor.net/docs/obstor-bucket-object-lock-guide) enabled. Similarly objects encrypted on the server side, will be replicated if destination also supports encryption.
+When object locking is used in conjunction with replication, both source and destination buckets needs to have [object locking](/docs/bucket/retention) enabled. Similarly objects encrypted on the server side, will be replicated if destination also supports encryption.
 
 Replication status can be seen in the metadata on the source and destination objects. On the source side, the `X-Amz-Replication-Status` changes from `PENDING` to `COMPLETED` or `FAILED` after replication attempt either succeeded or failed respectively. On the destination side, a `X-Amz-Replication-Status` status of `REPLICA` indicates that the object was replicated successfully. Any replication failures are automatically re-attempted during a periodic disk scanner cycle.
 
@@ -162,7 +162,7 @@ Note that due to this extension behavior, AWS SDK's may not support the extensio
 To add a replication rule allowing both delete marker replication, versioned delete replication or both specify the --replicate flag with comma separated values as in the example below.
 
 Additional permission of "s3:ReplicateDelete" action would need to be specified on the access key configured for the target cluster if Delete Marker replication or versioned delete replication is enabled.
-```
+```bash
 mc replicate add myobstor/srcbucket/Tax --priority 1 --arn "arn:obstor:replication:us-east-1:c5be6b16-769d-432a-9ef1-4567081f3566:destbucket" --tags "Year=2019&Company=AcmeCorp" --storage-class "STANDARD" --remote-bucket "destbucket" --replicate "delete,delete-marker"
 Replication configuration applied successfully to myobstor/srcbucket.
 ```
@@ -180,11 +180,11 @@ On the target bucket, `s3:PutObject` event shows `X-Amz-Replication-Status` stat
 ### Sync/Async Replication
 By default, replication is completed asynchronously. If synchronous replication is desired, set the --sync flag while adding a
 remote replication target using the `mc admin bucket remote add` command
-```
+```bash
  mc admin bucket remote add myobstor/srcbucket https://accessKey:secretKey@replica-endpoint:9000/destbucket --service replication --region us-east-1 --sync --healthcheck-seconds 100
 ```
 
 ## Explore Further
 - [Obstor Bucket Replication Design](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/replication/DESIGN.md)
-- [Obstor Bucket Versioning Implementation](https://obstor.net/docs/obstor-bucket-versioning-guide)
-- [Obstor Client Quickstart Guide](https://obstor.net/docs/obstor-client-quickstart-guide)
+- [Obstor Bucket Versioning Implementation](/docs/bucket/versioning)
+- Obstor Client Quickstart Guide

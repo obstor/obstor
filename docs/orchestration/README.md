@@ -4,9 +4,9 @@ Obstor is a cloud-native application designed to scale in a sustainable manner i
 
 | Orchestration platforms|
 |:---|
-| [`Docker Swarm`](https://obstor.net/docs/deploy-obstor-on-docker-swarm) |
-| [`Docker Compose`](https://obstor.net/docs/deploy-obstor-on-docker-compose) |
-| [`Kubernetes`](https://obstor.net/docs/deploy-obstor-on-kubernetes) |
+| [`Docker Swarm`](/docs/orchestration/docker-swarm) |
+| [`Docker Compose`](/docs/orchestration/docker-compose) |
+| [`Kubernetes`](/docs/orchestration/kubernetes) |
 
 ## Why is Obstor cloud-native?
 The term cloud-native revolves around the idea of applications deployed as micro services, that scale well. It is not about just retrofitting monolithic applications onto modern container based compute environment. A cloud-native application is portable and resilient by design, and can scale horizontally by simply replicating. Modern orchestration platforms like Swarm, Kubernetes and DC/OS make replicating and managing containers in huge clusters easier than ever.
