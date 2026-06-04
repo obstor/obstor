@@ -19,4 +19,4 @@ Obstor is built ground up on the cloud-native premise. With features like erasur
 
 In a typical modern infrastructure deployment, application, database, key-store, etc. already live in containers and are managed by orchestration platforms. Obstor brings robust, scalable, AWS S3-compatible object storage to the lot.
 
-![Cloud-native](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/cloud-native-architecture.jpg)
+![Cloud-native](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/cloud-native-architecture.svg)
