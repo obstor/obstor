@@ -22,8 +22,8 @@ import (
 	"io"
 	"sync"
 
-	"github.com/cloudment/obstor/pkg/s3select/jstream"
-	"github.com/cloudment/obstor/pkg/s3select/sql"
+	"github.com/obstor/obstor/pkg/s3select/jstream"
+	"github.com/obstor/obstor/pkg/s3select/sql"
 )
 
 // Reader - JSON record reader for S3Select.

@@ -18,7 +18,7 @@
 package logger
 
 import (
-	"github.com/cloudment/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/config"
 )
 
 // Help template for logger http and audit

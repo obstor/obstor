@@ -21,7 +21,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/cloudment/obstor/pkg/sync/errgroup"
+	"github.com/obstor/obstor/pkg/sync/errgroup"
 )
 
 func (er erasureObjects) getLocalDisks() (localDisks []StorageAPI) {

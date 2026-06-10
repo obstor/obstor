@@ -25,7 +25,7 @@ if [ -z "$OBSTOR_JAVA_VERSION" ]; then
 fi
 
 test_run_dir="$MINT_RUN_CORE_DIR/minio-java"
-git clone --quiet https://github.com/minio/minio-java.git "$test_run_dir/minio-java.git"
+git clone --quiet https://github.com/obstor/obstor-java.git "$test_run_dir/minio-java.git"
 (
 	cd "$test_run_dir/minio-java.git"
 	git checkout --quiet "tags/${OBSTOR_JAVA_VERSION}"
@@ -35,7 +35,7 @@ git clone --quiet https://github.com/minio/minio-java.git "$test_run_dir/minio-j
 	sed -i.bak '/Assertions\.assertEquals(/{N;/"cors: expected: "/s/expectedConfig, config, "cors:/Xml.marshal(expectedConfig), Xml.marshal(config), "cors:/;}' functional/FunctionalTest.java
 )
 $WGET --output-document="$test_run_dir/obstor-${OBSTOR_JAVA_VERSION}-all.jar" "https://repo1.maven.org/maven2/io/minio/minio/${OBSTOR_JAVA_VERSION}/minio-${OBSTOR_JAVA_VERSION}-all.jar"
-$WGET --output-document="$test_run_dir/obstor-admin-${OBSTOR_JAVA_VERSION}-all.jar" "https://repo1.maven.org/maven2/io/minio/minio-admin/${OBSTOR_JAVA_VERSION}/minio-admin-${OBSTOR_JAVA_VERSION}-all.jar"
+$WGET --output-document="$test_run_dir/obstor-admin-${OBSTOR_JAVA_VERSION}-all.jar" "https://repo1.maven.org/maven2/io/obstor/obstor-admin/${OBSTOR_JAVA_VERSION}/minio-admin-${OBSTOR_JAVA_VERSION}-all.jar"
 $WGET --output-document="$test_run_dir/spotbugs-annotations-${SPOTBUGS_VERSION}.jar" "https://repo1.maven.org/maven2/com/github/spotbugs/spotbugs-annotations/${SPOTBUGS_VERSION}/spotbugs-annotations-${SPOTBUGS_VERSION}.jar"
 $WGET --output-document="$test_run_dir/junit-jupiter-api-${JUNIT_VERSION}.jar" "https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-api/${JUNIT_VERSION}/junit-jupiter-api-${JUNIT_VERSION}.jar"
 $WGET --output-document="$test_run_dir/junit-platform-commons-1.11.4.jar" "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.jar"

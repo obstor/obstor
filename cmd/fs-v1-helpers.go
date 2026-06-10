@@ -25,8 +25,8 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/lock"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/lock"
 )
 
 // Removes only the file at given path does not remove
@@ -343,7 +343,7 @@ func fsFAllocate(fd int, offset int64, len int64) (err error) {
 			// Ignore errors when Fallocate is not supported in the current system
 		case isSysErrInvalidArg(e):
 			// Workaround for Windows Docker Engine 19.03.8.
-			// See https://github.com/cloudment/obstor/issues/9726
+			// See https://github.com/minio/minio/issues/9726
 		case isSysErrIO(e):
 			err = e
 		default:

@@ -22,9 +22,9 @@ import (
 	"net/http"
 	"time"
 
-	xjwt "github.com/cloudment/obstor/cmd/jwt"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/auth"
+	xjwt "github.com/obstor/obstor/cmd/jwt"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/auth"
 	jwtgo "github.com/golang-jwt/jwt/v4"
 	jwtreq "github.com/golang-jwt/jwt/v4/request"
 )

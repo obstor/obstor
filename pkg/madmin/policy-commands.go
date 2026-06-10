@@ -25,7 +25,7 @@ import (
 	"net/http"
 	"net/url"
 
-	iampolicy "github.com/cloudment/obstor/pkg/iam/policy"
+	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
 )
 
 // InfoCannedPolicy - expand canned policy into JSON structure.

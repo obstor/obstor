@@ -28,7 +28,7 @@ import (
 	"syscall"
 	"testing"
 
-	obstor "github.com/cloudment/obstor/cmd"
+	obstor "github.com/obstor/obstor/cmd"
 )
 
 // TestRunMain takes arguments from APP_ARGS env variable and calls obstor.Main(args)

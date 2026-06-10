@@ -24,7 +24,7 @@ import (
 	"net/http"
 	"strings"
 
-	color "github.com/cloudment/obstor/pkg/color"
+	color "github.com/obstor/obstor/pkg/color"
 )
 
 // Extra ASN1 OIDs that we may need to handle

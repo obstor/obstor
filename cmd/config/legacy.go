@@ -18,7 +18,7 @@
 
 package config
 
-import "github.com/cloudment/obstor/pkg/auth"
+import "github.com/obstor/obstor/pkg/auth"
 
 //// One time migration code section
 

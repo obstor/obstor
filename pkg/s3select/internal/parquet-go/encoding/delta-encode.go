@@ -20,8 +20,8 @@ package encoding
 import (
 	"fmt"
 
-	"github.com/cloudment/obstor/pkg/s3select/internal/parquet-go/common"
-	"github.com/cloudment/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/common"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
 )
 
 const (

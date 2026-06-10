@@ -22,7 +22,7 @@ import (
 	"io"
 	"sync"
 
-	"github.com/cloudment/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger"
 )
 
 // Write erasure-coded data to multiple disks in parallel.

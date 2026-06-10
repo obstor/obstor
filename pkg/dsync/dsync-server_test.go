@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"sync"
 
-	. "github.com/cloudment/obstor/pkg/dsync"
+	. "github.com/obstor/obstor/pkg/dsync"
 )
 
 const WriteLock = -1

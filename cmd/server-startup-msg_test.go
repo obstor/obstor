@@ -23,7 +23,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 // Tests if we generate storage info.

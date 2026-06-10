@@ -28,12 +28,12 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/auth"
-	iampolicy "github.com/cloudment/obstor/pkg/iam/policy"
-	"github.com/cloudment/obstor/pkg/kms"
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/auth"
+	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
+	"github.com/obstor/obstor/pkg/kms"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 // IAMObjectStore implements IAMStorageAPI

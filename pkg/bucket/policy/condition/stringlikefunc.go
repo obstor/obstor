@@ -22,9 +22,9 @@ import (
 	"net/http"
 	"sort"
 
-	"github.com/cloudment/obstor/pkg/wildcard"
-	"github.com/minio/minio-go/v7/pkg/s3utils"
-	"github.com/minio/minio-go/v7/pkg/set"
+	"github.com/obstor/obstor-go/v7/pkg/s3utils"
+	"github.com/obstor/obstor-go/v7/pkg/set"
+	"github.com/obstor/obstor/pkg/wildcard"
 )
 
 func toStringLikeFuncString(n name, key Key, values set.StringSet) string {

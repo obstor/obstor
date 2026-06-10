@@ -3,7 +3,7 @@ package s3
 import (
 	"net/http"
 
-	obstor "github.com/cloudment/obstor/cmd"
+	obstor "github.com/obstor/obstor/cmd"
 	"github.com/gorilla/mux"
 )
 

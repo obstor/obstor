@@ -33,14 +33,14 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/config/cache"
-	"github.com/cloudment/obstor/cmd/crypto"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/atime"
-	"github.com/cloudment/obstor/pkg/disk"
-	"github.com/cloudment/obstor/pkg/fips"
-	"github.com/cloudment/obstor/pkg/kms"
+	"github.com/obstor/obstor/cmd/config/cache"
+	"github.com/obstor/obstor/cmd/crypto"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/atime"
+	"github.com/obstor/obstor/pkg/disk"
+	"github.com/obstor/obstor/pkg/fips"
+	"github.com/obstor/obstor/pkg/kms"
 	"github.com/minio/sio"
 )
 

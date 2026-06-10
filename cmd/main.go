@@ -22,9 +22,9 @@ import (
 	"path/filepath"
 	"sort"
 
-	"github.com/cloudment/obstor/pkg/console"
-	"github.com/cloudment/obstor/pkg/trie"
-	"github.com/cloudment/obstor/pkg/words"
+	"github.com/obstor/obstor/pkg/console"
+	"github.com/obstor/obstor/pkg/trie"
+	"github.com/obstor/obstor/pkg/words"
 	"github.com/urfave/cli"
 )
 

@@ -2,7 +2,7 @@
 This directory serves as the location for Testing tests using `minio-go`.  Top level `testing.sh` calls `run.sh` to execute tests.
 
 ## Adding new tests
-New tests are added in functional tests of minio-go.  Please check https://github.com/minio/minio-go
+New tests are added in functional tests of minio-go.  Please check https://github.com/obstor/obstor-go
 
 ## Running tests manually
 - Set environment variables `MINT_DATA_DIR`, `MINT_MODE`, `SERVER_ENDPOINT`, `ACCESS_KEY`, `SECRET_KEY`, `SERVER_REGION`, `ENABLE_HTTPS` and `RUN_ON_FAIL`

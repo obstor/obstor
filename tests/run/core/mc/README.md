@@ -2,7 +2,7 @@
 This directory serves as the location for Testing tests using `mc`.  Top level `testing.sh` calls `run.sh` to execute tests.
 
 ## Adding new tests
-Upstream `mc` tests live in `functional-tests.sh` (fetched from `minio/mc` during the Testing image build).
+Upstream `mc` tests live in `functional-tests.sh` (fetched from `obstor/oc` during the Testing image build).
 
 ## Running tests manually
 - Set environment variables `MINT_DATA_DIR`, `MINT_MODE`, `SERVER_ENDPOINT`, `ACCESS_KEY`, `SECRET_KEY`, `SERVER_REGION` and `ENABLE_HTTPS`

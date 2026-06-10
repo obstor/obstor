@@ -26,9 +26,9 @@ import (
 	"path"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/lock"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/lock"
 )
 
 // FS format version strings.

@@ -23,9 +23,9 @@ import (
 	"fmt"
 	"io"
 
-	csv "github.com/cloudment/obstor/pkg/csvparser"
-	"github.com/cloudment/obstor/pkg/s3select/jstream"
-	"github.com/cloudment/obstor/pkg/s3select/sql"
+	csv "github.com/obstor/obstor/pkg/csvparser"
+	"github.com/obstor/obstor/pkg/s3select/jstream"
+	"github.com/obstor/obstor/pkg/s3select/sql"
 )
 
 // Record - is a CSV record.

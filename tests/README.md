@@ -96,10 +96,10 @@ $ podman run -e SERVER_ENDPOINT=<your-server>:9000 -e ACCESS_KEY=YOUR_ACCESS_KEY
 
 Below are the steps need to be followed
 
-- Create new app directory under [build](https://github.com/Cloudment/Obstor/tree/main/tests/build) and [run/core](https://github.com/Cloudment/Obstor/tree/main/tests/run/core) directories.
+- Create new app directory under [build](https://github.com/obstor/obstor/tree/main/tests/build) and [run/core](https://github.com/obstor/obstor/tree/main/tests/run/core) directories.
 - Create `install.sh` which does installation of required tool/SDK under app directory.
-- Any build and install time dependencies should be added to [install-packages.list](https://github.com/Cloudment/Obstor/tree/main/tests/install-packages.list).
-- Build time dependencies should be added to [remove-packages.list](https://github.com/Cloudment/Obstor/tree/main/tests/remove-packages.list) for removal to have clean Testing podman image.
+- Any build and install time dependencies should be added to [install-packages.list](https://github.com/obstor/obstor/tree/main/tests/install-packages.list).
+- Build time dependencies should be added to [remove-packages.list](https://github.com/obstor/obstor/tree/main/tests/remove-packages.list) for removal to have clean Testing podman image.
 - Add `run.sh` in app directory under `run/core` which execute actual tests.
 
 #### Test data

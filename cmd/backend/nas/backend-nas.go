@@ -20,9 +20,9 @@ package nas
 import (
 	"context"
 
-	obstor "github.com/cloudment/obstor/cmd"
-	"github.com/cloudment/obstor/pkg/auth"
-	"github.com/cloudment/obstor/pkg/madmin"
+	obstor "github.com/obstor/obstor/cmd"
+	"github.com/obstor/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/madmin"
 	"github.com/urfave/cli"
 )
 

@@ -38,15 +38,15 @@ import (
 
 	"github.com/Azure/azure-pipeline-go/pipeline"
 	"github.com/Azure/azure-storage-blob-go/azblob"
-	obstor "github.com/cloudment/obstor/cmd"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/auth"
-	"github.com/cloudment/obstor/pkg/bucket/policy"
-	"github.com/cloudment/obstor/pkg/bucket/policy/condition"
-	"github.com/cloudment/obstor/pkg/env"
-	"github.com/cloudment/obstor/pkg/madmin"
 	humanize "github.com/dustin/go-humanize"
-	miniogopolicy "github.com/minio/minio-go/v7/pkg/policy"
+	miniogopolicy "github.com/obstor/obstor-go/v7/pkg/policy"
+	obstor "github.com/obstor/obstor/cmd"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/bucket/policy"
+	"github.com/obstor/obstor/pkg/bucket/policy/condition"
+	"github.com/obstor/obstor/pkg/env"
+	"github.com/obstor/obstor/pkg/madmin"
 	"github.com/urfave/cli"
 )
 
@@ -701,7 +701,7 @@ func (a *azureObjects) ListObjects(ctx context.Context, bucket, prefix, marker, 
 			// or through the AWS Management Console, and are encrypted by SSE-S3
 			// or plaintext, have ETags that are an MD5 digest of their object data.
 			//
-			// Some applications depend on this behavior refer https://github.com/cloudment/obstor/issues/6550
+			// Some applications depend on this behavior refer https://github.com/minio/minio/issues/6550
 			// So we handle it here and make this consistent.
 			etag := obstor.ToS3ETag(string(blob.Properties.Etag))
 			switch {
@@ -857,7 +857,7 @@ func (a *azureObjects) GetObjectInfo(ctx context.Context, bucket, object string,
 	// or through the AWS Management Console, and are encrypted by SSE-S3
 	// or plaintext, have ETags that are an MD5 digest of their object data.
 	//
-	// Some applications depend on this behavior refer https://github.com/cloudment/obstor/issues/6550
+	// Some applications depend on this behavior refer https://github.com/minio/minio/issues/6550
 	// So we handle it here and make this consistent.
 	etag := obstor.ToS3ETag(realETag)
 	metadata := blob.NewMetadata()

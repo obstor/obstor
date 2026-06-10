@@ -27,8 +27,8 @@ import (
 	"path/filepath"
 	"sync"
 
-	"github.com/cloudment/obstor/pkg/event"
-	xnet "github.com/cloudment/obstor/pkg/net"
+	"github.com/obstor/obstor/pkg/event"
+	xnet "github.com/obstor/obstor/pkg/net"
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 

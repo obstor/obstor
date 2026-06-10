@@ -26,8 +26,8 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/auth"
-	iampolicy "github.com/cloudment/obstor/pkg/iam/policy"
+	"github.com/obstor/obstor/pkg/auth"
+	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
 )
 
 // AccountAccess contains information about

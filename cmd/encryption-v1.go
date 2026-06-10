@@ -32,10 +32,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/cloudment/obstor/cmd/crypto"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/fips"
+	"github.com/obstor/obstor/cmd/crypto"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/fips"
 	"github.com/minio/sio"
 )
 

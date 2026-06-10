@@ -27,8 +27,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	xioutil "github.com/cloudment/obstor/pkg/ioutil"
+	"github.com/obstor/obstor/cmd/logger"
+	xioutil "github.com/obstor/obstor/pkg/ioutil"
 	"github.com/gorilla/mux"
 )
 

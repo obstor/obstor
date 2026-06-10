@@ -26,17 +26,17 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/crypto"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/bucket/bandwidth"
-	"github.com/cloudment/obstor/pkg/bucket/replication"
-	"github.com/cloudment/obstor/pkg/event"
-	iampolicy "github.com/cloudment/obstor/pkg/iam/policy"
-	"github.com/cloudment/obstor/pkg/madmin"
-	miniogo "github.com/minio/minio-go/v7"
-	"github.com/minio/minio-go/v7/pkg/encrypt"
-	"github.com/minio/minio-go/v7/pkg/tags"
+	miniogo "github.com/obstor/obstor-go/v7"
+	"github.com/obstor/obstor-go/v7/pkg/encrypt"
+	"github.com/obstor/obstor-go/v7/pkg/tags"
+	"github.com/obstor/obstor/cmd/crypto"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/bucket/bandwidth"
+	"github.com/obstor/obstor/pkg/bucket/replication"
+	"github.com/obstor/obstor/pkg/event"
+	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 // Gets replication config associated to a given bucket name.

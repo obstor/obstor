@@ -24,7 +24,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/auth"
 )
 
 // Test S3 Bucket lifecycle APIs with wrong credentials

@@ -20,7 +20,7 @@ export function Header() {
 
       <div className="flex items-center gap-2">
         <a
-          href="https://github.com/cloudment/obstor"
+          href="https://github.com/obstor/obstor"
           target="_blank"
           rel="noopener noreferrer"
           className="flex h-8 w-8 items-center justify-center rounded-md text-text-muted transition-colors hover:bg-surface hover:text-text-secondary"

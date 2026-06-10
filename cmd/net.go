@@ -25,10 +25,10 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/cmd/logger"
-	xnet "github.com/cloudment/obstor/pkg/net"
-	"github.com/minio/minio-go/v7/pkg/set"
+	"github.com/obstor/obstor-go/v7/pkg/set"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/logger"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 // IPv4 addresses of local host.

@@ -24,7 +24,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/event"
+	"github.com/obstor/obstor/pkg/event"
 )
 
 // TestDir

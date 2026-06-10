@@ -30,9 +30,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	xioutil "github.com/cloudment/obstor/pkg/ioutil"
-	"github.com/cloudment/obstor/pkg/trie"
+	"github.com/obstor/obstor/cmd/logger"
+	xioutil "github.com/obstor/obstor/pkg/ioutil"
+	"github.com/obstor/obstor/pkg/trie"
 )
 
 // Returns EXPORT/.obstor.sys/multipart/SHA256/UPLOADID

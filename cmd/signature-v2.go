@@ -29,9 +29,9 @@ import (
 	"strconv"
 	"strings"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
+	xhttp "github.com/obstor/obstor/cmd/http"
 
-	"github.com/cloudment/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/auth"
 )
 
 // Whitelist resource list that will be used in query string for signature-V2 calculation.

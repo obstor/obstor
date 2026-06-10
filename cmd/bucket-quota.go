@@ -23,9 +23,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/event"
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/event"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 // BucketQuotaSys - map of bucket and quota configuration.

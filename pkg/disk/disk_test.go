@@ -24,7 +24,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/disk"
+	"github.com/obstor/obstor/pkg/disk"
 )
 
 func TestFree(t *testing.T) {

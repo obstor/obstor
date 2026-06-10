@@ -20,7 +20,7 @@ package target
 import (
 	"testing"
 
-	xnet "github.com/cloudment/obstor/pkg/net"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 func TestNSQArgs_Validate(t *testing.T) {

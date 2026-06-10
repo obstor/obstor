@@ -20,7 +20,7 @@ package cmd
 import (
 	"encoding/xml"
 
-	"github.com/cloudment/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/auth"
 )
 
 // AssumedRoleUser - The identifiers for the temporary security credentials that

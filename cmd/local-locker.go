@@ -23,7 +23,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/dsync"
+	"github.com/obstor/obstor/pkg/dsync"
 )
 
 // lockRequesterInfo stores various info from the client for each lock that is requested.

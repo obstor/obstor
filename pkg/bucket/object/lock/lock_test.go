@@ -27,7 +27,7 @@ import (
 	"testing"
 	"time"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
+	xhttp "github.com/obstor/obstor/cmd/http"
 )
 
 func TestParseMode(t *testing.T) {

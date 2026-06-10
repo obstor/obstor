@@ -31,10 +31,10 @@ import (
 	"sync"
 	"time"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/cmd/rest"
-	xnet "github.com/cloudment/obstor/pkg/net"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/rest"
+	xnet "github.com/obstor/obstor/pkg/net"
 	"github.com/tinylib/msgp/msgp"
 )
 

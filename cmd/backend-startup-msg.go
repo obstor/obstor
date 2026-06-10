@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cloudment/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/color"
 )
 
 // Prints the formatted startup message.

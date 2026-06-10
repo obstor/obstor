@@ -34,20 +34,20 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/config"
-	sftpCfg "github.com/cloudment/obstor/cmd/config/sftp"
-	"github.com/cloudment/obstor/cmd/crypto"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/auth"
-	"github.com/cloudment/obstor/pkg/certs"
-	color "github.com/cloudment/obstor/pkg/color"
-	"github.com/cloudment/obstor/pkg/console"
-	"github.com/cloudment/obstor/pkg/env"
-	"github.com/cloudment/obstor/pkg/handlers"
-	"github.com/cloudment/obstor/pkg/kms"
 	dns2 "github.com/miekg/dns"
-	"github.com/minio/minio-go/v7/pkg/set"
+	"github.com/obstor/obstor-go/v7/pkg/set"
+	"github.com/obstor/obstor/cmd/config"
+	sftpCfg "github.com/obstor/obstor/cmd/config/sftp"
+	"github.com/obstor/obstor/cmd/crypto"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/certs"
+	color "github.com/obstor/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/console"
+	"github.com/obstor/obstor/pkg/env"
+	"github.com/obstor/obstor/pkg/handlers"
+	"github.com/obstor/obstor/pkg/kms"
 	"github.com/urfave/cli"
 )
 
@@ -269,7 +269,7 @@ func handleCommonEnvVars() {
 		logger.Fatal(config.ErrInvalidWormValue(err), "Invalid worm configuration")
 	}
 	if wormEnabled {
-		logger.Fatal(errors.New("worm is deprecated"), "global OBSTOR_WORM support is removed, please downgrade your server or migrate to https://github.com/cloudment/obstor/tree/master/docs/retention")
+		logger.Fatal(errors.New("worm is deprecated"), "global OBSTOR_WORM support is removed, please downgrade your server or migrate to https://github.com/obstor/obstor/tree/master/docs/retention")
 	}
 
 	globalBrowserEnabled, err = config.ParseBool(env.Get(config.EnvBrowser, config.EnableOn))

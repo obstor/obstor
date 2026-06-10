@@ -6,7 +6,7 @@ Obstor is a high performance distributed object storage server, designed for lar
 
 There are multiple options to deploy Obstor on Kubernetes:
 
-- Obstor-Operator: Operator offers seamless way to create and update highly available distributed Obstor clusters. Refer [Obstor Operator documentation](https://github.com/minio/minio-operator/blob/master/README.md) for more details.
+- Obstor-Operator: Operator offers seamless way to create and update highly available distributed Obstor clusters. Refer [Obstor Operator documentation](https://github.com/obstor/obstor-operator/blob/master/README.md) for more details.
 
 - Helm Chart: Obstor Helm Chart offers customizable and easy Obstor deployment with a single command.
 

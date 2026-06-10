@@ -28,9 +28,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/crypto"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/pkg/bucket/lifecycle"
+	"github.com/obstor/obstor/cmd/crypto"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/pkg/bucket/lifecycle"
 )
 
 // Returns a hexadecimal representation of time at the

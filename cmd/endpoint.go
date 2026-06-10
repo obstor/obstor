@@ -33,14 +33,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/config"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/env"
-	"github.com/cloudment/obstor/pkg/mountinfo"
-	xnet "github.com/cloudment/obstor/pkg/net"
 	"github.com/dustin/go-humanize"
-	"github.com/minio/minio-go/v7/pkg/set"
+	"github.com/obstor/obstor-go/v7/pkg/set"
+	"github.com/obstor/obstor/cmd/config"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/env"
+	"github.com/obstor/obstor/pkg/mountinfo"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 // EndpointType - enum for endpoint type.

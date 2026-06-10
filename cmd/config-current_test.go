@@ -22,7 +22,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/cloudment/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/config"
 )
 
 func TestServerConfig(t *testing.T) {

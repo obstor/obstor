@@ -21,8 +21,8 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/cloudment/obstor/pkg/bucket/policy/condition"
-	"github.com/cloudment/obstor/pkg/wildcard"
+	"github.com/obstor/obstor/pkg/bucket/policy/condition"
+	"github.com/obstor/obstor/pkg/wildcard"
 )
 
 // ResourceARNPrefix - resource ARN prefix as per AWS S3 specification.

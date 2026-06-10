@@ -24,7 +24,7 @@ import (
 	"path"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/lock"
+	"github.com/obstor/obstor/pkg/lock"
 )
 
 func TestFSRenameFile(t *testing.T) {

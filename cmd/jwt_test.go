@@ -22,8 +22,8 @@ import (
 	"os"
 	"testing"
 
-	xjwt "github.com/cloudment/obstor/cmd/jwt"
-	"github.com/cloudment/obstor/pkg/auth"
+	xjwt "github.com/obstor/obstor/cmd/jwt"
+	"github.com/obstor/obstor/pkg/auth"
 )
 
 func testAuthenticate(authType string, t *testing.T) {

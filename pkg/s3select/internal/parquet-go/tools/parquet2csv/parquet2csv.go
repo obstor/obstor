@@ -25,8 +25,8 @@ import (
 	"path"
 	"strings"
 
-	parquet "github.com/cloudment/obstor/pkg/s3select/internal/parquet-go"
-	"github.com/minio/minio-go/v7/pkg/set"
+	"github.com/obstor/obstor-go/v7/pkg/set"
+	parquet "github.com/obstor/obstor/pkg/s3select/internal/parquet-go"
 )
 
 func getReader(name string, offset int64, length int64) (io.ReadCloser, error) {

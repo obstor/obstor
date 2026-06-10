@@ -25,8 +25,8 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/cloudment/obstor/pkg/event"
-	"github.com/cloudment/obstor/pkg/sys"
+	"github.com/obstor/obstor/pkg/event"
+	"github.com/obstor/obstor/pkg/sys"
 )
 
 const (

@@ -26,7 +26,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/auth"
 )
 
 // Wrapper for calling RemoveBucket HTTP handler tests for both Erasure multiple disks and single node setup.

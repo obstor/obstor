@@ -27,7 +27,7 @@ import (
 	"path"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/hash"
+	"github.com/obstor/obstor/pkg/hash"
 	humanize "github.com/dustin/go-humanize"
 )
 

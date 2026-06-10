@@ -23,7 +23,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 // Tests for if parent directory is object

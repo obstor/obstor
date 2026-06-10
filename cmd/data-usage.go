@@ -23,9 +23,9 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/hash"
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/hash"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 const (

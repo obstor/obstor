@@ -26,8 +26,8 @@ import (
 	"sync"
 	"unicode/utf8"
 
-	csv "github.com/cloudment/obstor/pkg/csvparser"
-	"github.com/cloudment/obstor/pkg/s3select/sql"
+	csv "github.com/obstor/obstor/pkg/csvparser"
+	"github.com/obstor/obstor/pkg/s3select/sql"
 )
 
 // Reader - CSV record reader for S3Select.

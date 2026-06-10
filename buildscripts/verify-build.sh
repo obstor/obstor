@@ -240,8 +240,8 @@ function __init__()
     mkdir -p "$MINT_DATA_DIR"
 
     MC_BUILD_DIR="mc-$RANDOM"
-    if ! git clone --quiet https://github.com/minio/mc "$MC_BUILD_DIR"; then
-        echo "failed to download https://github.com/minio/mc"
+    if ! git clone --quiet https://github.com/obstor/oc "$MC_BUILD_DIR"; then
+        echo "failed to download https://github.com/obstor/oc"
         purge "${MC_BUILD_DIR}"
         exit 1
     fi
@@ -257,8 +257,8 @@ function __init__()
     ## version is purposefully set to '3' for obstor to migrate configuration file
     echo '{"version": "3", "credential": {"accessKey": "obstor", "secretKey": "obstor123"}, "region": "us-east-1"}' > "$OBSTOR_CONFIG_DIR/config.json"
 
-    if ! wget -q -O "$FUNCTIONAL_TESTS" https://raw.githubusercontent.com/minio/mc/master/functional-tests.sh; then
-        echo "failed to download https://raw.githubusercontent.com/minio/mc/master/functional-tests.sh"
+    if ! wget -q -O "$FUNCTIONAL_TESTS" https://raw.githubusercontent.com/obstor/oc/master/functional-tests.sh; then
+        echo "failed to download https://raw.githubusercontent.com/obstor/oc/master/functional-tests.sh"
         exit 1
     fi
 

@@ -36,7 +36,7 @@
 |Maximum number of multipart uploads returned per list multipart uploads request| 1000|
 
 ### List of Amazon S3 API's not supported on Obstor
-We found the following APIs to be redundant or less useful outside of AWS S3. If you have a different view on any of the APIs we missed, please open a [github issue](https://github.com/cloudment/obstor/issues).
+We found the following APIs to be redundant or less useful outside of AWS S3. If you have a different view on any of the APIs we missed, please open a [github issue](https://github.com/minio/minio/issues).
 
 #### List of Amazon S3 Bucket API's not supported on Obstor
 

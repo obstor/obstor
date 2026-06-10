@@ -20,7 +20,7 @@ set -e
 
 OBSTOR_DOTNET_SDK_PATH="$MINT_RUN_CORE_DIR/minio-dotnet"
 
-OBSTOR_DOTNET_SDK_VERSION=$(curl --retry 10 -Ls -o /dev/null -w "%{url_effective}" https://github.com/minio/minio-dotnet/releases/latest | sed "s/https:\/\/github.com\/minio\/minio-dotnet\/releases\/tag\///")
+OBSTOR_DOTNET_SDK_VERSION=$(curl --retry 10 -Ls -o /dev/null -w "%{url_effective}" https://github.com/obstor/obstor-dotnet/releases/latest | sed "s/https:\/\/github.com\/minio\/minio-dotnet\/releases\/tag\///")
 if [ -z "$OBSTOR_DOTNET_SDK_VERSION" ]; then
 	echo "unable to get minio-dotnet version from github"
 	exit 1
@@ -32,7 +32,7 @@ if [ -z "$out_dir" ]; then
 fi
 
 temp_dir="$OBSTOR_DOTNET_SDK_PATH/temp"
-git clone --quiet https://github.com/minio/minio-dotnet.git "${temp_dir}"
+git clone --quiet https://github.com/obstor/obstor-dotnet.git "${temp_dir}"
 pushd "${temp_dir}" >/dev/null
 git checkout --quiet "tags/${OBSTOR_DOTNET_SDK_VERSION}"
 

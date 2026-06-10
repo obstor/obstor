@@ -22,7 +22,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/cloudment/obstor/pkg/sync/errgroup"
+	"github.com/obstor/obstor/pkg/sync/errgroup"
 	humanize "github.com/dustin/go-humanize"
 )
 

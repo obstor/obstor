@@ -29,19 +29,19 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/bpool"
-	"github.com/cloudment/obstor/pkg/console"
-	"github.com/cloudment/obstor/pkg/dsync"
-	"github.com/cloudment/obstor/pkg/env"
-	"github.com/cloudment/obstor/pkg/madmin"
-	"github.com/cloudment/obstor/pkg/sync/errgroup"
 	"github.com/dustin/go-humanize"
 	"github.com/google/uuid"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/bpool"
+	"github.com/obstor/obstor/pkg/console"
+	"github.com/obstor/obstor/pkg/dsync"
+	"github.com/obstor/obstor/pkg/env"
+	"github.com/obstor/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/sync/errgroup"
 
 	"github.com/dchest/siphash"
-	"github.com/minio/minio-go/v7/pkg/set"
-	"github.com/minio/minio-go/v7/pkg/tags"
+	"github.com/obstor/obstor-go/v7/pkg/set"
+	"github.com/obstor/obstor-go/v7/pkg/tags"
 )
 
 // setsDsyncLockers is encapsulated type for Close()

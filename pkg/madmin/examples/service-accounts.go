@@ -26,10 +26,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/cloudment/obstor/pkg/bucket/policy"
-	"github.com/cloudment/obstor/pkg/bucket/policy/condition"
-	iampolicy "github.com/cloudment/obstor/pkg/iam/policy"
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/bucket/policy"
+	"github.com/obstor/obstor/pkg/bucket/policy/condition"
+	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 func main() {

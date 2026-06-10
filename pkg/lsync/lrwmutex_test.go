@@ -29,7 +29,7 @@ import (
 
 	"runtime"
 
-	. "github.com/cloudment/obstor/pkg/lsync"
+	. "github.com/obstor/obstor/pkg/lsync"
 )
 
 func testSimpleWriteLock(t *testing.T, duration time.Duration) (locked bool) {

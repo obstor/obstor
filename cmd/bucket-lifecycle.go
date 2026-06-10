@@ -28,16 +28,16 @@ import (
 	"sync"
 	"time"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	sse "github.com/cloudment/obstor/pkg/bucket/encryption"
-	"github.com/cloudment/obstor/pkg/bucket/lifecycle"
-	"github.com/cloudment/obstor/pkg/event"
-	"github.com/cloudment/obstor/pkg/hash"
-	"github.com/cloudment/obstor/pkg/madmin"
-	"github.com/cloudment/obstor/pkg/s3select"
-	miniogo "github.com/minio/minio-go/v7"
-	"github.com/minio/minio-go/v7/pkg/tags"
+	miniogo "github.com/obstor/obstor-go/v7"
+	"github.com/obstor/obstor-go/v7/pkg/tags"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	sse "github.com/obstor/obstor/pkg/bucket/encryption"
+	"github.com/obstor/obstor/pkg/bucket/lifecycle"
+	"github.com/obstor/obstor/pkg/event"
+	"github.com/obstor/obstor/pkg/hash"
+	"github.com/obstor/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/s3select"
 )
 
 const (

@@ -27,7 +27,7 @@ import (
 	"strings"
 
 	"github.com/apache/thrift/lib/go/thrift"
-	"github.com/cloudment/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
 )
 
 // getBitWidth - returns bits required to place num e.g.

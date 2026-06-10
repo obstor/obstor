@@ -16,7 +16,7 @@
 #  limitations under the License.
 #
 
-OBSTOR_GO_VERSION=$(curl --retry 10 -Ls -o /dev/null -w "%{url_effective}" https://github.com/minio/minio-go/releases/latest | sed "s/https:\/\/github.com\/minio\/minio-go\/releases\/tag\///")
+OBSTOR_GO_VERSION=$(curl --retry 10 -Ls -o /dev/null -w "%{url_effective}" https://github.com/obstor/obstor-go/releases/latest | sed "s/https:\/\/github.com\/minio\/minio-go\/releases\/tag\///")
 if [ -z "$OBSTOR_GO_VERSION" ]; then
 	echo "unable to get minio-go version from github"
 	exit 1

@@ -16,7 +16,7 @@
 package crypto
 
 import (
-	xhttp "github.com/cloudment/obstor/cmd/http"
+	xhttp "github.com/obstor/obstor/cmd/http"
 )
 
 const (

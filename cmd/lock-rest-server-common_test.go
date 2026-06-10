@@ -23,7 +23,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/dsync"
+	"github.com/obstor/obstor/pkg/dsync"
 )
 
 // Helper function to create a lock server for testing

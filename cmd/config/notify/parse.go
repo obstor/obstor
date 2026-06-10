@@ -27,12 +27,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/env"
-	"github.com/cloudment/obstor/pkg/event"
-	"github.com/cloudment/obstor/pkg/event/target"
-	xnet "github.com/cloudment/obstor/pkg/net"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/env"
+	"github.com/obstor/obstor/pkg/event"
+	"github.com/obstor/obstor/pkg/event/target"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 const (

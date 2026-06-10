@@ -22,7 +22,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cloudment/obstor/pkg/wildcard"
+	"github.com/obstor/obstor/pkg/wildcard"
 )
 
 // DestinationARNPrefix - destination ARN prefix as per AWS S3 specification.

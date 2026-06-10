@@ -25,7 +25,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 func main() {

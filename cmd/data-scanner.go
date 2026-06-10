@@ -32,16 +32,16 @@ import (
 	"time"
 
 	"github.com/bits-and-blooms/bloom/v3"
-	"github.com/cloudment/obstor/cmd/config/heal"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/cmd/logger/message/audit"
-	"github.com/cloudment/obstor/pkg/bucket/lifecycle"
-	"github.com/cloudment/obstor/pkg/bucket/replication"
-	"github.com/cloudment/obstor/pkg/color"
-	"github.com/cloudment/obstor/pkg/console"
-	"github.com/cloudment/obstor/pkg/event"
-	"github.com/cloudment/obstor/pkg/hash"
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/cmd/config/heal"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger/message/audit"
+	"github.com/obstor/obstor/pkg/bucket/lifecycle"
+	"github.com/obstor/obstor/pkg/bucket/replication"
+	"github.com/obstor/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/console"
+	"github.com/obstor/obstor/pkg/event"
+	"github.com/obstor/obstor/pkg/hash"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 const (

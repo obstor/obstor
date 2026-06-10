@@ -23,8 +23,8 @@ import (
 	"strings"
 	"time"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/pkg/auth"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/pkg/auth"
 )
 
 // credentialHeader data type represents structured form of Credential

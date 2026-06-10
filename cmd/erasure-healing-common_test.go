@@ -26,7 +26,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 // validates functionality provided to find most common

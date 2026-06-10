@@ -23,8 +23,8 @@ import (
 	"fmt"
 	"hash/crc32"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/sync/errgroup"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/sync/errgroup"
 )
 
 // Returns number of errors that occurred the most (incl. nil) and the

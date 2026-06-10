@@ -22,7 +22,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/lock"
+	"github.com/obstor/obstor/pkg/lock"
 )
 
 // Tests long path calls.

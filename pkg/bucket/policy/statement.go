@@ -21,7 +21,7 @@ import (
 	"encoding/json"
 	"strings"
 
-	"github.com/cloudment/obstor/pkg/bucket/policy/condition"
+	"github.com/obstor/obstor/pkg/bucket/policy/condition"
 )
 
 // Statement - policy statement.

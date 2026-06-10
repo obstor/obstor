@@ -29,14 +29,14 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/config/cache"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	objectlock "github.com/cloudment/obstor/pkg/bucket/object/lock"
-	"github.com/cloudment/obstor/pkg/color"
-	"github.com/cloudment/obstor/pkg/hash"
-	"github.com/cloudment/obstor/pkg/sync/errgroup"
-	"github.com/cloudment/obstor/pkg/wildcard"
+	"github.com/obstor/obstor/cmd/config/cache"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	objectlock "github.com/obstor/obstor/pkg/bucket/object/lock"
+	"github.com/obstor/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/hash"
+	"github.com/obstor/obstor/pkg/sync/errgroup"
+	"github.com/obstor/obstor/pkg/wildcard"
 )
 
 const (

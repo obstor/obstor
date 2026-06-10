@@ -32,15 +32,15 @@ import (
 	"sync/atomic"
 	"time"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	xjwt "github.com/cloudment/obstor/cmd/jwt"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/auth"
-	objectlock "github.com/cloudment/obstor/pkg/bucket/object/lock"
-	"github.com/cloudment/obstor/pkg/bucket/policy"
-	"github.com/cloudment/obstor/pkg/etag"
-	"github.com/cloudment/obstor/pkg/hash"
-	iampolicy "github.com/cloudment/obstor/pkg/iam/policy"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	xjwt "github.com/obstor/obstor/cmd/jwt"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/auth"
+	objectlock "github.com/obstor/obstor/pkg/bucket/object/lock"
+	"github.com/obstor/obstor/pkg/bucket/policy"
+	"github.com/obstor/obstor/pkg/etag"
+	"github.com/obstor/obstor/pkg/hash"
+	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
 )
 
 // Verify if request has JWT.

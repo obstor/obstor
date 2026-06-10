@@ -27,7 +27,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/cloudment/obstor/pkg/env"
+	"github.com/obstor/obstor/pkg/env"
 )
 
 // EnvCertPassword is the environment variable which contains the password used

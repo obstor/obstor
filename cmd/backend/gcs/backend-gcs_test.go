@@ -28,8 +28,8 @@ import (
 	"cloud.google.com/go/storage"
 	"google.golang.org/api/googleapi"
 
-	obstor "github.com/cloudment/obstor/cmd"
-	miniogo "github.com/minio/minio-go/v7"
+	miniogo "github.com/obstor/obstor-go/v7"
+	obstor "github.com/obstor/obstor/cmd"
 )
 
 func TestToGCSPageToken(t *testing.T) {

@@ -26,8 +26,8 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/disk"
-	"github.com/cloudment/obstor/pkg/net"
+	"github.com/obstor/obstor/pkg/disk"
+	"github.com/obstor/obstor/pkg/net"
 
 	"github.com/shirou/gopsutil/v3/cpu"
 	diskhw "github.com/shirou/gopsutil/v3/disk"

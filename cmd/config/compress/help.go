@@ -17,7 +17,7 @@
 
 package compress
 
-import "github.com/cloudment/obstor/cmd/config"
+import "github.com/obstor/obstor/cmd/config"
 
 // Help template for compress feature.
 var (

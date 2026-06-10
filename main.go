@@ -17,23 +17,23 @@
 
 /*
  * Below main package has canonical imports for 'go get' and 'go build'
- * to work with all other clones of github.com/cloudment/obstor repository. For
+ * to work with all other clones of github.com/obstor/obstor repository. For
  * more information refer https://golang.org/doc/go1.4#canonicalimports
  */
 
-package main // import "github.com/cloudment/obstor"
+package main // import "github.com/obstor/obstor"
 
 import (
 	"os"
 
-	obstor "github.com/cloudment/obstor/cmd"
+	obstor "github.com/obstor/obstor/cmd"
 
 	// Import backends
-	_ "github.com/cloudment/obstor/cmd/backend"
+	_ "github.com/obstor/obstor/cmd/backend"
 
 	// Import protocols
-	_ "github.com/cloudment/obstor/cmd/protocols/s3"
-	_ "github.com/cloudment/obstor/cmd/protocols/sftp"
+	_ "github.com/obstor/obstor/cmd/protocols/s3"
+	_ "github.com/obstor/obstor/cmd/protocols/sftp"
 )
 
 func main() {

@@ -28,8 +28,8 @@ import (
 
 	"github.com/nsqio/go-nsq"
 
-	"github.com/cloudment/obstor/pkg/event"
-	xnet "github.com/cloudment/obstor/pkg/net"
+	"github.com/obstor/obstor/pkg/event"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 // NSQ constants

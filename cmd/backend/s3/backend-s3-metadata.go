@@ -25,9 +25,9 @@ import (
 	"net/http"
 	"time"
 
-	obstor "github.com/cloudment/obstor/cmd"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/hash"
+	obstor "github.com/obstor/obstor/cmd"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/hash"
 )
 
 var (

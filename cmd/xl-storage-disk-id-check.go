@@ -25,7 +25,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	trace "github.com/cloudment/obstor/pkg/trace"
+	trace "github.com/obstor/obstor/pkg/trace"
 )
 
 //go:generate stringer -type=storageMetric -trimprefix=storageMetric $GOFILE

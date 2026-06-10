@@ -28,7 +28,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/jwt"
+	"github.com/obstor/obstor/cmd/jwt"
 	jwtgo "github.com/golang-jwt/jwt/v4"
 )
 

@@ -23,8 +23,8 @@ import (
 	"net/http"
 	"sort"
 
-	"github.com/minio/minio-go/v7/pkg/s3utils"
-	"github.com/minio/minio-go/v7/pkg/set"
+	"github.com/obstor/obstor-go/v7/pkg/s3utils"
+	"github.com/obstor/obstor-go/v7/pkg/set"
 )
 
 func toBinaryEqualsFuncString(n name, key Key, values set.StringSet) string {

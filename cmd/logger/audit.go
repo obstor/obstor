@@ -26,7 +26,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger/message/audit"
+	"github.com/obstor/obstor/cmd/logger/message/audit"
 )
 
 // ResponseWriter - is a wrapper to trap the http response status code.

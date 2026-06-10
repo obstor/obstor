@@ -25,7 +25,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger"
 )
 
 type scanStatus uint8

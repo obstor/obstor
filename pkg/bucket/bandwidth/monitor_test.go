@@ -23,7 +23,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/bandwidth"
+	"github.com/obstor/obstor/pkg/bandwidth"
 )
 
 const (

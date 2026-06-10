@@ -20,7 +20,7 @@ package console
 import (
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/color"
 )
 
 func TestSetColor(t *testing.T) {

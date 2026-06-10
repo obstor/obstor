@@ -24,14 +24,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/config"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/env"
-	"github.com/cloudment/obstor/pkg/hash"
-	xnet "github.com/cloudment/obstor/pkg/net"
+	"github.com/obstor/obstor/cmd/config"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/env"
+	"github.com/obstor/obstor/pkg/hash"
+	xnet "github.com/obstor/obstor/pkg/net"
 
-	obstor "github.com/minio/minio-go/v7"
+	obstor "github.com/obstor/obstor-go/v7"
 )
 
 var (

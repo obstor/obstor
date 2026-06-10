@@ -20,7 +20,7 @@ package compress
 import (
 	"strings"
 
-	"github.com/cloudment/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/config"
 )
 
 // Legacy envs.

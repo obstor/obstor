@@ -2593,8 +2593,8 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-github.com/cloudment/obstor
-https://github.com/cloudment/obstor
+github.com/obstor/obstor
+https://github.com/obstor/obstor
 ----------------------------------------------------------------
 Apache License
                            Version 2.0, January 2004
@@ -2798,8 +2798,8 @@ Apache License
    See the License for the specific language governing permissions and
    limitations under the License.
 
-github.com/cloudment/obstor
-https://github.com/cloudment/obstor
+github.com/obstor/obstor
+https://github.com/obstor/obstor
 ----------------------------------------------------------------
 MinIO Cloud Storage, (C) 2014-2020 MinIO, Inc.
 PGG Obstor, (C) 2021-2026 PGG, Inc.
@@ -2811,8 +2811,8 @@ separate copyright notices and license terms. Your use of the source
 code for these subcomponents is subject to the terms and conditions
 of Apache License Version 2.0
 
-github.com/cloudment/obstor/pkg/rpc
-https://github.com/cloudment/obstor/pkg/rpc
+github.com/obstor/obstor/pkg/rpc
+https://github.com/obstor/obstor/pkg/rpc
 ----------------------------------------------------------------
 Apache License
                            Version 2.0, January 2004
@@ -3016,8 +3016,8 @@ Apache License
    See the License for the specific language governing permissions and
    limitations under the License.
 
-github.com/cloudment/obstor/pkg/s3select/internal/parquet-go
-https://github.com/cloudment/obstor/pkg/s3select/internal/parquet-go
+github.com/obstor/obstor/pkg/s3select/internal/parquet-go
+https://github.com/obstor/obstor/pkg/s3select/internal/parquet-go
 ----------------------------------------------------------------
 Apache License
                            Version 2.0, January 2004
@@ -10067,8 +10067,8 @@ Apache License
    See the License for the specific language governing permissions and
    limitations under the License.
 
-github.com/minio/minio-go/v7
-https://github.com/minio/minio-go/v7
+github.com/obstor/obstor-go/v7
+https://github.com/obstor/obstor-go/v7
 ----------------------------------------------------------------
 Apache License
                            Version 2.0, January 2004
@@ -10272,8 +10272,8 @@ Apache License
    See the License for the specific language governing permissions and
    limitations under the License.
 
-github.com/minio/minio-go/v7
-https://github.com/minio/minio-go/v7
+github.com/obstor/obstor-go/v7
+https://github.com/obstor/obstor-go/v7
 ----------------------------------------------------------------
 MinIO Cloud Storage, (C) 2014-2020 MinIO, Inc.
 

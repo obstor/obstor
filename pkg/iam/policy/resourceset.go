@@ -22,7 +22,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/minio/minio-go/v7/pkg/set"
+	"github.com/obstor/obstor-go/v7/pkg/set"
 )
 
 // ResourceSet - set of resources in policy statement.

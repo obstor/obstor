@@ -16,7 +16,7 @@
 
 package replication
 
-import "github.com/cloudment/obstor/cmd/config"
+import "github.com/obstor/obstor/cmd/config"
 
 // Help template for replication configuration.
 var Help = config.HelpKVS{

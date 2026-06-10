@@ -29,9 +29,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/dsync"
-	"github.com/cloudment/obstor/pkg/lsync"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/dsync"
+	"github.com/obstor/obstor/pkg/lsync"
 )
 
 // Local lock servers
@@ -273,7 +273,7 @@ func getSource(n int) string {
 	if ok {
 		filename = pathutil.Base(filename)
 		funcName = strings.TrimPrefix(runtime.FuncForPC(pc).Name(),
-			"github.com/cloudment/obstor/cmd.")
+			"github.com/obstor/obstor/cmd.")
 	} else {
 		filename = "<unknown>"
 		lineNum = 0

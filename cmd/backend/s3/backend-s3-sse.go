@@ -27,10 +27,10 @@ import (
 	"strings"
 	"time"
 
-	obstor "github.com/cloudment/obstor/cmd"
-	"github.com/minio/minio-go/v7/pkg/encrypt"
+	"github.com/obstor/obstor-go/v7/pkg/encrypt"
+	obstor "github.com/obstor/obstor/cmd"
 
-	"github.com/cloudment/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger"
 )
 
 const (

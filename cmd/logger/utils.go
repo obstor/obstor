@@ -22,7 +22,7 @@ import (
 	"regexp"
 	"runtime"
 
-	"github.com/cloudment/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/color"
 )
 
 var ansiRE = regexp.MustCompile("(\x1b[^m]*m)")

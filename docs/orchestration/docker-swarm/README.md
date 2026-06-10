@@ -47,7 +47,7 @@ docker node update --label-add obstor4=true <DOCKER-NODE4>
 
 It is possible to run more than one obstor service on one Docker Node. Set the labels accordingly.
 
-Download the [Docker Compose file](https://github.com/cloudment/obstor/blob/main/docs/orchestration/docker-swarm/docker-compose-secrets.yaml?raw=true) on your Swarm master. Then execute the command
+Download the [Docker Compose file](https://github.com/obstor/obstor/blob/main/docs/orchestration/docker-swarm/docker-compose-secrets.yaml?raw=true) on your Swarm master. Then execute the command
 
 ```bash
 docker stack deploy --compose-file=docker-compose-secrets.yaml obstor_stack

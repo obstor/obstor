@@ -20,7 +20,7 @@ package cmd
 import (
 	"runtime/debug"
 
-	"github.com/cloudment/obstor/pkg/sys"
+	"github.com/obstor/obstor/pkg/sys"
 )
 
 func setMaxResources() (err error) {

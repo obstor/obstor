@@ -24,8 +24,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/pkg/env"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/pkg/env"
 )
 
 // API sub-system constants

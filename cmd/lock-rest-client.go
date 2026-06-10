@@ -24,9 +24,9 @@ import (
 	"net/url"
 	"strconv"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/rest"
-	"github.com/cloudment/obstor/pkg/dsync"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/rest"
+	"github.com/obstor/obstor/pkg/dsync"
 )
 
 // lockRESTClient is authenticable lock REST client

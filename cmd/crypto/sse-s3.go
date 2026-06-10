@@ -25,8 +25,8 @@ import (
 	"path"
 	"strings"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
 )
 
 type sses3 struct{}

@@ -20,8 +20,8 @@ package cmd
 import (
 	"net/http"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/bucket/policy"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/bucket/policy"
 	"github.com/gorilla/mux"
 )
 

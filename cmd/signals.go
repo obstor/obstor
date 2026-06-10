@@ -24,7 +24,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/cloudment/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger"
 )
 
 func handleSignals() {

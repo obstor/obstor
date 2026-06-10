@@ -25,7 +25,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/kms"
+	"github.com/obstor/obstor/pkg/kms"
 	"github.com/dustin/go-humanize"
 )
 

@@ -25,7 +25,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/cloudment/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/color"
 	"golang.org/x/term"
 )
 

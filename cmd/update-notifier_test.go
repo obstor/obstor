@@ -23,7 +23,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/color"
 )
 
 // Tests update notifier string builder.

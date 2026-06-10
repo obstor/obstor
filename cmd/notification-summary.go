@@ -19,7 +19,7 @@
 package cmd
 
 import (
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 // GetTotalCapacity gets the total capacity in the cluster.

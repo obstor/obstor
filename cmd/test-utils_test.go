@@ -53,18 +53,18 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/cmd/crypto"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/cmd/rest"
-	"github.com/cloudment/obstor/pkg/auth"
-	"github.com/cloudment/obstor/pkg/bucket/policy"
-	color "github.com/cloudment/obstor/pkg/color"
-	"github.com/cloudment/obstor/pkg/hash"
 	"github.com/gorilla/mux"
-	"github.com/minio/minio-go/v7/pkg/s3utils"
-	"github.com/minio/minio-go/v7/pkg/signer"
+	"github.com/obstor/obstor-go/v7/pkg/s3utils"
+	"github.com/obstor/obstor-go/v7/pkg/signer"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/crypto"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/rest"
+	"github.com/obstor/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/bucket/policy"
+	color "github.com/obstor/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/hash"
 )
 
 // TestMain to set up global env.
@@ -697,7 +697,7 @@ func newTestStreamingRequest(method, urlStr string, dataLength, chunkSize int64,
 
 	if body == nil {
 		// this is added to avoid panic during io.ReadAll(req.Body).
-		// th stack trace can be found here  https://github.com/cloudment/obstor/pull/2074 .
+		// th stack trace can be found here  https://github.com/obstor/obstor/pull/2074 .
 		// This is very similar to https://github.com/golang/go/issues/7527.
 		req.Body = io.NopCloser(bytes.NewReader([]byte("")))
 	}
@@ -1196,7 +1196,7 @@ func newWebRPCRequest(methodRPC, authorization string, body io.ReadSeeker) (*htt
 		req.Body = io.NopCloser(body)
 	} else {
 		// this is added to avoid panic during io.ReadAll(req.Body).
-		// th stack trace can be found here  https://github.com/cloudment/obstor/pull/2074 .
+		// th stack trace can be found here  https://github.com/obstor/obstor/pull/2074 .
 		// This is very similar to https://github.com/golang/go/issues/7527.
 		req.Body = io.NopCloser(bytes.NewReader([]byte("")))
 	}

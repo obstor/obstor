@@ -23,8 +23,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/bucket/policy"
-	"github.com/cloudment/obstor/pkg/bucket/policy/condition"
+	"github.com/obstor/obstor/pkg/bucket/policy"
+	"github.com/obstor/obstor/pkg/bucket/policy/condition"
 )
 
 func TestStatementIsAllowed(t *testing.T) {

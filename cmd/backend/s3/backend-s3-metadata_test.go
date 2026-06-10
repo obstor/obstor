@@ -21,7 +21,7 @@ import (
 	"bytes"
 	"testing"
 
-	obstor "github.com/cloudment/obstor/cmd"
+	obstor "github.com/obstor/obstor/cmd"
 )
 
 // Tests for GW metadata format validity.

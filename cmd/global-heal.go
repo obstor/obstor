@@ -24,11 +24,11 @@ import (
 	"sort"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/color"
-	"github.com/cloudment/obstor/pkg/console"
-	"github.com/cloudment/obstor/pkg/madmin"
-	"github.com/cloudment/obstor/pkg/wildcard"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/console"
+	"github.com/obstor/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/wildcard"
 )
 
 const (

@@ -23,7 +23,7 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/cloudment/obstor/pkg/s3select/jstream"
+	"github.com/obstor/obstor/pkg/s3select/jstream"
 )
 
 var (

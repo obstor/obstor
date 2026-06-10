@@ -28,7 +28,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger"
 )
 
 func renameAllBucketMetacache(epPath string) error {

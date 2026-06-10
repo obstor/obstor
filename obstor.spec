@@ -1,6 +1,6 @@
 %define         tag     RELEASE.2020-11-25T22-36-25Z
 %define         subver  %(echo %{tag} | sed -e 's/[^0-9]//g')
-# git fetch https://github.com/cloudment/obstor.git refs/tags/RELEASE.2020-11-25T22-36-25Z
+# git fetch https://github.com/obstor/obstor.git refs/tags/RELEASE.2020-11-25T22-36-25Z
 # git rev-list -n 1 FETCH_HEAD
 %define         commitid        91130e884b5df59d66a45a0aad4f48db88f5ca63
 Summary:        High Performance, Kubernetes Native Object Storage.
@@ -11,7 +11,7 @@ Vendor:         PGG, Inc.
 License:        Apache v2.0
 Group:          Applications/File
 Source0:        https://dl.pgg.net/packages/obstor/release/linux-amd64/archive/obstor.%{tag}
-Source1:        https://raw.githubusercontent.com/minio/minio-service/master/linux-systemd/distributed/minio.service
+Source1:        https://raw.githubusercontent.com/obstor/obstor-service/master/linux-systemd/distributed/minio.service
 URL:            https://pgg.net/
 Requires(pre):  /usr/sbin/useradd, /usr/bin/getent
 Requires(postun): /usr/sbin/userdel

@@ -32,9 +32,9 @@ import (
 
 	"encoding/json"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/pkg/kms"
-	xnet "github.com/cloudment/obstor/pkg/net"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/pkg/kms"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 // ErrKESKeyExists is the error returned a KES server

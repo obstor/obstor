@@ -21,7 +21,7 @@ import (
 	"errors"
 	"io"
 
-	bucketsse "github.com/cloudment/obstor/pkg/bucket/encryption"
+	bucketsse "github.com/obstor/obstor/pkg/bucket/encryption"
 )
 
 // BucketSSEConfigSys - in-memory cache of bucket encryption config

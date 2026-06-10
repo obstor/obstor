@@ -28,20 +28,20 @@ import (
 	"github.com/Azure/azure-storage-blob-go/azblob"
 	"google.golang.org/api/googleapi"
 
-	"github.com/cloudment/obstor/cmd/config/dns"
-	"github.com/cloudment/obstor/cmd/crypto"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/auth"
-	"github.com/cloudment/obstor/pkg/bucket/lifecycle"
-	"github.com/cloudment/obstor/pkg/bucket/replication"
-	obstor "github.com/minio/minio-go/v7"
-	"github.com/minio/minio-go/v7/pkg/tags"
+	obstor "github.com/obstor/obstor-go/v7"
+	"github.com/obstor/obstor-go/v7/pkg/tags"
+	"github.com/obstor/obstor/cmd/config/dns"
+	"github.com/obstor/obstor/cmd/crypto"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/bucket/lifecycle"
+	"github.com/obstor/obstor/pkg/bucket/replication"
 
-	objectlock "github.com/cloudment/obstor/pkg/bucket/object/lock"
-	"github.com/cloudment/obstor/pkg/bucket/policy"
-	"github.com/cloudment/obstor/pkg/bucket/versioning"
-	"github.com/cloudment/obstor/pkg/event"
-	"github.com/cloudment/obstor/pkg/hash"
+	objectlock "github.com/obstor/obstor/pkg/bucket/object/lock"
+	"github.com/obstor/obstor/pkg/bucket/policy"
+	"github.com/obstor/obstor/pkg/bucket/versioning"
+	"github.com/obstor/obstor/pkg/event"
+	"github.com/obstor/obstor/pkg/hash"
 )
 
 // APIError structure
@@ -245,7 +245,7 @@ const (
 	ErrInvalidStorageClass
 	ErrBackendDown
 	// Add new extended error codes here.
-	// Please open a https://github.com/cloudment/obstor/issues before adding
+	// Please open a https://github.com/minio/minio/issues before adding
 	// new error codes here.
 
 	ErrMalformedJSON

@@ -26,7 +26,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/certs"
+	"github.com/obstor/obstor/pkg/certs"
 )
 
 func updateCerts(crt, key string) {

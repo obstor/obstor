@@ -26,7 +26,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/atime"
+	"github.com/obstor/obstor/pkg/atime"
 )
 
 // Return error if Atime is disabled on the O/S

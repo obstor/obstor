@@ -25,10 +25,10 @@ import (
 	"strings"
 
 	"github.com/apache/thrift/lib/go/thrift"
-	"github.com/cloudment/obstor/pkg/s3select/internal/parquet-go/common"
-	"github.com/cloudment/obstor/pkg/s3select/internal/parquet-go/encoding"
-	"github.com/cloudment/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
-	"github.com/cloudment/obstor/pkg/s3select/internal/parquet-go/schema"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/common"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/encoding"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/schema"
 )
 
 func getDefaultEncoding(parquetType parquet.Type) parquet.Encoding {

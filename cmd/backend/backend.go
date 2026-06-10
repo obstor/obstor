@@ -21,20 +21,20 @@ import (
 	// Import all backends
 
 	// NAS
-	_ "github.com/cloudment/obstor/cmd/backend/nas"
+	_ "github.com/obstor/obstor/cmd/backend/nas"
 
 	// Azure
-	_ "github.com/cloudment/obstor/cmd/backend/azure"
+	_ "github.com/obstor/obstor/cmd/backend/azure"
 
 	// S3
-	_ "github.com/cloudment/obstor/cmd/backend/s3"
+	_ "github.com/obstor/obstor/cmd/backend/s3"
 
 	// HDFS
-	_ "github.com/cloudment/obstor/cmd/backend/hdfs"
+	_ "github.com/obstor/obstor/cmd/backend/hdfs"
 
 	// GCS (use only if you must, GCS already supports S3 API)
-	_ "github.com/cloudment/obstor/cmd/backend/gcs"
+	_ "github.com/obstor/obstor/cmd/backend/gcs"
 
 	// SFTP
-	_ "github.com/cloudment/obstor/cmd/backend/sftp"
+	_ "github.com/obstor/obstor/cmd/backend/sftp"
 )

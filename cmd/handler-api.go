@@ -22,9 +22,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/config/api"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/sys"
+	"github.com/obstor/obstor/cmd/config/api"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/sys"
 )
 
 type apiConfig struct {

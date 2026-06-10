@@ -31,8 +31,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/config"
-	xhttp "github.com/cloudment/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/config"
+	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/golang-jwt/jwt/v4"
 )
 

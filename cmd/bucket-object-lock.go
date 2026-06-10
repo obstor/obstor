@@ -22,12 +22,12 @@ import (
 	"math"
 	"net/http"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/auth"
-	objectlock "github.com/cloudment/obstor/pkg/bucket/object/lock"
-	"github.com/cloudment/obstor/pkg/bucket/policy"
-	"github.com/cloudment/obstor/pkg/bucket/replication"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/auth"
+	objectlock "github.com/obstor/obstor/pkg/bucket/object/lock"
+	"github.com/obstor/obstor/pkg/bucket/policy"
+	"github.com/obstor/obstor/pkg/bucket/replication"
 )
 
 // BucketObjectLockSys - map of bucket and retention configuration.

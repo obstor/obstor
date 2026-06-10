@@ -22,8 +22,8 @@ import (
 	"strings"
 	"time"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/pkg/handlers"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/pkg/handlers"
 )
 
 // Version - represents the current version of audit log structure.

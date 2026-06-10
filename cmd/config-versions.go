@@ -20,18 +20,18 @@ package cmd
 import (
 	"sync"
 
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/cmd/config/cache"
-	"github.com/cloudment/obstor/cmd/config/compress"
-	xldap "github.com/cloudment/obstor/cmd/config/identity/ldap"
-	"github.com/cloudment/obstor/cmd/config/identity/openid"
-	"github.com/cloudment/obstor/cmd/config/notify"
-	"github.com/cloudment/obstor/cmd/config/policy/opa"
-	"github.com/cloudment/obstor/cmd/config/storageclass"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/auth"
-	"github.com/cloudment/obstor/pkg/event/target"
-	"github.com/cloudment/obstor/pkg/quick"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/config/cache"
+	"github.com/obstor/obstor/cmd/config/compress"
+	xldap "github.com/obstor/obstor/cmd/config/identity/ldap"
+	"github.com/obstor/obstor/cmd/config/identity/openid"
+	"github.com/obstor/obstor/cmd/config/notify"
+	"github.com/obstor/obstor/cmd/config/policy/opa"
+	"github.com/obstor/obstor/cmd/config/storageclass"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/event/target"
+	"github.com/obstor/obstor/pkg/quick"
 )
 
 // ///////////////// Config V1 ///////////////////

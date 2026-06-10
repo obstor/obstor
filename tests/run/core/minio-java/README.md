@@ -2,7 +2,7 @@
 This directory serves as the location for Testing tests using `minio-java`.  Top level `testing.sh` calls `run.sh` to execute tests.
 
 ## Adding new tests
-New tests is added in functional tests of minio-java.  Please check https://github.com/minio/minio-java
+New tests is added in functional tests of minio-java.  Please check https://github.com/obstor/obstor-java
 
 ## Running tests manually
 - Set environment variables `MINT_DATA_DIR`, `MINT_MODE`, `SERVER_ENDPOINT`, `ACCESS_KEY`, `SECRET_KEY`, `SERVER_REGION`, `ENABLE_HTTPS` and `RUN_ON_FAIL`

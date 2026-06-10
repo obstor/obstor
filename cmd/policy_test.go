@@ -21,10 +21,10 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/bucket/policy"
-	"github.com/cloudment/obstor/pkg/bucket/policy/condition"
-	miniogopolicy "github.com/minio/minio-go/v7/pkg/policy"
-	"github.com/minio/minio-go/v7/pkg/set"
+	miniogopolicy "github.com/obstor/obstor-go/v7/pkg/policy"
+	"github.com/obstor/obstor-go/v7/pkg/set"
+	"github.com/obstor/obstor/pkg/bucket/policy"
+	"github.com/obstor/obstor/pkg/bucket/policy/condition"
 )
 
 func TestPolicySysIsAllowed(t *testing.T) {

@@ -22,7 +22,7 @@
 install_path="./test-run/minio-js/"
 rm -rf $install_path
 
-git clone https://github.com/minio/minio-js.git $install_path
+git clone https://github.com/obstor/obstor-js.git $install_path
 
 cd $install_path || exit 0
 

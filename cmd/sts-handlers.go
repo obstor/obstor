@@ -25,12 +25,12 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/cloudment/obstor/cmd/config/identity/openid"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/auth"
-	iampolicy "github.com/cloudment/obstor/pkg/iam/policy"
-	"github.com/cloudment/obstor/pkg/wildcard"
+	"github.com/obstor/obstor/cmd/config/identity/openid"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/auth"
+	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
+	"github.com/obstor/obstor/pkg/wildcard"
 	"github.com/gorilla/mux"
 )
 

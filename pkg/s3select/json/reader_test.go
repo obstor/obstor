@@ -24,7 +24,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/s3select/sql"
+	"github.com/obstor/obstor/pkg/s3select/sql"
 )
 
 func TestNewReader(t *testing.T) {

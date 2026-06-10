@@ -27,12 +27,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/bpool"
-	"github.com/cloudment/obstor/pkg/color"
-	"github.com/cloudment/obstor/pkg/dsync"
-	"github.com/cloudment/obstor/pkg/madmin"
-	"github.com/cloudment/obstor/pkg/sync/errgroup"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/bpool"
+	"github.com/obstor/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/dsync"
+	"github.com/obstor/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/sync/errgroup"
 )
 
 // OfflineDisk represents an unavailable disk.

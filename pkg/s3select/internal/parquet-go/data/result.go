@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/cloudment/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
 )
 
 func resultToBool(result interface{}) (value interface{}, err error) {

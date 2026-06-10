@@ -23,7 +23,7 @@ import (
 	"hash"
 	"io"
 
-	"github.com/cloudment/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger"
 )
 
 // Implementation to calculate bitrot for the whole file.

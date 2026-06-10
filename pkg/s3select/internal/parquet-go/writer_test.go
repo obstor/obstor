@@ -21,9 +21,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/s3select/internal/parquet-go/data"
-	"github.com/cloudment/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
-	"github.com/cloudment/obstor/pkg/s3select/internal/parquet-go/schema"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/data"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/schema"
 )
 
 func TestWriterWrite(t *testing.T) {

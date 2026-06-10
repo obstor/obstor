@@ -21,7 +21,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/cloudment/obstor/pkg/lock"
+	"github.com/obstor/obstor/pkg/lock"
 )
 
 // AppendFile - appends the file "src" to the file "dst"

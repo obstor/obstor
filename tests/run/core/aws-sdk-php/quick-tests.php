@@ -806,7 +806,7 @@ function testBucketPolicy($s3Client, $params) {
 	    $bucket);
 
     // Delete the bucket, make the bucket (again) and check if policy is none
-    // Ref: https://github.com/cloudment/obstor/issues/4714
+    // Ref: https://github.com/minio/minio/issues/4714
     $result = $s3Client->deleteBucket(['Bucket' => $bucket]);
     if (getstatuscode($result) != HTTP_NOCONTENT)
 	throw new Exception('deleteBucket API failed for ' .

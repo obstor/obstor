@@ -24,7 +24,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger"
 )
 
 // localMetacacheMgr is the *local* manager for this peer.

@@ -113,7 +113,7 @@ for more complete documentation.
 Use the following commands to compile and run a standalone Obstor server from source. Source installation is only intended for developers and advanced users. If you do not have a working Golang environment, please follow [How to install Golang](https://golang.org/doc/install). Recommended version is [go1.26](https://golang.org/dl/#stable) or newer.
 
 ```sh
-GO111MODULE=on go get github.com/cloudment/obstor
+GO111MODULE=on go get github.com/obstor/obstor
 ```
 
 The Obstor deployment starts using default root credentials `obstoradmin:obstoradmin`. You can test the deployment using the Obstor Browser, an embedded
@@ -234,7 +234,7 @@ mc admin update <obstor alias, e.g., myobstor>
 - [The Obstor documentation website](https://obstor.net/docs/obstor)
 
 # Contribute to Obstor Project
-Please follow Obstor [Contributor's Guide](https://github.com/cloudment/obstor/blob/main/CONTRIBUTING.md)
+Please follow Obstor [Contributor's Guide](https://github.com/obstor/obstor/blob/main/CONTRIBUTING.md)
 
 # License
-Use of Obstor is governed by the Apache 2.0 License found at [LICENSE](https://github.com/cloudment/obstor/blob/main/LICENSE).
+Use of Obstor is governed by the Apache 2.0 License found at [LICENSE](https://github.com/obstor/obstor/blob/main/LICENSE).

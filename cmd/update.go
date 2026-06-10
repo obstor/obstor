@@ -34,11 +34,11 @@ import (
 	"strings"
 	"time"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/env"
-	xnet "github.com/cloudment/obstor/pkg/net"
 	"github.com/minio/selfupdate"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/env"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 const (
@@ -227,7 +227,7 @@ func IsPCFTile() bool {
 //	Obstor (<OS>; <ARCH>[; <MODE>][; dcos][; kubernetes][; docker][; source]) Obstor/<VERSION> Obstor/<RELEASE-TAG> Obstor/<COMMIT-ID> [Obstor/universe-<PACKAGE-NAME>] [Obstor/helm-<HELM-VERSION>]
 //
 // Any change here should be discussed by opening an issue at
-// https://github.com/cloudment/obstor/issues.
+// https://github.com/minio/minio/issues.
 func getUserAgent(mode string) string {
 
 	userAgentParts := []string{}

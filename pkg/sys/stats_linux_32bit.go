@@ -24,7 +24,7 @@ import (
 	"os"
 	"syscall"
 
-	"github.com/cloudment/obstor/pkg/cgroup"
+	"github.com/obstor/obstor/pkg/cgroup"
 )
 
 // Get the final system memory limit chosen by the user.

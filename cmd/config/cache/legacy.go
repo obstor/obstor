@@ -21,7 +21,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cloudment/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/config"
 )
 
 const (

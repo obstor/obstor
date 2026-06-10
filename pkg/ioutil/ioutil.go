@@ -26,7 +26,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/disk"
+	"github.com/obstor/obstor/pkg/disk"
 )
 
 // WriteOnCloser implements io.WriteCloser and always

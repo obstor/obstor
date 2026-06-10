@@ -21,15 +21,15 @@ import (
 	"context"
 	"errors"
 
-	"github.com/cloudment/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger"
 
-	bucketsse "github.com/cloudment/obstor/pkg/bucket/encryption"
-	"github.com/cloudment/obstor/pkg/bucket/lifecycle"
-	"github.com/cloudment/obstor/pkg/bucket/policy"
-	"github.com/cloudment/obstor/pkg/bucket/versioning"
-	"github.com/minio/minio-go/v7/pkg/tags"
+	"github.com/obstor/obstor-go/v7/pkg/tags"
+	bucketsse "github.com/obstor/obstor/pkg/bucket/encryption"
+	"github.com/obstor/obstor/pkg/bucket/lifecycle"
+	"github.com/obstor/obstor/pkg/bucket/policy"
+	"github.com/obstor/obstor/pkg/bucket/versioning"
 
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 // BackendUnsupported list of unsupported call stubs for backend.

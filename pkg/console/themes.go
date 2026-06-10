@@ -17,7 +17,7 @@
 
 package console
 
-import "github.com/cloudment/obstor/pkg/color"
+import "github.com/obstor/obstor/pkg/color"
 
 var (
 	// Theme contains default color mapping.

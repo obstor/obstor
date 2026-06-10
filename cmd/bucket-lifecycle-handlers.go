@@ -22,10 +22,10 @@ import (
 	"io"
 	"net/http"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/bucket/lifecycle"
-	"github.com/cloudment/obstor/pkg/bucket/policy"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/bucket/lifecycle"
+	"github.com/obstor/obstor/pkg/bucket/policy"
 	"github.com/gorilla/mux"
 )
 

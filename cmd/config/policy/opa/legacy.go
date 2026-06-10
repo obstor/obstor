@@ -18,7 +18,7 @@
 package opa
 
 import (
-	"github.com/cloudment/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/config"
 )
 
 // Legacy OPA envs

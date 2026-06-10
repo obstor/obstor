@@ -22,9 +22,9 @@ import (
 	"math"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/bucket/replication"
-	"github.com/cloudment/obstor/pkg/hash"
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/bucket/replication"
+	"github.com/obstor/obstor/pkg/hash"
+	"github.com/obstor/obstor/pkg/madmin"
 	humanize "github.com/dustin/go-humanize"
 )
 

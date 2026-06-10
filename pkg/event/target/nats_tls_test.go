@@ -22,7 +22,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	xnet "github.com/cloudment/obstor/pkg/net"
+	xnet "github.com/obstor/obstor/pkg/net"
 	natsserver "github.com/nats-io/nats-server/v2/test"
 )
 

@@ -56,7 +56,7 @@ func (e ErrorResponse) Error() string {
 }
 
 const (
-	reportIssue = "Please report this issue at https://github.com/cloudment/obstor/issues."
+	reportIssue = "Please report this issue at https://github.com/minio/minio/issues."
 )
 
 // httpRespToErrorResponse returns a new encoded ErrorResponse
@@ -84,7 +84,7 @@ func httpRespToErrorResponse(resp *http.Response) error {
 //
 // For example:
 //
-//	import admin "github.com/cloudment/obstor/pkg/madmin"
+//	import admin "github.com/obstor/obstor/pkg/madmin"
 //	...
 //	...
 //	ss, err := adm.ServiceStatus(...)

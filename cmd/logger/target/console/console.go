@@ -23,10 +23,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/cmd/logger/message/log"
-	"github.com/cloudment/obstor/pkg/color"
-	"github.com/cloudment/obstor/pkg/console"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger/message/log"
+	"github.com/obstor/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/console"
 )
 
 // Target implements loggerTarget to send log

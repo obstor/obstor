@@ -25,8 +25,8 @@ Let's setup a server and register a codec and service:
 
 	import (
 		"http"
-		"github.com/cloudment/obstor/pkg/rpc/"
-		"github.com/cloudment/obstor/pkg/rpc/json2"
+		"github.com/obstor/obstor/pkg/rpc/"
+		"github.com/obstor/obstor/pkg/rpc/json2"
 	)
 
 	func init() {

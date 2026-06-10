@@ -21,9 +21,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/cloudment/obstor/pkg/auth"
-	iampolicy "github.com/cloudment/obstor/pkg/iam/policy"
-	obstorpkg "github.com/cloudment/obstor/pkg/obstor"
+	"github.com/obstor/obstor/pkg/auth"
+	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
+	obstorpkg "github.com/obstor/obstor/pkg/obstor"
 )
 
 // Exported aliases for sub-packages (cmd/protocols/s3, cmd/protocols/sftp).

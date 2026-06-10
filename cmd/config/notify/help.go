@@ -18,8 +18,8 @@
 package notify
 
 import (
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/pkg/event/target"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/pkg/event/target"
 )
 
 const (

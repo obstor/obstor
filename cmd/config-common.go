@@ -24,7 +24,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/cloudment/obstor/pkg/hash"
+	"github.com/obstor/obstor/pkg/hash"
 )
 
 var errConfigNotFound = errors.New("config file not found")

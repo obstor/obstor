@@ -25,7 +25,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/color"
 	humanize "github.com/dustin/go-humanize"
 	"golang.org/x/term"
 )

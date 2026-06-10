@@ -22,7 +22,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 // commonTime returns a maximally occurring time from a list of time.
@@ -263,7 +263,7 @@ func disksWithAllParts(ctx context.Context, onlineDisks []StorageAPI, partsMetad
 	}
 
 	// If there are too many inconsistent files, then we can't trust erasure.Distribution (most likely
-	// because of bugs found in CopyObject/PutObjectTags) https://github.com/cloudment/obstor/pull/10772
+	// because of bugs found in CopyObject/PutObjectTags) https://github.com/obstor/obstor/pull/10772
 	erasureDistributionReliable := inconsistent <= len(partsMetadata)/2
 
 	for i, onlineDisk := range onlineDisks {

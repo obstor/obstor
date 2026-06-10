@@ -23,7 +23,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/certs"
+	"github.com/obstor/obstor/pkg/certs"
 )
 
 func TestNewServer(t *testing.T) {

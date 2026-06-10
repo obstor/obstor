@@ -22,8 +22,8 @@ import (
 	pathutil "path"
 	"sync"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/lock"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/lock"
 )
 
 // fsIOPool represents a protected list to keep track of all

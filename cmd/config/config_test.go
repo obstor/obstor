@@ -21,7 +21,7 @@ package config
 import (
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 func TestKVFields(t *testing.T) {

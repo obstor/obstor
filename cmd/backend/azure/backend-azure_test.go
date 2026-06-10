@@ -25,7 +25,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-storage-blob-go/azblob"
-	obstor "github.com/cloudment/obstor/cmd"
+	obstor "github.com/obstor/obstor/cmd"
 )
 
 func TestParseStorageEndpoint(t *testing.T) {

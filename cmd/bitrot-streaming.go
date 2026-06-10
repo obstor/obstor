@@ -25,8 +25,8 @@ import (
 	"hash"
 	"io"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/ioutil"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/ioutil"
 )
 
 // Calculates bitrot in chunks and writes the hash into the stream.

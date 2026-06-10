@@ -36,9 +36,9 @@ import (
 	"sync"
 	"testing"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/pkg/auth"
-	ioutilx "github.com/cloudment/obstor/pkg/ioutil"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/pkg/auth"
+	ioutilx "github.com/obstor/obstor/pkg/ioutil"
 	humanize "github.com/dustin/go-humanize"
 )
 

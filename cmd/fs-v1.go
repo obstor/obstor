@@ -34,18 +34,18 @@ import (
 
 	"encoding/json"
 
-	"github.com/cloudment/obstor/cmd/config"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/bucket/policy"
-	"github.com/cloudment/obstor/pkg/color"
-	xioutil "github.com/cloudment/obstor/pkg/ioutil"
-	"github.com/cloudment/obstor/pkg/lock"
-	"github.com/cloudment/obstor/pkg/madmin"
-	"github.com/cloudment/obstor/pkg/mimedb"
-	"github.com/cloudment/obstor/pkg/mountinfo"
-	"github.com/minio/minio-go/v7/pkg/s3utils"
-	"github.com/minio/minio-go/v7/pkg/tags"
+	"github.com/obstor/obstor-go/v7/pkg/s3utils"
+	"github.com/obstor/obstor-go/v7/pkg/tags"
+	"github.com/obstor/obstor/cmd/config"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/bucket/policy"
+	"github.com/obstor/obstor/pkg/color"
+	xioutil "github.com/obstor/obstor/pkg/ioutil"
+	"github.com/obstor/obstor/pkg/lock"
+	"github.com/obstor/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/mimedb"
+	"github.com/obstor/obstor/pkg/mountinfo"
 )
 
 // Default etag is used for pre-existing objects.

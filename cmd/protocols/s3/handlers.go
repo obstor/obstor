@@ -17,7 +17,7 @@
 
 package s3
 
-import obstor "github.com/cloudment/obstor/cmd"
+import obstor "github.com/obstor/obstor/cmd"
 
 // Handlers embeds obstor.ObjectAPIHandlers to inherit all S3 handler methods.
 // The handler methods (GetObjectHandler, PutObjectHandler, etc.) are defined

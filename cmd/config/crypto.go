@@ -24,7 +24,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/cloudment/obstor/pkg/kms"
+	"github.com/obstor/obstor/pkg/kms"
 	sio "github.com/minio/sio"
 )
 

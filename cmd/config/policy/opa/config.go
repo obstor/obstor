@@ -23,10 +23,10 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/pkg/env"
-	iampolicy "github.com/cloudment/obstor/pkg/iam/policy"
-	xnet "github.com/cloudment/obstor/pkg/net"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/pkg/env"
+	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 // Env IAM OPA URL

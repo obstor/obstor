@@ -30,10 +30,10 @@ import (
 	"testing"
 	"time"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/pkg/bucket/policy"
 	humanize "github.com/dustin/go-humanize"
-	"github.com/minio/minio-go/v7/pkg/set"
+	"github.com/obstor/obstor-go/v7/pkg/set"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/pkg/bucket/policy"
 )
 
 // API suite container common to both FS and Erasure.

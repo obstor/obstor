@@ -26,7 +26,7 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/cloudment/obstor/pkg/safe"
+	"github.com/obstor/obstor/pkg/safe"
 	etcd "go.etcd.io/etcd/client/v3"
 )
 

@@ -24,7 +24,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/cloudment/obstor/pkg/atime"
+	"github.com/obstor/obstor/pkg/atime"
 	"golang.org/x/sys/windows/registry"
 )
 

@@ -21,9 +21,9 @@ import (
 	"net"
 	"net/http"
 
-	obstor "github.com/cloudment/obstor/cmd"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/pkg/wildcard"
+	obstor "github.com/obstor/obstor/cmd"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/pkg/wildcard"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 )

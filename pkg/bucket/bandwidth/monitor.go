@@ -22,7 +22,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/bandwidth"
+	"github.com/obstor/obstor/pkg/bandwidth"
 )
 
 // throttleBandwidth gets the throttle for bucket with the configured value

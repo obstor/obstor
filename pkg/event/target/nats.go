@@ -27,8 +27,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/cloudment/obstor/pkg/event"
-	xnet "github.com/cloudment/obstor/pkg/net"
+	"github.com/obstor/obstor/pkg/event"
+	xnet "github.com/obstor/obstor/pkg/net"
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/stan.go"
 )

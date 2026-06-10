@@ -21,7 +21,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/dsync"
+	"github.com/obstor/obstor/pkg/dsync"
 )
 
 // Tests lock rpc client.

@@ -31,9 +31,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger/message/log"
 	"github.com/minio/highwayhash"
-	"github.com/minio/minio-go/v7/pkg/set"
+	"github.com/obstor/obstor-go/v7/pkg/set"
+	"github.com/obstor/obstor/cmd/logger/message/log"
 )
 
 var (
@@ -158,7 +158,7 @@ func SetDeploymentID(deploymentID string) {
 }
 
 // Init sets the trimStrings to possible GOPATHs
-// and GOROOT directories. Also append github.com/cloudment/obstor
+// and GOROOT directories. Also append github.com/obstor/obstor
 // This is done to clean up the filename, when stack trace is
 // displayed when an error happens.
 func Init(goPath string, goRoot string) {
@@ -203,9 +203,9 @@ func Init(goPath string, goRoot string) {
 	// Remove duplicate entries.
 	trimStrings = uniqueEntries(trimStrings)
 
-	// Add "github.com/cloudment/obstor" as the last to cover
-	// paths like "{GOROOT}/src/github.com/cloudment/obstor"
-	// and "{GOPATH}/src/github.com/cloudment/obstor"
+	// Add "github.com/obstor/obstor" as the last to cover
+	// paths like "{GOROOT}/src/github.com/obstor/obstor"
+	// and "{GOPATH}/src/github.com/obstor/obstor"
 	trimStrings = append(trimStrings, filepath.Join("github.com", "cloudment", "obstor")+string(filepath.Separator))
 
 	loggerHighwayHasher, _ = highwayhash.New(magicHighwayHash256Key) // New will never return error since key is 256 bit

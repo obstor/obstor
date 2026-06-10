@@ -24,8 +24,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/cloudment/obstor/cmd/crypto"
-	xhttp "github.com/cloudment/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/crypto"
+	xhttp "github.com/obstor/obstor/cmd/http"
 )
 
 // Tests getRedirectLocation function for all its criteria.

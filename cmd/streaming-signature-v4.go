@@ -30,8 +30,8 @@ import (
 	"net/http"
 	"time"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/pkg/auth"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/pkg/auth"
 	humanize "github.com/dustin/go-humanize"
 )
 

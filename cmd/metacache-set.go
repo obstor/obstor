@@ -30,10 +30,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/color"
-	"github.com/cloudment/obstor/pkg/console"
-	"github.com/cloudment/obstor/pkg/hash"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/console"
+	"github.com/obstor/obstor/pkg/hash"
 )
 
 type listPathOptions struct {

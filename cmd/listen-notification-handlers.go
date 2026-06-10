@@ -22,9 +22,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	policy "github.com/cloudment/obstor/pkg/bucket/policy"
-	"github.com/cloudment/obstor/pkg/event"
+	"github.com/obstor/obstor/cmd/logger"
+	policy "github.com/obstor/obstor/pkg/bucket/policy"
+	"github.com/obstor/obstor/pkg/event"
 	"github.com/gorilla/mux"
 )
 

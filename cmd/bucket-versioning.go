@@ -17,7 +17,7 @@
 
 package cmd
 
-import "github.com/cloudment/obstor/pkg/bucket/versioning"
+import "github.com/obstor/obstor/pkg/bucket/versioning"
 
 // BucketVersioningSys - policy subsystem.
 type BucketVersioningSys struct{}

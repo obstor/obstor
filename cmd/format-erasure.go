@@ -28,12 +28,12 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/cmd/config/storageclass"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/color"
-	xioutil "github.com/cloudment/obstor/pkg/ioutil"
-	"github.com/cloudment/obstor/pkg/sync/errgroup"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/config/storageclass"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/color"
+	xioutil "github.com/obstor/obstor/pkg/ioutil"
+	"github.com/obstor/obstor/pkg/sync/errgroup"
 	humanize "github.com/dustin/go-humanize"
 )
 

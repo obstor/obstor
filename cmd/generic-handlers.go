@@ -26,15 +26,15 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/minio/minio-go/v7/pkg/set"
+	"github.com/obstor/obstor-go/v7/pkg/set"
 
-	"github.com/cloudment/obstor/cmd/config/dns"
-	"github.com/cloudment/obstor/cmd/crypto"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/http/stats"
-	"github.com/cloudment/obstor/cmd/logger"
-	xnet "github.com/cloudment/obstor/pkg/net"
 	humanize "github.com/dustin/go-humanize"
+	"github.com/obstor/obstor/cmd/config/dns"
+	"github.com/obstor/obstor/cmd/crypto"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/http/stats"
+	"github.com/obstor/obstor/cmd/logger"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 // drainBody drains and closes the request body to prevent goroutine leaks

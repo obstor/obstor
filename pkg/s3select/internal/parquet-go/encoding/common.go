@@ -18,7 +18,7 @@
 package encoding
 
 import (
-	"github.com/cloudment/obstor/pkg/s3select/internal/parquet-go/common"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/common"
 )
 
 // Refer https://en.wikipedia.org/wiki/LEB128#Unsigned_LEB128

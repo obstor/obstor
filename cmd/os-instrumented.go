@@ -22,8 +22,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/disk"
-	trace "github.com/cloudment/obstor/pkg/trace"
+	"github.com/obstor/obstor/pkg/disk"
+	trace "github.com/obstor/obstor/pkg/trace"
 )
 
 //go:generate stringer -type=osMetric -trimprefix=osMetric $GOFILE

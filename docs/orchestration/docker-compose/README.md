@@ -11,7 +11,7 @@ With Compose, you use a Compose file to configure Obstor services. Then, using a
 
 ## 2. Run Distributed Obstor on Docker Compose
 
-To deploy Distributed Obstor on Docker Compose, please download [docker-compose.yaml](https://github.com/cloudment/obstor/blob/main/docs/orchestration/docker-compose/docker-compose.yaml?raw=true) and [nginx.conf](https://github.com/cloudment/obstor/blob/main/docs/orchestration/docker-compose/nginx.conf?raw=true) to your current working directory. Note that Docker Compose pulls the Obstor Docker image, so there is no need to explicitly download Obstor binary. Then run one of the below commands
+To deploy Distributed Obstor on Docker Compose, please download [docker-compose.yaml](https://github.com/obstor/obstor/blob/main/docs/orchestration/docker-compose/docker-compose.yaml?raw=true) and [nginx.conf](https://github.com/obstor/obstor/blob/main/docs/orchestration/docker-compose/nginx.conf?raw=true) to your current working directory. Note that Docker Compose pulls the Obstor Docker image, so there is no need to explicitly download Obstor binary. Then run one of the below commands
 
 ### GNU/Linux and macOS
 

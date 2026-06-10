@@ -23,7 +23,7 @@ import (
 	"net"
 	"syscall"
 
-	"github.com/cloudment/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/color"
 )
 
 // Err is a structure which contains all information

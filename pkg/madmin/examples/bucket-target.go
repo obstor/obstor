@@ -26,8 +26,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/cloudment/obstor/pkg/auth"
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 func main() {

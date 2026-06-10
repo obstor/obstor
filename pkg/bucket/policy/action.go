@@ -20,7 +20,7 @@ package policy
 import (
 	"encoding/json"
 
-	"github.com/cloudment/obstor/pkg/bucket/policy/condition"
+	"github.com/obstor/obstor/pkg/bucket/policy/condition"
 )
 
 // Action - policy action.

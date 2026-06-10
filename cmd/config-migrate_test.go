@@ -22,7 +22,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/cloudment/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/config"
 )
 
 // Test if config v1 is purged

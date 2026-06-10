@@ -27,9 +27,9 @@ import (
 	"strconv"
 	"strings"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/auth"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/auth"
 )
 
 // Http Header "x-amz-content-sha256" == "UNSIGNED-PAYLOAD" indicates that the

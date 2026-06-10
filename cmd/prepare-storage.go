@@ -28,10 +28,10 @@ import (
 	"sync"
 	"time"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/sync/errgroup"
 	"github.com/dustin/go-humanize"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/sync/errgroup"
 )
 
 var printEndpointError = func() func(Endpoint, error, bool) {
@@ -153,7 +153,7 @@ func formatErasureCleanupTmpLocalEndpoints(endpoints Endpoints) error {
 // migration failed to capture '.This' field properly which indicates
 // the disk UUID association. Below error message is returned when
 // we see this situation in format.json, for more info refer
-// https://github.com/cloudment/obstor/issues/5667
+// https://github.com/minio/minio/issues/5667
 var errErasureV3ThisEmpty = fmt.Errorf("erasure format version 3 has This field empty")
 
 // isServerResolvable - checks if the endpoint is resolvable
@@ -290,7 +290,7 @@ func connectLoadInitFormats(retryCount int, firstDisk bool, endpoints Endpoints,
 	// in release RELEASE.2018-03-16T22-52-12Z after migrating v1 to v2 to v3.
 	// This migration failed to capture '.This' field properly which indicates
 	// the disk UUID association. Below function is called to handle and fix
-	// this regression, for more info refer https://github.com/cloudment/obstor/issues/5667
+	// this regression, for more info refer https://github.com/minio/minio/issues/5667
 	if err = fixFormatErasureV3(storageDisks, endpoints, formatConfigs); err != nil {
 		return nil, nil, err
 	}

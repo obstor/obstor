@@ -28,8 +28,8 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/cmd/logger/message/log"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger/message/log"
 )
 
 type testLoggerI interface {

@@ -23,9 +23,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/pkg/env"
-	xnet "github.com/cloudment/obstor/pkg/net"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/pkg/env"
+	xnet "github.com/obstor/obstor/pkg/net"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"go.etcd.io/etcd/client/v3/namespace"
 	"go.uber.org/zap"

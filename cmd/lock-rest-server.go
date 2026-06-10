@@ -26,7 +26,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/dsync"
+	"github.com/obstor/obstor/pkg/dsync"
 	"github.com/gorilla/mux"
 )
 

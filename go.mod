@@ -1,4 +1,4 @@
-module github.com/cloudment/obstor
+module github.com/obstor/obstor
 
 go 1.26.0
 
@@ -31,7 +31,7 @@ require (
 	github.com/lib/pq v1.12.3
 	github.com/miekg/dns v1.1.72
 	github.com/minio/highwayhash v1.0.4
-	github.com/minio/minio-go/v7 v7.1.0
+	github.com/obstor/obstor-go/v7 v7.1.0
 	github.com/minio/selfupdate v0.6.0
 	github.com/minio/sha256-simd v1.0.1
 	github.com/minio/sio v0.5.1

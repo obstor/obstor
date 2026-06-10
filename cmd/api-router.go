@@ -20,7 +20,7 @@ package cmd
 import (
 	"net/http"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
+	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/gorilla/mux"
 )
 

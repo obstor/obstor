@@ -18,7 +18,7 @@
 package notify
 
 import (
-	"github.com/cloudment/obstor/pkg/event/target"
+	"github.com/obstor/obstor/pkg/event/target"
 )
 
 // Config - notification target configuration structure, holds

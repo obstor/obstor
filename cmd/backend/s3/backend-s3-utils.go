@@ -18,7 +18,7 @@
 package s3
 
 import (
-	obstor "github.com/cloudment/obstor/cmd"
+	obstor "github.com/obstor/obstor/cmd"
 )
 
 // List of header keys to be filtered, usually

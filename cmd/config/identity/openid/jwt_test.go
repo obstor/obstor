@@ -25,7 +25,7 @@ import (
 	"testing"
 	"time"
 
-	xnet "github.com/cloudment/obstor/pkg/net"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 func TestUpdateClaimsExpiry(t *testing.T) {

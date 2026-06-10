@@ -25,7 +25,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/console"
+	"github.com/obstor/obstor/pkg/console"
 )
 
 // Indicator if logging is enabled.

@@ -23,8 +23,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/pkg/ellipses"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/pkg/ellipses"
 )
 
 // Config represents cache config settings

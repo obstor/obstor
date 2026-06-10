@@ -24,8 +24,8 @@ import (
 	"runtime"
 	"sync"
 
-	"github.com/cloudment/obstor/pkg/s3select/jstream"
-	"github.com/cloudment/obstor/pkg/s3select/sql"
+	"github.com/obstor/obstor/pkg/s3select/jstream"
+	"github.com/obstor/obstor/pkg/s3select/sql"
 )
 
 // PReader - JSON record reader for S3Select.

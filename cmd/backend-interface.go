@@ -18,7 +18,7 @@
 package cmd
 
 import (
-	"github.com/cloudment/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/auth"
 )
 
 // BackendObstorSysTmp prefix is used in Azure/GCS backend for save metadata sent by Initialize Multipart Upload API.

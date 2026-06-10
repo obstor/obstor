@@ -22,11 +22,11 @@ import (
 	"context"
 	"sync"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/cmd/logger/message/log"
-	"github.com/cloudment/obstor/cmd/logger/target/console"
-	xnet "github.com/cloudment/obstor/pkg/net"
-	"github.com/cloudment/obstor/pkg/pubsub"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger/message/log"
+	"github.com/obstor/obstor/cmd/logger/target/console"
+	xnet "github.com/obstor/obstor/pkg/net"
+	"github.com/obstor/obstor/pkg/pubsub"
 )
 
 // Number of log messages to buffer

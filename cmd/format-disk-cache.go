@@ -30,7 +30,7 @@ import (
 
 	"encoding/json"
 
-	"github.com/cloudment/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger"
 	"github.com/minio/sio"
 )
 

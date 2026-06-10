@@ -34,8 +34,8 @@ import (
 	"strings"
 	"testing"
 
-	xjwt "github.com/cloudment/obstor/cmd/jwt"
-	"github.com/cloudment/obstor/pkg/hash"
+	xjwt "github.com/obstor/obstor/cmd/jwt"
+	"github.com/obstor/obstor/pkg/hash"
 	humanize "github.com/dustin/go-humanize"
 	jwtgo "github.com/golang-jwt/jwt/v4"
 )

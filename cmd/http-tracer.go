@@ -29,10 +29,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/handlers"
-	jsonrpc "github.com/cloudment/obstor/pkg/rpc"
-	trace "github.com/cloudment/obstor/pkg/trace"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/handlers"
+	jsonrpc "github.com/obstor/obstor/pkg/rpc"
+	trace "github.com/obstor/obstor/pkg/trace"
 	"github.com/gorilla/mux"
 )
 
@@ -94,7 +94,7 @@ func redactLDAPPwd(s string) string {
 
 // getOpName sanitizes the operation name for mc
 func getOpName(name string) (op string) {
-	op = strings.TrimPrefix(name, "github.com/cloudment/obstor/cmd.")
+	op = strings.TrimPrefix(name, "github.com/obstor/obstor/cmd.")
 	op = strings.TrimSuffix(op, "Handler-fm")
 	op = strings.Replace(op, "objectAPIHandlers", "s3", 1)
 	op = strings.Replace(op, "adminAPIHandlers", "admin", 1)

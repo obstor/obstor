@@ -26,9 +26,9 @@ import (
 	"strconv"
 	"strings"
 
-	csv "github.com/cloudment/obstor/pkg/csvparser"
-	"github.com/cloudment/obstor/pkg/s3select/jstream"
-	"github.com/cloudment/obstor/pkg/s3select/sql"
+	csv "github.com/obstor/obstor/pkg/csvparser"
+	"github.com/obstor/obstor/pkg/s3select/jstream"
+	"github.com/obstor/obstor/pkg/s3select/sql"
 )
 
 // RawJSON is a byte-slice that contains valid JSON

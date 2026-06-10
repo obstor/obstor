@@ -24,9 +24,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger/message/log"
-	"github.com/cloudment/obstor/pkg/color"
-	c "github.com/cloudment/obstor/pkg/console"
+	"github.com/obstor/obstor/cmd/logger/message/log"
+	"github.com/obstor/obstor/pkg/color"
+	c "github.com/obstor/obstor/pkg/console"
 )
 
 // Logger interface describes the methods that need to be implemented to satisfy the interface requirements.

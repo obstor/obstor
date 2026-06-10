@@ -24,8 +24,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/cloudment/obstor/cmd/crypto"
-	"github.com/cloudment/obstor/pkg/hash"
+	"github.com/obstor/obstor/cmd/crypto"
+	"github.com/obstor/obstor/pkg/hash"
 )
 
 var toAPIErrorTests = []struct {

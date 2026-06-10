@@ -30,10 +30,10 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/cloudment/obstor/pkg/s3select/csv"
-	"github.com/cloudment/obstor/pkg/s3select/json"
-	"github.com/cloudment/obstor/pkg/s3select/parquet"
-	"github.com/cloudment/obstor/pkg/s3select/sql"
+	"github.com/obstor/obstor/pkg/s3select/csv"
+	"github.com/obstor/obstor/pkg/s3select/json"
+	"github.com/obstor/obstor/pkg/s3select/parquet"
+	"github.com/obstor/obstor/pkg/s3select/sql"
 )
 
 type recordReader interface {

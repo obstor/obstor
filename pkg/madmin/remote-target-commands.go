@@ -28,7 +28,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/auth"
 )
 
 // ServiceType represents service type

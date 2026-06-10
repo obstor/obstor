@@ -22,7 +22,7 @@ package madmin_test
 import (
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 func TestObstorAdminClient(t *testing.T) {

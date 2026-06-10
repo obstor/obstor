@@ -25,7 +25,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/cloudment/obstor/pkg/bandwidth"
+	"github.com/obstor/obstor/pkg/bandwidth"
 )
 
 // Report includes the bandwidth report or the error encountered.

@@ -26,7 +26,7 @@ import (
 	"strconv"
 	"time"
 
-	trace "github.com/cloudment/obstor/pkg/trace"
+	trace "github.com/obstor/obstor/pkg/trace"
 )
 
 // ServiceRestart - restarts the Obstor cluster

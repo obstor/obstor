@@ -17,7 +17,7 @@
 
 package ldap
 
-import "github.com/cloudment/obstor/cmd/config"
+import "github.com/obstor/obstor/cmd/config"
 
 // Help template for LDAP identity feature.
 var (

@@ -31,8 +31,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	obstor "github.com/cloudment/obstor/cmd"
-	"github.com/cloudment/obstor/cmd/logger"
+	obstor "github.com/obstor/obstor/cmd"
+	"github.com/obstor/obstor/cmd/logger"
 	xsftp "github.com/pkg/sftp"
 	"golang.org/x/crypto/ssh"
 )

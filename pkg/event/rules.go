@@ -20,7 +20,7 @@ package event
 import (
 	"strings"
 
-	"github.com/cloudment/obstor/pkg/wildcard"
+	"github.com/obstor/obstor/pkg/wildcard"
 )
 
 // NewPattern - create new pattern for prefix/suffix.

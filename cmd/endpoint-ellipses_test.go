@@ -22,7 +22,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/ellipses"
+	"github.com/obstor/obstor/pkg/ellipses"
 )
 
 // Tests create endpoints with ellipses and without.

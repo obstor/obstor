@@ -17,7 +17,7 @@
 
 package ldap
 
-import "github.com/cloudment/obstor/cmd/config"
+import "github.com/obstor/obstor/cmd/config"
 
 // SetIdentityLDAP - One time migration code needed, for migrating from older config to new for LDAPConfig.
 func SetIdentityLDAP(s config.Config, ldapArgs Config) {

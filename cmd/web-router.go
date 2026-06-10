@@ -25,10 +25,10 @@ import (
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 
-	"github.com/cloudment/obstor/browser"
-	"github.com/cloudment/obstor/cmd/logger"
-	jsonrpc "github.com/cloudment/obstor/pkg/rpc"
-	"github.com/cloudment/obstor/pkg/rpc/json2"
+	"github.com/obstor/obstor/browser"
+	"github.com/obstor/obstor/cmd/logger"
+	jsonrpc "github.com/obstor/obstor/pkg/rpc"
+	"github.com/obstor/obstor/pkg/rpc/json2"
 )
 
 // webAPI container for Web API.

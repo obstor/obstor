@@ -30,7 +30,7 @@ import (
 	"syscall"
 	"testing"
 
-	"github.com/cloudment/obstor/cmd/config/storageclass"
+	"github.com/obstor/obstor/cmd/config/storageclass"
 )
 
 func TestCheckPathLength(t *testing.T) {

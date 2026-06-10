@@ -25,10 +25,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/cloudment/obstor/pkg/auth"
-	"github.com/cloudment/obstor/pkg/env"
-	"github.com/cloudment/obstor/pkg/madmin"
-	"github.com/minio/minio-go/v7/pkg/set"
+	"github.com/obstor/obstor-go/v7/pkg/set"
+	"github.com/obstor/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/env"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 // Error config error type

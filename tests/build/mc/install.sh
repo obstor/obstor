@@ -21,7 +21,7 @@ if [ "${MINT_MC_VARIANT:-mc}" = "ec" ]; then
 	exit 0
 fi
 
-MC_VERSION=$(curl --retry 10 -Ls -o /dev/null -w "%{url_effective}" https://github.com/minio/mc/releases/latest | sed "s/https:\/\/github.com\/minio\/mc\/releases\/tag\///")
+MC_VERSION=$(curl --retry 10 -Ls -o /dev/null -w "%{url_effective}" https://github.com/obstor/oc/releases/latest | sed "s/https:\/\/github.com\/minio\/mc\/releases\/tag\///")
 if [ -z "$MC_VERSION" ]; then
 	echo "unable to get mc version from github"
 	exit 1
@@ -31,7 +31,7 @@ test_run_dir="$MINT_RUN_CORE_DIR/mc"
 $WGET --output-document="${test_run_dir}/mc" "https://dl.pgg.net/client/mc/release/linux-amd64/mc.${MC_VERSION}"
 chmod a+x "${test_run_dir}/mc"
 
-git clone --quiet https://github.com/minio/mc.git "$test_run_dir/mc.git"
+git clone --quiet https://github.com/obstor/oc.git "$test_run_dir/mc.git"
 (
 	cd "$test_run_dir/mc.git"
 	git checkout --quiet "tags/${MC_VERSION}"

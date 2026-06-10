@@ -21,7 +21,7 @@ import (
 	"io"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/kms"
+	"github.com/obstor/obstor/pkg/kms"
 )
 
 var encryptDecryptTests = []struct {

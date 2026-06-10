@@ -22,7 +22,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	xnet "github.com/cloudment/obstor/pkg/net"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 type errorValidator struct{}

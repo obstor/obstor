@@ -22,7 +22,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/cloudment/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
 )
 
 var nameRegexp = regexp.MustCompile("^[a-zA-Z0-9_]+$")

@@ -25,7 +25,7 @@ import (
 	"hash"
 	"io"
 
-	"github.com/cloudment/obstor/pkg/etag"
+	"github.com/obstor/obstor/pkg/etag"
 )
 
 // A Reader wraps an io.Reader and computes the MD5 checksum

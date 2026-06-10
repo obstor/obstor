@@ -21,7 +21,7 @@ import (
 	"context"
 	"io"
 
-	"github.com/cloudment/obstor/cmd/logger"
+	"github.com/obstor/obstor/cmd/logger"
 )
 
 // HealBlock copies a block from any source that has it to all targets

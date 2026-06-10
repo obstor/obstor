@@ -26,7 +26,7 @@ Once the header is validated, we proceed to the actual data structure of the `xl
 - LegacyObjectType (preserves existing deployments and older xl.json format)
 - DeleteMarker (a versionId to capture the DELETE sequences implemented primarily for AWS spec compatibility)
 
-A sample msgpack-JSON `xl.meta`, you can debug the content inside `xl.meta` using [xl-meta.go](https://github.com/cloudment/obstor/blob/main/docs/bucket/versioning/xl-meta.go) program.
+A sample msgpack-JSON `xl.meta`, you can debug the content inside `xl.meta` using [xl-meta.go](https://github.com/obstor/obstor/blob/main/docs/bucket/versioning/xl-meta.go) program.
 ```json
 {
   "Versions": [

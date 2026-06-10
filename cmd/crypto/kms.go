@@ -16,7 +16,7 @@
 package crypto
 
 import (
-	"github.com/cloudment/obstor/pkg/kms"
+	"github.com/obstor/obstor/pkg/kms"
 )
 
 // Context is a list of key-value pairs cryptographically

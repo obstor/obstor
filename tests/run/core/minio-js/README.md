@@ -2,7 +2,7 @@
 This directory serves as the location for Testing tests using `minio-js`.  Top level `testing.sh` calls `run.sh` to execute tests.
 
 ## Adding new tests
-New tests is added in functional tests of minio-js.  Please check https://github.com/minio/minio-js
+New tests is added in functional tests of minio-js.  Please check https://github.com/obstor/obstor-js
 
 ## Running tests manually
 - Set environment variables `MINT_DATA_DIR`, `MINT_MODE`, `SERVER_ENDPOINT`, `ACCESS_KEY`, `SECRET_KEY`, `SERVER_REGION` and `ENABLE_HTTPS`

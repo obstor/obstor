@@ -25,8 +25,8 @@ import (
 	"errors"
 	"io"
 
-	"github.com/cloudment/obstor/pkg/argon2"
-	"github.com/cloudment/obstor/pkg/fips"
+	"github.com/obstor/obstor/pkg/argon2"
+	"github.com/obstor/obstor/pkg/fips"
 	sio "github.com/minio/sio"
 	"golang.org/x/crypto/pbkdf2"
 )

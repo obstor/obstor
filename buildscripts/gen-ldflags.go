@@ -30,12 +30,12 @@ import (
 
 func genLDFlags(version string) string {
 	ldflagsStr := "-s -w"
-	ldflagsStr += " -X github.com/cloudment/obstor/cmd.Version=" + version
-	ldflagsStr += " -X github.com/cloudment/obstor/cmd.ReleaseTag=" + releaseTag(version)
-	ldflagsStr += " -X github.com/cloudment/obstor/cmd.CommitID=" + commitID()
-	ldflagsStr += " -X github.com/cloudment/obstor/cmd.ShortCommitID=" + commitID()[:12]
-	ldflagsStr += " -X github.com/cloudment/obstor/cmd.GOPATH=" + os.Getenv("GOPATH")
-	ldflagsStr += " -X github.com/cloudment/obstor/cmd.GOROOT=" + os.Getenv("GOROOT")
+	ldflagsStr += " -X github.com/obstor/obstor/cmd.Version=" + version
+	ldflagsStr += " -X github.com/obstor/obstor/cmd.ReleaseTag=" + releaseTag(version)
+	ldflagsStr += " -X github.com/obstor/obstor/cmd.CommitID=" + commitID()
+	ldflagsStr += " -X github.com/obstor/obstor/cmd.ShortCommitID=" + commitID()[:12]
+	ldflagsStr += " -X github.com/obstor/obstor/cmd.GOPATH=" + os.Getenv("GOPATH")
+	ldflagsStr += " -X github.com/obstor/obstor/cmd.GOROOT=" + os.Getenv("GOROOT")
 	return ldflagsStr
 }
 

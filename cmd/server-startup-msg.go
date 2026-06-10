@@ -24,11 +24,11 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/cmd/logger"
-	color "github.com/cloudment/obstor/pkg/color"
-	"github.com/cloudment/obstor/pkg/madmin"
-	xnet "github.com/cloudment/obstor/pkg/net"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/cmd/logger"
+	color "github.com/obstor/obstor/pkg/color"
+	"github.com/obstor/obstor/pkg/madmin"
+	xnet "github.com/obstor/obstor/pkg/net"
 	humanize "github.com/dustin/go-humanize"
 )
 

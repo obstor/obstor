@@ -30,8 +30,8 @@ import (
 	"encoding/binary"
 	"net"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/env"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/env"
 )
 
 // RetMode - object retention mode.

@@ -32,15 +32,15 @@ import (
 	"syscall"
 	"time"
 
-	obstor "github.com/cloudment/obstor/cmd"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/auth"
-	"github.com/cloudment/obstor/pkg/env"
-	"github.com/cloudment/obstor/pkg/madmin"
-	xnet "github.com/cloudment/obstor/pkg/net"
 	"github.com/colinmarc/hdfs/v2"
 	"github.com/colinmarc/hdfs/v2/hadoopconf"
-	"github.com/minio/minio-go/v7/pkg/s3utils"
+	"github.com/obstor/obstor-go/v7/pkg/s3utils"
+	obstor "github.com/obstor/obstor/cmd"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/env"
+	"github.com/obstor/obstor/pkg/madmin"
+	xnet "github.com/obstor/obstor/pkg/net"
 	"github.com/urfave/cli"
 )
 

@@ -21,8 +21,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/madmin"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 // healTask represents what to heal along with options

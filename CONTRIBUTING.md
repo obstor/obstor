@@ -7,10 +7,10 @@
 Start by forking the Obstor GitHub repository, make changes in a branch and then send a pull request. We encourage pull requests to discuss code changes. Here are the steps in details:
 
 ### Setup your Obstor GitHub Repository
-Fork [Obstor upstream](https://github.com/cloudment/obstor/fork) source repository to your own personal repository. Copy the URL of your Obstor fork (you will need it for the `git clone` command below).
+Fork [Obstor upstream](https://github.com/obstor/obstor/fork) source repository to your own personal repository. Copy the URL of your Obstor fork (you will need it for the `git clone` command below).
 
 ```sh
-$ git clone https://github.com/cloudment/obstor
+$ git clone https://github.com/obstor/obstor
 $ go install -v
 $ ls /go/bin/obstor
 ```
@@ -18,7 +18,7 @@ $ ls /go/bin/obstor
 ### Set up git remote as ``upstream``
 ```sh
 $ cd obstor
-$ git remote add upstream https://github.com/cloudment/obstor
+$ git remote add upstream https://github.com/obstor/obstor
 $ git fetch upstream
 $ git merge upstream/master
 ...

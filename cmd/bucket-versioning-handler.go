@@ -22,9 +22,9 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/bucket/policy"
-	"github.com/cloudment/obstor/pkg/bucket/versioning"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/bucket/policy"
+	"github.com/obstor/obstor/pkg/bucket/versioning"
 	humanize "github.com/dustin/go-humanize"
 	"github.com/gorilla/mux"
 )

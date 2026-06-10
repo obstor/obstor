@@ -28,9 +28,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	xnet "github.com/cloudment/obstor/pkg/net"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 // DefaultTimeout - default REST timeout is 10 seconds.

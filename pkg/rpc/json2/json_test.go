@@ -18,7 +18,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/rpc"
+	"github.com/obstor/obstor/pkg/rpc"
 )
 
 // ResponseRecorder is an implementation of http.ResponseWriter that

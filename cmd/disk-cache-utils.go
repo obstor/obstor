@@ -30,7 +30,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cloudment/obstor/cmd/crypto"
+	"github.com/obstor/obstor/cmd/crypto"
 )
 
 // CacheStatusType - whether the request was served from cache.

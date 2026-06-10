@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/cloudment/obstor/cmd/config"
-	"github.com/cloudment/obstor/pkg/env"
+	"github.com/obstor/obstor/cmd/config"
+	"github.com/obstor/obstor/pkg/env"
 	"github.com/dustin/go-humanize"
 )
 

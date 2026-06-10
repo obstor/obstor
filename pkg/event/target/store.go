@@ -25,7 +25,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/cloudment/obstor/pkg/event"
+	"github.com/obstor/obstor/pkg/event"
 )
 
 const retryInterval = 3 * time.Second

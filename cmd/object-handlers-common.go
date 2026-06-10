@@ -24,8 +24,8 @@ import (
 	"strconv"
 	"time"
 
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/pkg/bucket/lifecycle"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/pkg/bucket/lifecycle"
 )
 
 // Validates the preconditions for CopyObjectPart, returns true if CopyObjectPart

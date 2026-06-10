@@ -15,7 +15,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/cloudment/obstor/pkg/rpc"
+	"github.com/obstor/obstor/pkg/rpc"
 )
 
 var null = json.RawMessage([]byte("null"))

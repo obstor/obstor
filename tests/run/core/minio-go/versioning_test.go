@@ -29,7 +29,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/minio/minio-go/v7/pkg/credentials"
+	"github.com/obstor/obstor-go/v7/pkg/credentials"
 )
 
 // testBucketVersioningExcludedPrefixes tests that excluded_prefixes are properly

@@ -23,8 +23,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/handlers"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/handlers"
 )
 
 const (

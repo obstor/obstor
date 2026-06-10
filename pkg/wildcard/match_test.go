@@ -20,7 +20,7 @@ package wildcard_test
 import (
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/wildcard"
+	"github.com/obstor/obstor/pkg/wildcard"
 )
 
 // TestMatch - Tests validate the logic of wild card matching.

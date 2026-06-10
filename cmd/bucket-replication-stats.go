@@ -22,7 +22,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/cloudment/obstor/pkg/bucket/replication"
+	"github.com/obstor/obstor/pkg/bucket/replication"
 )
 
 func (b *BucketReplicationStats) hasReplicationUsage() bool {

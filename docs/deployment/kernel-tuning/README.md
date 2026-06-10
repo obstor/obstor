@@ -1,6 +1,6 @@
 # Kernel Tuning for Obstor Production Deployment on Linux Servers
 
-List of kernel tuning recommendations for Obstor server deployments, a copy of this [script](https://github.com/cloudment/obstor/blob/main/docs/deployment/kernel-tuning/sysctl.sh) is available here that can be applied on the servers.
+List of kernel tuning recommendations for Obstor server deployments, a copy of this [script](https://github.com/obstor/obstor/blob/main/docs/deployment/kernel-tuning/sysctl.sh) is available here that can be applied on the servers.
 
 > NOTE: These are common recommendations on any Linux servers, users must be careful on any premature optimization.
 > These settings are not mandatory, these settings do not fix any hardware issues and should not be considered as an

@@ -24,8 +24,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/cloudment/obstor/cmd/config"
-	xnet "github.com/cloudment/obstor/pkg/net"
+	"github.com/obstor/obstor/cmd/config"
+	xnet "github.com/obstor/obstor/pkg/net"
 	"github.com/gorilla/mux"
 )
 

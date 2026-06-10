@@ -28,7 +28,7 @@ import (
 	"time"
 
 	"github.com/coredns/coredns/plugin/etcd/msg"
-	"github.com/minio/minio-go/v7/pkg/set"
+	"github.com/obstor/obstor-go/v7/pkg/set"
 	clientv3 "go.etcd.io/etcd/client/v3"
 )
 

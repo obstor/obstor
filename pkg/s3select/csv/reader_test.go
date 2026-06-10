@@ -28,7 +28,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/cloudment/obstor/pkg/s3select/sql"
+	"github.com/obstor/obstor/pkg/s3select/sql"
 	"github.com/klauspost/compress/zip"
 )
 
