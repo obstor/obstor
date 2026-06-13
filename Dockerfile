@@ -4,6 +4,9 @@ ENV GOPATH=/go
 ENV CGO_ENABLED=0
 ENV GO111MODULE=on
 
+# Dependencies
+RUN apk add --no-cache git
+
 # Cache dependencies
 WORKDIR /go/obstor
 COPY go.mod go.sum ./
