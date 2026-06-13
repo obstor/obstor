@@ -28,7 +28,7 @@ import (
 	"sync"
 	"time"
 
-	miniogo "github.com/obstor/obstor-go/v7"
+	obstor "github.com/obstor/obstor-go/v7"
 	"github.com/obstor/obstor-go/v7/pkg/tags"
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/cmd/logger"
@@ -246,15 +246,15 @@ func transitionSCInUse(ctx context.Context, lfc *lifecycle.Lifecycle, bucket, ar
 }
 
 // Set PutObjectOptions for PUT operation to transition data to target cluster
-func putTransitionOpts(objInfo ObjectInfo) (putOpts miniogo.PutObjectOptions, err error) {
+func putTransitionOpts(objInfo ObjectInfo) (putOpts obstor.PutObjectOptions, err error) {
 	meta := make(map[string]string)
 
-	putOpts = miniogo.PutObjectOptions{
+	putOpts = obstor.PutObjectOptions{
 		UserMetadata:    meta,
 		ContentType:     objInfo.ContentType,
 		ContentEncoding: objInfo.ContentEncoding,
 		StorageClass:    objInfo.StorageClass,
-		Internal: miniogo.AdvancedPutOptions{
+		Internal: obstor.AdvancedPutOptions{
 			SourceVersionID: objInfo.VersionID,
 			SourceMTime:     objInfo.ModTime,
 			SourceETag:      objInfo.ETag,
@@ -279,7 +279,7 @@ func putTransitionOpts(objInfo ObjectInfo) (putOpts miniogo.PutObjectOptions, er
 		putOpts.CacheControl = cc
 	}
 	if mode, ok := lkMap.Lookup(xhttp.AmzObjectLockMode); ok {
-		rmode := miniogo.RetentionMode(mode)
+		rmode := obstor.RetentionMode(mode)
 		putOpts.Mode = rmode
 	}
 	if retainDateStr, ok := lkMap.Lookup(xhttp.AmzObjectLockRetainUntilDate); ok {
@@ -290,7 +290,7 @@ func putTransitionOpts(objInfo ObjectInfo) (putOpts miniogo.PutObjectOptions, er
 		putOpts.RetainUntilDate = rdate
 	}
 	if lhold, ok := lkMap.Lookup(xhttp.AmzObjectLockLegalHold); ok {
-		putOpts.LegalHold = miniogo.LegalHoldStatus(lhold)
+		putOpts.LegalHold = obstor.LegalHoldStatus(lhold)
 	}
 
 	return putOpts, nil
@@ -331,7 +331,7 @@ func deleteTransitionedObject(ctx context.Context, objectAPI ObjectLayer, bucket
 
 	// When an object is past expiry, delete the data from transitioned tier and
 	// metadata from source
-	if err := tgt.RemoveObject(context.Background(), arn.Bucket, object, miniogo.RemoveObjectOptions{VersionID: lcOpts.VersionID}); err != nil {
+	if err := tgt.RemoveObject(context.Background(), arn.Bucket, object, obstor.RemoveObjectOptions{VersionID: lcOpts.VersionID}); err != nil {
 		logger.LogIf(ctx, err)
 	}
 
@@ -469,7 +469,7 @@ func getTransitionedObjectReader(ctx context.Context, bucket, object string, rs 
 	if err != nil {
 		return nil, ErrorRespToObjectError(err, bucket, object)
 	}
-	gopts := miniogo.GetObjectOptions{VersionID: opts.VersionID}
+	gopts := obstor.GetObjectOptions{VersionID: opts.VersionID}
 
 	// Get correct offsets for encrypted object
 	if off >= 0 && length >= 0 {

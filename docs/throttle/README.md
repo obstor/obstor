@@ -20,11 +20,10 @@ export OBSTOR_ROOT_PASSWORD=your-secret-key
 obstor server http://server{1...8}/mnt/hdd{1...16}
 ```
 
-or
+or set the environment variable and restart the server:
 
 ```bash
-mc admin config set myobstor/ api requests_max=1600
-mc admin service restart myobstor/
+export OBSTOR_API_REQUESTS_MAX=1600
 ```
 
 > NOTE: A zero value of `requests_max` means unlimited and that is the default behavior.
@@ -44,10 +43,10 @@ export OBSTOR_ROOT_PASSWORD=your-secret-key
 obstor server http://server{1...8}/mnt/hdd{1...16}
 ```
 
-or
+or set the environment variables and restart the server:
 
 ```bash
-mc admin config set myobstor/ api requests_max=1600 requests_deadline=2m
-mc admin service restart myobstor/
+export OBSTOR_API_REQUESTS_MAX=1600
+export OBSTOR_API_REQUESTS_DEADLINE=2m
 ```
 

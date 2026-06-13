@@ -33,7 +33,7 @@ Various event types supported by Obstor server are
 | `s3:BucketRemoved`                                                           |
 
 
-Use client tools like `mc` to set and listen for event notifications using the [`event` sub-command](/docs/bucket/notifications). Obstor SDK's [`BucketNotification` APIs](/docs/bucket/notifications) can also be used. The notification message Obstor sends to publish an event is a JSON message with the following [structure](https://docs.aws.amazon.com/AmazonS3/latest/dev/notification-content-structure.html).
+Use an S3 client such as the AWS CLI (`aws --endpoint-url http://HOST:9000 s3api put-bucket-notification-configuration ...`) to set bucket notifications, and the Obstor SDK's [`BucketNotification` APIs](/docs/bucket/notifications) to set and listen for event notifications. The notification message Obstor sends to publish an event is a JSON message with the following [structure](https://docs.aws.amazon.com/AmazonS3/latest/dev/notification-content-structure.html).
 
 Bucket events can be published to the following targets:
 
@@ -46,11 +46,18 @@ Bucket events can be published to the following targets:
 
 ## Prerequisites
 
-- Install and configure Obstor Server from here.
-- Install and configure Obstor Client from here.
+- Install and configure the Obstor Server from here.
+- Install an S3 client such as the AWS CLI or rclone for uploading and listing objects.
+
+The examples below use the AWS CLI with `--endpoint-url http://localhost:9000` and an rclone remote named `obstor`. Configure the rclone remote once with:
 
 ```bash
-$ mc admin config get myobstor | grep notify
+rclone config create obstor s3 provider=Other endpoint=http://localhost:9000 access_key_id=KEY secret_access_key=SECRET
+```
+
+Obstor publishes bucket notifications to the following notification subsystems, each configured through its own `OBSTOR_NOTIFY_*` environment variables:
+
+```bash
 notify_webhook        publish bucket notifications to webhook endpoints
 notify_amqp           publish bucket notifications to AMQP endpoints
 notify_kafka          publish bucket notifications to Kafka endpoints
@@ -123,34 +130,53 @@ OBSTOR_NOTIFY_AMQP_COMMENT        (sentence)  optionally add a comment to this s
 
 Obstor supports persistent event store. The persistent store will backup events when the AMQP broker goes offline and replays it when the broker comes back online. The event store can be configured by setting the directory path in `queue_dir` field and the maximum limit of events in the queue_dir in `queue_limit` field. For eg, the `queue_dir` can be `/home/events` and `queue_limit` can be `1000`. By default, the `queue_limit` is set to 100000.
 
-To update the configuration, use `mc admin config get notify_amqp` command to get the current configuration for `notify_amqp`.
-
-```bash
-$ mc admin config get myobstor/ notify_amqp
-notify_amqp:1 delivery_mode="0" exchange_type="" no_wait="off" queue_dir="" queue_limit="0"  url="" auto_deleted="off" durable="off" exchange="" internal="off" mandatory="off" routing_key=""
-```
-
-Use `mc admin config set` command to update the configuration for the deployment.Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:amqp` at start-up if there were no errors.
+The `notify_amqp` subsystem is configured through `OBSTOR_NOTIFY_AMQP_*` environment variables set on the Obstor server. Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:amqp` at start-up if there were no errors.
 
 An example configuration for RabbitMQ is shown below:
 
 ```bash
-$ mc admin config set myobstor/ notify_amqp:1 exchange="bucketevents" exchange_type="fanout" mandatory="false" no_wait="false"  url="amqp://myuser:mypassword@localhost:5672" auto_deleted="false" delivery_mode="0" durable="false" internal="false" routing_key="bucketlogs"
+export OBSTOR_NOTIFY_AMQP_ENABLE_1=on
+export OBSTOR_NOTIFY_AMQP_URL_1="amqp://myuser:mypassword@localhost:5672"
+export OBSTOR_NOTIFY_AMQP_EXCHANGE_1="bucketevents"
+export OBSTOR_NOTIFY_AMQP_EXCHANGE_TYPE_1="fanout"
+export OBSTOR_NOTIFY_AMQP_ROUTING_KEY_1="bucketlogs"
+export OBSTOR_NOTIFY_AMQP_MANDATORY_1="off"
+export OBSTOR_NOTIFY_AMQP_NO_WAIT_1="off"
+export OBSTOR_NOTIFY_AMQP_DURABLE_1="off"
+export OBSTOR_NOTIFY_AMQP_INTERNAL_1="off"
+export OBSTOR_NOTIFY_AMQP_AUTO_DELETED_1="off"
+export OBSTOR_NOTIFY_AMQP_DELIVERY_MODE_1="0"
 ```
 
 Obstor supports all the exchanges available in [RabbitMQ](https://www.rabbitmq.com/). For this setup, we are using `fanout` exchange.
 
 Note that, you can add as many AMQP server endpoint configurations as needed by providing an identifier (like "1" in the example above) for the AMQP instance and an object of per-server configuration parameters.
 
-### Step 2: Enable bucket notification using Obstor client
+### Step 2: Enable bucket notification using an S3 client
 
-We will enable bucket event notification to trigger whenever a JPEG image is uploaded or deleted `images` bucket on `myobstor` server. Here ARN value is `arn:obstor:sqs::1:amqp`. To understand more about ARN please follow [AWS ARN](http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) documentation.
+We will enable bucket event notification to trigger whenever a JPEG image is uploaded or deleted from the `images` bucket on the Obstor server. Here the ARN value is `arn:obstor:sqs::1:amqp`. To understand more about ARN please follow [AWS ARN](http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) documentation.
+
+Create the bucket, then apply a notification configuration with the AWS CLI:
 
 ```bash
-mc mb myobstor/images
-mc event add myobstor/images arn:obstor:sqs::1:amqp --suffix .jpg
-mc event list myobstor/images
-arn:obstor:sqs::1:amqp s3:ObjectCreated:*,s3:ObjectRemoved:* Filter: suffix=”.jpg”
+aws --endpoint-url http://localhost:9000 s3 mb s3://images
+
+cat > /tmp/amqp-notif.json <<'EOF'
+{
+  "QueueConfigurations": [
+    {
+      "QueueArn": "arn:obstor:sqs::1:amqp",
+      "Events": ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"],
+      "Filter": {"Key": {"FilterRules": [{"Name": "suffix", "Value": ".jpg"}]}}
+    }
+  ]
+}
+EOF
+
+aws --endpoint-url http://localhost:9000 s3api put-bucket-notification-configuration \
+  --bucket images --notification-configuration file:///tmp/amqp-notif.json
+
+aws --endpoint-url http://localhost:9000 s3api get-bucket-notification-configuration --bucket images
 ```
 
 ### Step 3: Test on RabbitMQ
@@ -195,7 +221,7 @@ python rabbit.py
 Open another terminal and upload a JPEG image into `images` bucket.
 
 ```bash
-mc cp myphoto.jpg myobstor/images
+rclone copy myphoto.jpg obstor:images/
 ```
 
 You should receive the following event notification via RabbitMQ once the upload completes.
@@ -254,32 +280,42 @@ OBSTOR_NOTIFY_MQTT_COMMENT              (sentence)  optionally add a comment to 
 
 Obstor supports persistent event store. The persistent store will backup events when the MQTT broker goes offline and replays it when the broker comes back online. The event store can be configured by setting the directory path in `queue_dir` field and the maximum limit of events in the queue_dir in `queue_limit` field. For eg, the `queue_dir` can be `/home/events` and `queue_limit` can be `1000`. By default, the `queue_limit` is set to 100000.
 
-To update the configuration, use `mc admin config get` command to get the current configuration.
+The `notify_mqtt` subsystem is configured through `OBSTOR_NOTIFY_MQTT_*` environment variables set on the Obstor server. Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:mqtt` at start-up if there were no errors.
 
 ```bash
-$ mc admin config get myobstor/ notify_mqtt
-notify_mqtt:1 broker="" password="" queue_dir="" queue_limit="0" reconnect_interval="0s"  keep_alive_interval="0s" qos="0" topic="" username=""
-```
-
-Use `mc admin config set` command to update the configuration for the deployment. Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:mqtt` at start-up if there were no errors.
-
-```bash
-$ mc admin config set myobstor notify_mqtt:1 broker="tcp://localhost:1883" password="" queue_dir="" queue_limit="0" reconnect_interval="0s"  keep_alive_interval="0s" qos="1" topic="obstor" username=""
+export OBSTOR_NOTIFY_MQTT_ENABLE_1=on
+export OBSTOR_NOTIFY_MQTT_BROKER_1="tcp://localhost:1883"
+export OBSTOR_NOTIFY_MQTT_TOPIC_1="obstor"
+export OBSTOR_NOTIFY_MQTT_QOS_1="1"
 ```
 
 Obstor supports any MQTT server that supports MQTT 3.1 or 3.1.1 and can connect to them over TCP, TLS, or a Websocket connection using `tcp://`, `tls://`, or `ws://` respectively as the scheme for the broker url. See the [Go Client](http://www.eclipse.org/paho/clients/golang/) documentation for more information.
 
 Note that, you can add as many MQTT server endpoint configurations as needed by providing an identifier (like "1" in the example above) for the MQTT instance and an object of per-server configuration parameters.
 
-### Step 2: Enable bucket notification using Obstor client
+### Step 2: Enable bucket notification using an S3 client
 
-We will enable bucket event notification to trigger whenever a JPEG image is uploaded or deleted `images` bucket on `myobstor` server. Here ARN value is `arn:obstor:sqs::1:mqtt`.
+We will enable bucket event notification to trigger whenever a JPEG image is uploaded or deleted from the `images` bucket on the Obstor server. Here the ARN value is `arn:obstor:sqs::1:mqtt`.
 
 ```bash
-mc mb myobstor/images
-mc event add  myobstor/images arn:obstor:sqs::1:mqtt --suffix .jpg
-mc event list myobstor/images
-arn:obstor:sqs::1:amqp s3:ObjectCreated:*,s3:ObjectRemoved:* Filter: suffix=”.jpg”
+aws --endpoint-url http://localhost:9000 s3 mb s3://images
+
+cat > /tmp/mqtt-notif.json <<'EOF'
+{
+  "QueueConfigurations": [
+    {
+      "QueueArn": "arn:obstor:sqs::1:mqtt",
+      "Events": ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"],
+      "Filter": {"Key": {"FilterRules": [{"Name": "suffix", "Value": ".jpg"}]}}
+    }
+  ]
+}
+EOF
+
+aws --endpoint-url http://localhost:9000 s3api put-bucket-notification-configuration \
+  --bucket images --notification-configuration file:///tmp/mqtt-notif.json
+
+aws --endpoint-url http://localhost:9000 s3api get-bucket-notification-configuration --bucket images
 ```
 
 ### Step 3: Test on MQTT
@@ -320,7 +356,7 @@ python mqtt.py
 Open another terminal and upload a JPEG image into `images` bucket.
 
 ```bash
-mc cp myphoto.jpg myobstor/images
+rclone copy myphoto.jpg obstor:images/
 ```
 
 You should receive the following event notification via MQTT once the upload completes.
@@ -391,34 +427,44 @@ Obstor supports persistent event store. The persistent store will backup events 
 
 If Elasticsearch has authentication enabled, the credentials can be supplied to Obstor via the `url` parameter formatted as `PROTO://USERNAME:PASSWORD@ELASTICSEARCH_HOST:PORT`.
 
-To update the configuration, use `mc admin config get` command to get the current configuration.
+The `notify_elasticsearch` subsystem is configured through `OBSTOR_NOTIFY_ELASTICSEARCH_*` environment variables set on the Obstor server. Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:elasticsearch` at start-up if there were no errors.
 
 ```bash
-$ mc admin config get myobstor/ notify_elasticsearch
-notify_elasticsearch:1 queue_limit="0"  url="" format="namespace" index="" queue_dir=""
-```
-
-Use `mc admin config set` command to update the configuration for the deployment. Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:elasticsearch` at start-up if there were no errors.
-
-```bash
-$ mc admin config set myobstor notify_elasticsearch:1 queue_limit="0"  url="http://127.0.0.1:9200" format="namespace" index="obstor_events" queue_dir="" username="" password=""
+export OBSTOR_NOTIFY_ELASTICSEARCH_ENABLE_1=on
+export OBSTOR_NOTIFY_ELASTICSEARCH_URL_1="http://127.0.0.1:9200"
+export OBSTOR_NOTIFY_ELASTICSEARCH_FORMAT_1="namespace"
+export OBSTOR_NOTIFY_ELASTICSEARCH_INDEX_1="obstor_events"
 ```
 
 Note that, you can add as many Elasticsearch server endpoint configurations as needed by providing an identifier (like "1" in the example above) for the Elasticsearch instance and an object of per-server configuration parameters.
 
-### Step 3: Enable bucket notification using Obstor client
+### Step 3: Enable bucket notification using an S3 client
 
 We will now enable bucket event notifications on a bucket named `images`. Whenever a JPEG image is created/overwritten, a new document is added or an existing document is updated in the Elasticsearch index configured above. When an existing object is deleted, the corresponding document is deleted from the index. Thus, the rows in the Elasticsearch index, reflect the `.jpg` objects in the `images` bucket.
 
 To configure this bucket notification, we need the ARN printed by Obstor in the previous step. Additional information about ARN is available [here](http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
-With the `mc` tool, the configuration is very simple to add. Let us say that the Obstor server is aliased as `myobstor` in our mc configuration. Execute the following:
+Create the bucket and apply the notification configuration with the AWS CLI:
 
 ```bash
-mc mb myobstor/images
-mc event add  myobstor/images arn:obstor:sqs::1:elasticsearch --suffix .jpg
-mc event list myobstor/images
-arn:obstor:sqs::1:elasticsearch s3:ObjectCreated:*,s3:ObjectRemoved:* Filter: suffix=”.jpg”
+aws --endpoint-url http://localhost:9000 s3 mb s3://images
+
+cat > /tmp/es-notif.json <<'EOF'
+{
+  "QueueConfigurations": [
+    {
+      "QueueArn": "arn:obstor:sqs::1:elasticsearch",
+      "Events": ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"],
+      "Filter": {"Key": {"FilterRules": [{"Name": "suffix", "Value": ".jpg"}]}}
+    }
+  ]
+}
+EOF
+
+aws --endpoint-url http://localhost:9000 s3api put-bucket-notification-configuration \
+  --bucket images --notification-configuration file:///tmp/es-notif.json
+
+aws --endpoint-url http://localhost:9000 s3api get-bucket-notification-configuration --bucket images
 ```
 
 ### Step 4: Test on Elasticsearch
@@ -426,7 +472,7 @@ arn:obstor:sqs::1:elasticsearch s3:ObjectCreated:*,s3:ObjectRemoved:* Filter: su
 Upload a JPEG image into `images` bucket.
 
 ```bash
-mc cp myphoto.jpg myobstor/images
+rclone copy myphoto.jpg obstor:images/
 ```
 
 Use curl to view contents of `obstor_events` index.
@@ -456,7 +502,7 @@ $ curl  "http://localhost:9200/obstor_events/_search?pretty=true"
               "eventVersion" : "2.0",
               "eventSource" : "obstor:s3",
               "awsRegion" : "",
-              "eventTime" : "2026-03-30T08:00:41Z",
+              "eventTime" : "2026-06-30T08:00:41Z",
               "eventName" : "s3:ObjectCreated:Put",
               "userIdentity" : {
                 "principalId" : "obstor"
@@ -488,7 +534,7 @@ $ curl  "http://localhost:9200/obstor_events/_search?pretty=true"
               "source" : {
                 "host" : "127.0.0.1",
                 "port" : "38062",
-                "userAgent" : "Obstor (linux; amd64) minio-go/2.0.3 mc/2026-02-15T17:57:25Z"
+                "userAgent" : "aws-cli/2.27.41 Python/3.13.5 Linux/6.15.2 botocore/2.27.41"
               }
             }
           ]
@@ -553,34 +599,45 @@ OBSTOR_NOTIFY_REDIS_COMMENT      (sentence)           optionally add a comment t
 
 Obstor supports persistent event store. The persistent store will backup events when the Redis broker goes offline and replays it when the broker comes back online. The event store can be configured by setting the directory path in `queue_dir` field and the maximum limit of events in the queue_dir in `queue_limit` field. For eg, the `queue_dir` can be `/home/events` and `queue_limit` can be `1000`. By default, the `queue_limit` is set to 100000.
 
-To update the configuration, use `mc admin config get` command to get the current configuration.
+The `notify_redis` subsystem is configured through `OBSTOR_NOTIFY_REDIS_*` environment variables set on the Obstor server. Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:redis` at start-up if there were no errors.
 
 ```bash
-$ mc admin config get myobstor/ notify_redis
-notify_redis:1 address="" format="namespace" key="" password="" queue_dir="" queue_limit="0"
-```
-
-Use `mc admin config set` command to update the configuration for the deployment.Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:redis` at start-up if there were no errors.
-
-```bash
-$ mc admin config set myobstor/ notify_redis:1 address="127.0.0.1:6379" format="namespace" key="bucketevents" password="yoursecret" queue_dir="" queue_limit="0"
+export OBSTOR_NOTIFY_REDIS_ENABLE_1=on
+export OBSTOR_NOTIFY_REDIS_ADDRESS_1="127.0.0.1:6379"
+export OBSTOR_NOTIFY_REDIS_FORMAT_1="namespace"
+export OBSTOR_NOTIFY_REDIS_KEY_1="bucketevents"
+export OBSTOR_NOTIFY_REDIS_PASSWORD_1="yoursecret"
 ```
 
 Note that, you can add as many Redis server endpoint configurations as needed by providing an identifier (like "1" in the example above) for the Redis instance and an object of per-server configuration parameters.
 
-### Step 2: Enable bucket notification using Obstor client
+### Step 2: Enable bucket notification using an S3 client
 
 We will now enable bucket event notifications on a bucket named `images`. Whenever a JPEG image is created/overwritten, a new key is added or an existing key is updated in the Redis hash configured above. When an existing object is deleted, the corresponding key is deleted from the Redis hash. Thus, the rows in the Redis hash, reflect the `.jpg` objects in the `images` bucket.
 
 To configure this bucket notification, we need the ARN printed by Obstor in the previous step. Additional information about ARN is available [here](http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
-With the `mc` tool, the configuration is very simple to add. Let us say that the Obstor server is aliased as `myobstor` in our mc configuration. Execute the following:
+Create the bucket and apply the notification configuration with the AWS CLI:
 
 ```bash
-mc mb myobstor/images
-mc event add myobstor/images arn:obstor:sqs::1:redis --suffix .jpg
-mc event list myobstor/images
-arn:obstor:sqs::1:redis s3:ObjectCreated:*,s3:ObjectRemoved:* Filter: suffix=”.jpg”
+aws --endpoint-url http://localhost:9000 s3 mb s3://images
+
+cat > /tmp/redis-notif.json <<'EOF'
+{
+  "QueueConfigurations": [
+    {
+      "QueueArn": "arn:obstor:sqs::1:redis",
+      "Events": ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"],
+      "Filter": {"Key": {"FilterRules": [{"Name": "suffix", "Value": ".jpg"}]}}
+    }
+  ]
+}
+EOF
+
+aws --endpoint-url http://localhost:9000 s3api put-bucket-notification-configuration \
+  --bucket images --notification-configuration file:///tmp/redis-notif.json
+
+aws --endpoint-url http://localhost:9000 s3api get-bucket-notification-configuration --bucket images
 ```
 
 ### Step 3: Test on Redis
@@ -596,7 +653,7 @@ OK
 Open another terminal and upload a JPEG image into `images` bucket.
 
 ```bash
-mc cp myphoto.jpg myobstor/images
+rclone copy myphoto.jpg obstor:images/
 ```
 
 In the previous terminal, you will now see the operation that Obstor performs on Redis:
@@ -605,7 +662,7 @@ In the previous terminal, you will now see the operation that Obstor performs on
 127.0.0.1:6379> monitor
 OK
 1490686879.650649 [0 172.17.0.1:44710] "PING"
-1490686879.651061 [0 172.17.0.1:44710] "HSET" "obstor_events" "images/myphoto.jpg" "{\"Records\":[{\"eventVersion\":\"2.0\",\"eventSource\":\"obstor:s3\",\"awsRegion\":\"\",\"eventTime\":\"2026-03-28T07:41:19Z\",\"eventName\":\"s3:ObjectCreated:Put\",\"userIdentity\":{\"principalId\":\"obstor\"},\"requestParameters\":{\"sourceIPAddress\":\"127.0.0.1:52234\"},\"responseElements\":{\"x-amz-request-id\":\"14AFFBD1ACE5F632\",\"x-obstor-origin-endpoint\":\"http://192.168.86.115:9000\"},\"s3\":{\"s3SchemaVersion\":\"1.0\",\"configurationId\":\"Config\",\"bucket\":{\"name\":\"images\",\"ownerIdentity\":{\"principalId\":\"obstor\"},\"arn\":\"arn:aws:s3:::images\"},\"object\":{\"key\":\"myphoto.jpg\",\"size\":2586,\"eTag\":\"5d284463f9da279f060f0ea4d11af098\",\"sequencer\":\"14AFFBD1ACE5F632\"}},\"source\":{\"host\":\"127.0.0.1\",\"port\":\"52234\",\"userAgent\":\"Obstor (linux; amd64) minio-go/2.0.3 mc/2026-02-15T17:57:25Z\"}}]}"
+1490686879.651061 [0 172.17.0.1:44710] "HSET" "obstor_events" "images/myphoto.jpg" "{\"Records\":[{\"eventVersion\":\"2.0\",\"eventSource\":\"obstor:s3\",\"awsRegion\":\"\",\"eventTime\":\"2026-06-28T07:41:19Z\",\"eventName\":\"s3:ObjectCreated:Put\",\"userIdentity\":{\"principalId\":\"obstor\"},\"requestParameters\":{\"sourceIPAddress\":\"127.0.0.1:52234\"},\"responseElements\":{\"x-amz-request-id\":\"14AFFBD1ACE5F632\",\"x-obstor-origin-endpoint\":\"http://192.168.86.115:9000\"},\"s3\":{\"s3SchemaVersion\":\"1.0\",\"configurationId\":\"Config\",\"bucket\":{\"name\":\"images\",\"ownerIdentity\":{\"principalId\":\"obstor\"},\"arn\":\"arn:aws:s3:::images\"},\"object\":{\"key\":\"myphoto.jpg\",\"size\":2586,\"eTag\":\"5d284463f9da279f060f0ea4d11af098\",\"sequencer\":\"14AFFBD1ACE5F632\"}},\"source\":{\"host\":\"127.0.0.1\",\"port\":\"52234\",\"userAgent\":\"aws-cli/2.27.41 Python/3.13.5 Linux/6.15.2 botocore/2.27.41\"}}]}"
 ```
 
 Here we see that Obstor performed `HSET` on `obstor_events` key.
@@ -674,32 +731,47 @@ OBSTOR_NOTIFY_NATS_QUEUE_LIMIT                       (number)    maximum limit f
 OBSTOR_NOTIFY_NATS_COMMENT                           (sentence)  optionally add a comment to this setting
 ```
 
-To update the configuration, use `mc admin config get` command to get the current configuration file for the obstor deployment.
+The `notify_nats` subsystem is configured through `OBSTOR_NOTIFY_NATS_*` environment variables set on the Obstor server. Restart the Obstor server to reflect config changes. `bucketevents` is the subject used by NATS in this example.
 
 ```bash
-$ mc admin config get myobstor/ notify_nats
-notify_nats:1 password="yoursecret" streaming_max_pub_acks_in_flight="10" subject="" address="0.0.0.0:4222"  token="" username="yourusername" ping_interval="0" queue_limit="0" tls="off" tls_skip_verify="off" streaming_async="on" queue_dir="" streaming_cluster_id="test-cluster" streaming_enable="on"
-```
-
-Use `mc admin config set` command to update the configuration for the deployment.Restart Obstor server to reflect config changes. `bucketevents` is the subject used by NATS in this example.
-
-```bash
-$ mc admin config set myobstor notify_nats:1 password="yoursecret" streaming_max_pub_acks_in_flight="10" subject="" address="0.0.0.0:4222"  token="" username="yourusername" ping_interval="0" queue_limit="0" tls="off" streaming_async="on" queue_dir="" streaming_cluster_id="test-cluster" streaming_enable="on"
+export OBSTOR_NOTIFY_NATS_ENABLE_1=on
+export OBSTOR_NOTIFY_NATS_ADDRESS_1="0.0.0.0:4222"
+export OBSTOR_NOTIFY_NATS_SUBJECT_1="bucketevents"
+export OBSTOR_NOTIFY_NATS_USERNAME_1="yourusername"
+export OBSTOR_NOTIFY_NATS_PASSWORD_1="yoursecret"
+export OBSTOR_NOTIFY_NATS_STREAMING_1="on"
+export OBSTOR_NOTIFY_NATS_STREAMING_ASYNC_1="on"
+export OBSTOR_NOTIFY_NATS_STREAMING_MAX_PUB_ACKS_IN_FLIGHT_1="10"
+export OBSTOR_NOTIFY_NATS_STREAMING_CLUSTER_ID_1="test-cluster"
 ```
 
 Obstor server also supports [NATS Streaming mode](https://docs.nats.io/nats-concepts/jetstream/streams) that offers additional functionality like `At-least-once-delivery`, and `Publisher rate limiting`. To configure Obstor server to send notifications to NATS Streaming server, update the Obstor server configuration file as follows:
 
 Read more about sections `cluster_id`, `client_id` on [NATS documentation](https://github.com/nats-io/nats-streaming-server/blob/master/README.md). Section `maxPubAcksInflight` is explained [here](https://github.com/nats-io/stan.go#publisher-rate-limiting).
 
-### Step 2: Enable bucket notification using Obstor client
+### Step 2: Enable bucket notification using an S3 client
 
-We will enable bucket event notification to trigger whenever a JPEG image is uploaded or deleted from `images` bucket on `myobstor` server. Here ARN value is `arn:obstor:sqs::1:nats`. To understand more about ARN please follow [AWS ARN](http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) documentation.
+We will enable bucket event notification to trigger whenever a JPEG image is uploaded or deleted from the `images` bucket on the Obstor server. Here the ARN value is `arn:obstor:sqs::1:nats`. To understand more about ARN please follow [AWS ARN](http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) documentation.
 
 ```bash
-mc mb myobstor/images
-mc event add myobstor/images arn:obstor:sqs::1:nats --suffix .jpg
-mc event list myobstor/images
-arn:obstor:sqs::1:nats s3:ObjectCreated:*,s3:ObjectRemoved:* Filter: suffix=”.jpg”
+aws --endpoint-url http://localhost:9000 s3 mb s3://images
+
+cat > /tmp/nats-notif.json <<'EOF'
+{
+  "QueueConfigurations": [
+    {
+      "QueueArn": "arn:obstor:sqs::1:nats",
+      "Events": ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"],
+      "Filter": {"Key": {"FilterRules": [{"Name": "suffix", "Value": ".jpg"}]}}
+    }
+  ]
+}
+EOF
+
+aws --endpoint-url http://localhost:9000 s3api put-bucket-notification-configuration \
+  --bucket images --notification-configuration file:///tmp/nats-notif.json
+
+aws --endpoint-url http://localhost:9000 s3api get-bucket-notification-configuration --bucket images
 ```
 
 ### Step 3: Test on NATS
@@ -745,7 +817,7 @@ go run nats.go
 Open another terminal and upload a JPEG image into `images` bucket.
 
 ```bash
-mc cp myphoto.jpg myobstor/images
+rclone copy myphoto.jpg obstor:images/
 ```
 
 The example `nats.go` program prints event notification to console.
@@ -823,13 +895,13 @@ go run nats.go
 Open another terminal and upload a JPEG image into `images` bucket.
 
 ```bash
-mc cp myphoto.jpg myobstor/images
+rclone copy myphoto.jpg obstor:images/
 ```
 
 The example `nats.go` program prints event notification to console.
 
 ```json
-Received a message: {"EventType":"s3:ObjectCreated:Put","Key":"images/myphoto.jpg","Records":[{"eventVersion":"2.0","eventSource":"obstor:s3","awsRegion":"","eventTime":"2026-07-07T18:46:37Z","eventName":"s3:ObjectCreated:Put","userIdentity":{"principalId":"obstor"},"requestParameters":{"sourceIPAddress":"192.168.1.80:55328"},"responseElements":{"x-amz-request-id":"14CF20BD1EFD5B93","x-obstor-origin-endpoint":"http://127.0.0.1:9000"},"s3":{"s3SchemaVersion":"1.0","configurationId":"Config","bucket":{"name":"images","ownerIdentity":{"principalId":"obstor"},"arn":"arn:aws:s3:::images"},"object":{"key":"myphoto.jpg","size":248682,"eTag":"f1671feacb8bbf7b0397c6e9364e8c92","contentType":"image/jpeg","userDefined":{"content-type":"image/jpeg"},"versionId":"1","sequencer":"14CF20BD1EFD5B93"}},"source":{"host":"192.168.1.80","port":"55328","userAgent":"Obstor (linux; amd64) minio-go/2.0.4 mc/DEVELOPMENT.GOGET"}}],"level":"info","msg":"","time":"2026-07-07T11:46:37-07:00"}
+Received a message: {"EventType":"s3:ObjectCreated:Put","Key":"images/myphoto.jpg","Records":[{"eventVersion":"2.0","eventSource":"obstor:s3","awsRegion":"","eventTime":"2026-07-07T18:46:37Z","eventName":"s3:ObjectCreated:Put","userIdentity":{"principalId":"obstor"},"requestParameters":{"sourceIPAddress":"192.168.1.80:55328"},"responseElements":{"x-amz-request-id":"14CF20BD1EFD5B93","x-obstor-origin-endpoint":"http://127.0.0.1:9000"},"s3":{"s3SchemaVersion":"1.0","configurationId":"Config","bucket":{"name":"images","ownerIdentity":{"principalId":"obstor"},"arn":"arn:aws:s3:::images"},"object":{"key":"myphoto.jpg","size":248682,"eTag":"f1671feacb8bbf7b0397c6e9364e8c92","contentType":"image/jpeg","userDefined":{"content-type":"image/jpeg"},"versionId":"1","sequencer":"14CF20BD1EFD5B93"}},"source":{"host":"192.168.1.80","port":"55328","userAgent":"aws-cli/2.27.41 Python/3.13.5 Linux/6.15.2 botocore/2.27.41"}}],"level":"info","msg":"","time":"2026-07-07T11:46:37-07:00"}
 ```
 
 <a name="PostgreSQL"></a>
@@ -890,38 +962,47 @@ OBSTOR_NOTIFY_POSTGRES_MAX_OPEN_CONNECTIONS (number)             maximum number 
 Obstor supports persistent event store. The persistent store will backup events when the PostgreSQL connection goes offline and replays it when the broker comes back online. The event store can be configured by setting the directory path in `queue_dir` field and the maximum limit of events in the queue_dir in `queue_limit` field. For eg, the `queue_dir` can be `/home/events` and `queue_limit` can be `1000`. By default, the `queue_limit` is set to 100000.
 
 Note that for illustration here, we have disabled SSL. In the interest of security, for production this is not recommended.
-To update the configuration, use `mc admin config get` command to get the current configuration.
+
+The `notify_postgres` subsystem is configured through `OBSTOR_NOTIFY_POSTGRES_*` environment variables set on the Obstor server. Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:postgresql` at start-up if there were no errors.
 
 ```bash
-$ mc admin config get myobstor notify_postgres
-notify_postgres:1 queue_dir="" connection_string="" queue_limit="0"  table="" format="namespace"
-```
-
-Use `mc admin config set` command to update the configuration for the deployment. Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:postgresql` at start-up if there were no errors.
-
-```bash
-$ mc admin config set myobstor notify_postgres:1 connection_string="host=localhost port=5432 dbname=obstor_events user=postgres password=password sslmode=disable" table="bucketevents" format="namespace"
+export OBSTOR_NOTIFY_POSTGRES_ENABLE_1=on
+export OBSTOR_NOTIFY_POSTGRES_CONNECTION_STRING_1="host=localhost port=5432 dbname=obstor_events user=postgres password=password sslmode=disable"
+export OBSTOR_NOTIFY_POSTGRES_TABLE_1="bucketevents"
+export OBSTOR_NOTIFY_POSTGRES_FORMAT_1="namespace"
 ```
 
 Note that, you can add as many PostgreSQL server endpoint configurations as needed by providing an identifier (like "1" in the example above) for the PostgreSQL instance and an object of per-server configuration parameters.
 
-### Step 3: Enable bucket notification using Obstor client
+### Step 3: Enable bucket notification using an S3 client
 
 We will now enable bucket event notifications on a bucket named `images`. Whenever a JPEG image is created/overwritten, a new row is added or an existing row is updated in the PostgreSQL configured above. When an existing object is deleted, the corresponding row is deleted from the PostgreSQL table. Thus, the rows in the PostgreSQL table, reflect the `.jpg` objects in the `images` bucket.
 
 To configure this bucket notification, we need the ARN printed by Obstor in the previous step. Additional information about ARN is available [here](http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
-With the `mc` tool, the configuration is very simple to add. Let us say that the Obstor server is aliased as `myobstor` in our mc configuration. Execute the following:
+Create the bucket and apply the notification configuration with the AWS CLI. The suffix filter restricts events to `.jpg` objects:
 
 ```bash
-# Create bucket named `images` in myobstor
-mc mb myobstor/images
-# Add notification configuration on the `images` bucket using the MySQL ARN. The --suffix argument filters events.
-mc event add myobstor/images arn:obstor:sqs::1:postgresql --suffix .jpg
+# Create bucket named `images`
+aws --endpoint-url http://localhost:9000 s3 mb s3://images
+
+# Add notification configuration on the `images` bucket using the PostgreSQL ARN.
+cat > /tmp/postgres-notif.json <<'EOF'
+{
+  "QueueConfigurations": [
+    {
+      "QueueArn": "arn:obstor:sqs::1:postgresql",
+      "Events": ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"],
+      "Filter": {"Key": {"FilterRules": [{"Name": "suffix", "Value": ".jpg"}]}}
+    }
+  ]
+}
+EOF
+aws --endpoint-url http://localhost:9000 s3api put-bucket-notification-configuration \
+  --bucket images --notification-configuration file:///tmp/postgres-notif.json
+
 # Print out the notification configuration on the `images` bucket.
-mc event list myobstor/images
-mc event list myobstor/images
-arn:obstor:sqs::1:postgresql s3:ObjectCreated:*,s3:ObjectRemoved:* Filter: suffix=”.jpg”
+aws --endpoint-url http://localhost:9000 s3api get-bucket-notification-configuration --bucket images
 ```
 
 ### Step 4: Test on PostgreSQL
@@ -929,7 +1010,7 @@ arn:obstor:sqs::1:postgresql s3:ObjectCreated:*,s3:ObjectRemoved:* Filter: suffi
 Open another terminal and upload a JPEG image into `images` bucket.
 
 ```bash
-mc cp myphoto.jpg myobstor/images
+rclone copy myphoto.jpg obstor:images/
 ```
 
 Open PostgreSQL terminal to list the rows in the `bucketevents` table.
@@ -1003,39 +1084,48 @@ OBSTOR_NOTIFY_MYSQL_COMMENT              (sentence)           optionally add a c
 
 Obstor supports persistent event store. The persistent store will backup events if MySQL connection goes offline and then replays the stored events when the broken connection comes back up. The event store can be configured by setting a directory path in `queue_dir` field, and the maximum number of events, which can be stored in a `queue_dir`, in `queue_limit` field. For example, `queue_dir` can be set to `/home/events` and `queue_limit` can be set to `1000`. By default, the `queue_limit` is set to `100000`.
 
-Before updating the configuration, let's start with `mc admin config get` command to get the current configuration.
+The `notify_mysql` subsystem is configured through `OBSTOR_NOTIFY_MYSQL_*` environment variables set on the Obstor server. Set the `dsn_string` parameter to point at your MySQL instance:
 
 ```bash
-$ mc admin config get myobstor/ notify_mysql
-notify_mysql:myinstance enable=off format=namespace host= port= username= password= database= dsn_string= table= queue_dir= queue_limit=0
-```
-
-Use `mc admin config set` command to update MySQL notification configuration for the deployment with `dsn_string` parameter:
-
-```bash
-$ mc admin config set myobstor notify_mysql:myinstance table="obstor_images" dsn_string="root:xxxx@tcp(172.17.0.1:3306)/obstordb"
+export OBSTOR_NOTIFY_MYSQL_ENABLE_myinstance=on
+export OBSTOR_NOTIFY_MYSQL_TABLE_myinstance="obstor_images"
+export OBSTOR_NOTIFY_MYSQL_DSN_STRING_myinstance="root:xxxx@tcp(172.17.0.1:3306)/obstordb"
+export OBSTOR_NOTIFY_MYSQL_FORMAT_myinstance="namespace"
 ```
 
 Note that, you can add as many MySQL server endpoint configurations as needed by providing an identifier (like "myinstance" in the example above) for each MySQL instance desired.
 
 Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::myinstance:mysql` at start-up, if there are no errors.
 
-### Step 3: Enable bucket notification using Obstor client
+### Step 3: Enable bucket notification using an S3 client
 
 We will now setup bucket notifications on a bucket named `images`. Whenever a JPEG image object is created/overwritten, a new row is added or an existing row is updated in the MySQL table configured above. When an existing object is deleted, the corresponding row is deleted from the MySQL table. Thus, the rows in the MySQL table, reflect the `.jpg` objects in the `images` bucket.
 
 To configure this bucket notification, we need the ARN printed by Obstor in the previous step. Additional information about ARN is available [here](http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 
-With the `mc` tool, the configuration is very simple to add. Let us say that the Obstor server is aliased as `myobstor` in our mc configuration. Execute the following:
+Create the bucket and apply the notification configuration with the AWS CLI. The suffix filter restricts events to `.jpg` objects:
 
 ```bash
-# Create bucket named `images` in myobstor
-mc mb myobstor/images
-# Add notification configuration on the `images` bucket using the MySQL ARN. The --suffix argument filters events.
-mc event add myobstor/images arn:obstor:sqs::myinstance:mysql --suffix .jpg
+# Create bucket named `images`
+aws --endpoint-url http://localhost:9000 s3 mb s3://images
+
+# Add notification configuration on the `images` bucket using the MySQL ARN.
+cat > /tmp/mysql-notif.json <<'EOF'
+{
+  "QueueConfigurations": [
+    {
+      "QueueArn": "arn:obstor:sqs::myinstance:mysql",
+      "Events": ["s3:ObjectCreated:*", "s3:ObjectRemoved:*", "s3:ObjectAccessed:*"],
+      "Filter": {"Key": {"FilterRules": [{"Name": "suffix", "Value": ".jpg"}]}}
+    }
+  ]
+}
+EOF
+aws --endpoint-url http://localhost:9000 s3api put-bucket-notification-configuration \
+  --bucket images --notification-configuration file:///tmp/mysql-notif.json
+
 # Print out the notification configuration on the `images` bucket.
-mc event list myobstor/images
-arn:obstor:sqs::myinstance:mysql s3:ObjectCreated:*,s3:ObjectRemoved:*,s3:ObjectAccessed:* Filter: suffix=”.jpg”
+aws --endpoint-url http://localhost:9000 s3api get-bucket-notification-configuration --bucket images
 ```
 
 ### Step 4: Test on MySQL
@@ -1043,7 +1133,7 @@ arn:obstor:sqs::myinstance:mysql s3:ObjectCreated:*,s3:ObjectRemoved:*,s3:Object
 Open another terminal and upload a JPEG image into `images` bucket:
 
 ```bash
-mc cp myphoto.jpg myobstor/images
+rclone copy myphoto.jpg obstor:images/
 ```
 
 Open MySQL terminal and list the rows in the `obstor_images` table.
@@ -1054,7 +1144,7 @@ mysql> select * from obstor_images;
 +--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | key_name           | value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 +--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| images/myphoto.jpg | {"Records": [{"s3": {"bucket": {"arn": "arn:aws:s3:::images", "name": "images", "ownerIdentity": {"principalId": "obstor"}}, "object": {"key": "myphoto.jpg", "eTag": "467886be95c8ecfd71a2900e3f461b4f", "size": 26, "sequencer": "14AC59476F809FD3"}, "configurationId": "Config", "s3SchemaVersion": "1.0"}, "awsRegion": "", "eventName": "s3:ObjectCreated:Put", "eventTime": "2026-03-16T11:29:00Z", "eventSource": "aws:s3", "eventVersion": "2.0", "userIdentity": {"principalId": "obstor"}, "responseElements": {"x-amz-request-id": "14AC59476F809FD3", "x-obstor-origin-endpoint": "http://192.168.86.110:9000"}, "requestParameters": {"sourceIPAddress": "127.0.0.1:38260"}}]} |
+| images/myphoto.jpg | {"Records": [{"s3": {"bucket": {"arn": "arn:aws:s3:::images", "name": "images", "ownerIdentity": {"principalId": "obstor"}}, "object": {"key": "myphoto.jpg", "eTag": "467886be95c8ecfd71a2900e3f461b4f", "size": 26, "sequencer": "14AC59476F809FD3"}, "configurationId": "Config", "s3SchemaVersion": "1.0"}, "awsRegion": "", "eventName": "s3:ObjectCreated:Put", "eventTime": "2026-06-16T11:29:00Z", "eventSource": "aws:s3", "eventVersion": "2.0", "userIdentity": {"principalId": "obstor"}, "responseElements": {"x-amz-request-id": "14AC59476F809FD3", "x-obstor-origin-endpoint": "http://192.168.86.110:9000"}, "requestParameters": {"sourceIPAddress": "127.0.0.1:38260"}}]} |
 +--------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 1 row in set (0.01 sec)
 
@@ -1120,28 +1210,40 @@ OBSTOR_NOTIFY_KAFKA_COMMENT          (sentence)              optionally add a co
 OBSTOR_NOTIFY_KAFKA_VERSION          (string)                specify the version of the Kafka cluster e.g. '2.2.0'
 ```
 
-To update the configuration, use `mc admin config get` command to get the current configuration.
+The `notify_kafka` subsystem is configured through `OBSTOR_NOTIFY_KAFKA_*` environment variables set on the Obstor server. Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:kafka` at start-up if there were no errors. `bucketevents` is the topic used by kafka in this example.
 
 ```bash
-$ mc admin config get myobstor/ notify_kafka
-notify_kafka:1 tls_skip_verify="off"  queue_dir="" queue_limit="0" sasl="off" sasl_password="" sasl_username="" tls_client_auth="0" tls="off" brokers="" topic="" client_tls_cert="" client_tls_key="" version=""
+export OBSTOR_NOTIFY_KAFKA_ENABLE_1=on
+export OBSTOR_NOTIFY_KAFKA_BROKERS_1="localhost:9092,localhost:9093"
+export OBSTOR_NOTIFY_KAFKA_TOPIC_1="bucketevents"
+export OBSTOR_NOTIFY_KAFKA_SASL_1="off"
+export OBSTOR_NOTIFY_KAFKA_TLS_1="off"
+export OBSTOR_NOTIFY_KAFKA_TLS_SKIP_VERIFY_1="off"
 ```
 
-Use `mc admin config set` command to update the configuration for the deployment. Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:kafka` at start-up if there were no errors.`bucketevents` is the topic used by kafka in this example.
+### Step 3: Enable bucket notification using an S3 client
+
+We will enable bucket event notification to trigger whenever a JPEG image is uploaded or deleted from the `images` bucket on the Obstor server. Here the ARN value is `arn:obstor:sqs::1:kafka`. To understand more about ARN please follow [AWS ARN](http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) documentation.
 
 ```bash
-$ mc admin config set myobstor notify_kafka:1 tls_skip_verify="off"  queue_dir="" queue_limit="0" sasl="off" sasl_password="" sasl_username="" tls_client_auth="0" tls="off" client_tls_cert="" client_tls_key="" brokers="localhost:9092,localhost:9093" topic="bucketevents" version=""
-```
+aws --endpoint-url http://localhost:9000 s3 mb s3://images
 
-### Step 3: Enable bucket notification using Obstor client
+cat > /tmp/kafka-notif.json <<'EOF'
+{
+  "QueueConfigurations": [
+    {
+      "QueueArn": "arn:obstor:sqs::1:kafka",
+      "Events": ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"],
+      "Filter": {"Key": {"FilterRules": [{"Name": "suffix", "Value": ".jpg"}]}}
+    }
+  ]
+}
+EOF
 
-We will enable bucket event notification to trigger whenever a JPEG image is uploaded or deleted from `images` bucket on `myobstor` server. Here ARN value is `arn:obstor:sqs::1:kafka`. To understand more about ARN please follow [AWS ARN](http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) documentation.
+aws --endpoint-url http://localhost:9000 s3api put-bucket-notification-configuration \
+  --bucket images --notification-configuration file:///tmp/kafka-notif.json
 
-```bash
-mc mb myobstor/images
-mc event add  myobstor/images arn:obstor:sqs::1:kafka --suffix .jpg
-mc event list myobstor/images
-arn:obstor:sqs::1:kafka s3:ObjectCreated:*,s3:ObjectRemoved:* Filter: suffix=”.jpg”
+aws --endpoint-url http://localhost:9000 s3api get-bucket-notification-configuration --bucket images
 ```
 
 ### Step 4: Test on Kafka
@@ -1155,7 +1257,7 @@ kafkacat -C -b localhost:9092 -t bucketevents
 Open another terminal and upload a JPEG image into `images` bucket.
 
 ```bash
-mc cp myphoto.jpg myobstor/images
+rclone copy myphoto.jpg obstor:images/
 ```
 
 `kafkacat` prints the event notification to the console.
@@ -1257,45 +1359,63 @@ OBSTOR_NOTIFY_WEBHOOK_CLIENT_CERT  (string)    client cert for Webhook mTLS auth
 OBSTOR_NOTIFY_WEBHOOK_CLIENT_KEY   (string)    client cert key for Webhook mTLS auth
 ```
 
+The `notify_webhook` subsystem is configured through `OBSTOR_NOTIFY_WEBHOOK_*` environment variables set on the Obstor server. Here the endpoint is the server listening for webhook notifications. Set the variables and restart the Obstor server for changes to take effect. Note that the endpoint needs to be live and reachable when you restart your Obstor server.
+
 ```bash
-$ mc admin config get myobstor/ notify_webhook
-notify_webhook:1 endpoint="" auth_token="" queue_limit="0" queue_dir="" client_cert="" client_key=""
+export OBSTOR_NOTIFY_WEBHOOK_ENABLE_1=on
+export OBSTOR_NOTIFY_WEBHOOK_ENDPOINT_1="http://localhost:3000"
 ```
 
-Use `mc admin config set` command to update the configuration for the deployment. Here the endpoint is the server listening for webhook notifications. Save the settings and restart the Obstor server for changes to take effect. Note that the endpoint needs to be live and reachable when you restart your Obstor server.
+### Step 2: Enable bucket notification using an S3 client
+
+We will enable bucket event notification to trigger whenever a JPEG image is uploaded to the `images` bucket on the Obstor server. Here the ARN value is `arn:obstor:sqs::1:webhook`. To learn more about ARN please follow [AWS ARN](http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) documentation.
 
 ```bash
-$ mc admin config set myobstor notify_webhook:1 queue_limit="0"  endpoint="http://localhost:3000" queue_dir=""
-```
+aws --endpoint-url http://localhost:9000 s3 mb s3://images
+aws --endpoint-url http://localhost:9000 s3 mb s3://images-thumbnail
 
-### Step 2: Enable bucket notification using Obstor client
+cat > /tmp/webhook-notif.json <<'EOF'
+{
+  "QueueConfigurations": [
+    {
+      "QueueArn": "arn:obstor:sqs::1:webhook",
+      "Events": ["s3:ObjectCreated:Put"],
+      "Filter": {"Key": {"FilterRules": [{"Name": "suffix", "Value": ".jpg"}]}}
+    }
+  ]
+}
+EOF
 
-We will enable bucket event notification to trigger whenever a JPEG image is uploaded to `images` bucket on `myobstor` server. Here ARN value is `arn:obstor:sqs::1:webhook`. To learn more about ARN please follow [AWS ARN](http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) documentation.
-
-```bash
-mc mb myobstor/images
-mc mb myobstor/images-thumbnail
-mc event add myobstor/images arn:obstor:sqs::1:webhook --event put --suffix .jpg
+aws --endpoint-url http://localhost:9000 s3api put-bucket-notification-configuration \
+  --bucket images --notification-configuration file:///tmp/webhook-notif.json
 ```
 
 Check if event notification is successfully configured by
 
 ```bash
-mc event list myobstor/images
+aws --endpoint-url http://localhost:9000 s3api get-bucket-notification-configuration --bucket images
 ```
 
 You should get a response like this
 
-```
-arn:obstor:sqs::1:webhook   s3:ObjectCreated:*   Filter: suffix=".jpg"
+```json
+{
+  "QueueConfigurations": [
+    {
+      "QueueArn": "arn:obstor:sqs::1:webhook",
+      "Events": ["s3:ObjectCreated:Put"],
+      "Filter": {"Key": {"FilterRules": [{"Name": "suffix", "Value": ".jpg"}]}}
+    }
+  ]
+}
 ```
 
 ### Step 3: Test with Thumbnailer
 
-We used [Thumbnailer](https://github.com/minio/thumbnailer) to listen for Obstor notifications when a new JPEG file is uploaded (HTTP PUT). Triggered by a notification, Thumbnailer uploads a thumbnail of new image to Obstor server. To start with, download and install Thumbnailer.
+We used [Thumbnailer](https://github.com/obstor/thumbnailer) to listen for Obstor notifications when a new JPEG file is uploaded (HTTP PUT). Triggered by a notification, Thumbnailer uploads a thumbnail of new image to Obstor server. To start with, download and install Thumbnailer.
 
 ```bash
-git clone https://github.com/minio/thumbnailer/
+git clone https://github.com/obstor/thumbnailer/
 npm install
 ```
 
@@ -1305,18 +1425,18 @@ Then open the Thumbnailer config file at `config/webhook.json` and add the confi
 NODE_ENV=webhook node thumbnail-webhook.js
 ```
 
-Thumbnailer starts running at `http://localhost:3000/`. Next, configure the Obstor server to send notifications to this URL (as mentioned in step 1) and use `mc` to set up bucket notifications (as mentioned in step 2). Then upload a JPEG image to Obstor server by
+Thumbnailer starts running at `http://localhost:3000/`. Next, configure the Obstor server to send notifications to this URL (as mentioned in step 1) and use your S3 client to set up bucket notifications (as mentioned in step 2). Then upload a JPEG image to Obstor server by
 
 ```bash
-mc cp ~/images.jpg myobstor/images
-.../images.jpg:  8.31 KB / 8.31 KB ┃███████████████████████████████████┃ 100.00% 59.42 KB/s 0s
+rclone copy ~/images.jpg obstor:images/
+Transferred:   8.31 KiB / 8.31 KiB, 100%, 59.42 KiB/s, ETA 0s
 ```
 
-Wait a few moments, then check the bucket’s contents with mc ls — you will see a thumbnail appear.
+Wait a few moments, then list the bucket contents. You will see a thumbnail appear.
 
 ```bash
-mc ls myobstor/images-thumbnail
-[2026-02-08 11:39:40 IST]   992B images-thumbnail.jpg
+rclone ls obstor:images-thumbnail
+      992 images-thumbnail.jpg
 ```
 
 <a name="NSQ"></a>
@@ -1334,7 +1454,7 @@ docker run --rm -p 4150-4151:4150-4151 nsqio/nsq /nsqd
 
 Obstor supports persistent event store. The persistent store will backup events when the NSQ broker goes offline and replays it when the broker comes back online. The event store can be configured by setting the directory path in `queue_dir` field and the maximum limit of events in the queue_dir in `queue_limit` field. For eg, the `queue_dir` can be `/home/events` and `queue_limit` can be `1000`. By default, the `queue_limit` is set to 100000.
 
-To update the configuration, use `mc admin config get` command to get the current configuration for `notify_nsq`.
+The `notify_nsq` subsystem is configured through `OBSTOR_NOTIFY_NSQ_*` environment variables set on the Obstor server. The available parameters are listed below.
 
 ```bash
 KEY:
@@ -1366,28 +1486,41 @@ OBSTOR_NOTIFY_NSQ_QUEUE_LIMIT      (number)    maximum limit for undelivered mes
 OBSTOR_NOTIFY_NSQ_COMMENT          (sentence)  optionally add a comment to this setting
 ```
 
-```bash
-$ mc admin config get myobstor/ notify_nsq
-notify_nsq:1 nsqd_address="" queue_dir="" queue_limit="0"  tls="off" tls_skip_verify="off" topic=""
-```
-
-Use `mc admin config set` command to update the configuration for the deployment. Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:nsq` at start-up if there were no errors.
+Restart the Obstor server to put the changes into effect. The server will print a line like `SQS ARNs: arn:obstor:sqs::1:nsq` at start-up if there were no errors.
 
 ```bash
-$ mc admin config set myobstor notify_nsq:1 nsqd_address="127.0.0.1:4150" queue_dir="" queue_limit="0" tls="off" tls_skip_verify="on" topic="obstor"
+export OBSTOR_NOTIFY_NSQ_ENABLE_1=on
+export OBSTOR_NOTIFY_NSQ_NSQD_ADDRESS_1="127.0.0.1:4150"
+export OBSTOR_NOTIFY_NSQ_TOPIC_1="obstor"
+export OBSTOR_NOTIFY_NSQ_TLS_1="off"
+export OBSTOR_NOTIFY_NSQ_TLS_SKIP_VERIFY_1="on"
 ```
 
 Note that, you can add as many NSQ daemon endpoint configurations as needed by providing an identifier (like "1" in the example above) for the NSQ instance and an object of per-server configuration parameters.
 
-### Step 2: Enable bucket notification using Obstor client
+### Step 2: Enable bucket notification using an S3 client
 
-We will enable bucket event notification to trigger whenever a JPEG image is uploaded or deleted `images` bucket on `myobstor` server. Here ARN value is `arn:obstor:sqs::1:nsq`.
+We will enable bucket event notification to trigger whenever a JPEG image is uploaded or deleted from the `images` bucket on the Obstor server. Here the ARN value is `arn:obstor:sqs::1:nsq`.
 
 ```bash
-mc mb myobstor/images
-mc event add  myobstor/images arn:obstor:sqs::1:nsq --suffix .jpg
-mc event list myobstor/images
-arn:obstor:sqs::1:nsq s3:ObjectCreated:*,s3:ObjectRemoved:* Filter: suffix=”.jpg”
+aws --endpoint-url http://localhost:9000 s3 mb s3://images
+
+cat > /tmp/nsq-notif.json <<'EOF'
+{
+  "QueueConfigurations": [
+    {
+      "QueueArn": "arn:obstor:sqs::1:nsq",
+      "Events": ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"],
+      "Filter": {"Key": {"FilterRules": [{"Name": "suffix", "Value": ".jpg"}]}}
+    }
+  ]
+}
+EOF
+
+aws --endpoint-url http://localhost:9000 s3api put-bucket-notification-configuration \
+  --bucket images --notification-configuration file:///tmp/nsq-notif.json
+
+aws --endpoint-url http://localhost:9000 s3api get-bucket-notification-configuration --bucket images
 ```
 
 ### Step 3: Test on NSQ
@@ -1401,11 +1534,11 @@ The simplest test is to download `nsq_tail` from [nsq github](https://github.com
 Open another terminal and upload a JPEG image into `images` bucket.
 
 ```bash
-mc cp gopher.jpg myobstor/images
+rclone copy gopher.jpg obstor:images/
 ```
 
 You should receive the following event notification via NSQ once the upload completes.
 
 ```json
-{"EventName":"s3:ObjectCreated:Put","Key":"images/gopher.jpg","Records":[{"eventVersion":"2.0","eventSource":"obstor:s3","awsRegion":"","eventTime":"2026-10-31T09:31:11Z","eventName":"s3:ObjectCreated:Put","userIdentity":{"principalId":"21EJ9HYV110O8NVX2VMS"},"requestParameters":{"sourceIPAddress":"10.1.1.1"},"responseElements":{"x-amz-request-id":"1562A792DAA53426","x-obstor-origin-endpoint":"http://10.0.3.1:9000"},"s3":{"s3SchemaVersion":"1.0","configurationId":"Config","bucket":{"name":"images","ownerIdentity":{"principalId":"21EJ9HYV110O8NVX2VMS"},"arn":"arn:aws:s3:::images"},"object":{"key":"gopher.jpg","size":162023,"eTag":"5337769ffa594e742408ad3f30713cd7","contentType":"image/jpeg","userMetadata":{"content-type":"image/jpeg"},"versionId":"1","sequencer":"1562A792DAA53426"}},"source":{"host":"","port":"","userAgent":"Obstor (linux; amd64) minio-go/v6.0.8 mc/DEVELOPMENT.GOGET"}}]}
+{"EventName":"s3:ObjectCreated:Put","Key":"images/gopher.jpg","Records":[{"eventVersion":"2.0","eventSource":"obstor:s3","awsRegion":"","eventTime":"2026-10-31T09:31:11Z","eventName":"s3:ObjectCreated:Put","userIdentity":{"principalId":"21EJ9HYV110O8NVX2VMS"},"requestParameters":{"sourceIPAddress":"10.1.1.1"},"responseElements":{"x-amz-request-id":"1562A792DAA53426","x-obstor-origin-endpoint":"http://10.0.3.1:9000"},"s3":{"s3SchemaVersion":"1.0","configurationId":"Config","bucket":{"name":"images","ownerIdentity":{"principalId":"21EJ9HYV110O8NVX2VMS"},"arn":"arn:aws:s3:::images"},"object":{"key":"gopher.jpg","size":162023,"eTag":"5337769ffa594e742408ad3f30713cd7","contentType":"image/jpeg","userMetadata":{"content-type":"image/jpeg"},"versionId":"1","sequencer":"1562A792DAA53426"}},"source":{"host":"","port":"","userAgent":"aws-cli/2.27.41 Python/3.13.5 Linux/6.15.2 botocore/2.27.41"}}]}
 ```

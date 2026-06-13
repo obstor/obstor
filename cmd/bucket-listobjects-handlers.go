@@ -22,8 +22,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/obstor/obstor/cmd/logger"
 	"github.com/gorilla/mux"
+	"github.com/obstor/obstor/cmd/logger"
 
 	"github.com/obstor/obstor/pkg/bucket/policy"
 	"github.com/obstor/obstor/pkg/sync/errgroup"

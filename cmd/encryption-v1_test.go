@@ -24,10 +24,10 @@ import (
 	"testing"
 
 	humanize "github.com/dustin/go-humanize"
-	"github.com/minio/sio"
 	"github.com/obstor/obstor-go/v7/pkg/encrypt"
 	"github.com/obstor/obstor/cmd/crypto"
 	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/sio"
 )
 
 var encryptRequestTests = []struct {

@@ -27,9 +27,9 @@ import (
 	"strings"
 	"time"
 
+	ldap "github.com/go-ldap/ldap/v3"
 	"github.com/obstor/obstor/cmd/config"
 	"github.com/obstor/obstor/pkg/env"
-	ldap "github.com/go-ldap/ldap/v3"
 )
 
 const (

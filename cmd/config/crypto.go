@@ -25,7 +25,7 @@ import (
 	"io"
 
 	"github.com/obstor/obstor/pkg/kms"
-	sio "github.com/minio/sio"
+	sio "github.com/obstor/sio"
 )
 
 // EncryptBytes encrypts the plaintext with a key managed by KMS.

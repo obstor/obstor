@@ -163,31 +163,6 @@ func setRedirectHandler(h http.Handler) http.Handler {
 	})
 }
 
-// setPresignedOTPHandler validates one-time presigned tokens.
-// It strips the OTP param from the URL so S3 signature verification is unaffected.
-func setPresignedOTPHandler(h http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		otp := r.URL.Query().Get("x-obstor-otp")
-
-		if otp != "" {
-			if !globalTokenStore.Consume(otp) {
-				writeErrorResponseString(r.Context(), w, APIError{
-					Code:           "AccessDenied",
-					Description:    "The request signature is not valid.",
-					HTTPStatusCode: http.StatusForbidden,
-				}, r.URL)
-				return
-			}
-			// Strip the OTP param so it does not interfere with S3 signature verification.
-			q := r.URL.Query()
-			q.Del("x-obstor-otp")
-			r.URL.RawQuery = q.Encode()
-			r.RequestURI = r.URL.RequestURI()
-		}
-		h.ServeHTTP(w, r)
-	})
-}
-
 func setBrowserRedirectHandler(h http.Handler) http.Handler {
 	return h
 }

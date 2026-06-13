@@ -21,10 +21,10 @@ import (
 	"net"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	obstor "github.com/obstor/obstor/cmd"
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/pkg/wildcard"
-	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 )
 

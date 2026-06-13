@@ -27,8 +27,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/obstor/obstor/pkg/madmin"
 	"github.com/dustin/go-humanize"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 // Tests both object and bucket healing.

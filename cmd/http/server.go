@@ -152,7 +152,7 @@ func (srv *Server) Shutdown() error {
 		select {
 		case <-shutdownTimer.C:
 			// Write all running goroutines.
-			tmp, err := os.CreateTemp("", "minio-goroutines-*.txt")
+			tmp, err := os.CreateTemp("", "obstor-goroutines-*.txt")
 			if err == nil {
 				_ = pprof.Lookup("goroutine").WriteTo(tmp, 1)
 				_ = tmp.Close()

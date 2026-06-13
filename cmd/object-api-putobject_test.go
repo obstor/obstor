@@ -27,8 +27,8 @@ import (
 	"path"
 	"testing"
 
-	"github.com/obstor/obstor/pkg/hash"
 	humanize "github.com/dustin/go-humanize"
+	"github.com/obstor/obstor/pkg/hash"
 )
 
 func md5Header(data []byte) map[string]string {

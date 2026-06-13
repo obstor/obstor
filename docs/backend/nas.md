@@ -13,7 +13,7 @@ docker run -p 9000:9000 --name nas-s3 \
  -e "OBSTOR_ROOT_USER=obstor" \
  -e "OBSTOR_ROOT_PASSWORD=obstor123" \
  -v /shared/nasvol:/container/vol \
- ghcr.io/cloudment/obstor backend nas /container/vol
+ ghcr.io/obstor/obstor backend nas /container/vol
 ```
 
 ### Using Binary
@@ -28,30 +28,38 @@ obstor backend nas /shared/nasvol
 
 Obstor Backend comes with an embedded web based object browser. Point your web browser to http://127.0.0.1:9000 to ensure that your server has started successfully.
 
-![Screenshot](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/dashboard.png)
+![Screenshot](https://raw.githubusercontent.com/obstor/obstor/main/docs/screenshots/dashboard.png)
 
-## Test using Obstor Client `mc`
+## Test using an S3 client
 
-`mc` provides a modern alternative to UNIX commands such as ls, cat, cp, mirror, diff etc. It supports filesystems and S3-compatible cloud storage services.
+You can interact with the backend using rclone or the AWS CLI. Both support filesystems and S3-compatible cloud storage services.
 
-### Configure `mc`
+### Configure your client
+
+Configure an rclone S3 remote once:
 
 ```bash
-mc alias set mynas http://backend-ip:9000 access_key secret_key
+rclone config create obstor s3 provider=Other endpoint=http://backend-ip:9000 access_key_id=access_key secret_access_key=secret_key
 ```
 
 ### List buckets on nas
 
 ```bash
-mc ls mynas
-[2026-05-22 01:50:43 PST]     0B ferenginar/
-[2026-05-26 21:43:51 PST]     0B my-bucket/
-[2026-05-26 22:10:11 PST]     0B test-bucket1/
+rclone lsd obstor:
+[2026-05-22 01:50:43]     0B ferenginar/
+[2026-05-26 21:43:51]     0B my-bucket/
+[2026-05-26 22:10:11]     0B test-bucket1/
+```
+
+Or with the AWS CLI:
+
+```bash
+aws --endpoint-url http://backend-ip:9000 s3 ls
 ```
 
 ### The file-based config settings are deprecated in NAS
 
-The support for admin config APIs will be removed. This will include getters and setters like `mc admin config get` and `mc admin config`  and any other `mc admin config` options. The reason for this change is to avoid un-necessary reloads of the config from the disk. And to comply with the Environment variable based settings like other backends.
+The support for admin config APIs will be removed. This will include the getters and setters that previously edited config on disk, and any other on-disk config options. The reason for this change is to avoid un-necessary reloads of the config from the disk. And to comply with the Environment variable based settings like other backends.
 
 ### Migration guide
 
@@ -73,7 +81,7 @@ export OBSTOR_NOTIFY_WEBHOOK_ENDPOINT_1=http://localhost:8080/
 export OBSTOR_NOTIFY_WEBHOOK_QUEUE_DIR_1=/tmp/webhk
 ```
 
-> NOTE: Please check the docs for the corresponding ENV setting. Alternatively, We can obtain other ENVs in the form `mc admin config set alias/ <sub-sys> --env`
+> NOTE: Please check the docs for the corresponding ENV setting. Environment variables are mapped as `OBSTOR_*`.
 
 ## Symlink support
 
@@ -94,6 +102,6 @@ NAS backend implementation allows symlinks on regular files,
 
 ## Explore Further
 - [Supported Protocols](/docs/protocols) - S3, SFTP, and more
-- `mc` command-line interface
+- `rclone` command-line interface
 - `aws` command-line interface
-- `minio-go` Go SDK
+- `obstor-go` Go SDK

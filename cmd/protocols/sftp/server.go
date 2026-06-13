@@ -48,6 +48,33 @@ const (
 
 var sftpActiveConns int64
 
+// Wrap net.Conn at the time of last successful read or write
+type activityConn struct {
+	net.Conn
+	lastUnixNano int64
+}
+
+func (c *activityConn) Read(p []byte) (int, error) {
+	n, err := c.Conn.Read(p)
+	if n > 0 {
+		atomic.StoreInt64(&c.lastUnixNano, time.Now().UnixNano())
+	}
+	return n, err
+}
+
+func (c *activityConn) Write(p []byte) (int, error) {
+	n, err := c.Conn.Write(p)
+	if n > 0 {
+		atomic.StoreInt64(&c.lastUnixNano, time.Now().UnixNano())
+	}
+	return n, err
+}
+
+// idleFor reports how long the connection has had no read/write activity.
+func (c *activityConn) idleFor() time.Duration {
+	return time.Since(time.Unix(0, atomic.LoadInt64(&c.lastUnixNano)))
+}
+
 // Launch the SFTP server.
 func Start() {
 	cfg := obstor.GlobalSFTPConfig
@@ -147,6 +174,10 @@ func handleSFTPConnection(conn net.Conn, config *ssh.ServerConfig) {
 
 	_ = conn.SetDeadline(time.Now().Add(30 * time.Second))
 
+	// Track read/write so timeout doesnt kill transfer
+	ac := &activityConn{Conn: conn, lastUnixNano: time.Now().UnixNano()}
+	conn = ac
+
 	sshConn, chans, reqs, err := ssh.NewServerConn(conn, config)
 	if err != nil {
 		logger.LogIf(obstor.GlobalContext, fmt.Errorf("sftp ssh handshake error from %s: %w", conn.RemoteAddr(), err))
@@ -161,13 +192,19 @@ func handleSFTPConnection(conn net.Conn, config *ssh.ServerConfig) {
 	done := make(chan struct{})
 	defer close(done)
 	go func() {
-		timer := time.NewTimer(sftpIdleTimeout)
-		defer timer.Stop()
-		select {
-		case <-timer.C:
-			logger.Info("SFTP idle timeout for user %s from %s", sshConn.User(), conn.RemoteAddr())
-			_ = sshConn.Close()
-		case <-done:
+		ticker := time.NewTicker(sftpIdleTimeout / 4)
+		defer ticker.Stop()
+		for {
+			select {
+			case <-ticker.C:
+				if ac.idleFor() >= sftpIdleTimeout {
+					logger.Info("SFTP idle timeout for user %s from %s", sshConn.User(), conn.RemoteAddr())
+					_ = sshConn.Close()
+					return
+				}
+			case <-done:
+				return
+			}
 		}
 	}()
 

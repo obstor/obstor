@@ -487,3 +487,26 @@ func TestGetObstorMode(t *testing.T) {
 	testObstorMode(globalObstorModeBackendPrefix + globalBackendName)
 
 }
+
+// Tests stripping of bidi and zero-width control characters from display names.
+func TestSafeDisplayName(t *testing.T) {
+	var testCases = []struct {
+		name     string
+		expected string
+	}{
+		// U+202E (RIGHT-TO-LEFT OVERRIDE) hides the real extension.
+		{"report\u202efdp.exe", "reportfdp.exe"},
+		// U+200B (ZERO WIDTH SPACE) is invisible padding.
+		{"inv\u200boice.pdf", "invoice.pdf"},
+		// Mixed bidi, isolate, zero-width, ALM, BOM and C0/C1 controls.
+		{"a\u202a\u202e\u2066\u2069\u200e\u200f\u061c\u200b\u200c\u200d\u2060\ufeff\x00\x1f\x7f\u0080\u009fb", "ab"},
+		// Plain names pass through unchanged.
+		{"photos/2026/team.jpg", "photos/2026/team.jpg"},
+	}
+
+	for i, test := range testCases {
+		if got := safeDisplayName(test.name); got != test.expected {
+			t.Fatalf("Test %d: got `%v`, expected `%v`", i+1, got, test.expected)
+		}
+	}
+}

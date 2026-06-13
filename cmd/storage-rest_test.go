@@ -24,9 +24,9 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/gorilla/mux"
 	"github.com/obstor/obstor/cmd/config"
 	xnet "github.com/obstor/obstor/pkg/net"
-	"github.com/gorilla/mux"
 )
 
 ///////////////////////////////////////////////////////////////////////////////

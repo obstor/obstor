@@ -459,7 +459,7 @@ func CheckValidKeys(subSys string, kv KVS, validKVS KVS) error {
 	}
 	if len(nkv) > 0 {
 		return Errorf(
-			"found invalid keys (%s) for '%s' sub-system, use 'mc admin config reset myobstor %s' to fix invalid keys", nkv.String(), subSys, subSys)
+			"found invalid keys (%s) for '%s' sub-system, fix them via the corresponding OBSTOR_* environment variables", nkv.String(), subSys)
 	}
 	return nil
 }

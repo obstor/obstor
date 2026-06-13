@@ -29,12 +29,12 @@ import (
 	"sync"
 	"time"
 
+	jwtgo "github.com/golang-jwt/jwt/v4"
 	"github.com/obstor/obstor/cmd/config"
 	"github.com/obstor/obstor/pkg/auth"
 	"github.com/obstor/obstor/pkg/env"
 	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
 	xnet "github.com/obstor/obstor/pkg/net"
-	jwtgo "github.com/golang-jwt/jwt/v4"
 )
 
 // Config - OpenID Config

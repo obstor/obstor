@@ -28,9 +28,9 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/gorilla/mux"
 	"github.com/obstor/obstor/pkg/auth"
 	"github.com/obstor/obstor/pkg/madmin"
-	"github.com/gorilla/mux"
 )
 
 // adminErasureTestBed - encapsulates subsystems that need to be setup for

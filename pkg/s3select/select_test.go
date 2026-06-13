@@ -29,7 +29,7 @@ import (
 	"testing"
 
 	"github.com/klauspost/cpuid/v2"
-	"github.com/minio/minio-go/v7"
+	"github.com/obstor/obstor-go/v7"
 )
 
 type testResponseWriter struct {
@@ -463,7 +463,7 @@ func TestJSONQueries(t *testing.T) {
 				Body:          io.NopCloser(bytes.NewReader(w.response)),
 				ContentLength: int64(len(w.response)),
 			}
-			res, err := minio.NewSelectResults(&resp, "testbucket")
+			res, err := obstor.NewSelectResults(&resp, "testbucket")
 			if err != nil {
 				t.Error(err)
 				return
@@ -511,7 +511,7 @@ func TestJSONQueries(t *testing.T) {
 				Body:          io.NopCloser(bytes.NewReader(w.response)),
 				ContentLength: int64(len(w.response)),
 			}
-			res, err := minio.NewSelectResults(&resp, "testbucket")
+			res, err := obstor.NewSelectResults(&resp, "testbucket")
 			if err != nil {
 				t.Error(err)
 				return
@@ -594,7 +594,7 @@ func TestCSVQueries(t *testing.T) {
 				Body:          io.NopCloser(bytes.NewReader(w.response)),
 				ContentLength: int64(len(w.response)),
 			}
-			res, err := minio.NewSelectResults(&resp, "testbucket")
+			res, err := obstor.NewSelectResults(&resp, "testbucket")
 			if err != nil {
 				t.Error(err)
 				return
@@ -720,7 +720,7 @@ func TestCSVQueries2(t *testing.T) {
 				Body:          io.NopCloser(bytes.NewReader(w.response)),
 				ContentLength: int64(len(w.response)),
 			}
-			res, err := minio.NewSelectResults(&resp, "testbucket")
+			res, err := obstor.NewSelectResults(&resp, "testbucket")
 			if err != nil {
 				t.Error(err)
 				return
@@ -866,7 +866,7 @@ true`,
 				Body:          io.NopCloser(bytes.NewReader(w.response)),
 				ContentLength: int64(len(w.response)),
 			}
-			res, err := minio.NewSelectResults(&resp, "testbucket")
+			res, err := obstor.NewSelectResults(&resp, "testbucket")
 			if err != nil {
 				t.Error(err)
 				return
@@ -1014,7 +1014,7 @@ func TestCSVInput(t *testing.T) {
 					Body:          io.NopCloser(bytes.NewReader(w.response)),
 					ContentLength: int64(len(w.response)),
 				}
-				res, err := minio.NewSelectResults(&resp, "testbucket")
+				res, err := obstor.NewSelectResults(&resp, "testbucket")
 				if err != nil {
 					t.Error(err)
 					return
@@ -1138,7 +1138,7 @@ func TestJSONInput(t *testing.T) {
 					Body:          io.NopCloser(bytes.NewReader(w.response)),
 					ContentLength: int64(len(w.response)),
 				}
-				res, err := minio.NewSelectResults(&resp, "testbucket")
+				res, err := obstor.NewSelectResults(&resp, "testbucket")
 				if err != nil {
 					t.Error(err)
 					return
@@ -1255,7 +1255,7 @@ func TestParquetInput(t *testing.T) {
 					Body:          io.NopCloser(bytes.NewReader(w.response)),
 					ContentLength: int64(len(w.response)),
 				}
-				res, err := minio.NewSelectResults(&resp, "testbucket")
+				res, err := obstor.NewSelectResults(&resp, "testbucket")
 				if err != nil {
 					t.Error(err)
 					return
@@ -1374,7 +1374,7 @@ func TestParquetInputSchema(t *testing.T) {
 				Body:          io.NopCloser(bytes.NewReader(w.response)),
 				ContentLength: int64(len(w.response)),
 			}
-			res, err := minio.NewSelectResults(&resp, "testbucket")
+			res, err := obstor.NewSelectResults(&resp, "testbucket")
 			if err != nil {
 				t.Error(err)
 				return
@@ -1493,7 +1493,7 @@ func TestParquetInputSchemaCSV(t *testing.T) {
 				Body:          io.NopCloser(bytes.NewReader(w.response)),
 				ContentLength: int64(len(w.response)),
 			}
-			res, err := minio.NewSelectResults(&resp, "testbucket")
+			res, err := obstor.NewSelectResults(&resp, "testbucket")
 			if err != nil {
 				t.Error(err)
 				return

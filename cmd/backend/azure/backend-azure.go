@@ -39,7 +39,7 @@ import (
 	"github.com/Azure/azure-pipeline-go/pipeline"
 	"github.com/Azure/azure-storage-blob-go/azblob"
 	humanize "github.com/dustin/go-humanize"
-	miniogopolicy "github.com/obstor/obstor-go/v7/pkg/policy"
+	obstorpolicy "github.com/obstor/obstor-go/v7/pkg/policy"
 	obstor "github.com/obstor/obstor/cmd"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/auth"
@@ -727,7 +727,7 @@ func (a *azureObjects) ListObjects(ctx context.Context, bucket, prefix, marker, 
 		for _, blobPrefix := range resp.Segment.BlobPrefixes {
 			if blobPrefix.Name == obstor.BackendObstorSysTmp {
 				// We don't do strings.HasPrefix(blob.Name, obstor.BackendObstorSysTmp) here so that
-				// we can use tools like mc to inspect the contents of obstor.sys.tmp/
+				// we can use tools like rclone to inspect the contents of obstor.sys.tmp/
 				// It is OK to allow listing of obstor.sys.tmp/ in non-recursive mode as it aids in debugging.
 				continue
 			}
@@ -1383,7 +1383,7 @@ func (a *azureObjects) SetBucketPolicy(ctx context.Context, bucket string, bucke
 	}
 
 	var policies []obstor.BucketAccessPolicy
-	for prefix, policy := range miniogopolicy.GetPolicies(policyInfo.Statements, bucket, "") {
+	for prefix, policy := range obstorpolicy.GetPolicies(policyInfo.Statements, bucket, "") {
 		policies = append(policies, obstor.BucketAccessPolicy{
 			Prefix: prefix,
 			Policy: policy,
@@ -1396,7 +1396,7 @@ func (a *azureObjects) SetBucketPolicy(ctx context.Context, bucket string, bucke
 	if policies[0].Prefix != prefix {
 		return obstor.NotImplemented{}
 	}
-	if policies[0].Policy != miniogopolicy.BucketPolicyReadOnly {
+	if policies[0].Policy != obstorpolicy.BucketPolicyReadOnly {
 		return obstor.NotImplemented{}
 	}
 	perm := azblob.PublicAccessContainer

@@ -54,7 +54,7 @@ var ServerFlags = []cli.Flag{
 	cli.StringFlag{
 		Name:  "web-address",
 		Value: ":" + GlobalObstorDefaultWebPort,
-		Usage: "bind the web dashboard to ADDRESS:PORT",
+		Usage: "bind the dashboard to ADDRESS:PORT",
 	},
 	cli.StringFlag{
 		Name:  "s3-address",

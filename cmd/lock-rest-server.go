@@ -26,8 +26,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/obstor/obstor/pkg/dsync"
 	"github.com/gorilla/mux"
+	"github.com/obstor/obstor/pkg/dsync"
 )
 
 const (

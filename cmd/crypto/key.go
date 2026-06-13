@@ -28,7 +28,7 @@ import (
 
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/fips"
-	"github.com/minio/sio"
+	"github.com/obstor/sio"
 )
 
 // ObjectKey is a 256 bit secret key used to encrypt the object.

@@ -34,11 +34,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/minio/selfupdate"
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/env"
 	xnet "github.com/obstor/obstor/pkg/net"
+	"github.com/obstor/selfupdate"
 )
 
 const (
@@ -227,7 +227,7 @@ func IsPCFTile() bool {
 //	Obstor (<OS>; <ARCH>[; <MODE>][; dcos][; kubernetes][; docker][; source]) Obstor/<VERSION> Obstor/<RELEASE-TAG> Obstor/<COMMIT-ID> [Obstor/universe-<PACKAGE-NAME>] [Obstor/helm-<HELM-VERSION>]
 //
 // Any change here should be discussed by opening an issue at
-// https://github.com/minio/minio/issues.
+// https://github.com/obstor/obstor/issues.
 func getUserAgent(mode string) string {
 
 	userAgentParts := []string{}
@@ -462,7 +462,7 @@ func getDownloadURL(releaseTag string) (downloadURL string) {
 	// Check if we are docker environment, return docker update command
 	if IsDocker() {
 		// Construct release tag name.
-		return fmt.Sprintf("docker pull cloudment/obstor:%s", releaseTag)
+		return fmt.Sprintf("docker pull obstor/obstor:%s", releaseTag)
 	}
 
 	// For binary only installations, we return link to the latest binary.

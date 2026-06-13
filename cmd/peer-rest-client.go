@@ -32,6 +32,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/dustin/go-humanize"
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/cmd/rest"
@@ -40,7 +41,6 @@ import (
 	"github.com/obstor/obstor/pkg/madmin"
 	xnet "github.com/obstor/obstor/pkg/net"
 	"github.com/obstor/obstor/pkg/trace"
-	"github.com/dustin/go-humanize"
 	"github.com/tinylib/msgp/msgp"
 )
 

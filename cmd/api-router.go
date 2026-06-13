@@ -20,8 +20,8 @@ package cmd
 import (
 	"net/http"
 
-	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/gorilla/mux"
+	xhttp "github.com/obstor/obstor/cmd/http"
 )
 
 func newHTTPServerFn() *xhttp.Server {

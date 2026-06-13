@@ -7,7 +7,7 @@ site/
 **/*.test
 **/*.sublime-workspace
 /.idea/
-/Minio.iml
+/Obstor.iml
 **/access.log
 build
 vendor/**/*.js

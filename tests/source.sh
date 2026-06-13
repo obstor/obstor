@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 #  Minio Cloud Storage, (C) 2024 Minio, Inc.
-# PGG Obstor, (C) 2021-2026 PGG, Inc.
+#  PGG Obstor, (C) 2021-2026 PGG, Inc.
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ export WGET="wget --quiet --no-check-certificate"
 export WGET="wget --quiet --no-check-certificate"
 
 ## Software versions
-export GO_VERSION="1.25.4"
+export GO_VERSION="1.26.4"
 export GRADLE_VERSION="9.2.0"
 export GRADLE_INSTALL_PATH="/opt/gradle"
 export GO_INSTALL_PATH="/usr/local"

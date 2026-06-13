@@ -1,6 +1,6 @@
 services:
   obstor:
-    image: ghcr.io/cloudment/obstor:latest
+    image: ghcr.io/obstor/obstor:latest
     ports:
       - "9000:9000"
       - "9001:9001"

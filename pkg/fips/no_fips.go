@@ -21,7 +21,7 @@ package fips
 import (
 	"crypto/tls"
 
-	"github.com/minio/sio"
+	"github.com/obstor/sio"
 )
 
 var enabled = false

@@ -5,12 +5,9 @@ Obstor supports multiple admin users in addition to default operator credential 
 In this document we will explain in detail on how to configure admin users.
 
 ### 1. Prerequisites
-- Install mc - Obstor Client Quickstart Guide
 - Install Obstor - Obstor Quickstart Guide
 
 ### 2. Create a new admin user with CreateUser, DeleteUser and ConfigUpdate permissions
-Use [`mc admin policy`](/docs/multi-user/admin) to create custom admin policies.
-
 Create new canned policy file `adminManageUser.json`. This policy enables admin user to
 manage other users.
 ```json
@@ -42,32 +39,16 @@ cat > adminManageUser.json << EOF
 EOF
 ```
 
-Create new canned policy by name `userManager` using `userManager.json` policy file.
-```bash
-mc admin policy add myobstor userManager adminManageUser.json
-```
+Create a new canned policy by name `userManager` using the `adminManageUser.json` policy file through Obstor's dashboard or the API.
 
-Create a new admin user `admin1` on Obstor use `mc admin user`.
-```bash
-mc admin user add myobstor admin1 admin123
-```
+Create a new admin user `admin1` on Obstor.
 
-Once the user is successfully created you can now apply the `userManage` policy for this user.
+Once the user is successfully created you can now apply the `userManager` policy for this user.
 
-```bash
-mc admin policy set myobstor userManager user=admin1
-```
+This admin user will then be allowed to perform create/delete user operations.
 
-This admin user will then be allowed to perform create/delete user operations via `mc admin user`
-
-### 3. Configure `mc` and create another user user1 with attached policy user1policy
-```bash
-mc alias set myobstor-admin1 http://localhost:9000 admin1 admin123 --api s3v4
-
-mc admin user add myobstor-admin1 user1 user123
-mc admin policy add myobstor-admin1 user1policy ~/user1policy.json
-mc admin policy set myobstor-admin1 user1policy user=user1
-```
+### 3. Create another user user1 with attached policy user1policy
+Authenticating as `admin1` against Obstor's dashboard or API, create the user `user1`, create the `user1policy` policy from `~/user1policy.json`, and attach that policy to `user1`.
 
 ### 4. List of permissions defined for admin operations
 #### Config management permissions
@@ -116,7 +97,6 @@ Admin users can also be externally managed by an IDP by configuring admin policy
 special permissions listed above. Follow [Obstor STS Quickstart Guide](/docs/sts) to manage users with an IDP.
 
 ## Explore Further
-- Obstor Client Complete Guide
 - [Obstor STS Quickstart Guide](/docs/sts)
 - Obstor Admin Complete Guide
 - [The Obstor documentation website](/docs)

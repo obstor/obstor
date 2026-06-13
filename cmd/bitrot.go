@@ -25,8 +25,8 @@ import (
 	"hash"
 	"io"
 
+	"github.com/obstor/highwayhash"
 	"github.com/obstor/obstor/cmd/logger"
-	"github.com/minio/highwayhash"
 	"golang.org/x/crypto/blake2b"
 )
 

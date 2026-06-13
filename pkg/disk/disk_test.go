@@ -28,7 +28,7 @@ import (
 )
 
 func TestFree(t *testing.T) {
-	path, err := os.MkdirTemp(os.TempDir(), "minio-")
+	path, err := os.MkdirTemp(os.TempDir(), "obstor-")
 	defer os.RemoveAll(path)
 	if err != nil {
 		t.Fatal(err)

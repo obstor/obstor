@@ -14,13 +14,13 @@ In 12 drive example above, with Obstor server running in the default configurati
 
 Erasure code protects data from multiple drives failure, unlike RAID or replication. For example, RAID6 can protect against two drive failure whereas in Obstor erasure code you can lose as many as half of drives and still the data remains safe. Further, Obstor's erasure code is at the object level and can heal one object at a time. For RAID, healing can be done only at the volume level which translates into high downtime. As Obstor encodes each object individually, it can heal objects incrementally. Storage servers once deployed should not require drive replacement or healing for the lifetime of the server. Obstor's erasure coded backend is designed for operational efficiency and takes full advantage of hardware acceleration whenever available.
 
-![Erasure](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/erasure-code.svg)
+![Erasure](https://raw.githubusercontent.com/obstor/obstor/main/docs/screenshots/erasure-code.svg)
 
 ## What is Bit Rot protection?
 
 Bit Rot, also known as data rot or silent data corruption is a data loss issue faced by disk drives today. Data on the drive may silently get corrupted without signaling an error has occurred, making bit rot more dangerous than a permanent hard drive failure.
 
-Obstor's erasure coded backend uses high speed [HighwayHash](https://github.com/minio/highwayhash) checksums to protect against Bit Rot.
+Obstor's erasure coded backend uses high speed [HighwayHash](https://github.com/obstor/highwayhash) checksums to protect against Bit Rot.
 
 ## How are drives used for Erasure Code?
 
@@ -56,7 +56,7 @@ docker run -p 9000:9000 --name obstor \
   -v /mnt/data6:/data6 \
   -v /mnt/data7:/data7 \
   -v /mnt/data8:/data8 \
-  ghcr.io/cloudment/obstor server /data{1...8}
+  ghcr.io/obstor/obstor server /data{1...8}
 ```
 
 ### 3. Test your setup

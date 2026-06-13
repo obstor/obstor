@@ -40,7 +40,7 @@ const (
 )
 
 // ErrTargetsOffline - Indicates single/multiple target failures.
-var ErrTargetsOffline = errors.New("one or more targets are offline. Please use `mc admin info --json` to check the offline targets")
+var ErrTargetsOffline = errors.New("one or more targets are offline. Check the dashboard or server logs to find the offline targets")
 
 // TestNotificationTargets is similar to GetNotificationTargets()
 // avoids explicit registration.

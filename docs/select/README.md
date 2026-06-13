@@ -10,7 +10,7 @@ You can use the Select API to query objects with following features:
 
 Type inference and automatic conversion of values is performed based on the context when the value is un-typed (such as when reading CSV data). If present, the CAST function overrides automatic conversion.
 
-The [mc sql](/docs/select) command can be used for executing queries using the command line.
+The S3 Select API can be invoked from any S3 SDK or client that supports `SelectObjectContent`, for example the AWS SDKs or the AWS CLI `s3api select-object-content` command.
 
 (*) Parquet is disabled on the Obstor server by default. See below how to enable it.
 
@@ -76,9 +76,14 @@ for event in r['Payload']:
 Upload a sample dataset to Obstor using the following commands.
 ```sh
 $ curl "https://population.un.org/wpp/Download/Files/1_Indicators%20(Standard)/CSV_FILES/WPP2019_TotalPopulationBySex.csv" > TotalPopulation.csv
-$ mc mb myobstor/mycsvbucket
+$ rclone mkdir obstor:mycsvbucket
 $ gzip TotalPopulation.csv
-$ mc cp TotalPopulation.csv.gz myobstor/mycsvbucket/sampledata/
+$ rclone copy TotalPopulation.csv.gz obstor:mycsvbucket/sampledata/
+```
+
+The `obstor` rclone remote is configured with:
+```sh
+$ rclone config create obstor s3 provider=Other endpoint=http://localhost:9000 access_key_id=obstor secret_access_key=obstor123
 ```
 
 Now let us proceed to run our select example to query for `Location` which matches `United States`.
@@ -104,9 +109,7 @@ Stats details bytesProcessed:
 For a more detailed SELECT SQL reference, please see [here](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference-select.html)
 
 ## 5. Explore Further
-- Use `mc` with Obstor Server
-- [Use `mc sql` with Obstor Server](/docs/select)
-- Use `minio-go` SDK with Obstor Server
+- Use `rclone` with Obstor Server
 - Use `aws-cli` with Obstor Server
 - Use `s3cmd` with Obstor Server
 - [The Obstor documentation website](/docs)

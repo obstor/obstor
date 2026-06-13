@@ -25,8 +25,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/obstor/obstor/pkg/kms"
 	"github.com/dustin/go-humanize"
+	"github.com/obstor/obstor/pkg/kms"
 )
 
 // Return pointer to testOneByteReadEOF{}

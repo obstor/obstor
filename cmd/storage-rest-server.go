@@ -34,13 +34,13 @@ import (
 
 	"github.com/tinylib/msgp/msgp"
 
-	"github.com/cloudment/obstor/cmd/config"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	xjwt "github.com/cloudment/obstor/cmd/jwt"
-	"github.com/cloudment/obstor/cmd/logger"
-	xnet "github.com/cloudment/obstor/pkg/net"
 	jwtreq "github.com/golang-jwt/jwt/v4/request"
 	"github.com/gorilla/mux"
+	"github.com/obstor/obstor/cmd/config"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	xjwt "github.com/obstor/obstor/cmd/jwt"
+	"github.com/obstor/obstor/cmd/logger"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 var errDiskStale = errors.New("disk stale")
@@ -1011,13 +1011,22 @@ func (s *storageRESTServer) WriteBlockHandler(w http.ResponseWriter, r *http.Req
 	if !s.IsValid(w, r) {
 		return
 	}
-	hash := r.Form.Get(storageRESTBlockHash)
-	data, err := io.ReadAll(r.Body)
-	if err != nil {
+	hash := r.URL.Query().Get(storageRESTBlockHash)
+	if !isValidBlockHash(hash) {
+		s.writeErrorResponse(w, errInvalidArgument)
+		return
+	}
+	const maxBlockSize = 64 << 20
+	if r.ContentLength < 0 || r.ContentLength > maxBlockSize {
+		s.writeErrorResponse(w, errInvalidArgument)
+		return
+	}
+	data := make([]byte, r.ContentLength)
+	if _, err := io.ReadFull(r.Body, data); err != nil {
 		s.writeErrorResponse(w, err)
 		return
 	}
-	err = s.storage.WriteBlock(r.Context(), hash, data)
+	err := s.storage.WriteBlock(r.Context(), hash, data)
 	if err != nil {
 		s.writeErrorResponse(w, err)
 		return
@@ -1029,7 +1038,7 @@ func (s *storageRESTServer) ReadBlockHandler(w http.ResponseWriter, r *http.Requ
 	if !s.IsValid(w, r) {
 		return
 	}
-	hash := r.Form.Get(storageRESTBlockHash)
+	hash := r.URL.Query().Get(storageRESTBlockHash)
 	data, err := s.storage.ReadBlock(r.Context(), hash)
 	if err != nil {
 		s.writeErrorResponse(w, err)
@@ -1044,7 +1053,7 @@ func (s *storageRESTServer) HasBlockHandler(w http.ResponseWriter, r *http.Reque
 	if !s.IsValid(w, r) {
 		return
 	}
-	hash := r.Form.Get(storageRESTBlockHash)
+	hash := r.URL.Query().Get(storageRESTBlockHash)
 	has, err := s.storage.HasBlock(r.Context(), hash)
 	if err != nil {
 		s.writeErrorResponse(w, err)
@@ -1061,7 +1070,7 @@ func (s *storageRESTServer) DeleteBlockHandler(w http.ResponseWriter, r *http.Re
 	if !s.IsValid(w, r) {
 		return
 	}
-	hash := r.Form.Get(storageRESTBlockHash)
+	hash := r.URL.Query().Get(storageRESTBlockHash)
 	err := s.storage.DeleteBlock(r.Context(), hash)
 	if err != nil {
 		s.writeErrorResponse(w, err)

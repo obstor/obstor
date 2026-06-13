@@ -4,7 +4,7 @@ Obstor uses a key-management-system (KMS) to support SSE-S3. If a client request
 
 ## Quick Start
 
-Obstor supports multiple KMS implementations via our [KES](https://github.com/minio/kes#kes) project. We run a KES instance at `https://play.obstor.net:7373` for you to experiment and quickly get started. To run Obstor with a KMS just fetch the root identity, set the following environment variables and then start your Obstor server. If you havn't installed Obstor, yet, then follow the Obstor install instructions first.
+Obstor supports multiple KMS implementations via our [KES](https://github.com/obstor/kes#kes) project. We run a KES instance at `https://demo.obstor.net:7373` for you to experiment and quickly get started. To run Obstor with a KMS just fetch the root identity, set the following environment variables and then start your Obstor server. If you havn't installed Obstor, yet, then follow the Obstor install instructions first.
 
 #### 1. Fetch the root identity
 As the initial step, fetch the private key and certificate of the root identity:
@@ -18,7 +18,7 @@ curl -sSL --tlsv1.2 \
 #### 2. Set the Obstor-KES configuration
 
 ```bash
-export OBSTOR_KMS_KES_ENDPOINT=https://play.obstor.net:7373
+export OBSTOR_KMS_KES_ENDPOINT=https://demo.obstor.net:7373
 export OBSTOR_KMS_KES_KEY_FILE=root.key
 export OBSTOR_KMS_KES_CERT_FILE=root.cert
 export OBSTOR_KMS_KES_KEY_NAME=my-obstor-key
@@ -32,8 +32,8 @@ export OBSTOR_ROOT_PASSWORD=obstor123
 obstor server ~/export
 ```
 
-> The KES instance at `https://play.obstor.net:7373` is meant to experiment and provides a way to get started quickly.
-> Note that anyone can access or delete master keys at `https://play.obstor.net:7373`. You should run your own KES
+> The KES instance at `https://demo.obstor.net:7373` is meant to experiment and provides a way to get started quickly.
+> Note that anyone can access or delete master keys at `https://demo.obstor.net:7373`. You should run your own KES
 > instance in production.
 
 ## Configuration Guides
@@ -55,39 +55,40 @@ The main difference between various Obstor-KMS deployments is the KMS implementa
 
 | KMS                                                                                          | Purpose                                                           |
 |:---------------------------------------------------------------------------------------------|:------------------------------------------------------------------|
-| [Hashicorp Vault](https://github.com/minio/kes/wiki/Hashicorp-Vault-Keystore)                | Local KMS. Obstor and KMS on-prem (**Recommended**)                |
-| [AWS-KMS + SecretsManager](https://github.com/minio/kes/wiki/AWS-SecretsManager)             | Cloud KMS. Obstor in combination with a managed KMS installation   |
-| [Gemalto KeySecure /Thales CipherTrust](https://github.com/minio/kes/wiki/Gemalto-KeySecure) | Local KMS. Obstor and KMS On-Premise.                             |
-| [Google Cloud Platform SecretManager](https://github.com/minio/kes/wiki/GCP-SecretManager)   | Cloud KMS. Obstor in combination with a managed KMS installation   |
-| [FS](https://github.com/minio/kes/wiki/Filesystem-Keystore)                                  | Local testing or development (**Not recommended for production**) |
+| [Hashicorp Vault](https://github.com/obstor/kes/wiki/Hashicorp-Vault-Keystore)                | Local KMS. Obstor and KMS on-prem (**Recommended**)                |
+| [AWS-KMS + SecretsManager](https://github.com/obstor/kes/wiki/AWS-SecretsManager)             | Cloud KMS. Obstor in combination with a managed KMS installation   |
+| [Gemalto KeySecure /Thales CipherTrust](https://github.com/obstor/kes/wiki/Gemalto-KeySecure) | Local KMS. Obstor and KMS On-Premise.                             |
+| [Google Cloud Platform SecretManager](https://github.com/obstor/kes/wiki/GCP-SecretManager)   | Cloud KMS. Obstor in combination with a managed KMS installation   |
+| [FS](https://github.com/obstor/kes/wiki/Filesystem-Keystore)                                  | Local testing or development (**Not recommended for production**) |
 
 
-The Obstor-KES configuration is always the same - regardless of the underlying KMS implementation. Checkout the Obstor-KES [configuration example](https://github.com/minio/kes/wiki/Obstor-Object-Storage).
+The Obstor-KES configuration is always the same - regardless of the underlying KMS implementation. Checkout the Obstor-KES [configuration example](https://github.com/obstor/kes/wiki/Obstor-Object-Storage).
 
 ### Further references
 
 - [Run Obstor with TLS / HTTPS](/docs/tls)
-- [Tweak the KES server configuration](https://github.com/minio/kes/wiki/Configuration)
-- [Run a load balancer infront of KES](https://github.com/minio/kes/wiki/TLS-Proxy)
-- [Understand the KES server concepts](https://github.com/minio/kes/wiki/Concepts)
+- [Tweak the KES server configuration](https://github.com/obstor/kes/wiki/Configuration)
+- [Run a load balancer infront of KES](https://github.com/obstor/kes/wiki/TLS-Proxy)
+- [Understand the KES server concepts](https://github.com/obstor/kes/wiki/Concepts)
 
 ## Auto Encryption
 Auto-Encryption is useful when Obstor administrator wants to ensure that all data stored on Obstor is encrypted at rest.
 
-### Using `mc encrypt` (recommended)
+### Using bucket encryption (recommended)
 Obstor automatically encrypts all objects on buckets if KMS is successfully configured and bucket encryption configuration is enabled for each bucket as shown below:
 ```bash
-mc encrypt set sse-s3 myobstor/bucket/
+aws --endpoint-url http://HOST:9000 s3api put-bucket-encryption \
+  --bucket bucket \
+  --server-side-encryption-configuration '{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"}}]}'
 ```
 
 Verify if Obstor has `sse-s3` enabled
 ```bash
-mc encrypt info myobstor/bucket/
-Auto encryption 'sse-s3' is enabled
+aws --endpoint-url http://HOST:9000 s3api get-bucket-encryption --bucket bucket
 ```
 
 ### Using environment (deprecated)
-> NOTE: The following ENV might be removed in future, you are advised to move to the previously recommended approach using `mc encrypt`. S3 backend supports encryption at backend layer which may  be dropped in favor of simplicity at a later time. It is advised that S3 backend users migrate to Obstor server mode or enable encryption at REST at the backend.
+> NOTE: The following ENV might be removed in future, you are advised to move to the previously recommended approach using bucket encryption. S3 backend supports encryption at backend layer which may  be dropped in favor of simplicity at a later time. It is advised that S3 backend users migrate to Obstor server mode or enable encryption at REST at the backend.
 
 Obstor automatically encrypts all objects on buckets if KMS is successfully configured and following ENV is enabled:
 ```bash
@@ -99,25 +100,23 @@ export OBSTOR_KMS_AUTO_ENCRYPTION=on
 > e.g. SSE-C headers, Obstor will encrypt the object with the key sent by the client and won't reach out to
 > the configured KMS.
 
-To verify auto-encryption, use the following `mc` command:
+To verify auto-encryption, upload an object and inspect its metadata:
 
 ```bash
-mc cp test.file myobstor/bucket/
-test.file:   5 B / 5 B  ┃███████████████████████████████████┃  100.00% 337 B/s 0s
+rclone copy test.file obstor:bucket/
 ```
 
 ```bash
-mc stat myobstor/bucket/test.file
-Name      : test.file
-...
-Encrypted :
-  X-Amz-Server-Side-Encryption: AES256
+aws --endpoint-url http://HOST:9000 s3api head-object --bucket bucket --key test.file
+{
+    "ServerSideEncryption": "AES256",
+    ...
+}
 ```
 
 ## Explore Further
 
-- Use `mc` with Obstor Server
+- Use `rclone` with Obstor Server
 - Use `aws-cli` with Obstor Server
 - Use `s3cmd` with Obstor Server
-- Use `minio-go` SDK with Obstor Server
 - [The Obstor documentation website](/docs)

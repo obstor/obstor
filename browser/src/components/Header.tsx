@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { safeDisplayName } from "@/lib/safe-name";
 
 export function Header() {
   const pathname = usePathname();
@@ -13,7 +14,9 @@ export function Header() {
         {bucket ? (
           <>
             <span className="icon-[lucide--hard-drive] text-text-muted" />
-            <span className="text-text-primary">{bucket}</span>
+            <span className="text-text-primary">
+              <bdi>{safeDisplayName(bucket)}</bdi>
+            </span>
           </>
         ) : null}
       </div>

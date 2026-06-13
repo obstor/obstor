@@ -40,7 +40,7 @@ if [ "$ENABLE_VIRTUAL_STYLE" -eq 1 ]; then
 	if [ "$ENABLE_HTTPS" -eq 1 ]; then
 		endpoint="https://$DOMAIN:$SERVER_PORT"
 	fi
-	dnsmasq --web-address="/$DOMAIN/$SERVER_IP" --user=root
+	dnsmasq --address="/$DOMAIN/$SERVER_IP" --user=root
 	echo -e "nameserver 127.0.0.1\n$(cat /etc/resolv.conf)" >/etc/resolv.conf
 	aws configure set default.s3.addressing_style virtual
 	./test.sh "$endpoint" 1>>"$output_log_file" 2>"$error_log_file"

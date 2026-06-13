@@ -60,7 +60,7 @@ export default async function DashboardHome() {
           </div>
           <p className="font-bold font-display text-2xl text-text-primary">{humanSize(used)}</p>
           <p className="mt-1 font-mono text-[10px] text-text-muted">
-            Across all nodes &middot; Replicated
+            Across all nodes | Replicated
           </p>
         </div>
 

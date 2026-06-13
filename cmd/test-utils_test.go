@@ -871,7 +871,7 @@ func preSignV2(req *http.Request, accessKeyID, secretAccessKey string, expires i
 		return errors.New("presign cannot be generated without access and secret keys")
 	}
 
-	// FIXME: Remove following portion of code after fixing a bug in minio-go preSignV2.
+	// FIXME: Remove following portion of code after fixing a bug in obstor-go preSignV2.
 
 	d := UTCNow()
 	// Find epoch expires when the request will expire.
@@ -1549,7 +1549,7 @@ func getTestRoot() (string, error) {
 func getRandomDisks(N int) ([]string, error) {
 	var erasureDisks []string
 	for i := 0; i < N; i++ {
-		path, err := os.MkdirTemp(globalTestTmpDir, "minio-")
+		path, err := os.MkdirTemp(globalTestTmpDir, "obstor-")
 		if err != nil {
 			// Remove directories created so far.
 			removeRoots(erasureDisks)

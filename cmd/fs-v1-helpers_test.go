@@ -528,7 +528,7 @@ func TestFSRemoveMeta(t *testing.T) {
 
 	defer rwPool.Close(filePath)
 
-	tmpDir, tmpErr := os.MkdirTemp(globalTestTmpDir, "minio-")
+	tmpDir, tmpErr := os.MkdirTemp(globalTestTmpDir, "obstor-")
 	if tmpErr != nil {
 		t.Fatal(tmpErr)
 	}
@@ -547,7 +547,7 @@ func TestFSRemoveMeta(t *testing.T) {
 }
 
 func TestFSIsFile(t *testing.T) {
-	dirPath, err := os.MkdirTemp(globalTestTmpDir, "minio-")
+	dirPath, err := os.MkdirTemp(globalTestTmpDir, "obstor-")
 	if err != nil {
 		t.Fatalf("Unable to create tmp directory %s", err)
 	}

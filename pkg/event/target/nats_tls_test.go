@@ -22,8 +22,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	xnet "github.com/obstor/obstor/pkg/net"
 	natsserver "github.com/nats-io/nats-server/v2/test"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 func TestNatsConnTLSCustomCA(t *testing.T) {

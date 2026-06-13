@@ -155,7 +155,7 @@ The Obstor server supports key rotation for SSE-S3 encrypted objects. The obstor
  ```
 <center>Figure 3 - KMS data key rotation</center>
 
-Only the root/admin user can perform an SSE-S3 key rotation using the Admin-API via [mc](https://github.com/obstor/oc). For more details about how to perform key management operations using the CLI run `mc admin kms key`.
+Only the root/admin user can perform an SSE-S3 key rotation using the Admin-API. See the Obstor admin documentation for how to perform key management operations.
 
 #### Secure Erasure and Locking
 

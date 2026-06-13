@@ -7,7 +7,7 @@ Obstor Backend adds S3 and [other supported protocol](/docs/protocols) compatibi
 docker run -p 9000:9000 --name azure-s3 \
  -e "OBSTOR_ROOT_USER=azurestorageaccountname" \
  -e "OBSTOR_ROOT_PASSWORD=azurestorageaccountkey" \
- ghcr.io/cloudment/obstor backend azure
+ ghcr.io/obstor/obstor backend azure
 ```
 
 ### Using Binary
@@ -19,21 +19,23 @@ obstor backend azure
 ## Test using Browser Dashboard
 Obstor Backend comes with an embedded web based object browser. Point your web browser to http://127.0.0.1:9000 to ensure that your server has started successfully.
 
-![Screenshot](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/dashboard.png)
-## Test using Obstor Client `mc`
-`mc` provides a modern alternative to UNIX commands such as ls, cat, cp, mirror, diff etc. It supports filesystems and S3-compatible cloud storage services.
+![Screenshot](https://raw.githubusercontent.com/obstor/obstor/main/docs/screenshots/dashboard.png)
+## Test using an S3 client
+You can interact with the backend using rclone or the AWS CLI. Both support filesystems and S3-compatible cloud storage services.
 
-### Configure `mc`
+### Configure your client
+Configure an rclone S3 remote once:
+
 ```bash
-mc alias set myazure http://backend-ip:9000 azureaccountname azureaccountkey
+rclone config create obstor s3 provider=Other endpoint=http://backend-ip:9000 access_key_id=azureaccountname secret_access_key=azureaccountkey
 ```
 
 ### List containers on Microsoft Azure
 ```bash
-mc ls myazure
-[2026-05-22 01:50:43 PST]     0B ferenginar/
-[2026-05-26 21:43:51 PST]     0B my-container/
-[2026-05-26 22:10:11 PST]     0B test-container1/
+rclone lsd myazure
+[2026-05-22 01:50:43]     0B ferenginar/
+[2026-05-26 21:43:51]     0B my-container/
+[2026-05-26 22:10:11]     0B test-container1/
 ```
 
 ### Use custom access/secret keys
@@ -54,6 +56,6 @@ Other limitations:
 
 ## Explore Further
 - [Supported Protocols](/docs/protocols) - S3, SFTP, and more
-- `mc` command-line interface
+- `rclone` command-line interface
 - `aws` command-line interface
-- `minio-go` Go SDK
+- `obstor-go` Go SDK

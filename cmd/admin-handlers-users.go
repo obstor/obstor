@@ -18,18 +18,20 @@
 package cmd
 
 import (
+	"bytes"
 	"context"
+	"encoding/base64"
 	"encoding/json"
 	"io"
 	"net/http"
 	"sort"
 
+	"github.com/gorilla/mux"
 	"github.com/obstor/obstor/cmd/config/dns"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/auth"
 	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
 	"github.com/obstor/obstor/pkg/madmin"
-	"github.com/gorilla/mux"
 )
 
 func validateAdminUsersReq(ctx context.Context, w http.ResponseWriter, r *http.Request, action iampolicy.AdminAction) (ObjectLayer, auth.Credentials) {
@@ -558,9 +560,28 @@ func (a adminAPIHandlers) AddServiceAccount(w http.ResponseWriter, r *http.Reque
 	// CVE-2025-62506: If the caller is a temporary/STS credential with a
 	// restricted session policy, the new service account must also have a
 	// session policy to prevent bypassing the caller's restrictions.
-	if cred.IsTemp() && createReq.Policy == nil {
-		writeErrorResponseJSON(ctx, w, errorCodes.ToAPIErr(ErrAccessDenied), r.URL)
-		return
+	if cred.IsTemp() || cred.IsServiceAccount() {
+		callerSP, hasSP := claims[iampolicy.SessionPolicyName].(string)
+		if hasSP {
+			if createReq.Policy != nil {
+				writeErrorResponseJSON(ctx, w, errorCodes.ToAPIErr(ErrAccessDenied), r.URL)
+				return
+			}
+			spBytes, derr := base64.StdEncoding.DecodeString(callerSP)
+			if derr != nil {
+				writeErrorResponseJSON(ctx, w, errorCodes.ToAPIErr(ErrAccessDenied), r.URL)
+				return
+			}
+			callerPolicy, derr := iampolicy.ParseConfig(bytes.NewReader(spBytes))
+			if derr != nil {
+				writeErrorResponseJSON(ctx, w, errorCodes.ToAPIErr(ErrAccessDenied), r.URL)
+				return
+			}
+			createReq.Policy = callerPolicy
+		} else if cred.IsTemp() && createReq.Policy == nil {
+			writeErrorResponseJSON(ctx, w, errorCodes.ToAPIErr(ErrAccessDenied), r.URL)
+			return
+		}
 	}
 
 	opts := newServiceAccountOpts{sessionPolicy: createReq.Policy, accessKey: createReq.AccessKey, secretKey: createReq.SecretKey}

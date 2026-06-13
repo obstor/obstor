@@ -27,7 +27,7 @@ import (
 	"strings"
 	"time"
 
-	miniogo "github.com/obstor/obstor-go/v7"
+	obstorgo "github.com/obstor/obstor-go/v7"
 	"github.com/obstor/obstor-go/v7/pkg/credentials"
 	"github.com/obstor/obstor-go/v7/pkg/encrypt"
 	"github.com/obstor/obstor-go/v7/pkg/s3utils"
@@ -141,7 +141,7 @@ func randString(n int, src rand.Source, prefix string) string {
 var defaultProviders = []credentials.Provider{
 	&credentials.EnvAWS{},
 	&credentials.FileAWSCredentials{},
-	&credentials.EnvMinio{},
+	&credentials.EnvObstor{},
 }
 
 // Chains all credential types, in the following order:
@@ -159,11 +159,11 @@ var defaultAWSCredProviders = []credentials.Provider{
 			Transport: obstor.NewBackendHTTPTransport(),
 		},
 	},
-	&credentials.EnvMinio{},
+	&credentials.EnvObstor{},
 }
 
 // newS3 - Initializes a new client by auto probing S3 server signature.
-func newS3(urlStr string, tripper http.RoundTripper) (*miniogo.Core, error) {
+func newS3(urlStr string, tripper http.RoundTripper) (*obstorgo.Core, error) {
 	if urlStr == "" {
 		urlStr = "https://s3.amazonaws.com"
 	}
@@ -189,20 +189,20 @@ func newS3(urlStr string, tripper http.RoundTripper) (*miniogo.Core, error) {
 		creds = credentials.NewChainCredentials(defaultProviders)
 	}
 
-	options := &miniogo.Options{
+	options := &obstorgo.Options{
 		Creds:        creds,
 		Secure:       secure,
 		Region:       s3utils.GetRegionFromURL(*u),
-		BucketLookup: miniogo.BucketLookupAuto,
+		BucketLookup: obstorgo.BucketLookupAuto,
 		Transport:    tripper,
 	}
 
-	clnt, err := miniogo.New(endpoint, options)
+	clnt, err := obstorgo.New(endpoint, options)
 	if err != nil {
 		return nil, err
 	}
 
-	return &miniogo.Core{Client: clnt}, nil
+	return &obstorgo.Core{Client: clnt}, nil
 }
 
 // NewBackendLayer returns s3 ObjectLayer.
@@ -225,7 +225,7 @@ func (g *S3) NewBackendLayer(creds auth.Credentials) (obstor.ObjectLayer, error)
 
 	// Check if the provided keys are valid.
 	if _, err = clnt.BucketExists(context.Background(), probeBucketName); err != nil {
-		if miniogo.ToErrorResponse(err).Code != "AccessDenied" {
+		if obstorgo.ToErrorResponse(err).Code != "AccessDenied" {
 			return nil, err
 		}
 	}
@@ -259,7 +259,7 @@ func (g *S3) Production() bool {
 // s3Objects implements backend for Obstor and S3 compatible object storage servers.
 type s3Objects struct {
 	obstor.BackendUnsupported
-	Client     *miniogo.Core
+	Client     *obstorgo.Core
 	HTTPClient *http.Client
 	Metrics    *obstor.BackendMetrics
 }
@@ -302,7 +302,7 @@ func (l *s3Objects) MakeBucketWithLocation(ctx context.Context, bucket string, o
 	if s3utils.CheckValidBucketName(bucket) != nil {
 		return obstor.BucketNameInvalid{Bucket: bucket}
 	}
-	err := l.Client.MakeBucket(ctx, bucket, miniogo.MakeBucketOptions{Region: opts.Location})
+	err := l.Client.MakeBucket(ctx, bucket, obstorgo.MakeBucketOptions{Region: opts.Location})
 	if err != nil {
 		return obstor.ErrorRespToObjectError(err, bucket)
 	}
@@ -425,7 +425,7 @@ func (l *s3Objects) getObject(ctx context.Context, bucket string, key string, st
 		return obstor.ErrorRespToObjectError(obstor.InvalidRange{}, bucket, key)
 	}
 
-	opts := miniogo.GetObjectOptions{}
+	opts := obstorgo.GetObjectOptions{}
 	opts.ServerSideEncryption = o.ServerSideEncryption
 
 	if startOffset >= 0 && length >= 0 {
@@ -451,7 +451,7 @@ func (l *s3Objects) getObject(ctx context.Context, bucket string, key string, st
 
 // GetObjectInfo reads object info and replies back ObjectInfo
 func (l *s3Objects) GetObjectInfo(ctx context.Context, bucket string, object string, opts obstor.ObjectOptions) (objInfo obstor.ObjectInfo, err error) {
-	oi, err := l.Client.StatObject(ctx, bucket, object, miniogo.StatObjectOptions{
+	oi, err := l.Client.StatObject(ctx, bucket, object, obstorgo.StatObjectOptions{
 		ServerSideEncryption: opts.ServerSideEncryption,
 	})
 	if err != nil {
@@ -473,7 +473,7 @@ func (l *s3Objects) PutObject(ctx context.Context, bucket string, object string,
 		tagMap = tagObj.ToMap()
 		delete(opts.UserDefined, xhttp.AmzObjectTagging)
 	}
-	PutOpts := miniogo.PutObjectOptions{
+	PutOpts := obstorgo.PutObjectOptions{
 		UserMetadata:         opts.UserDefined,
 		ServerSideEncryption: opts.ServerSideEncryption,
 		UserTags:             tagMap,
@@ -483,7 +483,7 @@ func (l *s3Objects) PutObject(ctx context.Context, bucket string, object string,
 		return objInfo, obstor.ErrorRespToObjectError(err, bucket, object)
 	}
 	// On success, populate the key & metadata so they are present in the notification
-	oi := miniogo.ObjectInfo{
+	oi := obstorgo.ObjectInfo{
 		ETag:     ui.ETag,
 		Size:     ui.Size,
 		Key:      object,
@@ -517,7 +517,7 @@ func (l *s3Objects) CopyObject(ctx context.Context, srcBucket string, srcObject 
 		srcInfo.UserDefined[k] = v[0]
 	}
 
-	if _, err = l.Client.CopyObject(ctx, srcBucket, srcObject, dstBucket, dstObject, srcInfo.UserDefined, miniogo.CopySrcOptions{}, miniogo.PutObjectOptions{}); err != nil {
+	if _, err = l.Client.CopyObject(ctx, srcBucket, srcObject, dstBucket, dstObject, srcInfo.UserDefined, obstorgo.CopySrcOptions{}, obstorgo.PutObjectOptions{}); err != nil {
 		return objInfo, obstor.ErrorRespToObjectError(err, srcBucket, srcObject)
 	}
 	return l.GetObjectInfo(ctx, dstBucket, dstObject, dstOpts)
@@ -525,7 +525,7 @@ func (l *s3Objects) CopyObject(ctx context.Context, srcBucket string, srcObject 
 
 // DeleteObject deletes a blob in bucket
 func (l *s3Objects) DeleteObject(ctx context.Context, bucket string, object string, opts obstor.ObjectOptions) (obstor.ObjectInfo, error) {
-	err := l.Client.RemoveObject(ctx, bucket, object, miniogo.RemoveObjectOptions{})
+	err := l.Client.RemoveObject(ctx, bucket, object, obstorgo.RemoveObjectOptions{})
 	if err != nil {
 		return obstor.ObjectInfo{}, obstor.ErrorRespToObjectError(err, bucket, object)
 	}
@@ -572,7 +572,7 @@ func (l *s3Objects) NewMultipartUpload(ctx context.Context, bucket string, objec
 		delete(o.UserDefined, xhttp.AmzObjectTagging)
 	}
 	// Create PutObject options
-	opts := miniogo.PutObjectOptions{
+	opts := obstorgo.PutObjectOptions{
 		UserMetadata:         o.UserDefined,
 		ServerSideEncryption: o.ServerSideEncryption,
 		UserTags:             tagMap,
@@ -587,7 +587,7 @@ func (l *s3Objects) NewMultipartUpload(ctx context.Context, bucket string, objec
 // PutObjectPart puts a part of object in bucket
 func (l *s3Objects) PutObjectPart(ctx context.Context, bucket string, object string, uploadID string, partID int, r *obstor.PutObjReader, opts obstor.ObjectOptions) (pi obstor.PartInfo, e error) {
 	data := r.Reader
-	info, err := l.Client.PutObjectPart(ctx, bucket, object, uploadID, partID, data, data.Size(), miniogo.PutObjectPartOptions{
+	info, err := l.Client.PutObjectPart(ctx, bucket, object, uploadID, partID, data, data.Size(), obstorgo.PutObjectPartOptions{
 		Md5Base64: data.MD5Base64String(),
 		Sha256Hex: data.SHA256HexString(),
 		SSE:       opts.ServerSideEncryption,
@@ -675,7 +675,7 @@ func (l *s3Objects) AbortMultipartUpload(ctx context.Context, bucket string, obj
 
 // CompleteMultipartUpload completes ongoing multipart upload and finalizes object
 func (l *s3Objects) CompleteMultipartUpload(ctx context.Context, bucket string, object string, uploadID string, uploadedParts []obstor.CompletePart, opts obstor.ObjectOptions) (oi obstor.ObjectInfo, e error) {
-	uploadInfo, err := l.Client.CompleteMultipartUpload(ctx, bucket, object, uploadID, obstor.ToObstorClientCompleteParts(uploadedParts), miniogo.PutObjectOptions{})
+	uploadInfo, err := l.Client.CompleteMultipartUpload(ctx, bucket, object, uploadID, obstor.ToObstorClientCompleteParts(uploadedParts), obstorgo.PutObjectOptions{})
 	if err != nil {
 		return oi, obstor.ErrorRespToObjectError(err, bucket, object)
 	}
@@ -725,7 +725,7 @@ func (l *s3Objects) GetObjectTags(ctx context.Context, bucket string, object str
 		return nil, obstor.ErrorRespToObjectError(err, bucket, object)
 	}
 
-	t, err := l.Client.GetObjectTagging(ctx, bucket, object, miniogo.GetObjectTaggingOptions{})
+	t, err := l.Client.GetObjectTagging(ctx, bucket, object, obstorgo.GetObjectTaggingOptions{})
 	if err != nil {
 		return nil, obstor.ErrorRespToObjectError(err, bucket, object)
 	}
@@ -739,7 +739,7 @@ func (l *s3Objects) PutObjectTags(ctx context.Context, bucket, object string, ta
 	if err != nil {
 		return obstor.ObjectInfo{}, obstor.ErrorRespToObjectError(err, bucket, object)
 	}
-	if err = l.Client.PutObjectTagging(ctx, bucket, object, tagObj, miniogo.PutObjectTaggingOptions{VersionID: opts.VersionID}); err != nil {
+	if err = l.Client.PutObjectTagging(ctx, bucket, object, tagObj, obstorgo.PutObjectTaggingOptions{VersionID: opts.VersionID}); err != nil {
 		return obstor.ObjectInfo{}, obstor.ErrorRespToObjectError(err, bucket, object)
 	}
 
@@ -753,7 +753,7 @@ func (l *s3Objects) PutObjectTags(ctx context.Context, bucket, object string, ta
 
 // DeleteObjectTags removes the tags attached to the object
 func (l *s3Objects) DeleteObjectTags(ctx context.Context, bucket, object string, opts obstor.ObjectOptions) (obstor.ObjectInfo, error) {
-	if err := l.Client.RemoveObjectTagging(ctx, bucket, object, miniogo.RemoveObjectTaggingOptions{}); err != nil {
+	if err := l.Client.RemoveObjectTagging(ctx, bucket, object, obstorgo.RemoveObjectTaggingOptions{}); err != nil {
 		return obstor.ObjectInfo{}, obstor.ErrorRespToObjectError(err, bucket, object)
 	}
 	objInfo, err := l.GetObjectInfo(ctx, bucket, object, opts)

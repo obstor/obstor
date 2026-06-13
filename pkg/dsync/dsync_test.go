@@ -33,8 +33,8 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/obstor/obstor/pkg/dsync"
 	"github.com/google/uuid"
+	. "github.com/obstor/obstor/pkg/dsync"
 )
 
 const numberOfNodes = 5

@@ -35,13 +35,12 @@ In the example above this means that  `OBSTOR_CACHE_WATERMARK_LOW` is effectivel
 
 ### 3. Test your setup
 
-To test this setup, access the Obstor backend via browser or `mc`. You’ll see the uploaded files are accessible from all the Obstor endpoints.
+To test this setup, access the Obstor backend via browser or an S3 client such as rclone or the AWS CLI. You’ll see the uploaded files are accessible from all the Obstor endpoints.
 
 # Explore Further
 
 - [Disk cache design](/docs/disk-caching/DESIGN)
-- Use `mc` with Obstor Server
+- Use `rclone` with Obstor Server
 - Use `aws-cli` with Obstor Server
 - Use `s3cmd` with Obstor Server
-- Use `minio-go` SDK with Obstor Server
 - [The Obstor documentation website](/docs)

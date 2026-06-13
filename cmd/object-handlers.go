@@ -35,8 +35,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
-	"github.com/minio/sio"
-	miniogo "github.com/obstor/obstor-go/v7"
+	obstor "github.com/obstor/obstor-go/v7"
 	"github.com/obstor/obstor-go/v7/pkg/encrypt"
 	"github.com/obstor/obstor-go/v7/pkg/tags"
 	"github.com/obstor/obstor/cmd/config/dns"
@@ -57,6 +56,7 @@ import (
 	"github.com/obstor/obstor/pkg/ioutil"
 	xnet "github.com/obstor/obstor/pkg/net"
 	"github.com/obstor/obstor/pkg/s3select"
+	"github.com/obstor/sio"
 )
 
 const (
@@ -1216,7 +1216,7 @@ func (api objectAPIHandlers) CopyObjectHandler(w http.ResponseWriter, r *http.Re
 		// Remove the metadata for remote calls.
 		delete(srcInfo.UserDefined, ReservedMetadataPrefix+"compression")
 		delete(srcInfo.UserDefined, ReservedMetadataPrefix+"actual-size")
-		opts := miniogo.PutObjectOptions{
+		opts := obstor.PutObjectOptions{
 			UserMetadata:         srcInfo.UserDefined,
 			ServerSideEncryption: dstOpts.ServerSideEncryption,
 			UserTags:             tag.ToMap(),
@@ -2219,7 +2219,7 @@ func (api objectAPIHandlers) CopyObjectPartHandler(w http.ResponseWriter, r *htt
 			return
 		}
 
-		partInfo, err := core.PutObjectPart(ctx, dstBucket, dstObject, uploadID, partID, gr, length, miniogo.PutObjectPartOptions{
+		partInfo, err := core.PutObjectPart(ctx, dstBucket, dstObject, uploadID, partID, gr, length, obstor.PutObjectPartOptions{
 			SSE: dstOpts.ServerSideEncryption,
 		})
 		if err != nil {

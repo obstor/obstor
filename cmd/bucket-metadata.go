@@ -29,7 +29,6 @@ import (
 	"path"
 	"time"
 
-	"github.com/minio/sio"
 	"github.com/obstor/obstor-go/v7/pkg/tags"
 	"github.com/obstor/obstor/cmd/crypto"
 	"github.com/obstor/obstor/cmd/logger"
@@ -43,6 +42,7 @@ import (
 	"github.com/obstor/obstor/pkg/fips"
 	"github.com/obstor/obstor/pkg/kms"
 	"github.com/obstor/obstor/pkg/madmin"
+	"github.com/obstor/sio"
 )
 
 const (

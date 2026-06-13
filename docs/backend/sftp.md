@@ -34,7 +34,7 @@ docker run -p 9000:9000 \
   -e "OBSTOR_ROOT_PASSWORD=secretkey" \
   -e "OBSTOR_BACKEND_SFTP_USER=sftpuser" \
   -e "OBSTOR_BACKEND_SFTP_PASSWORD=sftppassword" \
-  ghcr.io/cloudment/obstor backend sftp sftp-server:22/data
+  ghcr.io/obstor/obstor backend sftp sftp-server:22/data
 ```
 
 ## Configuration
@@ -78,14 +78,16 @@ SFTP Server                    S3 API
 /data/backups/db.sql.gz   -->  backups/db.sql.gz (object)
 ```
 
-## Test Using Obstor Client `mc`
+## Test using an S3 client
+
+Obstor is S3-compatible, so use any S3 client (rclone, aws-cli, ...) for data access. With `rclone`:
 
 ```bash
-mc alias set mysftp http://localhost:9000 accesskey secretkey
+rclone config create mysftp s3 provider=Other endpoint=http://localhost:9000 access_key_id=accesskey secret_access_key=secretkey
 
-mc ls mysftp
-mc mb mysftp/newbucket
-mc cp myfile.txt mysftp/newbucket/myfile.txt
+rclone ls mysftp:
+rclone mkdir mysftp:newbucket
+rclone copy myfile.txt mysftp:newbucket/
 ```
 
 ## Known Limitations

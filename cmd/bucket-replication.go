@@ -26,7 +26,7 @@ import (
 	"sync"
 	"time"
 
-	miniogo "github.com/obstor/obstor-go/v7"
+	obstor "github.com/obstor/obstor-go/v7"
 	"github.com/obstor/obstor-go/v7/pkg/encrypt"
 	"github.com/obstor/obstor-go/v7/pkg/tags"
 	"github.com/obstor/obstor/cmd/crypto"
@@ -200,7 +200,7 @@ func checkReplicateDelete(ctx context.Context, bucket string, dobj ObjectToDelet
 		if oi.DeleteMarker && (validReplStatus || replicate) {
 			return true, sync
 		}
-		// Can be the case that other cluster is down and duplicate `mc rm --vid`
+		// Can be the case that other cluster is down and duplicate versioned delete
 		// is issued - this still needs to be replicated back to the other target
 		return oi.VersionPurgeStatus == Pending || oi.VersionPurgeStatus == Failed, sync
 	}
@@ -264,13 +264,13 @@ func replicateDelete(ctx context.Context, dobj DeletedObjectVersionInfo, objectA
 		return
 	}
 
-	rmErr := tgt.RemoveObject(ctx, rcfg.GetDestination().Bucket, dobj.ObjectName, miniogo.RemoveObjectOptions{
+	rmErr := tgt.RemoveObject(ctx, rcfg.GetDestination().Bucket, dobj.ObjectName, obstor.RemoveObjectOptions{
 		VersionID: versionID,
-		Internal: miniogo.AdvancedRemoveOptions{
+		Internal: obstor.AdvancedRemoveOptions{
 			ReplicationDeleteMarker: dobj.DeleteMarkerVersionID != "",
 			ReplicationMTime:        dobj.DeleteMarkerMTime.Time,
-			ReplicationStatus:       miniogo.ReplicationStatusReplica,
-			ReplicationRequest:      true, // always set this to distinguish between `mc mirror` replication and serverside
+			ReplicationStatus:       obstor.ReplicationStatusReplica,
+			ReplicationRequest:      true, // always set this to distinguish between API mirror replication and serverside
 		},
 	})
 
@@ -401,7 +401,7 @@ func (m caseInsensitiveMap) Lookup(key string) (string, bool) {
 	return "", false
 }
 
-func putReplicationOpts(ctx context.Context, dest replication.Destination, objInfo ObjectInfo) (putOpts miniogo.PutObjectOptions, err error) {
+func putReplicationOpts(ctx context.Context, dest replication.Destination, objInfo ObjectInfo) (putOpts obstor.PutObjectOptions, err error) {
 	meta := make(map[string]string)
 	for k, v := range objInfo.UserDefined {
 		if strings.HasPrefix(strings.ToLower(k), ReservedMetadataPrefixLower) {
@@ -417,17 +417,17 @@ func putReplicationOpts(ctx context.Context, dest replication.Destination, objIn
 	if sc == "" {
 		sc = objInfo.StorageClass
 	}
-	putOpts = miniogo.PutObjectOptions{
+	putOpts = obstor.PutObjectOptions{
 		UserMetadata:    meta,
 		ContentType:     objInfo.ContentType,
 		ContentEncoding: objInfo.ContentEncoding,
 		StorageClass:    sc,
-		Internal: miniogo.AdvancedPutOptions{
+		Internal: obstor.AdvancedPutOptions{
 			SourceVersionID:    objInfo.VersionID,
-			ReplicationStatus:  miniogo.ReplicationStatusReplica,
+			ReplicationStatus:  obstor.ReplicationStatusReplica,
 			SourceMTime:        objInfo.ModTime,
 			SourceETag:         objInfo.ETag,
-			ReplicationRequest: true, // always set this to distinguish between `mc mirror` replication and serverside
+			ReplicationRequest: true, // always set this to distinguish between API mirror replication and serverside
 		},
 	}
 	if objInfo.UserTags != "" {
@@ -448,7 +448,7 @@ func putReplicationOpts(ctx context.Context, dest replication.Destination, objIn
 		putOpts.CacheControl = cc
 	}
 	if mode, ok := lkMap.Lookup(xhttp.AmzObjectLockMode); ok {
-		rmode := miniogo.RetentionMode(mode)
+		rmode := obstor.RetentionMode(mode)
 		putOpts.Mode = rmode
 	}
 	if retainDateStr, ok := lkMap.Lookup(xhttp.AmzObjectLockRetainUntilDate); ok {
@@ -459,7 +459,7 @@ func putReplicationOpts(ctx context.Context, dest replication.Destination, objIn
 		putOpts.RetainUntilDate = rdate
 	}
 	if lhold, ok := lkMap.Lookup(xhttp.AmzObjectLockLegalHold); ok {
-		putOpts.LegalHold = miniogo.LegalHoldStatus(lhold)
+		putOpts.LegalHold = obstor.LegalHoldStatus(lhold)
 	}
 	if crypto.S3.IsEncrypted(objInfo.UserDefined) {
 		putOpts.ServerSideEncryption = encrypt.NewSSE()
@@ -486,7 +486,7 @@ func equals(k1 string, keys ...string) bool {
 }
 
 // Returns replicationAction by comparing metadata between source and target
-func getReplicationAction(oi1 ObjectInfo, oi2 miniogo.ObjectInfo) replicationAction {
+func getReplicationAction(oi1 ObjectInfo, oi2 obstor.ObjectInfo) replicationAction {
 	// Needs full replication
 	if oi1.ETag != oi2.ETag ||
 		oi1.VersionID != oi2.VersionID ||
@@ -639,9 +639,9 @@ func replicateObject(ctx context.Context, ri ReplicateObjectInfo, objectAPI Obje
 	}
 
 	rtype := replicateAll
-	oi, err := tgt.StatObject(ctx, dest.Bucket, object, miniogo.StatObjectOptions{
+	oi, err := tgt.StatObject(ctx, dest.Bucket, object, obstor.StatObjectOptions{
 		VersionID: objInfo.VersionID,
-		Internal: miniogo.AdvancedGetOptions{
+		Internal: obstor.AdvancedGetOptions{
 			ReplicationProxyRequest: "false",
 		}})
 	if err == nil {
@@ -654,18 +654,18 @@ func replicateObject(ctx context.Context, ri ReplicateObjectInfo, objectAPI Obje
 	}
 	replicationStatus := replication.Completed
 	// Use core client to avoid doing multipart on PUT
-	c := &miniogo.Core{Client: tgt.Client}
+	c := &obstor.Core{Client: tgt.Client}
 	if rtype != replicateAll {
 		// Replicate metadata for object tagging/copy with metadata replacement
-		srcOpts := miniogo.CopySrcOptions{
+		srcOpts := obstor.CopySrcOptions{
 			Bucket:    dest.Bucket,
 			Object:    object,
 			VersionID: objInfo.VersionID,
 		}
-		dstOpts := miniogo.PutObjectOptions{
-			Internal: miniogo.AdvancedPutOptions{
+		dstOpts := obstor.PutObjectOptions{
+			Internal: obstor.AdvancedPutOptions{
 				SourceVersionID:    objInfo.VersionID,
-				ReplicationRequest: true, // always set this to distinguish between `mc mirror` replication and serverside
+				ReplicationRequest: true, // always set this to distinguish between API mirror replication and serverside
 			}}
 		if _, err = c.CopyObject(ctx, dest.Bucket, object, dest.Bucket, object, getCopyObjMetadata(objInfo, dest), srcOpts, dstOpts); err != nil {
 			replicationStatus = replication.Failed
@@ -955,10 +955,10 @@ func proxyGetToReplicationTarget(ctx context.Context, bucket, object string, rs 
 	if err != nil {
 		return nil, false
 	}
-	gopts := miniogo.GetObjectOptions{
+	gopts := obstor.GetObjectOptions{
 		VersionID:            opts.VersionID,
 		ServerSideEncryption: opts.ServerSideEncryption,
-		Internal: miniogo.AdvancedGetOptions{
+		Internal: obstor.AdvancedGetOptions{
 			ReplicationProxyRequest: "true",
 		},
 	}
@@ -972,7 +972,7 @@ func proxyGetToReplicationTarget(ctx context.Context, bucket, object string, rs 
 	if err = gopts.SetMatchETag(oi.ETag); err != nil {
 		return nil, false
 	}
-	c := miniogo.Core{Client: tgt.Client}
+	c := obstor.Core{Client: tgt.Client}
 	obj, _, _, err := c.GetObject(ctx, bucket, object, gopts)
 	if err != nil {
 		return nil, false
@@ -1027,10 +1027,10 @@ func proxyHeadToRepTarget(ctx context.Context, bucket, object string, opts Objec
 		return nil, oi, false, fmt.Errorf("target is offline or not configured")
 	}
 
-	gopts := miniogo.GetObjectOptions{
+	gopts := obstor.GetObjectOptions{
 		VersionID:            opts.VersionID,
 		ServerSideEncryption: opts.ServerSideEncryption,
-		Internal: miniogo.AdvancedGetOptions{
+		Internal: obstor.AdvancedGetOptions{
 			ReplicationProxyRequest: "true",
 		},
 	}

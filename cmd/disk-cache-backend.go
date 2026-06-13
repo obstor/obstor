@@ -41,7 +41,7 @@ import (
 	"github.com/obstor/obstor/pkg/disk"
 	"github.com/obstor/obstor/pkg/fips"
 	"github.com/obstor/obstor/pkg/kms"
-	"github.com/minio/sio"
+	"github.com/obstor/sio"
 )
 
 const (

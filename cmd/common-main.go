@@ -147,7 +147,7 @@ func checkUpdate(mode string) {
 		return
 	}
 
-	logStartupMessage(prepareUpdateMessage("Run `mc admin update`", lrTime.Sub(crTime)))
+	logStartupMessage(prepareUpdateMessage("Update by replacing the binary with the latest release", lrTime.Sub(crTime)))
 }
 
 func newConfigDirFromCtx(ctx *cli.Context, option string, getDefaultDir func() string) (*ConfigDir, bool) {

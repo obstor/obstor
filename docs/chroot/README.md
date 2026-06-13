@@ -33,7 +33,6 @@ Instance is now accessible on the host at port 9000, proceed to access the Web b
 
 ## Explore Further
 - [Obstor Erasure Code QuickStart Guide](/docs/erasure)
-- Use `mc` with Obstor Server
+- Use `rclone` with Obstor Server
 - Use `aws-cli` with Obstor Server
 - Use `s3cmd` with Obstor Server
-- Use `minio-go` SDK with Obstor Server

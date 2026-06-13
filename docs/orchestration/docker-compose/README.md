@@ -31,7 +31,7 @@ Distributed instances are now accessible on the host at ports 9000, proceed to a
 
 ### Notes
 
-* By default the Docker Compose file uses the Docker image for latest Obstor server release. You can change the image tag to pull a specific [Obstor Docker image](https://ghcr.io/cloudment/obstor).
+* By default the Docker Compose file uses the Docker image for latest Obstor server release. You can change the image tag to pull a specific [Obstor Docker image](https://ghcr.io/obstor/obstor).
 
 * There are 4 obstor distributed instances created by default. You can add more Obstor services (up to total 16) to your Obstor Compose deployment. To add a service
   * Replicate a service definition and change the name of the new service appropriately.

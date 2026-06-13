@@ -28,20 +28,46 @@ import (
 	"strings"
 	"time"
 
-	obstor "github.com/cloudment/obstor/cmd"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/auth"
-	"github.com/cloudment/obstor/pkg/env"
-	"github.com/cloudment/obstor/pkg/madmin"
-	"github.com/minio/minio-go/v7/pkg/s3utils"
+	"github.com/obstor/obstor-go/v7/pkg/s3utils"
+	obstor "github.com/obstor/obstor/cmd"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/env"
+	"github.com/obstor/obstor/pkg/madmin"
 	xsftp "github.com/pkg/sftp"
 	"github.com/urfave/cli"
 	"golang.org/x/crypto/ssh"
+	"golang.org/x/crypto/ssh/knownhosts"
 )
 
 const (
 	sftpSeparator = obstor.SlashSeparator
 )
+
+func sftpBackendHostKeyCallback() (ssh.HostKeyCallback, error) {
+	if khPath := env.Get("OBSTOR_BACKEND_SFTP_KNOWN_HOSTS", ""); khPath != "" {
+		cb, err := knownhosts.New(khPath)
+		if err != nil {
+			return nil, fmt.Errorf("unable to load OBSTOR_BACKEND_SFTP_KNOWN_HOSTS %s: %w", khPath, err)
+		}
+		return cb, nil
+	}
+
+	if hostKey := env.Get("OBSTOR_BACKEND_SFTP_HOST_KEY", ""); hostKey != "" {
+		pub, _, _, _, err := ssh.ParseAuthorizedKey([]byte(hostKey))
+		if err != nil {
+			return nil, fmt.Errorf("unable to parse OBSTOR_BACKEND_SFTP_HOST_KEY: %w", err)
+		}
+		return ssh.FixedHostKey(pub), nil
+	}
+
+	if skip := env.Get("OBSTOR_BACKEND_SFTP_INSECURE_SKIP_HOST_KEY", ""); skip == "on" || skip == "true" {
+		logger.Info("WARNING: SFTP backend host key verification is disabled via OBSTOR_BACKEND_SFTP_INSECURE_SKIP_HOST_KEY; the backend connection is vulnerable to man-in-the-middle attacks")
+		return ssh.InsecureIgnoreHostKey(), nil
+	}
+
+	return nil, fmt.Errorf("SFTP backend host key verification is required: set OBSTOR_BACKEND_SFTP_KNOWN_HOSTS or OBSTOR_BACKEND_SFTP_HOST_KEY, or set OBSTOR_BACKEND_SFTP_INSECURE_SKIP_HOST_KEY=on to disable it (not recommended)")
+}
 
 func init() {
 	const sftpBackendTemplate = `NAME:
@@ -145,9 +171,14 @@ func (g *SFTP) NewBackendLayer(creds auth.Credentials) (obstor.ObjectLayer, erro
 		return nil, fmt.Errorf("OBSTOR_BACKEND_SFTP_USER must be set")
 	}
 
+	hostKeyCallback, err := sftpBackendHostKeyCallback()
+	if err != nil {
+		return nil, err
+	}
+
 	config := &ssh.ClientConfig{
 		User:            sshUser,
-		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+		HostKeyCallback: hostKeyCallback,
 		Timeout:         30 * time.Second,
 	}
 

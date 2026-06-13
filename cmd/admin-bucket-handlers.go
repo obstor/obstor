@@ -22,10 +22,10 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/obstor/obstor/cmd/logger"
 	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
 	"github.com/obstor/obstor/pkg/madmin"
-	"github.com/gorilla/mux"
 )
 
 const (

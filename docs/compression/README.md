@@ -23,34 +23,33 @@ Install Obstor - Obstor Quickstart Guide.
 
 ### 2. Run Obstor with compression
 
-Compression can be enabled by updating the `compress` config settings for Obstor server config.
-Config `compress` settings take extensions and mime-types to be compressed.
+Compression is enabled and tuned through environment variables read by the Obstor server.
+The `compress` settings take extensions and mime-types to be compressed.
+
+The default configuration includes most common compressed file extensions and mime-types:
 
 ```bash
-~ mc admin config get myobstor compression
-compression extensions=".txt,.log,.csv,.json,.tar,.xml,.bin" mime_types="text/*,application/json,application/xml"
+export OBSTOR_COMPRESS_EXTENSIONS=".txt,.log,.csv,.json,.tar,.xml,.bin"
+export OBSTOR_COMPRESS_MIME_TYPES="text/*,application/json,application/xml"
 ```
 
-Default config includes most common highly compressible content extensions and mime-types.
+To compress a specific set of types, set the extensions and mime-types you want.
 
 ```bash
-~ mc admin config set myobstor compression extensions=".pdf" mime_types="application/pdf"
-```
-
-To show help on setting compression config values.
-```bash
-~ mc admin config set myobstor compression
+export OBSTOR_COMPRESS_EXTENSIONS=".pdf"
+export OBSTOR_COMPRESS_MIME_TYPES="application/pdf"
 ```
 
 To enable compression for all content, no matter the extension and content type
 (except for the default excluded types) set BOTH extensions and mime types to empty.
 
 ```bash
-~ mc admin config set myobstor compression enable="on" extensions="" mime_types=""
+export OBSTOR_COMPRESS="on"
+export OBSTOR_COMPRESS_EXTENSIONS=""
+export OBSTOR_COMPRESS_MIME_TYPES=""
 ```
 
-The compression settings may also be set through environment variables.
-When set, environment variables override the defined `compress` config settings in the server config.
+Set these environment variables before starting the Obstor server. Restart the server for changes to take effect.
 
 ```bash
 export OBSTOR_COMPRESS="on"
@@ -69,13 +68,11 @@ Therefore, compression is disabled when encrypting by default, and must be enabl
 Consult our security experts on [SUBNET](https://pgg.net/pricing) to help you evaluate if
 your setup can use this feature combination safely.
 
-To enable compression+encryption use:
+To enable compression+encryption set the environment variable:
 
 ```bash
-~ mc admin config set myobstor compression allow_encryption=on
+export OBSTOR_COMPRESS_ALLOW_ENCRYPTION=on
 ```
-
-Or alternatively through the environment variable `OBSTOR_COMPRESS_ALLOW_ENCRYPTION=on`.
 
 ### 4. Excluded Types
 
@@ -121,13 +118,12 @@ even if compression is enabled for all types.
 
 ## To test the setup
 
-To test this setup, practice put calls to the server using `mc` and use `mc ls` on
-the data directory to view the size of the object.
+To test this setup, upload objects with an S3 client such as `rclone copy` or `aws s3 cp`,
+then inspect the data directory on disk to view the stored size of the object.
 
 ## Explore Further
 
-- Use `mc` with Obstor Server
+- Use `rclone` with Obstor Server
 - Use `aws-cli` with Obstor Server
 - Use `s3cmd` with Obstor Server
-- Use `minio-go` SDK with Obstor Server
 - [The Obstor documentation website](/docs)

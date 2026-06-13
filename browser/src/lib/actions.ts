@@ -468,7 +468,7 @@ export async function deleteObjectAction(bucketName: string, objectName: string)
   }
 }
 
-export async function getShareLink(bucketName: string, objectName: string, expiry = 86400) {
+export async function getShareLink(bucketName: string, objectName: string, expiry = 300) {
   try {
     const result = await rpc<{ url: string }>("PresignedGet", {
       host: process.env.OBSTOR_HOST || "localhost:9000",

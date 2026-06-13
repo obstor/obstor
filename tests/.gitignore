@@ -12,6 +12,13 @@ node_modules
 !bin/.gitkeep
 *.class
 *~
-run/core/minio-dotnet/bin/*
-run/core/minio-dotnet/obj/*
-run/core/minio-dotnet/out/*
+run/core/obstor-dotnet/bin/*
+run/core/obstor-dotnet/obj/*
+run/core/obstor-dotnet/out/*
+run/core/obstor-go/main.go
+run/core/healthcheck/healthcheck
+.idea/
+.phive/
+.phplint.cache/
+build/versioning/tests
+tools/

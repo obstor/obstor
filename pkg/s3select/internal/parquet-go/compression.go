@@ -23,10 +23,10 @@ import (
 	"io"
 	"sync"
 
-	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
 	"github.com/klauspost/compress/gzip"
 	"github.com/klauspost/compress/snappy"
 	"github.com/klauspost/compress/zstd"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
 	"github.com/pierrec/lz4"
 )
 

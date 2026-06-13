@@ -29,11 +29,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/handlers"
 	jsonrpc "github.com/obstor/obstor/pkg/rpc"
 	trace "github.com/obstor/obstor/pkg/trace"
-	"github.com/gorilla/mux"
 )
 
 // recordRequest - records the first recLen bytes
@@ -92,7 +92,7 @@ func redactLDAPPwd(s string) string {
 	return s
 }
 
-// getOpName sanitizes the operation name for mc
+// getOpName sanitizes the operation name
 func getOpName(name string) (op string) {
 	op = strings.TrimPrefix(name, "github.com/obstor/obstor/cmd.")
 	op = strings.TrimSuffix(op, "Handler-fm")

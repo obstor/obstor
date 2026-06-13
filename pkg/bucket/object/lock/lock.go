@@ -199,7 +199,7 @@ type DefaultRetention struct {
 
 // Maximum support retention days and years supported by AWS S3.
 const (
-	// This tested by using `mc lock` command
+	// This is tested by the object lock API
 	maximumRetentionDays  = 36500
 	maximumRetentionYears = 100
 )

@@ -101,10 +101,10 @@ export OBSTOR_IDENTITY_OPENID_CLIENT_ID="843351d4-1080-11ea-aa20-271ecba3924a"
 obstor server /mnt/export
 ```
 
-or using `mc`
+The OpenID configuration is read from these environment variables:
 ```bash
-mc admin config get myobstor identity_openid
-identity_openid config_url=https://accounts.google.com/.well-known/openid-configuration client_id=843351d4-1080-11ea-aa20-271ecba3924a
+OBSTOR_IDENTITY_OPENID_CONFIG_URL=https://accounts.google.com/.well-known/openid-configuration
+OBSTOR_IDENTITY_OPENID_CLIENT_ID=843351d4-1080-11ea-aa20-271ecba3924a
 ```
 
 Testing with an example
@@ -142,14 +142,11 @@ $ go run web-identity.go -cid 204367807228-ok7601k6gj1pgge7m09h7d79co8p35xx.apps
 - Temporary credentials are displayed on the browser upon successful retrieval.
 
 ## Using Browser Dashboard
-To support WebIdentity login on Obstor Browser, set openid configuration and restart Obstor
+To support WebIdentity login on Obstor Browser, set the OpenID configuration via environment variables and restart Obstor:
 
 ```bash
-mc admin config set myobstor identity_openid config_url="<CONFIG_URL>" client_id="<client_identifier>"
-```
-
-```bash
-mc admin service restart myobstor
+export OBSTOR_IDENTITY_OPENID_CONFIG_URL="<CONFIG_URL>"
+export OBSTOR_IDENTITY_OPENID_CLIENT_ID="<client_identifier>"
 ```
 
 Sample URLs for Keycloak are

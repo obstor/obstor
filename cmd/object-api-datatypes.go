@@ -22,10 +22,10 @@ import (
 	"math"
 	"time"
 
+	humanize "github.com/dustin/go-humanize"
 	"github.com/obstor/obstor/pkg/bucket/replication"
 	"github.com/obstor/obstor/pkg/hash"
 	"github.com/obstor/obstor/pkg/madmin"
-	humanize "github.com/dustin/go-humanize"
 )
 
 // BackendType - represents different backend types.

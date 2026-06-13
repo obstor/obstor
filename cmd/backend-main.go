@@ -27,12 +27,12 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/gorilla/mux"
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/certs"
 	"github.com/obstor/obstor/pkg/color"
 	"github.com/obstor/obstor/pkg/env"
-	"github.com/gorilla/mux"
 	"github.com/urfave/cli"
 )
 

@@ -36,10 +36,10 @@ import (
 	"sync"
 	"testing"
 
+	humanize "github.com/dustin/go-humanize"
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/pkg/auth"
 	ioutilx "github.com/obstor/obstor/pkg/ioutil"
-	humanize "github.com/dustin/go-humanize"
 )
 
 // Type to capture different modifications to API request to simulate failure cases.

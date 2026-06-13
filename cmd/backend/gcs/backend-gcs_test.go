@@ -28,7 +28,7 @@ import (
 	"cloud.google.com/go/storage"
 	"google.golang.org/api/googleapi"
 
-	miniogo "github.com/obstor/obstor-go/v7"
+	obstorgo "github.com/obstor/obstor-go/v7"
 	obstor "github.com/obstor/obstor/cmd"
 )
 
@@ -124,7 +124,7 @@ func TestIsGCSMarker(t *testing.T) {
 			expected: false,
 		},
 		{
-			marker:   "{minioagainnotgcs123",
+			marker:   "{obstoragainnotgcs123",
 			expected: false,
 		},
 		{
@@ -167,12 +167,12 @@ func TestGCSMultipartDataName(t *testing.T) {
 
 func TestFromObstorClientListBucketResultToV2Info(t *testing.T) {
 
-	listBucketResult := miniogo.ListBucketResult{
+	listBucketResult := obstorgo.ListBucketResult{
 		IsTruncated:    false,
 		Marker:         "testMarker",
 		NextMarker:     "testMarker2",
-		CommonPrefixes: []miniogo.CommonPrefix{{Prefix: "one"}, {Prefix: "two"}},
-		Contents:       []miniogo.ObjectInfo{{Key: "testobj", ContentType: ""}},
+		CommonPrefixes: []obstorgo.CommonPrefix{{Prefix: "one"}, {Prefix: "two"}},
+		Contents:       []obstorgo.ObjectInfo{{Key: "testobj", ContentType: ""}},
 	}
 
 	listBucketV2Info := obstor.ListObjectsV2Info{
@@ -201,7 +201,7 @@ func TestGCSParseProjectID(t *testing.T) {
 	contents := `
 {
   "type": "service_account",
-  "project_id": "miniotesting"
+  "project_id": "obstortesting"
 }
 `
 	_, _ = f.WriteString(contents)
@@ -209,8 +209,8 @@ func TestGCSParseProjectID(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if projectID != "miniotesting" {
-		t.Errorf(`Expected projectID value to be "miniotesting"`)
+	if projectID != "obstortesting" {
+		t.Errorf(`Expected projectID value to be "obstortesting"`)
 	}
 
 	if _, err = gcsParseProjectID("non-existent"); err == nil {

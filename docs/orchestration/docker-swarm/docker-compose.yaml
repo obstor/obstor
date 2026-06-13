@@ -1,6 +1,6 @@
 services:
   obstor1:
-    image: ghcr.io/cloudment/obstor
+    image: ghcr.io/obstor/obstor
     hostname: obstor1
     volumes:
       - obstor1-data:/export
@@ -31,7 +31,7 @@ services:
       retries: 3
 
   obstor2:
-    image: ghcr.io/cloudment/obstor
+    image: ghcr.io/obstor/obstor
     hostname: obstor2
     volumes:
       - obstor2-data:/export
@@ -62,7 +62,7 @@ services:
       retries: 3
 
   obstor3:
-    image: ghcr.io/cloudment/obstor
+    image: ghcr.io/obstor/obstor
     hostname: obstor3
     volumes:
       - obstor3-data:/export
@@ -93,7 +93,7 @@ services:
       retries: 3
 
   obstor4:
-    image: ghcr.io/cloudment/obstor
+    image: ghcr.io/obstor/obstor
     hostname: obstor4
     volumes:
       - obstor4-data:/export

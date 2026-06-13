@@ -28,16 +28,15 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
 	"reflect"
 	"strconv"
 	"strings"
 	"testing"
 
-	xjwt "github.com/obstor/obstor/cmd/jwt"
-	"github.com/obstor/obstor/pkg/hash"
 	humanize "github.com/dustin/go-humanize"
 	jwtgo "github.com/golang-jwt/jwt/v4"
+	xjwt "github.com/obstor/obstor/cmd/jwt"
+	"github.com/obstor/obstor/pkg/hash"
 )
 
 // Implement a dummy flush writer.
@@ -1028,13 +1027,7 @@ func testWebPresignedGetHandler(obj ObjectLayer, instanceType string, t TestErrH
 	// Initialize a new api recorder.
 	arec := httptest.NewRecorder()
 
-	// Strip x-obstor-otp from url for API router during tests
-	presignURL, _ := url.Parse(presignGetRep.URL)
-	q := presignURL.Query()
-	q.Del("x-obstor-otp")
-	presignURL.RawQuery = q.Encode()
-
-	req, err = newTestRequest(http.MethodGet, presignURL.String(), 0, nil)
+	req, err = newTestRequest(http.MethodGet, presignGetRep.URL, 0, nil)
 	req.Header.Del("x-amz-content-sha256")
 	if err != nil {
 		t.Fatal("Failed to initialized a new request", err)

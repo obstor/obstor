@@ -28,8 +28,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/obstor/obstor/pkg/s3select/sql"
 	"github.com/klauspost/compress/zip"
+	"github.com/obstor/obstor/pkg/s3select/sql"
 )
 
 func TestRead(t *testing.T) {
@@ -82,6 +82,34 @@ func TestRead(t *testing.T) {
 		if result.String() != c.content {
 			t.Errorf("Case %d failed: expected %v result %v", i, c.content, result.String())
 		}
+	}
+}
+
+func TestReadLineTooLong(t *testing.T) {
+	content := strings.Repeat("a,b,c,d,", (csvMaxLineSize/8)+1024)
+
+	r, _ := NewReader(io.NopCloser(strings.NewReader(content)), &ReaderArgs{
+		FileHeaderInfo:             none,
+		RecordDelimiter:            "\n",
+		FieldDelimiter:             ",",
+		QuoteCharacter:             defaultQuoteCharacter,
+		QuoteEscapeCharacter:       defaultQuoteEscapeCharacter,
+		CommentCharacter:           defaultCommentCharacter,
+		AllowQuotedRecordDelimiter: false,
+		unmarshaled:                true,
+	})
+	defer r.Close()
+
+	var record sql.Record
+	var err error
+	for {
+		record, err = r.Read(record)
+		if err != nil {
+			break
+		}
+	}
+	if err != errCSVLineTooLong {
+		t.Fatalf("expected errCSVLineTooLong, got %v", err)
 	}
 }
 

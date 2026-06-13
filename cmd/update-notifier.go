@@ -25,8 +25,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/obstor/obstor/pkg/color"
 	humanize "github.com/dustin/go-humanize"
+	"github.com/obstor/obstor/pkg/color"
 	"golang.org/x/term"
 )
 

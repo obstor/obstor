@@ -29,8 +29,8 @@ func TestHostIsEmpty(t *testing.T) {
 	}{
 		{Host{"", 0, false}, true},
 		{Host{"", 0, true}, true},
-		{Host{"play", 9000, false}, false},
-		{Host{"play", 9000, true}, false},
+		{Host{"demo", 9000, false}, false},
+		{Host{"demo", 9000, true}, false},
 	}
 
 	for i, testCase := range testCases {
@@ -49,8 +49,8 @@ func TestHostString(t *testing.T) {
 	}{
 		{Host{"", 0, false}, ""},
 		{Host{"", 0, true}, ":0"},
-		{Host{"play", 9000, false}, "play"},
-		{Host{"play", 9000, true}, "play:9000"},
+		{Host{"demo", 9000, false}, "demo"},
+		{Host{"demo", 9000, true}, "demo:9000"},
 	}
 
 	for i, testCase := range testCases {
@@ -69,10 +69,10 @@ func TestHostEqual(t *testing.T) {
 		expectedResult bool
 	}{
 		{Host{"", 0, false}, Host{"", 0, true}, false},
-		{Host{"play", 9000, true}, Host{"play", 9000, false}, false},
+		{Host{"demo", 9000, true}, Host{"demo", 9000, false}, false},
 		{Host{"", 0, true}, Host{"", 0, true}, true},
-		{Host{"play", 9000, false}, Host{"play", 9000, false}, true},
-		{Host{"play", 9000, true}, Host{"play", 9000, true}, true},
+		{Host{"demo", 9000, false}, Host{"demo", 9000, false}, true},
+		{Host{"demo", 9000, true}, Host{"demo", 9000, true}, true},
 	}
 
 	for i, testCase := range testCases {
@@ -91,16 +91,16 @@ func TestHostMarshalJSON(t *testing.T) {
 		expectErr    bool
 	}{
 		{Host{}, []byte(`""`), false},
-		{Host{"play", 0, false}, []byte(`"play"`), false},
-		{Host{"play", 0, true}, []byte(`"play:0"`), false},
-		{Host{"play", 9000, true}, []byte(`"play:9000"`), false},
-		{Host{"play.obstor.net", 0, false}, []byte(`"play.obstor.net"`), false},
-		{Host{"play.obstor.net", 9000, true}, []byte(`"play.obstor.net:9000"`), false},
-		{Host{"147.75.201.93", 0, false}, []byte(`"147.75.201.93"`), false},
-		{Host{"147.75.201.93", 9000, true}, []byte(`"147.75.201.93:9000"`), false},
-		{Host{"play12", 0, false}, []byte(`"play12"`), false},
-		{Host{"12play", 0, false}, []byte(`"12play"`), false},
-		{Host{"play--obstor.net", 0, false}, []byte(`"play--obstor.net"`), false},
+		{Host{"demo", 0, false}, []byte(`"demo"`), false},
+		{Host{"demo", 0, true}, []byte(`"demo:0"`), false},
+		{Host{"demo", 9000, true}, []byte(`"demo:9000"`), false},
+		{Host{"demo.obstor.net", 0, false}, []byte(`"demo.obstor.net"`), false},
+		{Host{"demo.obstor.net", 9000, true}, []byte(`"demo.obstor.net:9000"`), false},
+		{Host{"23.148.200.3", 0, false}, []byte(`"23.148.200.3"`), false},
+		{Host{"23.148.200.3", 9000, true}, []byte(`"23.148.200.3:9000"`), false},
+		{Host{"demo12", 0, false}, []byte(`"demo12"`), false},
+		{Host{"12demo", 0, false}, []byte(`"12demo"`), false},
+		{Host{"demo--obstor.net", 0, false}, []byte(`"demo--obstor.net"`), false},
 	}
 
 	for i, testCase := range testCases {
@@ -126,16 +126,16 @@ func TestHostUnmarshalJSON(t *testing.T) {
 		expectErr    bool
 	}{
 		{[]byte(`""`), &Host{}, false},
-		{[]byte(`"play"`), &Host{"play", 0, false}, false},
-		{[]byte(`"play:0"`), &Host{"play", 0, true}, false},
-		{[]byte(`"play:9000"`), &Host{"play", 9000, true}, false},
-		{[]byte(`"play.obstor.net"`), &Host{"play.obstor.net", 0, false}, false},
-		{[]byte(`"play.obstor.net:9000"`), &Host{"play.obstor.net", 9000, true}, false},
-		{[]byte(`"147.75.201.93"`), &Host{"147.75.201.93", 0, false}, false},
-		{[]byte(`"147.75.201.93:9000"`), &Host{"147.75.201.93", 9000, true}, false},
-		{[]byte(`"play12"`), &Host{"play12", 0, false}, false},
-		{[]byte(`"12play"`), &Host{"12play", 0, false}, false},
-		{[]byte(`"play--obstor.net"`), &Host{"play--obstor.net", 0, false}, false},
+		{[]byte(`"demo"`), &Host{"demo", 0, false}, false},
+		{[]byte(`"demo:0"`), &Host{"demo", 0, true}, false},
+		{[]byte(`"demo:9000"`), &Host{"demo", 9000, true}, false},
+		{[]byte(`"demo.obstor.net"`), &Host{"demo.obstor.net", 0, false}, false},
+		{[]byte(`"demo.obstor.net:9000"`), &Host{"demo.obstor.net", 9000, true}, false},
+		{[]byte(`"23.148.200.3"`), &Host{"23.148.200.3", 0, false}, false},
+		{[]byte(`"23.148.200.3:9000"`), &Host{"23.148.200.3", 9000, true}, false},
+		{[]byte(`"demo12"`), &Host{"demo12", 0, false}, false},
+		{[]byte(`"12demo"`), &Host{"12demo", 0, false}, false},
+		{[]byte(`"demo--obstor.net"`), &Host{"demo--obstor.net", 0, false}, false},
 		{[]byte(`":9000"`), &Host{"", 9000, true}, false},
 		{[]byte(`"[fe80::8097:76eb:b397:e067%wlp2s0]"`), &Host{"fe80::8097:76eb:b397:e067%wlp2s0", 0, false}, false},
 		{[]byte(`"[fe80::8097:76eb:b397:e067]:9000"`), &Host{"fe80::8097:76eb:b397:e067", 9000, true}, false},
@@ -144,11 +144,11 @@ func TestHostUnmarshalJSON(t *testing.T) {
 		{[]byte(`"[fe80::8097:76eb:b397:e067%wlp2s0"`), nil, true},
 		{[]byte(`"[[fe80::8097:76eb:b397:e067%wlp2s0]]"`), nil, true},
 		{[]byte(`"[[fe80::8097:76eb:b397:e067%wlp2s0"`), nil, true},
-		{[]byte(`"play:"`), nil, true},
-		{[]byte(`"play::"`), nil, true},
-		{[]byte(`"play:90000"`), nil, true},
-		{[]byte(`"play:-10"`), nil, true},
-		{[]byte(`"play-"`), nil, true},
+		{[]byte(`"demo:"`), nil, true},
+		{[]byte(`"demo::"`), nil, true},
+		{[]byte(`"demo:90000"`), nil, true},
+		{[]byte(`"demo:-10"`), nil, true},
+		{[]byte(`"demo-"`), nil, true},
 		{[]byte(`":"`), nil, true},
 	}
 
@@ -178,22 +178,22 @@ func TestParseHost(t *testing.T) {
 		expectedHost *Host
 		expectErr    bool
 	}{
-		{"play", &Host{"play", 0, false}, false},
-		{"play:0", &Host{"play", 0, true}, false},
-		{"play:9000", &Host{"play", 9000, true}, false},
-		{"play.obstor.net", &Host{"play.obstor.net", 0, false}, false},
-		{"play.obstor.net:9000", &Host{"play.obstor.net", 9000, true}, false},
-		{"147.75.201.93", &Host{"147.75.201.93", 0, false}, false},
-		{"147.75.201.93:9000", &Host{"147.75.201.93", 9000, true}, false},
-		{"play12", &Host{"play12", 0, false}, false},
-		{"12play", &Host{"12play", 0, false}, false},
-		{"play--obstor.net", &Host{"play--obstor.net", 0, false}, false},
+		{"demo", &Host{"demo", 0, false}, false},
+		{"demo:0", &Host{"demo", 0, true}, false},
+		{"demo:9000", &Host{"demo", 9000, true}, false},
+		{"demo.obstor.net", &Host{"demo.obstor.net", 0, false}, false},
+		{"demo.obstor.net:9000", &Host{"demo.obstor.net", 9000, true}, false},
+		{"23.148.200.3", &Host{"23.148.200.3", 0, false}, false},
+		{"23.148.200.3:9000", &Host{"23.148.200.3", 9000, true}, false},
+		{"demo12", &Host{"demo12", 0, false}, false},
+		{"12demo", &Host{"12demo", 0, false}, false},
+		{"demo--obstor.net", &Host{"demo--obstor.net", 0, false}, false},
 		{":9000", &Host{"", 9000, true}, false},
-		{"play:", nil, true},
-		{"play::", nil, true},
-		{"play:90000", nil, true},
-		{"play:-10", nil, true},
-		{"play-", nil, true},
+		{"demo:", nil, true},
+		{"demo::", nil, true},
+		{"demo:90000", nil, true},
+		{"demo:-10", nil, true},
+		{"demo-", nil, true},
 		{":", nil, true},
 		{"", nil, true},
 	}

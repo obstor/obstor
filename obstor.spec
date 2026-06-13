@@ -11,7 +11,7 @@ Vendor:         PGG, Inc.
 License:        Apache v2.0
 Group:          Applications/File
 Source0:        https://dl.pgg.net/packages/obstor/release/linux-amd64/archive/obstor.%{tag}
-Source1:        https://raw.githubusercontent.com/obstor/obstor-service/master/linux-systemd/distributed/minio.service
+Source1:        https://raw.githubusercontent.com/obstor/obstor-service/master/linux-systemd/distributed/obstor.service
 URL:            https://pgg.net/
 Requires(pre):  /usr/sbin/useradd, /usr/bin/getent
 Requires(postun): /usr/sbin/userdel

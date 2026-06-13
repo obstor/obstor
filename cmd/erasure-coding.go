@@ -27,8 +27,8 @@ import (
 	"sync"
 
 	"github.com/cespare/xxhash/v2"
-	"github.com/obstor/obstor/cmd/logger"
 	"github.com/klauspost/reedsolomon"
+	"github.com/obstor/obstor/cmd/logger"
 )
 
 // Erasure - erasure encoding details.

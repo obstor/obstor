@@ -43,7 +43,7 @@ func testDNSCache(t *testing.T) *DNSCache {
 func TestDialContextWithDNSCache(t *testing.T) {
 	resolver := &DNSCache{
 		cache: map[string][]string{
-			"play.obstor.net": {
+			"demo.obstor.net": {
 				"127.0.0.1",
 				"127.0.0.2",
 				"127.0.0.3",
@@ -98,7 +98,7 @@ func TestDialContextWithDNSCache(t *testing.T) {
 	for _, tc := range cases {
 		t.Run("", func(t *testing.T) {
 			randPerm = tc.permF
-			if _, err := DialContextWithDNSCache(resolver, tc.dialF)(context.Background(), "tcp", "play.obstor.net:443"); err != nil {
+			if _, err := DialContextWithDNSCache(resolver, tc.dialF)(context.Background(), "tcp", "demo.obstor.net:443"); err != nil {
 				t.Fatalf("err: %s", err)
 			}
 		})
@@ -110,7 +110,7 @@ func TestDialContextWithDNSCacheRand(t *testing.T) {
 
 	resolver := &DNSCache{
 		cache: map[string][]string{
-			"play.obstor.net": {
+			"demo.obstor.net": {
 				"127.0.0.1",
 				"127.0.0.2",
 				"127.0.0.3",
@@ -125,7 +125,7 @@ func TestDialContextWithDNSCacheRand(t *testing.T) {
 	}
 
 	for i := 0; i < 100; i++ {
-		if _, err := DialContextWithDNSCache(resolver, dialF)(context.Background(), "tcp", "play.obstor.net:443"); err != nil {
+		if _, err := DialContextWithDNSCache(resolver, dialF)(context.Background(), "tcp", "demo.obstor.net:443"); err != nil {
 			t.Fatalf("err: %s", err)
 		}
 	}
@@ -141,7 +141,7 @@ func TestDialContextWithDNSCacheRand(t *testing.T) {
 // Verify without port Dial fails, Go stdlib net.Dial expects port
 func TestDialContextWithDNSCacheScenario1(t *testing.T) {
 	resolver := testDNSCache(t)
-	if _, err := DialContextWithDNSCache(resolver, nil)(context.Background(), "tcp", "play.obstor.net"); err == nil {
+	if _, err := DialContextWithDNSCache(resolver, nil)(context.Background(), "tcp", "demo.obstor.net"); err == nil {
 		t.Fatalf("expect to fail") // expected port
 	}
 }

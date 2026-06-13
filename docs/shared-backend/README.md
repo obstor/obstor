@@ -62,11 +62,10 @@ obstor.exe backend nas M:\export
 
 ## 3. Test your setup
 
-To test this setup, access the Obstor server via browser or `mc`. You’ll see the uploaded files are accessible from the all the Obstor shared backend endpoints.
+To test this setup, access the Obstor server via browser or an S3 client such as rclone or the AWS CLI. You’ll see the uploaded files are accessible from the all the Obstor shared backend endpoints.
 
 ## Explore Further
-- Use `mc` with Obstor Server
+- Use `rclone` with Obstor Server
 - Use `aws-cli` with Obstor Server
 - Use `s3cmd` with Obstor Server
-- Use `minio-go` SDK with Obstor Server
 - [The Obstor documentation website](/docs)

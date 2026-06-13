@@ -20,8 +20,8 @@ package target
 import (
 	"testing"
 
-	xnet "github.com/obstor/obstor/pkg/net"
 	natsserver "github.com/nats-io/nats-server/v2/test"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 func TestNatsConnPlain(t *testing.T) {
@@ -47,8 +47,8 @@ func TestNatsConnPlain(t *testing.T) {
 func TestNatsConnUserPass(t *testing.T) {
 	opts := natsserver.DefaultTestOptions
 	opts.Port = 14223
-	opts.Username = "testminio"
-	opts.Password = "miniotest"
+	opts.Username = "testobstor"
+	opts.Password = "obstortest"
 	s := natsserver.RunServer(&opts)
 	defer s.Shutdown()
 

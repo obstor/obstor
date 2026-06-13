@@ -27,10 +27,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/obstor/obstor/pkg/event"
-	xnet "github.com/obstor/obstor/pkg/net"
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/stan.go"
+	"github.com/obstor/obstor/pkg/event"
+	xnet "github.com/obstor/obstor/pkg/net"
 )
 
 // NATS related constants

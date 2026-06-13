@@ -25,13 +25,14 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/gorilla/mux"
 	"github.com/obstor/obstor/cmd/config/identity/openid"
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/handlers"
 	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
 	"github.com/obstor/obstor/pkg/wildcard"
-	"github.com/gorilla/mux"
 )
 
 const (
@@ -456,6 +457,13 @@ func (sts *stsAPIHandlers) AssumeRoleWithLDAPIdentity(w http.ResponseWriter, r *
 		return
 	}
 
+	clientIP := handlers.GetSourceIP(r)
+	if !globalLDAPSTSThrottle.allow(clientIP, ldapUsername) {
+		logger.LogIf(ctx, fmt.Errorf("LDAP STS auth throttled for ip=%s", clientIP))
+		writeSTSErrorResponse(ctx, w, true, ErrSTSInvalidParameterValue, errLDAPAuthFailed)
+		return
+	}
+
 	action := r.Form.Get(stsAction)
 	switch action {
 	case ldapIdentity:
@@ -489,17 +497,16 @@ func (sts *stsAPIHandlers) AssumeRoleWithLDAPIdentity(w http.ResponseWriter, r *
 
 	ldapUserDN, groupDistNames, err := globalLDAPConfig.Bind(ldapUsername, ldapPassword)
 	if err != nil {
-		err = fmt.Errorf("ldap server error: %w", err)
-		writeSTSErrorResponse(ctx, w, true, ErrSTSInvalidParameterValue, err)
+		logger.LogIf(ctx, fmt.Errorf("LDAP bind failed for STS request: %w", err))
+		writeSTSErrorResponse(ctx, w, true, ErrSTSInvalidParameterValue, errLDAPAuthFailed)
 		return
 	}
 
 	// Check if this user or their groups have a policy applied.
 	ldapPolicies, _ := globalIAMSys.PolicyDBGet(ldapUserDN, false, groupDistNames...)
 	if len(ldapPolicies) == 0 {
-		writeSTSErrorResponse(ctx, w, true, ErrSTSInvalidParameterValue,
-			fmt.Errorf("expecting a policy to be set for user `%s` or one of their groups: `%s` - rejecting this request",
-				ldapUserDN, strings.Join(groupDistNames, "`,`")))
+		logger.LogIf(ctx, fmt.Errorf("no policy set for LDAP user %q or groups %v - rejecting STS request", ldapUserDN, groupDistNames))
+		writeSTSErrorResponse(ctx, w, true, ErrSTSInvalidParameterValue, errLDAPAuthFailed)
 		return
 	}
 

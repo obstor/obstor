@@ -55,7 +55,7 @@ docker stack deploy --compose-file=docker-compose-secrets.yaml obstor_stack
 
 This deploys services described in the Compose file as Docker stack `obstor_stack`. Look up the `docker stack` [command reference](https://docs.docker.com/engine/reference/commandline/stack/) for more info.
 
-After the stack is successfully deployed, you should be able to access Obstor server via Obstor Client `mc` or your browser at http://[Node_Public_IP_Address]:[Expose_Port_on_Host]
+After the stack is successfully deployed, you should be able to access Obstor server via an S3 client such as rclone or the AWS CLI, or your browser at http://[Node_Public_IP_Address]:[Expose_Port_on_Host]
 
 ## 4. Remove distributed Obstor services
 
@@ -80,7 +80,7 @@ Services in the Swarm which are attached to that network can interact with the h
 
 ### Notes
 
-* By default the Docker Compose file uses the Docker image for latest Obstor server release. You can change the image tag to pull a specific [Obstor Docker image](https://ghcr.io/cloudment/obstor).
+* By default the Docker Compose file uses the Docker image for latest Obstor server release. You can change the image tag to pull a specific [Obstor Docker image](https://ghcr.io/obstor/obstor).
 
 * There are 4 obstor distributed instances created by default. You can add more Obstor services (up to total 16) to your Obstor Swarm deployment. To add a service
   * Replicate a service definition and change the name of the new service appropriately.

@@ -22,11 +22,11 @@ import (
 	"net/http"
 	"time"
 
+	jwtgo "github.com/golang-jwt/jwt/v4"
+	jwtreq "github.com/golang-jwt/jwt/v4/request"
 	xjwt "github.com/obstor/obstor/cmd/jwt"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/auth"
-	jwtgo "github.com/golang-jwt/jwt/v4"
-	jwtreq "github.com/golang-jwt/jwt/v4/request"
 )
 
 const (

@@ -25,7 +25,7 @@ import (
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/fips"
 	"github.com/obstor/obstor/pkg/ioutil"
-	"github.com/minio/sio"
+	"github.com/obstor/sio"
 )
 
 const (

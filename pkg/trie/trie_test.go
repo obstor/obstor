@@ -52,28 +52,27 @@ func TestInsert(t *testing.T) {
 func TestPrefixMatch(t *testing.T) {
 	trie := NewTrie()
 
-	// Feed it some fodder: only 'minio' and 'miny-o's' should trip the matcher.
+	// Feed it some fodder: only 'obstor' and 'obstory's' should trip the matcher.
 	trie.Insert("obstor")
-	trie.Insert("minio")
 	trie.Insert("amazon")
 	trie.Insert("cheerio")
-	trie.Insert("miny-o's")
+	trie.Insert("obsto-r's")
 
-	matches := trie.PrefixMatch("min")
+	matches := trie.PrefixMatch("obs")
 	if len(matches) != 2 {
-		t.Errorf("expected two matches for prefix 'min', got: %d", len(matches))
+		t.Errorf("expected two matches for prefix 'obs', got: %d", len(matches))
 	}
 
-	hasMinIO, hasMinYOs := false, false
+	hasObstor, hasObstorVariant := false, false
 	for _, m := range matches {
-		if m == "minio" {
-			hasMinIO = true
+		if m == "obstor" {
+			hasObstor = true
 		}
-		if m == "miny-o's" {
-			hasMinYOs = true
+		if m == "obsto-r's" {
+			hasObstorVariant = true
 		}
 	}
-	if !hasMinIO || !hasMinYOs {
-		t.Errorf("expected matches to contain 'minio' and \"miny-o's\", got: %v", matches)
+	if !hasObstor || !hasObstorVariant {
+		t.Errorf("expected matches to contain 'obstor' and \"obsto-r's\", got: %v", matches)
 	}
 }

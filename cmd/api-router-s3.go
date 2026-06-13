@@ -21,9 +21,9 @@ import (
 	"net"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/pkg/wildcard"
-	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 )
 
@@ -284,7 +284,9 @@ func registerAPIRouterDirect(router *mux.Router) {
 			collectAPIStats("putbucket", maxClients(httpTraceAll(api.PutBucketHandler))))
 		router.Methods(http.MethodHead).HandlerFunc(
 			collectAPIStats("headbucket", maxClients(httpTraceAll(api.HeadBucketHandler))))
-		router.Methods(http.MethodPost).HeadersRegexp(xhttp.ContentType, "multipart/form-data*").HandlerFunc(
+		router.Methods(http.MethodPost).MatcherFunc(func(r *http.Request, _ *mux.RouteMatch) bool {
+			return isRequestPostPolicySignatureV4(r)
+		}).HandlerFunc(
 			collectAPIStats("postpolicybucket", maxClients(httpTraceHdrs(api.PostPolicyBucketHandler))))
 		router.Methods(http.MethodPost).HandlerFunc(
 			collectAPIStats("deletemultipleobjects", maxClients(httpTraceAll(api.DeleteMultipleObjectsHandler)))).Queries("delete", "")

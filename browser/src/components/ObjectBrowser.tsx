@@ -10,6 +10,7 @@ import {
   getShareLink,
   getUploadURL,
 } from "@/lib/actions";
+import { safeDisplayName } from "@/lib/safe-name";
 
 interface FileEntry {
   name: string;
@@ -187,7 +188,9 @@ function UploadProgress({ uploading }: { uploading: { name: string; progress: nu
       {uploading.map((u) => (
         <div key={u.name} className="mb-1.5 last:mb-0">
           <div className="mb-1 flex items-center justify-between">
-            <span className="truncate font-mono text-[11px] text-text-secondary">{u.name}</span>
+            <span className="truncate font-mono text-[11px] text-text-secondary">
+              <bdi>{safeDisplayName(u.name)}</bdi>
+            </span>
             <span className="font-mono text-[10px] text-text-muted">{u.progress}%</span>
           </div>
           <div className="h-1 overflow-hidden rounded-full bg-surface-overlay">
@@ -333,7 +336,7 @@ function ObjectTable({
             <span className="h-3.5 w-3.5" />
             <span className="flex items-center gap-2 truncate font-mono text-sm">
               <span className="icon-[lucide--folder] text-accent text-sm" />
-              {displayName(folder)}
+              <bdi>{displayName(folder)}</bdi>
             </span>
             <span className="font-mono text-text-muted text-xs">-</span>
             <span className="font-mono text-text-muted text-xs">-</span>
@@ -354,7 +357,7 @@ function ObjectTable({
               />
               <span className="flex items-center gap-2 truncate font-mono text-sm">
                 <span className="icon-[lucide--file] text-sm text-text-muted" />
-                {displayName(file.name)}
+                <bdi>{displayName(file.name)}</bdi>
               </span>
               <span className="font-mono text-text-secondary text-xs">{file.size}</span>
               <span className="font-mono text-text-muted text-xs">{file.lastModified}</span>
@@ -364,7 +367,7 @@ function ObjectTable({
                     key={loc}
                     className="w-fit rounded bg-surface-overlay px-1.5 py-0.5 font-mono text-[9px] text-text-muted leading-tight"
                   >
-                    {loc}
+                    <bdi>{safeDisplayName(loc)}</bdi>
                   </span>
                 ))}
               </div>
@@ -488,7 +491,9 @@ function ShareDialog({
             <span className="icon-[lucide--x] text-sm" />
           </button>
         </div>
-        <p className="mb-3 truncate font-mono text-text-muted text-xs">{shareModal.name}</p>
+        <p className="mb-3 truncate font-mono text-text-muted text-xs">
+          <bdi>{safeDisplayName(shareModal.name)}</bdi>
+        </p>
         <div className="mb-4 flex items-center gap-2 rounded-lg border border-border bg-abyss p-3">
           <input
             type="text"
@@ -504,7 +509,7 @@ function ShareDialog({
             Copy
           </button>
         </div>
-        <p className="font-body text-[11px] text-text-muted">This link expires in 24 hours.</p>
+        <p className="font-body text-[11px] text-text-muted">This link expires in 5 minutes.</p>
       </div>
     </div>
   );
@@ -531,8 +536,11 @@ function DeleteDialog({
           <h3 className="font-display font-semibold text-base">Delete Object</h3>
         </div>
         <p className="mb-4 font-body text-sm text-text-secondary">
-          Are you sure you want to delete <span className="font-mono">{displayName}</span>? This
-          cannot be undone.
+          Are you sure you want to delete{" "}
+          <span className="font-mono">
+            <bdi>{displayName}</bdi>
+          </span>
+          ? This cannot be undone.
         </p>
         <div className="flex gap-2">
           <button
@@ -773,7 +781,7 @@ export function ObjectBrowser({ bucketName, prefix, folders, files }: Props) {
 
   const getDisplayName = (name: string) => {
     const withoutPrefix = name.startsWith(prefix) ? name.slice(prefix.length) : name;
-    return withoutPrefix.replace(/\/$/, "");
+    return safeDisplayName(withoutPrefix.replace(/\/$/, ""));
   };
 
   return (

@@ -36,7 +36,7 @@ import (
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/fips"
-	"github.com/minio/sio"
+	"github.com/obstor/sio"
 )
 
 var (

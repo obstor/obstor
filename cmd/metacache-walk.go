@@ -27,9 +27,9 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/gorilla/mux"
 	"github.com/obstor/obstor/cmd/logger"
 	xioutil "github.com/obstor/obstor/pkg/ioutil"
-	"github.com/gorilla/mux"
 )
 
 // WalkDirOptions provides options for WalkDir operations.

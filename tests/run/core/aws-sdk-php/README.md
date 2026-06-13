@@ -10,7 +10,7 @@ New tests is added into `quick-tests.php` as new functions.
 ```bash
 export MINT_DATA_DIR=~/my-mint-dir
 export MINT_MODE=core
-export SERVER_ENDPOINT="play.obstor.net:9000"
+export SERVER_ENDPOINT="demo.obstor.net:9000"
 export ACCESS_KEY="Q3AM3UQ867SPQQA43P2F"
 export SECRET_KEY="zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG"
 export ENABLE_HTTPS=1

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ObjectBrowser } from "@/components/ObjectBrowser";
 import { formatDate, humanSize, rpc } from "@/lib/rpc";
+import { safeDisplayName } from "@/lib/safe-name";
 
 interface Props {
   params: Promise<{ bucket: string }>;
@@ -83,7 +84,9 @@ export default async function BucketPage({ params, searchParams }: Props) {
       <div className="mb-4 flex items-center gap-5 rounded-lg border border-border bg-abyss px-4 py-3">
         <div className="flex items-center gap-2">
           <span className="icon-[lucide--hard-drive] text-accent text-xs" />
-          <span className="font-display font-semibold text-sm">{bucketName}</span>
+          <span className="font-display font-semibold text-sm">
+            <bdi>{safeDisplayName(bucketName)}</bdi>
+          </span>
         </div>
 
         {creationDate && (
@@ -99,7 +102,7 @@ export default async function BucketPage({ params, searchParams }: Props) {
         <div className="ml-auto flex items-center gap-2">
           <span className={`h-1.5 w-1.5 rounded-full ${isPublic ? "bg-up" : "bg-text-muted"}`} />
           <span className="font-mono text-[11px] text-text-secondary">{policyLabel}</span>
-          <span className="text-text-muted">&middot;</span>
+          <span className="text-text-muted">|</span>
           <span className="font-mono text-[11px] text-text-muted">{httpUrl}</span>
         </div>
       </div>
@@ -111,7 +114,7 @@ export default async function BucketPage({ params, searchParams }: Props) {
             href={`/${encodeURIComponent(bucketName)}`}
             className="font-mono text-accent text-sm transition-colors hover:text-accent-bright"
           >
-            {bucketName}
+            <bdi>{safeDisplayName(bucketName)}</bdi>
           </Link>
           {prefix
             .split("/")
@@ -125,7 +128,7 @@ export default async function BucketPage({ params, searchParams }: Props) {
                     href={`/${encodeURIComponent(bucketName)}?prefix=${encodeURIComponent(path)}`}
                     className="font-mono text-sm text-text-secondary transition-colors hover:text-text-primary"
                   >
-                    {part}
+                    <bdi>{safeDisplayName(part)}</bdi>
                   </Link>
                 </span>
               );

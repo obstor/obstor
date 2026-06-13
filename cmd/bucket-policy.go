@@ -25,7 +25,7 @@ import (
 	"strings"
 	"time"
 
-	miniogopolicy "github.com/obstor/obstor-go/v7/pkg/policy"
+	obstorpolicy "github.com/obstor/obstor-go/v7/pkg/policy"
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/bucket/policy"
@@ -182,11 +182,11 @@ func getConditionValues(r *http.Request, lc string, username string, claims map[
 	return args
 }
 
-// PolicyToBucketAccessPolicy converts a Obstor policy into a minio-go policy data structure.
-func PolicyToBucketAccessPolicy(bucketPolicy *policy.Policy) (*miniogopolicy.BucketAccessPolicy, error) {
+// PolicyToBucketAccessPolicy converts a Obstor policy into a obstor-go policy data structure.
+func PolicyToBucketAccessPolicy(bucketPolicy *policy.Policy) (*obstorpolicy.BucketAccessPolicy, error) {
 	// Return empty BucketAccessPolicy for empty bucket policy.
 	if bucketPolicy == nil {
-		return &miniogopolicy.BucketAccessPolicy{Version: policy.DefaultVersion}, nil
+		return &obstorpolicy.BucketAccessPolicy{Version: policy.DefaultVersion}, nil
 	}
 
 	data, err := json.Marshal(bucketPolicy)
@@ -195,7 +195,7 @@ func PolicyToBucketAccessPolicy(bucketPolicy *policy.Policy) (*miniogopolicy.Buc
 		return nil, err
 	}
 
-	var policyInfo miniogopolicy.BucketAccessPolicy
+	var policyInfo obstorpolicy.BucketAccessPolicy
 
 	if err = json.Unmarshal(data, &policyInfo); err != nil {
 		// This should not happen because data is valid to JSON data.
@@ -205,8 +205,8 @@ func PolicyToBucketAccessPolicy(bucketPolicy *policy.Policy) (*miniogopolicy.Buc
 	return &policyInfo, nil
 }
 
-// BucketAccessPolicyToPolicy - converts minio-go/policy.BucketAccessPolicy to policy.Policy.
-func BucketAccessPolicyToPolicy(policyInfo *miniogopolicy.BucketAccessPolicy) (*policy.Policy, error) {
+// BucketAccessPolicyToPolicy - converts obstor-go/policy.BucketAccessPolicy to policy.Policy.
+func BucketAccessPolicyToPolicy(policyInfo *obstorpolicy.BucketAccessPolicy) (*policy.Policy, error) {
 	data, err := json.Marshal(policyInfo)
 	if err != nil {
 		// This should not happen because policyInfo is valid to convert to JSON data.

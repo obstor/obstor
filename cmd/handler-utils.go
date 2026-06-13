@@ -32,7 +32,7 @@ import (
 	"strings"
 	"sync"
 
-	miniogo "github.com/obstor/obstor-go/v7"
+	obstor "github.com/obstor/obstor-go/v7"
 	"github.com/obstor/obstor-go/v7/pkg/credentials"
 	"github.com/obstor/obstor/cmd/crypto"
 	xhttp "github.com/obstor/obstor/cmd/http"
@@ -649,13 +649,13 @@ var (
 )
 
 // Return client for the given remote host.
-var GetRemoteInstanceClient = func(r *http.Request, host string) (*miniogo.Core, error) {
+var GetRemoteInstanceClient = func(r *http.Request, host string) (*obstor.Core, error) {
 	if newObjectLayerFn() == nil {
 		return nil, errServerNotInitialized
 	}
 
 	cred := getReqAccessCred(r, globalServerRegion)
-	core, err := miniogo.NewCore(host, &miniogo.Options{
+	core, err := obstor.NewCore(host, &obstor.Options{
 		Creds:     credentials.NewStaticV4(cred.AccessKey, cred.SecretKey, ""),
 		Secure:    globalIsTLS,
 		Transport: getRemoteInstanceTransport,

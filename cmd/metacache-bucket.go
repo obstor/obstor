@@ -30,10 +30,10 @@ import (
 	"sync"
 	"time"
 
+	"github.com/klauspost/compress/s2"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/console"
 	"github.com/obstor/obstor/pkg/hash"
-	"github.com/klauspost/compress/s2"
 	"github.com/tinylib/msgp/msgp"
 )
 

@@ -28,8 +28,8 @@ func TestURLIsEmpty(t *testing.T) {
 		expectedResult bool
 	}{
 		{URL{}, true},
-		{URL{Scheme: "http", Host: "play"}, false},
-		{URL{Path: "path/to/play"}, false},
+		{URL{Scheme: "http", Host: "demo"}, false},
+		{URL{Path: "path/to/demo"}, false},
 	}
 
 	for i, testCase := range testCases {
@@ -47,14 +47,14 @@ func TestURLString(t *testing.T) {
 		expectedStr string
 	}{
 		{URL{}, ""},
-		{URL{Scheme: "http", Host: "play"}, "http://play"},
-		{URL{Scheme: "https", Host: "play:443"}, "https://play"},
-		{URL{Scheme: "https", Host: "play.obstor.net:80"}, "https://play.obstor.net:80"},
-		{URL{Scheme: "https", Host: "147.75.201.93:9000", Path: "/"}, "https://147.75.201.93:9000/"},
+		{URL{Scheme: "http", Host: "demo"}, "http://demo"},
+		{URL{Scheme: "https", Host: "demo:443"}, "https://demo"},
+		{URL{Scheme: "https", Host: "demo.obstor.net:80"}, "https://demo.obstor.net:80"},
+		{URL{Scheme: "https", Host: "23.148.200.3:9000", Path: "/"}, "https://23.148.200.3:9000/"},
 		{URL{Scheme: "https", Host: "s3.amazonaws.com", Path: "/", RawQuery: "location"}, "https://s3.amazonaws.com/?location"},
 		{URL{Scheme: "http", Host: "myobstor:10000", Path: "/mybucket/myobject"}, "http://myobstor:10000/mybucket/myobject"},
 		{URL{Scheme: "ftp", Host: "myftp.server:10000", Path: "/myuser"}, "ftp://myftp.server:10000/myuser"},
-		{URL{Path: "path/to/play"}, "path/to/play"},
+		{URL{Path: "path/to/demo"}, "path/to/demo"},
 	}
 
 	for i, testCase := range testCases {
@@ -73,9 +73,9 @@ func TestURLMarshalJSON(t *testing.T) {
 		expectErr    bool
 	}{
 		{URL{}, []byte(`""`), false},
-		{URL{Scheme: "http", Host: "play"}, []byte(`"http://play"`), false},
-		{URL{Scheme: "https", Host: "play.obstor.net:0"}, []byte(`"https://play.obstor.net:0"`), false},
-		{URL{Scheme: "https", Host: "147.75.201.93:9000", Path: "/"}, []byte(`"https://147.75.201.93:9000/"`), false},
+		{URL{Scheme: "http", Host: "demo"}, []byte(`"http://demo"`), false},
+		{URL{Scheme: "https", Host: "demo.obstor.net:0"}, []byte(`"https://demo.obstor.net:0"`), false},
+		{URL{Scheme: "https", Host: "23.148.200.3:9000", Path: "/"}, []byte(`"https://23.148.200.3:9000/"`), false},
 		{URL{Scheme: "https", Host: "s3.amazonaws.com", Path: "/", RawQuery: "location"}, []byte(`"https://s3.amazonaws.com/?location"`), false},
 		{URL{Scheme: "http", Host: "myobstor:10000", Path: "/mybucket/myobject"}, []byte(`"http://myobstor:10000/mybucket/myobject"`), false},
 		{URL{Scheme: "ftp", Host: "myftp.server:10000", Path: "/myuser"}, []byte(`"ftp://myftp.server:10000/myuser"`), false},
@@ -104,17 +104,17 @@ func TestURLUnmarshalJSON(t *testing.T) {
 		expectErr   bool
 	}{
 		{[]byte(`""`), &URL{}, false},
-		{[]byte(`"http://play"`), &URL{Scheme: "http", Host: "play"}, false},
-		{[]byte(`"https://play.obstor.net:0"`), &URL{Scheme: "https", Host: "play.obstor.net:0"}, false},
-		{[]byte(`"https://147.75.201.93:9000/"`), &URL{Scheme: "https", Host: "147.75.201.93:9000", Path: "/"}, false},
+		{[]byte(`"http://demo"`), &URL{Scheme: "http", Host: "demo"}, false},
+		{[]byte(`"https://demo.obstor.net:0"`), &URL{Scheme: "https", Host: "demo.obstor.net:0"}, false},
+		{[]byte(`"https://23.148.200.3:9000/"`), &URL{Scheme: "https", Host: "23.148.200.3:9000", Path: "/"}, false},
 		{[]byte(`"https://s3.amazonaws.com/?location"`), &URL{Scheme: "https", Host: "s3.amazonaws.com", Path: "/", RawQuery: "location"}, false},
 		{[]byte(`"http://myobstor:10000/mybucket/myobject//"`), &URL{Scheme: "http", Host: "myobstor:10000", Path: "/mybucket/myobject/"}, false},
 		{[]byte(`"ftp://myftp.server:10000/myuser"`), &URL{Scheme: "ftp", Host: "myftp.server:10000", Path: "/myuser"}, false},
 		{[]byte(`"http://webhook.server:10000/mywebhook/"`), &URL{Scheme: "http", Host: "webhook.server:10000", Path: "/mywebhook/"}, false},
 		{[]byte(`"myserver:1000"`), nil, true},
 		{[]byte(`"http://:1000/mybucket"`), nil, true},
-		{[]byte(`"https://147.75.201.93:90000/"`), nil, true},
-		{[]byte(`"http:/play"`), nil, true},
+		{[]byte(`"https://23.148.200.3:90000/"`), nil, true},
+		{[]byte(`"http:/demo"`), nil, true},
 	}
 
 	for i, testCase := range testCases {
@@ -140,17 +140,17 @@ func TestParseHTTPURL(t *testing.T) {
 		expectedURL *URL
 		expectErr   bool
 	}{
-		{"http://play", &URL{Scheme: "http", Host: "play"}, false},
-		{"https://play.obstor.net:0", &URL{Scheme: "https", Host: "play.obstor.net:0"}, false},
-		{"https://147.75.201.93:9000/", &URL{Scheme: "https", Host: "147.75.201.93:9000", Path: "/"}, false},
+		{"http://demo", &URL{Scheme: "http", Host: "demo"}, false},
+		{"https://demo.obstor.net:0", &URL{Scheme: "https", Host: "demo.obstor.net:0"}, false},
+		{"https://23.148.200.3:9000/", &URL{Scheme: "https", Host: "23.148.200.3:9000", Path: "/"}, false},
 		{"https://s3.amazonaws.com/?location", &URL{Scheme: "https", Host: "s3.amazonaws.com", Path: "/", RawQuery: "location"}, false},
 		{"http://myobstor:10000/mybucket//myobject/", &URL{Scheme: "http", Host: "myobstor:10000", Path: "/mybucket/myobject/"}, false},
 		{"ftp://myftp.server:10000/myuser", nil, true},
 		{"https://my.server:10000000/myuser", nil, true},
 		{"myserver:1000", nil, true},
 		{"http://:1000/mybucket", nil, true},
-		{"https://147.75.201.93:90000/", nil, true},
-		{"http:/play", nil, true},
+		{"https://23.148.200.3:90000/", nil, true},
+		{"http:/demo", nil, true},
 	}
 
 	for _, testCase := range testCases {
@@ -176,16 +176,16 @@ func TestParseURL(t *testing.T) {
 		expectedURL *URL
 		expectErr   bool
 	}{
-		{"http://play", &URL{Scheme: "http", Host: "play"}, false},
-		{"https://play.obstor.net:0", &URL{Scheme: "https", Host: "play.obstor.net:0"}, false},
-		{"https://147.75.201.93:9000/", &URL{Scheme: "https", Host: "147.75.201.93:9000", Path: "/"}, false},
+		{"http://demo", &URL{Scheme: "http", Host: "demo"}, false},
+		{"https://demo.obstor.net:0", &URL{Scheme: "https", Host: "demo.obstor.net:0"}, false},
+		{"https://23.148.200.3:9000/", &URL{Scheme: "https", Host: "23.148.200.3:9000", Path: "/"}, false},
 		{"https://s3.amazonaws.com/?location", &URL{Scheme: "https", Host: "s3.amazonaws.com", Path: "/", RawQuery: "location"}, false},
 		{"http://myobstor:10000/mybucket//myobject/", &URL{Scheme: "http", Host: "myobstor:10000", Path: "/mybucket/myobject/"}, false},
 		{"ftp://myftp.server:10000/myuser", &URL{Scheme: "ftp", Host: "myftp.server:10000", Path: "/myuser"}, false},
 		{"myserver:1000", nil, true},
 		{"http://:1000/mybucket", nil, true},
-		{"https://147.75.201.93:90000/", nil, true},
-		{"http:/play", nil, true},
+		{"https://23.148.200.3:90000/", nil, true},
+		{"http:/demo", nil, true},
 	}
 
 	for i, testCase := range testCases {

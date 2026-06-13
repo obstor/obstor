@@ -30,9 +30,9 @@ import (
 	"net/http"
 	"time"
 
+	humanize "github.com/dustin/go-humanize"
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/pkg/auth"
-	humanize "github.com/dustin/go-humanize"
 )
 
 // Streaming AWS Signature Version '4' constants.

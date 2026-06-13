@@ -24,17 +24,17 @@ import (
 	"runtime"
 	"strings"
 
+	humanize "github.com/dustin/go-humanize"
 	"github.com/obstor/obstor/cmd/config"
 	"github.com/obstor/obstor/cmd/logger"
 	color "github.com/obstor/obstor/pkg/color"
 	"github.com/obstor/obstor/pkg/madmin"
 	xnet "github.com/obstor/obstor/pkg/net"
-	humanize "github.com/dustin/go-humanize"
 )
 
 // Documentation links, these are part of message printing code.
 const (
-	mcQuickStartGuide     = "https://obstor.net/docs/obstor-client-quickstart-guide"
+	clientQuickStartGuide = "https://obstor.net/docs/s3-client-quickstart-guide"
 	goQuickStartGuide     = "https://obstor.net/docs/golang-client-quickstart-guide"
 	jsQuickStartGuide     = "https://obstor.net/docs/javascript-client-quickstart-guide"
 	javaQuickStartGuide   = "https://obstor.net/docs/java-client-quickstart-guide"
@@ -58,7 +58,7 @@ func printStartupMessage(apiEndpoints []string, err error) {
 	if err != nil {
 		logStartupMessage(color.RedBold("Server startup failed with '%v'", err))
 		logStartupMessage(color.RedBold("Not all features may be available on this server"))
-		logStartupMessage(color.RedBold("Please use 'mc admin' commands to further investigate this issue"))
+		logStartupMessage(color.RedBold("Please server logs to further investigate this issue"))
 	}
 
 	strippedAPIEndpoints := stripStandardPorts(apiEndpoints)
@@ -77,7 +77,7 @@ func printStartupMessage(apiEndpoints []string, err error) {
 	// Prints credential, region and browser access.
 	printServerCommonMsg(strippedAPIEndpoints)
 
-	// Prints `mc` cli configuration message chooses
+	// Prints S3 client configuration message, chooses
 	// first endpoint as default.
 	printCLIAccessMsg(strippedAPIEndpoints[0], "myobstor")
 
@@ -178,17 +178,17 @@ func printCLIAccessMsg(endPoint string, alias string) {
 	// Get saved credentials.
 	cred := globalActiveCred
 
-	// Configure 'mc', following block prints platform specific information for obstor client.
+	// Print S3 client endpoint and credentials.
 	if color.IsTerminal() && !globalCLIContext.Anonymous {
-		logStartupMessage(color.Blue("\nCommand-line Access: ") + mcQuickStartGuide)
+		logStartupMessage(color.Blue("\nCommand-line Access: ") + clientQuickStartGuide)
 		if runtime.GOOS == globalWindowsOSName {
-			mcMessage := fmt.Sprintf("$ mc.exe alias set %s %s %s %s", alias,
+			clientMsg := fmt.Sprintf("Configure any S3 client (rclone, aws-cli, ...) for %s | Endpoint: %s | AccessKey: %s | SecretKey: %s", alias,
 				endPoint, cred.AccessKey, cred.SecretKey)
-			logStartupMessage(fmt.Sprintf(getFormatStr(len(mcMessage), 3), mcMessage))
+			logStartupMessage(fmt.Sprintf(getFormatStr(len(clientMsg), 3), clientMsg))
 		} else {
-			mcMessage := fmt.Sprintf("$ mc alias set %s %s %s %s", alias,
+			clientMsg := fmt.Sprintf("Configure any S3 client (rclone, aws-cli, ...) for %s | Endpoint: %s | AccessKey: %s | SecretKey: %s", alias,
 				endPoint, cred.AccessKey, cred.SecretKey)
-			logStartupMessage(fmt.Sprintf(getFormatStr(len(mcMessage), 3), mcMessage))
+			logStartupMessage(fmt.Sprintf(getFormatStr(len(clientMsg), 3), clientMsg))
 		}
 	}
 }
@@ -206,17 +206,17 @@ func printObjectAPIMsg() {
 // Get formatted disk/storage info message.
 func getStorageInfoMsg(storageInfo StorageInfo) string {
 	var msg string
-	var mcMessage string
+	var clientMsg string
 	onlineDisks, offlineDisks := getOnlineOfflineDisksStats(storageInfo.Disks)
 	if storageInfo.Backend.Type == madmin.Erasure {
 		if offlineDisks.Sum() > 0 {
-			mcMessage = "Use `mc admin info` to look for latest server/disk info\n"
+			clientMsg = "Check the dashboard for latest server/disk info\n"
 		}
 
 		diskInfo := fmt.Sprintf(" %d Online, %d Offline. ", onlineDisks.Sum(), offlineDisks.Sum())
 		msg += color.Blue("Status:") + fmt.Sprintf(getFormatStr(len(diskInfo), 8), diskInfo)
-		if len(mcMessage) > 0 {
-			msg = fmt.Sprintf("%s %s", mcMessage, msg)
+		if len(clientMsg) > 0 {
+			msg = fmt.Sprintf("%s %s", clientMsg, msg)
 		}
 	}
 	return msg

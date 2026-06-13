@@ -11,5 +11,5 @@ Obstor Backend adds S3 and [other supported protocol](/docs/protocols) compatibi
 
 ## Explore Further
 - [Supported Protocols](/docs/protocols) - S3, SFTP, and more
-- `mc` command-line interface
+- `rclone` command-line interface
 - `aws` command-line interface

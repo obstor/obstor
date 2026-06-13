@@ -138,15 +138,29 @@ func (r *Reader) nextSplit(skip int, dst []byte) ([]byte, error) {
 		}
 	}
 	// Read until next line.
-	in, err := r.buf.ReadBytes('\n')
-	dst = append(dst, in...)
-	return dst, err
+	for {
+		frag, err := r.buf.ReadSlice('\n')
+		dst = append(dst, frag...)
+		if len(dst) > csvMaxLineSize {
+			return dst, errCSVLineTooLong
+		}
+		if err == bufio.ErrBufferFull {
+			continue
+		}
+		return dst, err
+	}
 }
 
 // csvSplitSize is the size of each block.
 // Blocks will read this much and find the first following newline.
 // 128KB appears to be a very reasonable default.
 const csvSplitSize = 128 << 10
+
+// 10 MiB csv limit so it cannot exhaust memory
+const csvMaxLineSize = 10 << 20
+
+// errCSVLineTooLong is returned if CSV exceeds csvMaxLineSize.
+var errCSVLineTooLong = fmt.Errorf("csv: line exceeds maximum allowed length of %d bytes", csvMaxLineSize)
 
 // startReaders will read the header if needed and spin up a parser
 // and a number of workers based on GOMAXPROCS.

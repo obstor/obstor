@@ -22,8 +22,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/obstor/obstor/pkg/sync/errgroup"
 	humanize "github.com/dustin/go-humanize"
+	"github.com/obstor/obstor/pkg/sync/errgroup"
 )
 
 const (

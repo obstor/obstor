@@ -76,11 +76,11 @@ func TestParseBackendEndpoint(t *testing.T) {
 	}{
 		{"http://127.0.0.1:9000", "127.0.0.1:9000", false, false},
 		{"https://127.0.0.1:9000", "127.0.0.1:9000", true, false},
-		{"http://play.obstor.net:9000", "play.obstor.net:9000", false, false},
-		{"https://play.obstor.net:9000", "play.obstor.net:9000", true, false},
+		{"http://demo.obstor.net:9000", "demo.obstor.net:9000", false, false},
+		{"https://demo.obstor.net:9000", "demo.obstor.net:9000", true, false},
 		{"ftp://127.0.0.1:9000", "", false, true},
-		{"ftp://play.obstor.net:9000", "", false, true},
-		{"play.obstor.net:9000", "play.obstor.net:9000", true, false},
+		{"ftp://demo.obstor.net:9000", "", false, true},
+		{"demo.obstor.net:9000", "demo.obstor.net:9000", true, false},
 	}
 
 	for i, test := range testCases {

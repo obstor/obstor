@@ -26,8 +26,8 @@ import (
 	"sync"
 	"time"
 
-	obstor "github.com/cloudment/obstor/cmd"
-	"github.com/cloudment/obstor/pkg/hash"
+	obstor "github.com/obstor/obstor/cmd"
+	"github.com/obstor/obstor/pkg/hash"
 	xsftp "github.com/pkg/sftp"
 )
 
@@ -85,22 +85,21 @@ func (d *sftpDriver) Fileread(r *xsftp.Request) (io.ReaderAt, error) {
 	if err != nil {
 		return nil, sftpErrorMap(err)
 	}
-	if oi.Size > sftpMaxFileSize {
-		return nil, fmt.Errorf("object size %d exceeds SFTP download limit (%d bytes)", oi.Size, sftpMaxFileSize)
-	}
 
-	reader, err := objAPI.GetObjectNInfo(ctx, bucket, object, nil, nil, obstor.ReadLock, obstor.ObjectOptions{})
-	if err != nil {
-		return nil, sftpErrorMap(err)
-	}
-
-	data, err := io.ReadAll(reader)
-	_ = reader.Close()
-	if err != nil {
-		return nil, err
-	}
-
-	return bytes.NewReader(data), nil
+	return &rangeReaderAt{
+		size: oi.Size,
+		open: func(off int64) (io.ReadCloser, error) {
+			var rs *obstor.HTTPRangeSpec
+			if off > 0 {
+				rs = &obstor.HTTPRangeSpec{Start: off, End: -1}
+			}
+			gr, gerr := objAPI.GetObjectNInfo(ctx, bucket, object, rs, nil, obstor.ReadLock, obstor.ObjectOptions{})
+			if gerr != nil {
+				return nil, sftpErrorMap(gerr)
+			}
+			return gr, nil
+		},
+	}, nil
 }
 
 // Filewrite implements sftp.FileWriter.
@@ -113,10 +112,29 @@ func (d *sftpDriver) Filewrite(r *xsftp.Request) (io.WriterAt, error) {
 		return nil, os.ErrPermission
 	}
 
+	objAPI, err := d.getObjectLayer()
+	if err != nil {
+		return nil, err
+	}
+
+	pr, pw := io.Pipe()
+	done := make(chan error, 1)
+	go func() {
+		hashReader, herr := hash.NewReader(pr, -1, "", "", -1)
+		if herr != nil {
+			_ = pr.CloseWithError(herr)
+			done <- herr
+			return
+		}
+		_, perr := objAPI.PutObject(context.Background(), bucket, object, obstor.NewPutObjReader(hashReader), obstor.ObjectOptions{})
+		_ = pr.CloseWithError(perr)
+		done <- sftpErrorMap(perr)
+	}()
+
 	return &sftpFileWriter{
-		bucket: bucket,
-		object: object,
-		driver: d,
+		streamingWriterAt: &streamingWriterAt{w: pw},
+		pw:                pw,
+		done:              done,
 	}, nil
 }
 
@@ -148,22 +166,26 @@ func (d *sftpDriver) Filecmd(r *xsftp.Request) error {
 		if err := obstor.CheckSFTPAccess(d.accessKey, srcBucket, srcObject, obstor.SFTPActionDeleteObject); err != nil {
 			return os.ErrPermission
 		}
-		// CopyObject requires PutObjReader which GetObjectInfo doesnt have
+		if srcBucket == dstBucket && srcObject == dstObject {
+			if _, err := objAPI.GetObjectInfo(ctx, srcBucket, srcObject, obstor.ObjectOptions{}); err != nil {
+				return sftpErrorMap(err)
+			}
+			return nil
+		}
 		reader, err := objAPI.GetObjectNInfo(ctx, srcBucket, srcObject, nil, nil, obstor.ReadLock, obstor.ObjectOptions{})
 		if err != nil {
 			return sftpErrorMap(err)
 		}
-		data, err := io.ReadAll(reader)
+		srcSize := reader.ObjInfo.Size
+		hashReader, err := hash.NewReader(reader, srcSize, "", "", srcSize)
+		if err != nil {
+			_ = reader.Close()
+			return err
+		}
+		_, perr := objAPI.PutObject(ctx, dstBucket, dstObject, obstor.NewPutObjReader(hashReader), obstor.ObjectOptions{})
 		_ = reader.Close()
-		if err != nil {
-			return err
-		}
-		hashReader, err := hash.NewReader(bytes.NewReader(data), int64(len(data)), "", "", int64(len(data)))
-		if err != nil {
-			return err
-		}
-		if _, err := objAPI.PutObject(ctx, dstBucket, dstObject, obstor.NewPutObjReader(hashReader), obstor.ObjectOptions{}); err != nil {
-			return sftpErrorMap(err)
+		if perr != nil {
+			return sftpErrorMap(perr)
 		}
 		if _, err := objAPI.DeleteObject(ctx, srcBucket, srcObject, obstor.ObjectOptions{}); err != nil {
 			return sftpErrorMap(err)
@@ -395,48 +417,242 @@ func (d *sftpDriver) Filelist(r *xsftp.Request) (xsftp.ListerAt, error) {
 	return nil, fmt.Errorf("unsupported list method: %s", r.Method)
 }
 
-// Buffer writes and uploads on Close.
-type sftpFileWriter struct {
-	mu     sync.Mutex
-	bucket string
-	object string
-	driver *sftpDriver
-	buf    []byte
+const sftpWriteReorderMax = 16 << 20
+
+type streamingWriterAt struct {
+	mu      sync.Mutex
+	w       io.Writer
+	off     int64            // next offset the pipe expects
+	pending map[int64][]byte // parked out-of-order chunks keyed by offset
+	parked  int64            // total bytes currently parked
+	err     error            // sticky stream error
 }
 
-func (w *sftpFileWriter) WriteAt(p []byte, off int64) (n int, err error) {
-	w.mu.Lock()
-	defer w.mu.Unlock()
-
-	end := off + int64(len(p))
-	if end > sftpMaxFileSize {
+func (s *streamingWriterAt) WriteAt(p []byte, off int64) (int, error) {
+	if off < 0 {
+		return 0, fmt.Errorf("invalid negative offset: %d", off)
+	}
+	if len(p) == 0 {
+		// Parking an empty chunk would poison its offset for the real write.
+		return 0, nil
+	}
+	if int64(len(p)) > sftpMaxFileSize-off {
 		return 0, fmt.Errorf("file size exceeds maximum allowed (%d bytes)", sftpMaxFileSize)
 	}
-	// Grow buffer if needed
-	if end > int64(len(w.buf)) {
-		grown := make([]byte, end)
-		copy(grown, w.buf)
-		w.buf = grown
+
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if s.err != nil {
+		return 0, s.err
 	}
-	copy(w.buf[off:], p)
-	return len(p), nil
+
+	switch {
+	case off == s.off:
+		n, err := s.w.Write(p)
+		s.off += int64(n)
+		if err != nil {
+			s.err = err
+			return n, err
+		}
+		if err := s.flushParkedLocked(); err != nil {
+			return n, err
+		}
+		return n, nil
+
+	case off > s.off:
+		// Concurrent worker is ahead of the stream; park until gap fills.
+		if _, dup := s.pending[off]; dup {
+			return 0, fmt.Errorf("duplicate SFTP write at offset %d", off)
+		}
+		if s.parked+int64(len(p)) > sftpWriteReorderMax {
+			s.err = fmt.Errorf("out-of-order SFTP write backlog exceeds %d bytes (offset %d, expected %d)", int64(sftpWriteReorderMax), off, s.off)
+			return 0, s.err
+		}
+		buf := make([]byte, len(p))
+		copy(buf, p)
+		if s.pending == nil {
+			s.pending = make(map[int64][]byte)
+		}
+		s.pending[off] = buf
+		s.parked += int64(len(p))
+		return len(p), nil
+
+	default: // off < s.off: rewriting already-streamed bytes is impossible
+		return 0, fmt.Errorf("non-sequential SFTP write at offset %d (expected %d): streaming uploads cannot rewrite earlier bytes", off, s.off)
+	}
+}
+
+// flushParkedLocked drains parked chunks that have become sequential.
+func (s *streamingWriterAt) flushParkedLocked() error {
+	for {
+		p, ok := s.pending[s.off]
+		if !ok {
+			return nil
+		}
+		delete(s.pending, s.off)
+		s.parked -= int64(len(p))
+		n, err := s.w.Write(p)
+		s.off += int64(n)
+		if err != nil {
+			s.err = err
+			return err
+		}
+	}
+}
+
+type sftpFileWriter struct {
+	*streamingWriterAt
+	pw   *io.PipeWriter
+	done chan error
 }
 
 func (w *sftpFileWriter) Close() error {
-	objAPI, err := w.driver.getObjectLayer()
-	if err != nil {
+	w.mu.Lock()
+	leftover := w.parked
+	streamErr := w.err
+	w.mu.Unlock()
+
+	if streamErr != nil {
+		_ = w.pw.CloseWithError(streamErr)
+		<-w.done
+		return streamErr
+	}
+	if leftover > 0 {
+		err := fmt.Errorf("incomplete SFTP upload: %d bytes of out-of-order writes never joined the stream", leftover)
+		_ = w.pw.CloseWithError(err)
+		<-w.done
 		return err
 	}
 
-	reader := bytes.NewReader(w.buf)
-	hashReader, err := hash.NewReader(reader, int64(len(w.buf)), "", "", int64(len(w.buf)))
-	if err != nil {
+	// Signal EOF to PutObject, then wait for it to finish.
+	if err := w.pw.Close(); err != nil {
 		return err
 	}
+	return <-w.done
+}
 
-	ctx := context.Background()
-	_, err = objAPI.PutObject(ctx, w.bucket, w.object, obstor.NewPutObjReader(hashReader), obstor.ObjectOptions{})
-	return sftpErrorMap(err)
+func (w *sftpFileWriter) TransferError(err error) {
+	w.mu.Lock()
+	if w.err == nil {
+		w.err = err
+	}
+	w.mu.Unlock()
+	_ = w.pw.CloseWithError(err)
+}
+
+const (
+	sftpReadAheadWindow = 8 << 20
+)
+
+var sftpReadSequenceWait = 2 * time.Second
+
+var sftpReadStartWait = 250 * time.Millisecond
+
+type rangeReaderAt struct {
+	mu     sync.Mutex
+	seq    sync.Cond // lazily bound to mu; signaled whenever curOff changes
+	size   int64
+	open   func(off int64) (io.ReadCloser, error)
+	cur    io.ReadCloser
+	curOff int64
+	closed bool
+}
+
+func (r *rangeReaderAt) ReadAt(p []byte, off int64) (int, error) {
+	if off < 0 {
+		return 0, fmt.Errorf("invalid negative offset: %d", off)
+	}
+	if len(p) == 0 {
+		return 0, nil
+	}
+
+	r.mu.Lock()
+	if r.seq.L == nil {
+		r.seq.L = &r.mu
+	}
+	defer r.mu.Unlock()
+	defer r.seq.Broadcast()
+
+	if r.closed {
+		return 0, os.ErrClosed
+	}
+	if off >= r.size {
+		return 0, io.EOF
+	}
+
+	if off > r.curOff && off-r.curOff <= sftpReadAheadWindow {
+		wait := sftpReadSequenceWait
+		if r.cur == nil && r.curOff == 0 {
+			wait = sftpReadStartWait
+		}
+		expired := false
+		t := time.AfterFunc(wait, func() {
+			r.mu.Lock()
+			expired = true
+			r.mu.Unlock()
+			r.seq.Broadcast()
+		})
+		for !expired && !r.closed && off > r.curOff && off-r.curOff <= sftpReadAheadWindow {
+			r.seq.Wait()
+		}
+		t.Stop()
+		if r.closed {
+			return 0, os.ErrClosed
+		}
+	}
+
+	if r.cur == nil || off != r.curOff {
+		if r.cur != nil {
+			_ = r.cur.Close()
+			r.cur = nil
+		}
+		rc, err := r.open(off)
+		if err != nil {
+			return 0, err
+		}
+		r.cur = rc
+		r.curOff = off
+	}
+
+	// Never read past the logical end of the object.
+	want := int64(len(p))
+	atEnd := false
+	if off+want >= r.size {
+		want = r.size - off
+		atEnd = true
+	}
+
+	n, err := io.ReadFull(r.cur, p[:want])
+	r.curOff += int64(n)
+	if err == io.ErrUnexpectedEOF && atEnd {
+		err = io.EOF
+	}
+	if err == nil && atEnd {
+		// Caller asked for more than remained; signal EOF per io.ReaderAt.
+		err = io.EOF
+	}
+	if err != nil && err != io.EOF {
+		// Stream is in an unknown state; drop it so the next call re-opens.
+		_ = r.cur.Close()
+		r.cur = nil
+	}
+	return n, err
+}
+
+func (r *rangeReaderAt) Close() error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	r.closed = true
+	if r.seq.L != nil {
+		r.seq.Broadcast() // release readers waiting for a predecessor
+	}
+	if r.cur != nil {
+		err := r.cur.Close()
+		r.cur = nil
+		return err
+	}
+	return nil
 }
 
 // Implement sftp.ListerAt

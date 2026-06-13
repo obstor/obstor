@@ -88,10 +88,7 @@ SFTP access uses the same IAM system as the S3 API:
 
 ### Creating an SFTP User
 
-```bash
-mc admin user add myobstor sftpuser sftppassword
-mc admin policy attach myobstor readwrite --user sftpuser
-```
+Create the user and attach a policy using Obstor's API or the dashboard. This adds an IAM user with SFTP-capable credentials and binds an access policy (for example `readwrite`) to that user.
 
 The user can then connect via SFTP:
 

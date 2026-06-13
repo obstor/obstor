@@ -133,22 +133,22 @@ dockers:
     goarch: amd64
     dockerfile: Dockerfile.release
     image_templates:
-      - ghcr.io/cloudment/obstor:{{ .Tag }}
-      - ghcr.io/cloudment/obstor:latest
+      - ghcr.io/obstor/obstor:{{ .Tag }}
+      - ghcr.io/obstor/obstor:latest
 
   -
     goos: linux
     goarch: ppc64le
     dockerfile: Dockerfile.release
     image_templates:
-      - ghcr.io/cloudment/obstor:{{ .Tag }}-ppc64le
+      - ghcr.io/obstor/obstor:{{ .Tag }}-ppc64le
 
   -
     goos: linux
     goarch: s390x
     dockerfile: Dockerfile.release
     image_templates:
-      - ghcr.io/cloudment/obstor:{{ .Tag }}-s390x
+      - ghcr.io/obstor/obstor:{{ .Tag }}-s390x
 
   -
     goos: linux
@@ -156,7 +156,7 @@ dockers:
     goarm: ''
     dockerfile: Dockerfile.release
     image_templates:
-      - ghcr.io/cloudment/obstor:{{ .Tag }}-arm64
+      - ghcr.io/obstor/obstor:{{ .Tag }}-arm64
 
   -
     goos: linux
@@ -164,4 +164,4 @@ dockers:
     goarm: '7'
     dockerfile: Dockerfile.release
     image_templates:
-      - ghcr.io/cloudment/obstor:{{ .Tag }}-arm
+      - ghcr.io/obstor/obstor:{{ .Tag }}-arm

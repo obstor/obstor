@@ -1998,7 +1998,13 @@ func (sys *IAMSys) IsAllowedServiceAccount(args iampolicy.Args, parent string) b
 		return false
 	}
 
-	return combinedPolicy.IsAllowed(parentArgs) && subPolicy.IsAllowed(parentArgs)
+	return combinedPolicy.IsAllowed(parentArgs) && sessionPolicyAllows(subPolicy, parentArgs)
+}
+
+func sessionPolicyAllows(subPolicy *iampolicy.Policy, args iampolicy.Args) bool {
+	args.DenyOnly = false
+	args.IsOwner = false
+	return subPolicy.IsAllowed(args)
 }
 
 // IsAllowedLDAPSTS - checks for LDAP specific claims and values
@@ -2073,7 +2079,7 @@ func (sys *IAMSys) IsAllowedLDAPSTS(args iampolicy.Args, parentUser string) bool
 			return false
 		}
 
-		return combinedPolicy.IsAllowed(args) && subPolicy.IsAllowed(args)
+		return combinedPolicy.IsAllowed(args) && sessionPolicyAllows(subPolicy, args)
 	}
 
 	return combinedPolicy.IsAllowed(args)
@@ -2159,7 +2165,7 @@ func (sys *IAMSys) IsAllowedSTS(args iampolicy.Args, parentUser string) bool {
 		}
 
 		// Sub policy is set and valid.
-		return combinedPolicy.IsAllowed(args) && subPolicy.IsAllowed(args)
+		return combinedPolicy.IsAllowed(args) && sessionPolicyAllows(subPolicy, args)
 	}
 
 	// Sub policy not set, this is most common since subPolicy

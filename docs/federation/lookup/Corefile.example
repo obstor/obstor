@@ -1,7 +1,7 @@
 . {
-  etcd churchofminio.com {
-      endpoint http://localhost:2379 http://localhost:4001
-      upstream /etc/resolv.conf
+  etcd example.org {
+    endpoint http://localhost:2379 http://localhost:4001
+    upstream /etc/resolv.conf
   }
   debug
   prometheus

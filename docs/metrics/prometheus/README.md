@@ -58,11 +58,11 @@ obstor server ~/test
 
 #### 3.1 Authenticated Prometheus config
 
-> If Obstor is configured to expose metrics without authentication, you don't need to use `mc` to generate prometheus config. You can skip reading further and move to 3.2 section.
+> If Obstor is configured to expose metrics without authentication, you don't need to generate a prometheus config. You can skip reading further and move to 3.2 section.
 
-The Prometheus endpoint in Obstor requires authentication by default. Prometheus supports a bearer token approach to authenticate prometheus scrape requests, override the default Prometheus config with the one generated using mc. To generate a Prometheus config for an alias, use mc as follows `mc admin prometheus generate <alias>`.
+The Prometheus endpoint in Obstor requires authentication by default. Prometheus supports a bearer token approach to authenticate prometheus scrape requests, so override the default Prometheus config with one that carries a bearer token. Use Obstor's API to generate a Prometheus scrape config and its bearer token.
 
-The command will generate the `scrape_configs` section of the prometheus.yml as follows:
+The generated `scrape_configs` section of the prometheus.yml looks as follows:
 
 ```yaml
 scrape_configs:
@@ -124,7 +124,7 @@ Refer the [document here to setup Grafana with Obstor prometheus metrics](/docs/
 Obstor server exposes the following metrics on `/obstor/v2/metrics/cluster` endpoint. All of these can be accessed via Prometheus dashboard. A sample list of exposed metrics along with their definition is available in the demo server at
 
 ```bash
-curl https://play.obstor.net/obstor/v2/metrics/cluster
+curl https://demo.obstor.net/obstor/v2/metrics/cluster
 ```
 
 ### List of metrics reported

@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
 	"github.com/klauspost/compress/snappy"
+	"github.com/obstor/obstor/pkg/s3select/internal/parquet-go/gen-go/parquet"
 	"github.com/pierrec/lz4"
 )
 

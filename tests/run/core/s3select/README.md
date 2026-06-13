@@ -12,7 +12,7 @@ New tests are added into `s3select/tests.py` as new functions.
 ```bash
 export MINT_DATA_DIR=~/my-mint-dir
 export MINT_MODE=core
-export SERVER_ENDPOINT="play.obstor.net"
+export SERVER_ENDPOINT="demo.obstor.net"
 export ACCESS_KEY="Q3AM3UQ867SPQQA43P2F"
 export SECRET_KEY="zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG"
 export ENABLE_HTTPS=1

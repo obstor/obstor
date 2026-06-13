@@ -20,9 +20,9 @@ package cmd
 import (
 	"net/http"
 
+	"github.com/gorilla/mux"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/bucket/policy"
-	"github.com/gorilla/mux"
 )
 
 // Data types used for returning dummy tagging XML.

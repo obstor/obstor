@@ -37,7 +37,7 @@ class AwsSdkRubyTest
 
   # Region information, eg. "us-east-1"
   region = ENV['SERVER_REGION'] ||= 'SERVER_REGION is not set'
-  # Minio server, eg. "play.minio.io:9000"
+  # Obstor server, eg. "demo.obstor.net:9000"
   access_key_id = ENV['ACCESS_KEY'] ||= 'ACCESS_KEY is not set'
   secret_access_key = ENV['SECRET_KEY'] ||= 'SECRET_KEY is not set'
   enable_https = ENV['ENABLE_HTTPS']

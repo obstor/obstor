@@ -276,11 +276,8 @@ var policyExemptFields = map[string]struct{}{
 
 // Check if field is exempt from policy conditions
 func isFieldExemptFromPolicy(canonicalName string) bool {
-	if _, found := policyExemptFields[canonicalName]; found {
-		return true
-	}
-	// X-Ignore- prefixed fields are user-designated non-policy fields
-	return strings.HasPrefix(canonicalName, "X-Ignore-")
+	_, found := policyExemptFields[canonicalName]
+	return found
 }
 
 // checkPostPolicy - apply policy conditions and validate input values.

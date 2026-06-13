@@ -6,7 +6,7 @@ GOARCH := $(shell go env GOARCH)
 GOOS := $(shell go env GOOS)
 
 VERSION ?= $(shell git describe --tags)
-TAG ?= "ghcr.io/cloudment/obstor:$(VERSION)"
+TAG ?= "ghcr.io/obstor/obstor:$(VERSION)"
 
 all: build
 
@@ -64,7 +64,7 @@ build: checks
 hotfix-vars:
 	$(eval LDFLAGS := $(shell OBSTOR_RELEASE="RELEASE" OBSTOR_HOTFIX="hotfix.$(shell git rev-parse --short HEAD)" go run buildscripts/gen-ldflags.go $(shell git describe --tags --abbrev=0 | \
     sed 's#RELEASE\.\([0-9]\+\)-\([0-9]\+\)-\([0-9]\+\)T\([0-9]\+\)-\([0-9]\+\)-\([0-9]\+\)Z#\1-\2-\3T\4:\5:\6Z#')))
-	$(eval TAG := "ghcr.io/cloudment/obstor:$(shell git describe --tags --abbrev=0).hotfix.$(shell git rev-parse --short HEAD)")
+	$(eval TAG := "ghcr.io/obstor/obstor:$(shell git describe --tags --abbrev=0).hotfix.$(shell git rev-parse --short HEAD)")
 hotfix: hotfix-vars install
 
 docker-hotfix: hotfix checks

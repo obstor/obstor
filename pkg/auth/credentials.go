@@ -28,8 +28,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/obstor/obstor/cmd/jwt"
 	jwtgo "github.com/golang-jwt/jwt/v4"
+	"github.com/obstor/obstor/cmd/jwt"
 )
 
 const (

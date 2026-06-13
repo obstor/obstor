@@ -273,28 +273,13 @@ func checkClaimsFromToken(r *http.Request, cred auth.Credentials) (map[string]in
 //
 // returns APIErrorCode if any to be replied to the client.
 func checkRequestAuthType(ctx context.Context, r *http.Request, action policy.Action, bucketName, objectName string) (s3Err APIErrorCode) {
-	_, _, s3Err = checkRequestAuthTypeCredential(ctx, r, action, bucketName, objectName)
+	_, _, s3Err = checkRequestAuthTypeCredential(ctx, r, action, bucketName, objectName, "")
 	return s3Err
 }
 
 // Policy evaluation with versionID
 func checkRequestAuthTypeWithVID(ctx context.Context, r *http.Request, action policy.Action, bucketName, objectName, versionID string) (s3Err APIErrorCode) {
-	if versionID != "" {
-		q := r.URL.Query()
-		origVersionID := q.Get("versionId")
-		q.Set("versionId", versionID)
-		r.URL.RawQuery = q.Encode()
-		defer func() {
-			q := r.URL.Query()
-			if origVersionID == "" {
-				q.Del("versionId")
-			} else {
-				q.Set("versionId", origVersionID)
-			}
-			r.URL.RawQuery = q.Encode()
-		}()
-	}
-	_, _, s3Err = checkRequestAuthTypeCredential(ctx, r, action, bucketName, objectName)
+	_, _, s3Err = checkRequestAuthTypeCredential(ctx, r, action, bucketName, objectName, versionID)
 	return s3Err
 }
 
@@ -305,7 +290,7 @@ func checkRequestAuthTypeWithVID(ctx context.Context, r *http.Request, action po
 //
 // returns APIErrorCode if any to be replied to the client.
 // Additionally returns the accessKey used in the request, and if this request is by an admin.
-func checkRequestAuthTypeCredential(ctx context.Context, r *http.Request, action policy.Action, bucketName, objectName string) (cred auth.Credentials, owner bool, s3Err APIErrorCode) {
+func checkRequestAuthTypeCredential(ctx context.Context, r *http.Request, action policy.Action, bucketName, objectName, versionID string) (cred auth.Credentials, owner bool, s3Err APIErrorCode) {
 	// Per-bucket S3 API feature toggle
 	if bucketName != "" && action != policy.CreateBucketAction && !IsBucketS3Enabled(bucketName) {
 		return cred, owner, ErrAccessDenied
@@ -331,6 +316,14 @@ func checkRequestAuthTypeCredential(ctx context.Context, r *http.Request, action
 	}
 	if s3Err != ErrNone {
 		return cred, owner, s3Err
+	}
+
+	if versionID != "" {
+		origRawQuery := r.URL.RawQuery
+		q := r.URL.Query()
+		q.Set("versionId", versionID)
+		r.URL.RawQuery = q.Encode()
+		defer func() { r.URL.RawQuery = origRawQuery }()
 	}
 
 	var claims map[string]interface{}

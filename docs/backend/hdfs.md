@@ -1,7 +1,7 @@
 # Obstor HDFS Backend
 Obstor HDFS backend adds S3 API and [other supported protocol](/docs/protocols) support to Hadoop HDFS filesystem. Applications can use both the S3 and file APIs concurrently without requiring any data migration. Since the backend is stateless and shared-nothing, you may elastically provision as many Obstor instances as needed to distribute the load.
 
-> NOTE: Intention of this backend implementation it to make it easy to migrate your existing data on HDFS clusters to Obstor clusters using standard tools like `mc` or `aws-cli`, if the goal is to use HDFS perpetually we recommend that HDFS should be used directly for all write operations.
+> NOTE: Intention of this backend implementation it to make it easy to migrate your existing data on HDFS clusters to Obstor clusters using standard tools like `rclone` or `aws-cli`, if the goal is to use HDFS perpetually we recommend that HDFS should be used directly for all write operations.
 
 ## Run Obstor Backend for HDFS Storage
 
@@ -27,7 +27,7 @@ docker run -p 9000:9000 \
  --name hdfs-s3 \
  -e "OBSTOR_ROOT_USER=obstor" \
  -e "OBSTOR_ROOT_PASSWORD=obstor123" \
- ghcr.io/cloudment/obstor backend hdfs hdfs://namenode:8200
+ ghcr.io/obstor/obstor backend hdfs hdfs://namenode:8200
 ```
 
 ### Setup Kerberos
@@ -71,25 +71,27 @@ export KRB5REALM=REALM.COM
 ## Test using Browser Dashboard
 *Obstor backend* comes with an embedded web based object browser. Point your web browser to http://127.0.0.1:9000 to ensure that your server has started successfully.
 
-![Screenshot](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/dashboard.png)
+![Screenshot](https://raw.githubusercontent.com/obstor/obstor/main/docs/screenshots/dashboard.png)
 
-## Test using Obstor Client `mc`
+## Test using an S3 client
 
-`mc` provides a modern alternative to UNIX commands such as ls, cat, cp, mirror, diff etc. It supports filesystems and S3-compatible cloud storage services.
+You can interact with the backend using rclone or the AWS CLI. Both support filesystems and S3-compatible cloud storage services.
 
-### Configure `mc`
+### Configure your client
+
+Configure an rclone S3 remote once:
 
 ```bash
-mc alias set myhdfs http://backend-ip:9000 access_key secret_key
+rclone config create obstor s3 provider=Other endpoint=http://backend-ip:9000 access_key_id=access_key secret_access_key=secret_key
 ```
 
 ### List buckets on hdfs
 
 ```bash
-mc ls myhdfs
-[2026-05-22 01:50:43 PST]     0B user/
-[2026-05-26 21:43:51 PST]     0B datasets/
-[2026-05-26 22:10:11 PST]     0B assets/
+rclone lsd myhdfs
+[2026-05-22 01:50:43]     0B user/
+[2026-05-26 21:43:51]     0B datasets/
+[2026-05-26 22:10:11]     0B assets/
 ```
 
 ### Known limitations
@@ -102,6 +104,6 @@ Backend inherits the following limitations of HDFS storage layer:
 
 ## Explore Further
 - [Supported Protocols](/docs/protocols) - S3, SFTP, and more
-- `mc` command-line interface
+- `rclone` command-line interface
 - `aws` command-line interface
-- `minio-go` Go SDK
+- `obstor-go` Go SDK

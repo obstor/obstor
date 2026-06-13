@@ -20,9 +20,9 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/dustin/go-humanize"
 	"github.com/obstor/obstor/cmd/config"
 	"github.com/obstor/obstor/pkg/env"
-	"github.com/dustin/go-humanize"
 )
 
 const (

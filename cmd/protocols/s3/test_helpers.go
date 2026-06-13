@@ -3,8 +3,8 @@ package s3
 import (
 	"net/http"
 
-	obstor "github.com/obstor/obstor/cmd"
 	"github.com/gorilla/mux"
+	obstor "github.com/obstor/obstor/cmd"
 )
 
 // RegisterTestAPI registers specific S3 API handler functions on test routers.

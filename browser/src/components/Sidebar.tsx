@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { deleteBucketAction, logoutAction } from "@/lib/actions";
+import { safeDisplayName } from "@/lib/safe-name";
 import { BucketModal } from "./BucketModal";
 
 interface Props {
@@ -121,7 +122,7 @@ export function Sidebar({
                       isActive ? "text-text-primary" : "text-text-secondary"
                     }`}
                   >
-                    {b.name}
+                    <bdi>{safeDisplayName(b.name)}</bdi>
                   </span>
                 </Link>
 
@@ -168,7 +169,7 @@ export function Sidebar({
           <div className="flex items-center justify-between">
             <div>
               <p className="font-mono text-[10px] text-text-muted">
-                {bucketCount} bucket{bucketCount !== 1 ? "s" : ""} &middot; v{serverVersion}
+                {bucketCount} bucket{bucketCount !== 1 ? "s" : ""} | v{serverVersion}
               </p>
               <p className="font-mono text-[10px] text-text-muted">{serverPlatform}</p>
             </div>
@@ -208,7 +209,9 @@ export function Sidebar({
               </div>
               <div>
                 <h3 className="font-display font-semibold text-sm">Delete Bucket</h3>
-                <p className="font-mono text-[11px] text-text-muted">{deleteConfirm}</p>
+                <p className="font-mono text-[11px] text-text-muted">
+                  <bdi>{safeDisplayName(deleteConfirm)}</bdi>
+                </p>
               </div>
             </div>
             <p className="mb-5 font-body text-text-secondary text-xs leading-relaxed">

@@ -37,6 +37,8 @@ import (
 
 	"encoding/json"
 
+	"github.com/dustin/go-humanize"
+	"github.com/google/uuid"
 	"github.com/obstor/obstor/cmd/config"
 	"github.com/obstor/obstor/cmd/config/storageclass"
 	"github.com/obstor/obstor/cmd/logger"
@@ -47,8 +49,6 @@ import (
 	"github.com/obstor/obstor/pkg/env"
 	xioutil "github.com/obstor/obstor/pkg/ioutil"
 	"github.com/obstor/obstor/pkg/readahead"
-	"github.com/dustin/go-humanize"
-	"github.com/google/uuid"
 )
 
 const (
@@ -2198,6 +2198,12 @@ func (s *xlStorage) VerifyFile(ctx context.Context, volume, path string, fi File
 // WriteBlock writes a content-addressed block to disk atomically.
 // Blocks are stored under <diskPath>/blocks/<hash[0:2]>/<hash[2:4]>/<hash>.
 func (s *xlStorage) WriteBlock(ctx context.Context, hash string, data []byte) error {
+	if !isValidBlockHash(hash) {
+		return errInvalidArgument
+	}
+	if err := verifyBlockHash(data, hash); err != nil {
+		return err
+	}
 	blockDir := pathutil.Join(s.diskPath, blockStoragePath(hash))
 	dir := pathutil.Dir(blockDir)
 
@@ -2225,6 +2231,9 @@ func (s *xlStorage) WriteBlock(ctx context.Context, hash string, data []byte) er
 
 // ReadBlock reads a content-addressed block from disk.
 func (s *xlStorage) ReadBlock(ctx context.Context, hash string) ([]byte, error) {
+	if !isValidBlockHash(hash) {
+		return nil, errInvalidArgument
+	}
 	blockPath := pathutil.Join(s.diskPath, blockStoragePath(hash))
 	data, err := os.ReadFile(blockPath)
 	if err != nil {
@@ -2238,6 +2247,9 @@ func (s *xlStorage) ReadBlock(ctx context.Context, hash string) ([]byte, error) 
 
 // HasBlock checks if a content-addressed block exists on disk.
 func (s *xlStorage) HasBlock(ctx context.Context, hash string) (bool, error) {
+	if !isValidBlockHash(hash) {
+		return false, errInvalidArgument
+	}
 	blockPath := pathutil.Join(s.diskPath, blockStoragePath(hash))
 	_, err := os.Stat(blockPath)
 	if err != nil {
@@ -2251,6 +2263,9 @@ func (s *xlStorage) HasBlock(ctx context.Context, hash string) (bool, error) {
 
 // DeleteBlock removes a content-addressed block from disk.
 func (s *xlStorage) DeleteBlock(ctx context.Context, hash string) error {
+	if !isValidBlockHash(hash) {
+		return errInvalidArgument
+	}
 	blockPath := pathutil.Join(s.diskPath, blockStoragePath(hash))
 	err := os.Remove(blockPath)
 	if err != nil && !os.IsNotExist(err) {

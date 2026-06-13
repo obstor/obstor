@@ -27,7 +27,7 @@ import (
 
 	"github.com/obstor/obstor/pkg/argon2"
 	"github.com/obstor/obstor/pkg/fips"
-	sio "github.com/minio/sio"
+	sio "github.com/obstor/sio"
 	"golang.org/x/crypto/pbkdf2"
 )
 

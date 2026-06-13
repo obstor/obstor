@@ -36,7 +36,7 @@ import (
 
 	"cloud.google.com/go/storage"
 	humanize "github.com/dustin/go-humanize"
-	miniogopolicy "github.com/obstor/obstor-go/v7/pkg/policy"
+	obstorpolicy "github.com/obstor/obstor-go/v7/pkg/policy"
 	obstor "github.com/obstor/obstor/cmd"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/auth"
@@ -1386,7 +1386,7 @@ func (l *gcsBackendStorage) SetBucketPolicy(ctx context.Context, bucket string, 
 	}
 
 	var policies []obstor.BucketAccessPolicy
-	for prefix, policy := range miniogopolicy.GetPolicies(policyInfo.Statements, bucket, "") {
+	for prefix, policy := range obstorpolicy.GetPolicies(policyInfo.Statements, bucket, "") {
 		policies = append(policies, obstor.BucketAccessPolicy{
 			Prefix: prefix,
 			Policy: policy,
@@ -1405,7 +1405,7 @@ func (l *gcsBackendStorage) SetBucketPolicy(ctx context.Context, bucket string, 
 	}
 
 	acl := l.client.Bucket(bucket).ACL()
-	if policies[0].Policy == miniogopolicy.BucketPolicyNone {
+	if policies[0].Policy == obstorpolicy.BucketPolicyNone {
 		if err := acl.Delete(ctx, storage.AllUsers); err != nil {
 			logger.LogIf(ctx, err)
 			return gcsToObjectError(err, bucket)
@@ -1415,9 +1415,9 @@ func (l *gcsBackendStorage) SetBucketPolicy(ctx context.Context, bucket string, 
 
 	var role storage.ACLRole
 	switch policies[0].Policy {
-	case miniogopolicy.BucketPolicyReadOnly:
+	case obstorpolicy.BucketPolicyReadOnly:
 		role = storage.RoleReader
-	case miniogopolicy.BucketPolicyWriteOnly:
+	case obstorpolicy.BucketPolicyWriteOnly:
 		role = storage.RoleWriter
 	default:
 		logger.LogIf(ctx, obstor.NotImplemented{})

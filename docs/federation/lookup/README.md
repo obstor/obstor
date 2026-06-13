@@ -16,7 +16,7 @@ Bucket lookup from DNS federation requires two dependencies
 
 ## Architecture
 
-![bucket-lookup](https://raw.githubusercontent.com/cloudment/obstor/main/docs/federation/lookup/bucket-lookup.png)
+![bucket-lookup](https://raw.githubusercontent.com/obstor/obstor/main/docs/federation/lookup/bucket-lookup.png)
 
 ### Environment variables
 
@@ -83,12 +83,11 @@ CoreOS team has documented the steps required to migrate existing data from `etc
 
 ### 4. Test your setup
 
-To test this setup, access the Obstor server via browser or `mc`. You’ll see the uploaded files are accessible from the all the Obstor endpoints.
+To test this setup, access the Obstor server via browser or an S3 client such as rclone or the AWS CLI. You’ll see the uploaded files are accessible from the all the Obstor endpoints.
 
 # Explore Further
 
-- Use `mc` with Obstor Server
+- Use `rclone` with Obstor Server
 - Use `aws-cli` with Obstor Server
 - Use `s3cmd` with Obstor Server
-- Use `minio-go` SDK with Obstor Server
 - [The Obstor documentation website](/docs)

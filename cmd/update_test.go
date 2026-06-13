@@ -91,8 +91,8 @@ func TestDownloadURL(t *testing.T) {
 	obstorVersion1 := releaseTimeToReleaseTag(UTCNow())
 	durl := getDownloadURL(obstorVersion1)
 	if IsDocker() {
-		if durl != "docker pull cloudment/obstor:"+obstorVersion1 {
-			t.Errorf("Expected %s, got %s", "docker pull cloudment/obstor:"+obstorVersion1, durl)
+		if durl != "docker pull obstor/obstor:"+obstorVersion1 {
+			t.Errorf("Expected %s, got %s", "docker pull obstor/obstor:"+obstorVersion1, durl)
 		}
 	} else {
 		if runtime.GOOS == "windows" {

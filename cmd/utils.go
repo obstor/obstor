@@ -41,14 +41,14 @@ import (
 	"sync"
 	"time"
 
+	humanize "github.com/dustin/go-humanize"
+	"github.com/gorilla/mux"
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/cmd/rest"
 	"github.com/obstor/obstor/pkg/certs"
 	"github.com/obstor/obstor/pkg/handlers"
 	"github.com/obstor/obstor/pkg/madmin"
-	humanize "github.com/dustin/go-humanize"
-	"github.com/gorilla/mux"
 	"golang.org/x/net/http2"
 )
 
@@ -968,4 +968,28 @@ var etagRegex = regexp.MustCompile("\"*?([^\"]*?)\"*?$")
 
 func CanonicalizeETag(etag string) string {
 	return etagRegex.ReplaceAllString(etag, "$1")
+}
+
+func safeDisplayName(name string) string {
+	return strings.Map(func(r rune) rune {
+		switch {
+		case r <= 0x001f: // C0 controls
+			return -1
+		case r >= 0x007f && r <= 0x009f: // DEL and C1 controls
+			return -1
+		case r == 0x061c: // ALM (Arabic letter mark)
+			return -1
+		case r >= 0x200b && r <= 0x200f: // zero-width space/non-joiner/joiner, LRM, RLM
+			return -1
+		case r == 0x2060: // word joiner
+			return -1
+		case r >= 0x202a && r <= 0x202e: // LRE, RLE, PDF, LRO, RLO (embeddings and overrides)
+			return -1
+		case r >= 0x2066 && r <= 0x2069: // LRI, RLI, FSI, PDI (isolates)
+			return -1
+		case r == 0xfeff: // BOM / zero-width no-break space
+			return -1
+		}
+		return r
+	}, name)
 }

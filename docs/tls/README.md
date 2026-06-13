@@ -234,6 +234,5 @@ Obstor can connect to other servers, including Obstor nodes or other server type
 
 # Explore Further
 * [TLS Configuration for Obstor server on Kubernetes](/docs/tls/kubernetes)
-* Obstor Client Complete Guide
 * [Generate Let's Encrypt Certificate](/docs/tls)
 * Setup nginx Proxy with Obstor Server

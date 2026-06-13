@@ -36,6 +36,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/obstor/obstor/cmd/config"
 	"github.com/obstor/obstor/cmd/crypto"
 	xhttp "github.com/obstor/obstor/cmd/http"
@@ -50,7 +51,6 @@ import (
 	"github.com/obstor/obstor/pkg/madmin"
 	xnet "github.com/obstor/obstor/pkg/net"
 	trace "github.com/obstor/obstor/pkg/trace"
-	"github.com/gorilla/mux"
 )
 
 const (
@@ -942,7 +942,7 @@ func (ae AdminError) Error() string {
 	return ae.Message
 }
 
-// Admin API errors
+// API errors
 const (
 	AdminUpdateUnexpectedFailure = "XObstorAdminUpdateUnexpectedFailure"
 	AdminUpdateURLNotReachable   = "XObstorAdminUpdateURLNotReachable"

@@ -67,7 +67,7 @@ var toAPIErrorTests = []struct {
 }
 
 func TestAPIErrCode(t *testing.T) {
-	disk := filepath.Join(globalTestTmpDir, "minio-"+nextSuffix())
+	disk := filepath.Join(globalTestTmpDir, "obstor-"+nextSuffix())
 	defer func() { _ = os.RemoveAll(disk) }()
 
 	initFSObjects(disk, t)

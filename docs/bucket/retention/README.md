@@ -53,8 +53,7 @@ See https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock-overview.html fo
 
 ## Explore Further
 
-- Use `mc` with Obstor Server
+- Use `rclone` with Obstor Server
 - Use `aws-cli` with Obstor Server
 - Use `s3cmd` with Obstor Server
-- Use `minio-go` SDK with Obstor Server
 - [The Obstor documentation website](/docs)

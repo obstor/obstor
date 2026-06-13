@@ -19,7 +19,7 @@ TLS certificates by default are stored under ``${HOME}/.obstor/certs`` directory
 Following is the directory structure for Obstor server with TLS certificates.
 
 ```bash
-$ mc tree --files ~/.obstor
+$ tree ~/.obstor
 /home/user1/.obstor
 └─ certs
    ├─ CAs
@@ -209,37 +209,13 @@ notify_redis          publish bucket notifications to Redis datastores
 ```
 
 ### Accessing configuration
-All configuration changes can be made using the `mc admin config` get/set/reset/export/import commands.
+All configuration is set through `OBSTOR_*` environment variables. Each subsystem maps to a set of environment variables, named by uppercasing the subsystem and its keys and prefixing them with `OBSTOR_`. Set the relevant variables in your environment (or service file) before starting the server.
 
-#### List all config keys available
-```bash
-~ mc admin config set myobstor/
-```
+#### Example: etcd subsystem
 
-#### Obtain help for each key
-```bash
-~ mc admin config set myobstor/ <key>
-```
-
-e.g: `mc admin config set myobstor/ etcd` returns available `etcd` config args
+The `etcd` subsystem maps to the following environment variables:
 
 ```bash
-~ mc admin config set play/ etcd
-KEY:
-etcd  federate multiple clusters for IAM and Bucket DNS
-
-ARGS:
-endpoints*       (csv)       comma separated list of etcd endpoints e.g. "http://localhost:2379"
-path_prefix      (path)      namespace prefix to isolate tenants e.g. "customer1/"
-coredns_path     (path)      shared bucket DNS records, default is "/skydns"
-client_cert      (path)      client cert for mTLS authentication
-client_cert_key  (path)      client cert key for mTLS authentication
-comment          (sentence)  optionally add a comment to this setting
-```
-
-To get ENV equivalent for each config args use `--env` flag
-```bash
-~ mc admin config set play/ etcd --env
 KEY:
 etcd  federate multiple clusters for IAM and Bucket DNS
 
@@ -252,7 +228,7 @@ OBSTOR_ETCD_CLIENT_CERT_KEY  (path)      client cert key for mTLS authentication
 OBSTOR_ETCD_COMMENT          (sentence)  optionally add a comment to this setting
 ```
 
-This behavior is consistent across all keys, each key self documents itself with valid examples.
+This pattern is consistent across all subsystems. The environment variable forms for each key is documented with examples throughout this guide.
 
 ## Dynamic systems without restarting server
 
@@ -268,54 +244,57 @@ scanner               manage namespace scanning for usage calculation, lifecycle
 
 ### Usage scanner
 
-Data usage scanner is enabled by default. The following configuration settings allow for more staggered delay in terms of usage calculation. The scanner adapts to the system speed and completely pauses when the system is under load. It is possible to adjust the speed of the scanner and thereby the latency of updates being reflected. The delays between each operation of the scanner can be adjusted by the `mc admin config set alias/ delay=15.0`. By default the value is `10.0`. This means the scanner will sleep *10x* the time each operation takes.
+Data usage scanner is enabled by default. The following configuration settings allow for more staggered delay in terms of usage calculation. The scanner adapts to the system speed and completely pauses when the system is under load. It is possible to adjust the speed of the scanner and thereby the latency of updates being reflected. The delays between each operation of the scanner are controlled by `OBSTOR_SCANNER_DELAY`. By default the value is `10.0`. This means the scanner will sleep *10x* the time each operation takes.
 
-In most setups this will keep the scanner slow enough to not impact overall system performance. Setting the `delay` key to a *lower* value will make the scanner faster and setting it to 0 will make the scanner run at full speed (not recommended in production). Setting it to a higher value will make the scanner slower, consuming less resources with the trade off of not collecting metrics for operations like healing and disk usage as fast.
+In most setups this will keep the scanner slow enough to not impact overall system performance. Setting the delay to a *lower* value will make the scanner faster and setting it to 0 will make the scanner run at full speed (not recommended in production). Setting it to a higher value will make the scanner slower, consuming less resources with the trade off of not collecting metrics for operations like healing and disk usage as fast.
+
+The scanner subsystem maps to the following environment variables:
 
 ```bash
-~ mc admin config set alias/ scanner
 KEY:
 scanner  manage namespace scanning for usage calculation, lifecycle, healing and more
 
 ARGS:
-delay     (float)     scanner delay multiplier, defaults to '10.0'
-max_wait  (duration)  maximum wait time between operations, defaults to '15s'
+OBSTOR_SCANNER_DELAY     (float)     scanner delay multiplier, defaults to '10.0'
+OBSTOR_SCANNER_MAX_WAIT  (duration)  maximum wait time between operations, defaults to '15s'
 ```
 
 Example: Following setting will decrease the scanner speed by a factor of 3, reducing the system resource use, but increasing the latency of updates being reflected.
 
 ```bash
-~ mc admin config set alias/ scanner delay=30.0
+export OBSTOR_SCANNER_DELAY=30.0
 ```
 
-Once set the scanner settings are automatically applied without the need for server restarts.
+The scanner settings are applied when the server is started with these environment variables set.
 
 > NOTE: Data usage scanner is not supported under Backend deployments.
 
 ### Healing
 
-Healing is enabled by default. The following configuration settings allow for more staggered delay in terms of healing. The healing system by default adapts to the system speed and pauses up to '1sec' per object when the system has `max_io` number of concurrent requests. It is possible to adjust the `max_delay` and `max_io` values thereby increasing the healing speed. The delays between each operation of the healer can be adjusted by the `mc admin config set alias/ max_delay=1s` and maximum concurrent requests allowed before we start slowing things down can be configured with `mc admin config set alias/ max_io=30` . By default the wait delay is `1sec` beyond 10 concurrent operations. This means the healer will sleep *1 second* at max for each heal operation if there are more than *10* concurrent client requests.
+Healing is enabled by default. The following configuration settings allow for more staggered delay in terms of healing. The healing system by default adapts to the system speed and pauses up to '1sec' per object when the system has `max_io` number of concurrent requests. It is possible to adjust the `max_sleep` and `max_io` values thereby increasing the healing speed. The delays between each operation of the healer can be adjusted by `OBSTOR_HEAL_MAX_SLEEP` and the maximum concurrent requests allowed before we start slowing things down can be configured with `OBSTOR_HEAL_MAX_IO`. By default the wait delay is `1sec` beyond 10 concurrent operations. This means the healer will sleep *1 second* at max for each heal operation if there are more than *10* concurrent client requests.
 
-In most setups this is sufficient to heal the content after drive replacements. Setting `max_delay` to a *lower* value and setting `max_io` to a *higher* value would make heal go faster.
+In most setups this is sufficient to heal the content after drive replacements. Setting `max_sleep` to a *lower* value and setting `max_io` to a *higher* value would make heal go faster.
+
+The heal subsystem maps to the following environment variables:
 
 ```bash
-~ mc admin config set alias/ heal
 KEY:
 heal  manage object healing frequency and bitrot verification checks
 
 ARGS:
-bitrotscan  (on|off)    perform bitrot scan on disks when checking objects during scanner
-max_sleep   (duration)  maximum sleep duration between objects to slow down heal operation. eg. 2s
-max_io      (int)       maximum IO requests allowed between objects to slow down heal operation. eg. 3
+OBSTOR_HEAL_BITROTSCAN  (on|off)    perform bitrot scan on disks when checking objects during scanner
+OBSTOR_HEAL_MAX_SLEEP   (duration)  maximum sleep duration between objects to slow down heal operation. eg. 2s
+OBSTOR_HEAL_MAX_IO      (int)       maximum IO requests allowed between objects to slow down heal operation. eg. 3
 ```
 
 Example: The following settings will increase the heal operation speed by allowing healing operation to run without delay up to `100` concurrent requests, and the maximum delay between each heal operation is set to `300ms`.
 
 ```bash
-~ mc admin config set alias/ heal max_delay=300ms max_io=100
+export OBSTOR_HEAL_MAX_SLEEP=300ms
+export OBSTOR_HEAL_MAX_IO=100
 ```
 
-Once set the healer settings are automatically applied without the need for server restarts.
+The healer settings are applied when the server is started with these environment variables set.
 
 > NOTE: Healing is not supported under Backend deployments.
 

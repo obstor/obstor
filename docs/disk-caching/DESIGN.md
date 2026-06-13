@@ -46,12 +46,12 @@ sudo mkdir /mnt/cache  # create mount dir
 
 sudo mount -o relatime /tmp/data /mnt/cache # mount xfs on /mnt/cache with atime.
 
-docker pull ghcr.io/cloudment/obstor
+docker pull ghcr.io/obstor/obstor
 
 docker run --net=host -e OBSTOR_ROOT_USER={s3-access-key} -e OBSTOR_ROOT_PASSWORD={s3-secret-key} \
   -e OBSTOR_CACHE_DRIVES=/cache -e OBSTOR_CACHE_QUOTA=99 -e OBSTOR_CACHE_AFTER=0 \
   -e OBSTOR_CACHE_WATERMARK_LOW=90 -e OBSTOR_CACHE_WATERMARK_HIGH=95 \
-  -v /mnt/cache:/cache  ghcr.io/cloudment/obstor:latest backend s3
+  -v /mnt/cache:/cache  ghcr.io/obstor/obstor:latest backend s3
 ```
 
 ## Assumptions

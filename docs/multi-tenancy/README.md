@@ -20,7 +20,7 @@ obstor server --web-address :9002 /data/tenant2
 obstor server --web-address :9003 /data/tenant3
 ```
 
-![Example-1](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/multi-tenant-single-drive.svg)
+![Example-1](https://raw.githubusercontent.com/obstor/obstor/main/docs/screenshots/multi-tenant-single-drive.svg)
 
 ### 1.2 Host Multiple Tenants on Multiple Drives (Erasure Code)
 
@@ -32,7 +32,7 @@ obstor server --web-address :9002 /disk{1...4}/data/tenant2
 obstor server --web-address :9003 /disk{1...4}/data/tenant3
 ```
 
-![Example-2](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/multi-tenant-multiple-drives.svg)
+![Example-2](https://raw.githubusercontent.com/obstor/obstor/main/docs/screenshots/multi-tenant-multiple-drives.svg)
 
 ## <a name="distributed-deployment"></a>2. Distributed Deployment
 
@@ -58,7 +58,7 @@ obstor server --web-address :9003 http://192.168.10.1{1...4}/data/tenant3
 
 **Note:** Execute the commands on all 4 nodes.
 
-![Example-3](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/multi-tenant-distributed.svg)
+![Example-3](https://raw.githubusercontent.com/obstor/obstor/main/docs/screenshots/multi-tenant-distributed.svg)
 
 **Note**: On distributed systems, credentials must be defined and exported using the `OBSTOR_ROOT_USER` and  `OBSTOR_ROOT_PASSWORD` environment variables. If a domain is required, it must be specified by defining and exporting the `OBSTOR_DOMAIN` environment variable.
 

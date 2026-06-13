@@ -2,7 +2,7 @@
 
 **Table of Contents**
 
-- [AssumeRoleWithLDAPIdentity](#assumerolewithldapidentity-slackhttpsslackminioslacktypesvghttpsslackminio)
+- [AssumeRoleWithLDAPIdentity](#assumerolewithldapidentity-slackhttpsslackobstorslacktypesvghttpsslackobstor)
     - [Introduction](#introduction)
     - [Configuring AD/LDAP on Obstor](#configuring-adldap-on-obstor)
         - [Supported modes of operation](#supported-modes-of-operation)
@@ -39,16 +39,11 @@ The administrator will associate IAM access policies with each group and if requ
 
 ## Configuring AD/LDAP on Obstor
 
-LDAP STS configuration can be performed via Obstor's standard configuration API (i.e. using `mc admin config set/get` commands) or equivalently via environment variables. For brevity we refer to environment variables here.
+LDAP STS configuration is performed via environment variables.
 
 LDAP is configured via the following environment variables:
 
 ```bash
-$ mc admin config set myobstor identity_ldap --env
-KEY:
-identity_ldap  enable LDAP SSO support
-
-ARGS:
 OBSTOR_IDENTITY_LDAP_SERVER_ADDR*            (address)   AD/LDAP server address e.g. "myldapserver.com:636"
 OBSTOR_IDENTITY_LDAP_STS_EXPIRY              (duration)  temporary credentials validity duration in s,m,h,d. Default is "1h"
 OBSTOR_IDENTITY_LDAP_LOOKUP_BIND_DN          (string)    DN for LDAP read-only service account used to perform DN and group lookups
@@ -135,27 +130,15 @@ In the configuration variables, `%s` is substituted with the *username* from the
 
 ## Managing User/Group Access Policy
 
-Access policies may be configured on a group or on a user directly. Access policies are first defined on the Obstor server using IAM policy JSON syntax. The `mc` tool is used to issue the necessary commands.
+Access policies may be configured on a group or on a user directly. Access policies are first defined on the Obstor server using IAM policy JSON syntax.
 
 **Note that by default no policy is set on a user**. Thus even if they successfully authenticate with AD/LDAP credentials, they have no access to object storage as the default access policy is to deny all access.
 
-To define a new policy, you can use the [AWS policy generator](https://awspolicygen.s3.amazonaws.com/policygen.html). Copy the policy into a text file `mypolicy.json` and issue the command like so:
+To define a new policy, you can use the [AWS policy generator](https://awspolicygen.s3.amazonaws.com/policygen.html). Copy the policy into a text file `mypolicy.json`, then create the policy named `mypolicy` from that file.
 
-```bash
-mc admin policy add myobstor mypolicy mypolicy.json
-```
+To assign the policy to a user or group, use the full DN of the user or group (for example, the user `uid=james,cn=accounts,dc=myldapserver,dc=com` or the group `cn=projectx,ou=groups,ou=hwengg,dc=min,dc=io`).
 
-To assign the policy to a user or group, use the full DN of the user or group:
-
-```bash
-mc admin policy set myobstor mypolicy user='uid=james,cn=accounts,dc=myldapserver,dc=com'
-```
-
-```bash
-mc admin policy set myobstor mypolicy group='cn=projectx,ou=groups,ou=hwengg,dc=min,dc=io'
-```
-
-**Please note that when AD/LDAP is configured, Obstor will not support long term users defined internally.** Only AD/LDAP users are allowed. In addition to this, the server will not support operations on users or groups using `mc admin user` or `mc admin group` commands except `mc admin user info` and `mc admin group info` to list set policies for users and groups. This is because users and groups are defined externally in AD/LDAP.
+**Please note that when AD/LDAP is configured, Obstor will not support long term users defined internally.** Only AD/LDAP users are allowed. In addition to this, the server will not support creating or deleting users or groups; you can only view the policies set for users and groups. This is because users and groups are defined externally in AD/LDAP.
 
 
 ## API Request Parameters
@@ -239,7 +222,7 @@ $ export OBSTOR_IDENTITY_LDAP_GROUP_SEARCH_BASE_DN='dc=obstorad,dc=local;dc=some
 $ export OBSTOR_IDENTITY_LDAP_GROUP_SEARCH_FILTER='(&(objectclass=group)(member=%s))'
 $ obstor server ~/test
 ```
-You can make sure it works appropriately using our [example program](https://raw.githubusercontent.com/cloudment/obstor/main/docs/sts/ldap.go):
+You can make sure it works appropriately using our [example program](https://raw.githubusercontent.com/obstor/obstor/main/docs/sts/ldap.go):
 ```bash
 $ go run ldap.go -u foouser -p foopassword
 

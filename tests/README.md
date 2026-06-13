@@ -8,11 +8,10 @@ Testing is a testing framework for Obstor object storage server, available as a 
 - aws-sdk-php
 - aws-sdk-ruby
 - healthcheck
-- mc
-- minio-go
-- minio-java
-- minio-js
-- minio-py
+- obstor-go
+- obstor-java
+- obstor-js
+- obstor-py
 - s3cmd
 - s3select
 - versioning
@@ -25,7 +24,7 @@ To run Testing with Obstor server as test target,
 
 ```sh
 $ podman run -e SERVER_ENDPOINT=<your-server>:9000 -e ACCESS_KEY=YOUR_ACCESS_KEY \
-             -e SECRET_KEY=YOUR_SECRET_KEY -e ENABLE_HTTPS=1 cloudment/obstor-testing
+             -e SECRET_KEY=YOUR_SECRET_KEY -e ENABLE_HTTPS=1 obstor/obstor-testing
 ```
 
 After the tests are run, output is stored in `/tests/log` directory inside the container. To get these logs, use `podman cp` command. For example
@@ -44,10 +43,9 @@ Below environment variables are required to be passed to the podman container. S
 | `SECRET_KEY`           | Secret Key for `SERVER_ENDPOINT` credentials                                                                                                   | `YOUR_SECRET_KEY`                          |
 | `ENABLE_HTTPS`         | (Optional) Set `1` to indicate to use HTTPS to access `SERVER_ENDPOINT`. Defaults to `0` (HTTP)                                                | `1`                                        |
 | `MINT_MODE`            | (Optional) Set mode indicating what category of tests to be run by values `core`, `full`. Defaults to `core`                                   | `full`                                     |
-| `MINT_MC_VARIANT`      | (Optional) Select `mc` test variant by values `mc`, `ec`. Defaults to `mc`. (Using `ec` requires providing the `ec` repo in the container.)    | `ec`                                       |
 | `DOMAIN`               | (Optional) Value of OBSTOR_DOMAIN environment variable used in Obstor server                                                                    | `example.com`                              |
 | `ENABLE_VIRTUAL_STYLE` | (Optional) Set `1` to indicate virtual style access . Defaults to `0` (Path style)                                                             | `1`                                        |
-| `RUN_ON_FAIL`          | (Optional) Set `1` to indicate execute all tests independent of failures (currently implemented for minio-go and minio-java) . Defaults to `0` | `1`                                        |
+| `RUN_ON_FAIL`          | (Optional) Set `1` to indicate execute all tests independent of failures (currently implemented for obstor-go and obstor-java) . Defaults to `0` | `1`                                        |
 | `SERVER_REGION`        | (Optional) Set custom region for region specific tests                                                                                         | `us-west-1`                                |
 
 ### Test virtual style access against Obstor server
@@ -60,7 +58,7 @@ To test Obstor server virtual style access with Testing, follow these steps:
 ```sh
 $ podman run -e "SERVER_ENDPOINT=192.168.86.133:9000" -e "DOMAIN=obstor.net"  \
 	     -e "ACCESS_KEY=obstor" -e "SECRET_KEY=obstor123" -e "ENABLE_HTTPS=0" \
-	     -e "ENABLE_VIRTUAL_STYLE=1" cloudment/obstor-testing
+	     -e "ENABLE_VIRTUAL_STYLE=1" obstor/obstor-testing
 ```
 
 ### Testing log format
@@ -85,10 +83,10 @@ All test logs are stored in `/tests/log/log.json` as multiple JSON document.  Be
 After making changes to Testing source code a local podman image can be built/run by
 
 ```sh
-$ podman build -t cloudment/obstor-testing . -f Dockerfile
+$ podman build -t obstor/obstor-testing . -f Dockerfile
 $ podman run -e SERVER_ENDPOINT=<your-server>:9000 -e ACCESS_KEY=YOUR_ACCESS_KEY \
              -e SECRET_KEY=YOUR_SECRET_KEY \
-             -e ENABLE_HTTPS=1 -e MINT_MODE=full cloudment/obstor-testing:latest
+             -e ENABLE_HTTPS=1 -e MINT_MODE=full obstor/obstor-testing:latest
 ```
 
 
@@ -124,4 +122,4 @@ Tests may use pre-created data set to perform various object operations on Obsto
 
 ### Updating SDKs/binaries in the image
 
-In many cases, updating the SDKs or binaries in the image is just a matter of making a commit updating the corresponding version in this repo. However, in some cases, e.g. when `mc` needs to be updated (the latest `mc` is pulled in during each testing image build), a sort of "dummy" commit is required as an image rebuild must be triggered. Note that an empty commit does not appear to trigger the image rebuild in the Docker Hub.
+In many cases, updating the SDKs or binaries in the image is just a matter of making a commit updating the corresponding version in this repo. However, in some cases, e.g. when a client whose latest release is pulled in during each testing image build needs to be updated, a sort of "dummy" commit is required as an image rebuild must be triggered. Note that an empty commit does not appear to trigger the image rebuild in the Docker Hub.

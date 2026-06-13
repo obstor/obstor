@@ -27,10 +27,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/google/uuid"
+	"github.com/obstor/highwayhash"
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/cmd/logger"
-	"github.com/google/uuid"
-	"github.com/minio/highwayhash"
 	"github.com/tinylib/msgp/msgp"
 )
 

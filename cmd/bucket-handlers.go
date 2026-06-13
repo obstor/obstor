@@ -298,7 +298,7 @@ func (api objectAPIHandlers) ListBucketsHandler(w http.ResponseWriter, r *http.R
 
 	listBuckets := objectAPI.ListBuckets
 
-	cred, owner, s3Error := checkRequestAuthTypeCredential(ctx, r, policy.ListAllMyBucketsAction, "", "")
+	cred, owner, s3Error := checkRequestAuthTypeCredential(ctx, r, policy.ListAllMyBucketsAction, "", "", "")
 	if s3Error != ErrNone && s3Error != ErrAccessDenied {
 		writeErrorResponse(ctx, w, errorCodes.ToAPIErr(s3Error), r.URL, guessIsBrowserReq(r))
 		return
@@ -807,6 +807,11 @@ func (api objectAPIHandlers) PostPolicyBucketHandler(w http.ResponseWriter, r *h
 	}
 
 	bucket := mux.Vars(r)["bucket"]
+
+	if isObstorReservedBucket(bucket) || isObstorMetaBucket(bucket) {
+		writeErrorResponse(ctx, w, errorCodes.ToAPIErr(ErrAllAccessDisabled), r.URL, guessIsBrowserReq(r))
+		return
+	}
 
 	// Require Content-Length to be set in the request
 	size := r.ContentLength
@@ -1400,6 +1405,16 @@ func (api objectAPIHandlers) PutBucketTaggingHandler(w http.ResponseWriter, r *h
 		apiErr.Description = err.Error()
 		writeErrorResponse(ctx, w, apiErr, r.URL, guessIsBrowserReq(r))
 		return
+	}
+
+	// The __obstor_ access toggles for S3/SFTP
+	for k := range tags.ToMap() {
+		if strings.HasPrefix(k, obstorReservedTagPrefix) {
+			apiErr := errorCodes.ToAPIErr(ErrAccessDenied)
+			apiErr.Description = "tag keys with the reserved prefix " + obstorReservedTagPrefix + " cannot be set through the tagging API"
+			writeErrorResponse(ctx, w, apiErr, r.URL, guessIsBrowserReq(r))
+			return
+		}
 	}
 
 	configData, err := xml.Marshal(tags)

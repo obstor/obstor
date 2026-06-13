@@ -2,7 +2,7 @@
 
 ## 1. Cloud-native Architecture
 
-![cloud-native](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/disaggregated-architecture.png "cloud native architecture")
+![cloud-native](https://raw.githubusercontent.com/obstor/obstor/main/docs/bigdata/images/disaggregated-architecture.png "cloud native architecture")
 
 Kubernetes manages stateless Spark and Hive containers elastically on the compute nodes. Spark has native scheduler integration with Kubernetes. Hive, for legacy reasons, uses YARN scheduler on top of Kubernetes.
 
@@ -20,17 +20,17 @@ Obstor also supports multi-cluster, multi-site federation similar to AWS regions
 
 After successful installation navigate to the Ambari UI `http://<ambari-server>:8080/` and login using the default credentials: [**_username: admin, password: admin_**]
 
-![ambari-login](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/configure-services-overview.png "ambari login")
+![ambari-login](https://raw.githubusercontent.com/obstor/obstor/main/docs/bigdata/images/configure-services-overview.png "ambari login")
 
 ### 3.1 Configure Hadoop
 
 Navigate to **Services** -> **HDFS** -> **CONFIGS** -> **ADVANCED** as shown below
 
-![hdfs-configs](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hadoop-config-1.png "hdfs advanced configs")
+![hdfs-configs](https://raw.githubusercontent.com/obstor/obstor/main/docs/bigdata/images/hadoop-config-1.png "hdfs advanced configs")
 
 Navigate to **Custom core-site** to configure Obstor parameters for `_s3a_` connector
 
-![s3a-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hadoop-config-2.png "custom core-site")
+![s3a-config](https://raw.githubusercontent.com/obstor/obstor/main/docs/bigdata/images/hadoop-config-2.png "custom core-site")
 
 ```bash
 sudo pip install yq
@@ -97,17 +97,17 @@ The rest of the other optimization options are discussed in the links below
 
 Once the config changes are applied, proceed to restart **Hadoop** services.
 
-![hdfs-services](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hadoop-config-3.png "hdfs restart services")
+![hdfs-services](https://raw.githubusercontent.com/obstor/obstor/main/docs/bigdata/images/hadoop-config-3.png "hdfs restart services")
 
 ### 3.2 Configure Spark2
 
 Navigate to **Services** -> **Spark2** -> **CONFIGS** as shown below
 
-![spark-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/spark-config-1.png "spark config")
+![spark-config](https://raw.githubusercontent.com/obstor/obstor/main/docs/bigdata/images/spark-config-1.png "spark config")
 
 Navigate to “**Custom spark-defaults**” to configure Obstor parameters for `_s3a_` connector
 
-![spark-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/spark-config-2.png "spark defaults")
+![spark-config](https://raw.githubusercontent.com/obstor/obstor/main/docs/bigdata/images/spark-config-2.png "spark defaults")
 
 Add the following optimal entries for _spark-defaults.conf_ to configure Spark with **Obstor**.
 
@@ -143,17 +143,17 @@ spark.hadoop.fs.s3a.threads.max 2048 # maximum number of threads for S3A
 
 Once the config changes are applied, proceed to restart **Spark** services.
 
-![spark-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/spark-config-3.png "spark restart services")
+![spark-config](https://raw.githubusercontent.com/obstor/obstor/main/docs/bigdata/images/spark-config-3.png "spark restart services")
 
 ### 3.3 Configure Hive
 
 Navigate to **Services** -> **Hive** -> **CONFIGS**-> **ADVANCED** as shown below
 
-![hive-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hive-config-1.png "hive advanced config")
+![hive-config](https://raw.githubusercontent.com/obstor/obstor/main/docs/bigdata/images/hive-config-1.png "hive advanced config")
 
 Navigate to “**Custom hive-site**” to configure Obstor parameters for `_s3a_` connector
 
-![hive-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hive-config-2.png "hive advanced config")
+![hive-config](https://raw.githubusercontent.com/obstor/obstor/main/docs/bigdata/images/hive-config-2.png "hive advanced config")
 
 Add the following optimal entries for `hive-site.xml` to configure Hive with **Obstor**.
 
@@ -168,11 +168,11 @@ mapreduce.input.fileinputformat.list-status.num-threads=50
 
 For more information about these options please visit [https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/performance.html](https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/performance.html)
 
-![hive-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hive-config-3.png "hive advanced custom config")
+![hive-config](https://raw.githubusercontent.com/obstor/obstor/main/docs/bigdata/images/hive-config-3.png "hive advanced custom config")
 
 Once the config changes are applied, proceed to restart all Hive services.
 
-![hive-config](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bigdata/images/hive-config-4.png "restart hive services")
+![hive-config](https://raw.githubusercontent.com/obstor/obstor/main/docs/bigdata/images/hive-config-4.png "restart hive services")
 
 ## 4. Run Sample Applications
 

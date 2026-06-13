@@ -67,9 +67,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/go-sql-driver/mysql"
 	"github.com/obstor/obstor/pkg/event"
 	xnet "github.com/obstor/obstor/pkg/net"
-	"github.com/go-sql-driver/mysql"
 )
 
 const (

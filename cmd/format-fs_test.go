@@ -27,7 +27,7 @@ import (
 // TestFSFormatFS - tests initFormatFS, formatMetaGetFormatBackendFS, formatFSGetVersion.
 func TestFSFormatFS(t *testing.T) {
 	// Prepare for testing
-	disk := filepath.Join(globalTestTmpDir, "minio-"+nextSuffix())
+	disk := filepath.Join(globalTestTmpDir, "obstor-"+nextSuffix())
 	defer os.RemoveAll(disk)
 
 	fsFormatPath := pathJoin(disk, obstorMetaBucket, formatConfigFile)

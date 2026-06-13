@@ -11,22 +11,8 @@ Obstor supports currently two target types
 Console target is on always and cannot be disabled.
 
 ### HTTP Target
-HTTP target logs to a generic HTTP endpoint in JSON format and is not enabled by default. To enable HTTP target logging you would have to update your Obstor server configuration using `mc admin config set` command.
+HTTP target logs to a generic HTTP endpoint in JSON format and is not enabled by default. To enable HTTP target logging you configure the corresponding `OBSTOR_LOGGER_WEBHOOK_*` environment variables before starting the server.
 
-Assuming `mc` is already configured
-```bash
-mc admin config get myobstor/ logger_webhook
-logger_webhook:name1 auth_token="" endpoint=""
-```
-
-```bash
-mc admin config set myobstor logger_webhook:name1 auth_token="" endpoint="http://endpoint:port/path"
-mc admin service restart myobstor
-```
-
-NOTE: `http://endpoint:port/path` is a placeholder value to indicate the URL format, please change this accordingly as per your configuration.
-
-Obstor also honors environment variable for HTTP target logging as shown below, this setting will override the endpoint settings in the Obstor server config.
 ```bash
 export OBSTOR_LOGGER_WEBHOOK_ENABLE_target1="on"
 export OBSTOR_LOGGER_WEBHOOK_AUTH_TOKEN_target1="token"
@@ -34,21 +20,11 @@ export OBSTOR_LOGGER_WEBHOOK_ENDPOINT_target1=http://localhost:8080/obstor/logs
 obstor server /mnt/data
 ```
 
+NOTE: `http://localhost:8080/obstor/logs` is a placeholder value to indicate the URL format, please change this accordingly as per your configuration.
+
 ## Audit Targets
-Assuming `mc` is already configured
-```bash
-mc admin config get myobstor/ audit_webhook
-audit_webhook:name1 enable=off endpoint= auth_token= client_cert= client_key=
-```
+To enable audit logging to an HTTP target you configure the corresponding `OBSTOR_AUDIT_WEBHOOK_*` environment variables before starting the server.
 
-```bash
-mc admin config set myobstor audit_webhook:name1 auth_token="" endpoint="http://endpoint:port/path"
-mc admin service restart myobstor
-```
-
-NOTE: `http://endpoint:port/path` is a placeholder value to indicate the URL format, please change this accordingly as per your configuration.
-
-Obstor also honors environment variable for HTTP target Audit logging as shown below, this setting will override the endpoint settings in the Obstor server config.
 ```bash
 export OBSTOR_AUDIT_WEBHOOK_ENABLE_target1="on"
 export OBSTOR_AUDIT_WEBHOOK_AUTH_TOKEN_target1="token"
@@ -83,12 +59,12 @@ NOTE:
   },
   "remotehost": "127.0.0.1",
   "requestID": "15BA4A72C0C70AFC",
-  "userAgent": "Obstor (linux; amd64) minio-go/v6.0.32 mc/2026-08-12T18:27:13Z",
+  "userAgent": "rclone/v1.74.3",
   "requestHeader": {
     "Authorization": "AWS4-HMAC-SHA256 Credential=obstor/20260812/us-east-1/s3/aws4_request,SignedHeaders=host;x-amz-content-sha256;x-amz-date;x-amz-decoded-content-length,Signature=d3f02a6aeddeb29b06e1773b6a8422112890981269f2463a26f307b60423177c",
     "Content-Length": "686",
     "Content-Type": "application/octet-stream",
-    "User-Agent": "Obstor (linux; amd64) minio-go/v6.0.32 mc/2026-08-12T18:27:13Z",
+    "User-Agent": "rclone/v1.74.3",
     "X-Amz-Content-Sha256": "STREAMING-AWS4-HMAC-SHA256-PAYLOAD",
     "X-Amz-Date": "20260812T213437Z",
     "X-Amz-Decoded-Content-Length": "512"

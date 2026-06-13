@@ -26,10 +26,10 @@ import (
 	"strconv"
 	"testing"
 
+	"github.com/klauspost/compress/s2"
 	"github.com/obstor/obstor/cmd/config/compress"
 	"github.com/obstor/obstor/cmd/crypto"
 	"github.com/obstor/obstor/pkg/trie"
-	"github.com/klauspost/compress/s2"
 )
 
 // Tests validate bucket name.

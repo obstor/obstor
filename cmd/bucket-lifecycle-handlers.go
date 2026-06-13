@@ -22,11 +22,11 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/gorilla/mux"
 	xhttp "github.com/obstor/obstor/cmd/http"
 	"github.com/obstor/obstor/cmd/logger"
 	"github.com/obstor/obstor/pkg/bucket/lifecycle"
 	"github.com/obstor/obstor/pkg/bucket/policy"
-	"github.com/gorilla/mux"
 )
 
 const (

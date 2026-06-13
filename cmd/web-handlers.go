@@ -43,29 +43,29 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/klauspost/compress/zip"
-	miniogo "github.com/minio/minio-go/v7"
-	miniogopolicy "github.com/minio/minio-go/v7/pkg/policy"
-	"github.com/minio/minio-go/v7/pkg/s3utils"
-	"github.com/minio/minio-go/v7/pkg/tags"
+	obstor "github.com/obstor/obstor-go/v7"
+	obstorpolicy "github.com/obstor/obstor-go/v7/pkg/policy"
+	"github.com/obstor/obstor-go/v7/pkg/s3utils"
+	"github.com/obstor/obstor-go/v7/pkg/tags"
 
-	"github.com/cloudment/obstor/cmd/config/dns"
-	"github.com/cloudment/obstor/cmd/config/identity/openid"
-	"github.com/cloudment/obstor/cmd/crypto"
-	xhttp "github.com/cloudment/obstor/cmd/http"
-	"github.com/cloudment/obstor/cmd/logger"
-	"github.com/cloudment/obstor/pkg/auth"
-	"github.com/cloudment/obstor/pkg/bucket/lifecycle"
-	objectlock "github.com/cloudment/obstor/pkg/bucket/object/lock"
-	"github.com/cloudment/obstor/pkg/bucket/policy"
-	"github.com/cloudment/obstor/pkg/bucket/replication"
-	"github.com/cloudment/obstor/pkg/etag"
-	"github.com/cloudment/obstor/pkg/event"
-	"github.com/cloudment/obstor/pkg/handlers"
-	"github.com/cloudment/obstor/pkg/hash"
-	iampolicy "github.com/cloudment/obstor/pkg/iam/policy"
-	"github.com/cloudment/obstor/pkg/ioutil"
-	"github.com/cloudment/obstor/pkg/madmin"
-	"github.com/cloudment/obstor/pkg/rpc/json2"
+	"github.com/obstor/obstor/cmd/config/dns"
+	"github.com/obstor/obstor/cmd/config/identity/openid"
+	"github.com/obstor/obstor/cmd/crypto"
+	xhttp "github.com/obstor/obstor/cmd/http"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/auth"
+	"github.com/obstor/obstor/pkg/bucket/lifecycle"
+	objectlock "github.com/obstor/obstor/pkg/bucket/object/lock"
+	"github.com/obstor/obstor/pkg/bucket/policy"
+	"github.com/obstor/obstor/pkg/bucket/replication"
+	"github.com/obstor/obstor/pkg/etag"
+	"github.com/obstor/obstor/pkg/event"
+	"github.com/obstor/obstor/pkg/handlers"
+	"github.com/obstor/obstor/pkg/hash"
+	iampolicy "github.com/obstor/obstor/pkg/iam/policy"
+	"github.com/obstor/obstor/pkg/ioutil"
+	"github.com/obstor/obstor/pkg/madmin"
+	"github.com/obstor/obstor/pkg/rpc/json2"
 )
 
 func extractBucketObject(args reflect.Value) (bucketName, objectName string) {
@@ -725,20 +725,20 @@ func (web *webAPIHandlers) RemoveObject(r *http.Request, args *RemoveObjectArgs,
 		if err != nil {
 			return toJSONError(ctx, err, args.BucketName)
 		}
-		objectsCh := make(chan miniogo.ObjectInfo)
+		objectsCh := make(chan obstor.ObjectInfo)
 
 		// Send object names that are needed to be removed to objectsCh
 		go func() {
 			defer close(objectsCh)
 
 			for _, objectName := range args.Objects {
-				objectsCh <- miniogo.ObjectInfo{
+				objectsCh <- obstor.ObjectInfo{
 					Key: objectName,
 				}
 			}
 		}()
 
-		for resp := range core.RemoveObjects(ctx, args.BucketName, objectsCh, miniogo.RemoveObjectsOptions{}) {
+		for resp := range core.RemoveObjects(ctx, args.BucketName, objectsCh, obstor.RemoveObjectsOptions{}) {
 			if resp.Err != nil {
 				return toJSONError(ctx, resp.Err, args.BucketName, resp.ObjectName)
 			}
@@ -1540,7 +1540,7 @@ func (web *webAPIHandlers) Download(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Add content disposition.
-	w.Header().Set(xhttp.ContentDisposition, fmt.Sprintf("attachment; filename=\"%s\"", path.Base(objInfo.Name)))
+	w.Header().Set(xhttp.ContentDisposition, fmt.Sprintf("attachment; filename=\"%s\"", safeDisplayName(path.Base(objInfo.Name))))
 
 	SetHeadGetRespHeaders(w, r.URL.Query())
 
@@ -1811,8 +1811,8 @@ type GetBucketPolicyArgs struct {
 
 // GetBucketPolicyRep - get bucket policy reply.
 type GetBucketPolicyRep struct {
-	UIVersion string                     `json:"uiVersion"`
-	Policy    miniogopolicy.BucketPolicy `json:"policy"`
+	UIVersion string                    `json:"uiVersion"`
+	Policy    obstorpolicy.BucketPolicy `json:"policy"`
 }
 
 // GetBucketPolicy - get bucket policy for the requested prefix.
@@ -1846,7 +1846,7 @@ func (web *webAPIHandlers) GetBucketPolicy(r *http.Request, args *GetBucketPolic
 		return toJSONError(ctx, errInvalidBucketName, args.BucketName)
 	}
 
-	var policyInfo = &miniogopolicy.BucketAccessPolicy{Version: "2012-10-17"}
+	var policyInfo = &obstorpolicy.BucketAccessPolicy{Version: "2012-10-17"}
 	if IsRemoteCallRequired(ctx, args.BucketName, objectAPI) {
 		sr, err := globalDNSConfig.Get(args.BucketName)
 		if err != nil {
@@ -1890,7 +1890,7 @@ func (web *webAPIHandlers) GetBucketPolicy(r *http.Request, args *GetBucketPolic
 	}
 
 	reply.UIVersion = Version
-	reply.Policy = miniogopolicy.GetPolicy(policyInfo.Statements, args.BucketName, args.Prefix)
+	reply.Policy = obstorpolicy.GetPolicy(policyInfo.Statements, args.BucketName, args.Prefix)
 
 	return nil
 }
@@ -1902,9 +1902,9 @@ type ListAllBucketPoliciesArgs struct {
 
 // BucketAccessPolicy - Collection of canned bucket policy at a given prefix.
 type BucketAccessPolicy struct {
-	Bucket string                     `json:"bucket"`
-	Prefix string                     `json:"prefix"`
-	Policy miniogopolicy.BucketPolicy `json:"policy"`
+	Bucket string                    `json:"bucket"`
+	Prefix string                    `json:"prefix"`
+	Policy obstorpolicy.BucketPolicy `json:"policy"`
 }
 
 // ListAllBucketPoliciesRep - get all bucket policy reply.
@@ -1943,7 +1943,7 @@ func (web *webAPIHandlers) ListAllBucketPolicies(r *http.Request, args *ListAllB
 		return toJSONError(ctx, errInvalidBucketName, args.BucketName)
 	}
 
-	var policyInfo = new(miniogopolicy.BucketAccessPolicy)
+	var policyInfo = new(obstorpolicy.BucketAccessPolicy)
 	if IsRemoteCallRequired(ctx, args.BucketName, objectAPI) {
 		sr, err := globalDNSConfig.Get(args.BucketName)
 		if err != nil {
@@ -1982,7 +1982,7 @@ func (web *webAPIHandlers) ListAllBucketPolicies(r *http.Request, args *ListAllB
 	}
 
 	reply.UIVersion = Version
-	for prefix, policy := range miniogopolicy.GetPolicies(policyInfo.Statements, args.BucketName, "") {
+	for prefix, policy := range obstorpolicy.GetPolicies(policyInfo.Statements, args.BucketName, "") {
 		bucketName, objectPrefix := path2BucketObject(prefix)
 		objectPrefix = strings.TrimSuffix(objectPrefix, "*")
 		reply.Policies = append(reply.Policies, BucketAccessPolicy{
@@ -2034,7 +2034,7 @@ func (web *webAPIHandlers) SetBucketPolicy(r *http.Request, args *SetBucketPolic
 		return toJSONError(ctx, errInvalidBucketName, args.BucketName)
 	}
 
-	policyType := miniogopolicy.BucketPolicy(args.Policy)
+	policyType := obstorpolicy.BucketPolicy(args.Policy)
 	if !policyType.IsValidBucketPolicy() {
 		return &json2.Error{
 			Message: "Invalid policy type " + args.Policy,
@@ -2062,14 +2062,14 @@ func (web *webAPIHandlers) SetBucketPolicy(r *http.Request, args *SetBucketPolic
 		if err != nil {
 			return toJSONError(ctx, err, args.BucketName)
 		}
-		var policyInfo = &miniogopolicy.BucketAccessPolicy{Version: "2012-10-17"}
+		var policyInfo = &obstorpolicy.BucketAccessPolicy{Version: "2012-10-17"}
 		if policyStr != "" {
 			if err = json.Unmarshal([]byte(policyStr), policyInfo); err != nil {
 				return toJSONError(ctx, err, args.BucketName)
 			}
 		}
 
-		policyInfo.Statements = miniogopolicy.SetPolicy(policyInfo.Statements, policyType, args.BucketName, args.Prefix)
+		policyInfo.Statements = obstorpolicy.SetPolicy(policyInfo.Statements, policyType, args.BucketName, args.Prefix)
 		if len(policyInfo.Statements) == 0 {
 			if err = core.SetBucketPolicy(ctx, args.BucketName, ""); err != nil {
 				return toJSONError(ctx, err, args.BucketName)
@@ -2105,7 +2105,7 @@ func (web *webAPIHandlers) SetBucketPolicy(r *http.Request, args *SetBucketPolic
 			return toJSONError(ctx, err, args.BucketName)
 		}
 
-		policyInfo.Statements = miniogopolicy.SetPolicy(policyInfo.Statements, policyType, args.BucketName, args.Prefix)
+		policyInfo.Statements = obstorpolicy.SetPolicy(policyInfo.Statements, policyType, args.BucketName, args.Prefix)
 		if len(policyInfo.Statements) == 0 {
 			if err = globalBucketMetadataSys.Update(args.BucketName, bucketPolicyConfig, nil); err != nil {
 				return toJSONError(ctx, err, args.BucketName)
@@ -2201,12 +2201,7 @@ func (web *webAPIHandlers) PresignedGet(r *http.Request, args *PresignedGetArgs,
 	}
 
 	reply.UIVersion = Version
-	// Issue a one-time token (5-min TTL) appended to the presigned URL.
-	otp, otpErr := globalTokenStore.Issue(5 * time.Minute)
-	if otpErr != nil {
-		return toJSONError(ctx, otpErr)
-	}
-	reply.URL = presignedGet(args.HostName, args.BucketName, args.ObjectName, args.Expiry, creds, region) + "&x-obstor-otp=" + otp
+	reply.URL = presignedGet(args.HostName, args.BucketName, args.ObjectName, args.Expiry, creds, region)
 	return nil
 }
 
@@ -2238,7 +2233,7 @@ func presignedGet(host, bucket, object string, expiry int64, creds auth.Credenti
 	query.Set(xhttp.AmzCredential, credential)
 	query.Set(xhttp.AmzDate, dateStr)
 	query.Set(xhttp.AmzExpires, expiryStr)
-	query.Set(xhttp.ContentDisposition, fmt.Sprintf("attachment; filename=\"%s\"", object))
+	query.Set(xhttp.ContentDisposition, fmt.Sprintf("attachment; filename=\"%s\"", safeDisplayName(object)))
 	// Set session token if available.
 	if sessionToken != "" {
 		query.Set(xhttp.AmzSecurityToken, sessionToken)
@@ -2520,9 +2515,19 @@ func (web *webAPIHandlers) GetObjectLocations(r *http.Request, args *GetObjectLo
 		return toJSONError(ctx, errServerNotInitialized)
 	}
 
-	_, _, authErr := webRequestAuthenticate(r)
+	claims, owner, authErr := webRequestAuthenticate(r)
 	if authErr != nil {
 		return toJSONError(ctx, authErr)
+	}
+	if !globalIAMSys.IsAllowed(iampolicy.Args{
+		AccountName:     claims.AccessKey,
+		Action:          iampolicy.ListBucketAction,
+		BucketName:      args.BucketName,
+		ConditionValues: getConditionValues(r, "", claims.AccessKey, claims.Map()),
+		IsOwner:         owner,
+		Claims:          claims.Map(),
+	}) {
+		return toJSONError(ctx, errAccessDenied, args.BucketName)
 	}
 
 	reply.Objects = []ObjectLocation{}
@@ -2600,9 +2605,20 @@ func (web *webAPIHandlers) GetObjectChecksums(r *http.Request, args *GetObjectCh
 		return toJSONError(ctx, errServerNotInitialized)
 	}
 
-	_, _, authErr := webRequestAuthenticate(r)
+	claims, owner, authErr := webRequestAuthenticate(r)
 	if authErr != nil {
 		return toJSONError(ctx, authErr)
+	}
+	if !globalIAMSys.IsAllowed(iampolicy.Args{
+		AccountName:     claims.AccessKey,
+		Action:          iampolicy.GetObjectAction,
+		BucketName:      args.BucketName,
+		ObjectName:      args.ObjectName,
+		ConditionValues: getConditionValues(r, "", claims.AccessKey, claims.Map()),
+		IsOwner:         owner,
+		Claims:          claims.Map(),
+	}) {
+		return toJSONError(ctx, errAccessDenied, args.BucketName, args.ObjectName)
 	}
 
 	gr, err := objectAPI.GetObjectNInfo(ctx, args.BucketName, args.ObjectName, nil, r.Header, readLock, ObjectOptions{})
@@ -2691,11 +2707,7 @@ func (web *webAPIHandlers) PresignedPut(r *http.Request, args *PresignedPutArgs,
 
 	region := globalServerRegion
 	reply.UIVersion = Version
-	otp, otpErr := globalTokenStore.Issue(5 * time.Minute)
-	if otpErr != nil {
-		return toJSONError(ctx, otpErr)
-	}
-	reply.URL = presignedPut(args.HostName, args.BucketName, objectName, creds, region) + "&x-obstor-otp=" + otp
+	reply.URL = presignedPut(args.HostName, args.BucketName, objectName, creds, region)
 	return nil
 }
 
@@ -3005,6 +3017,9 @@ func (web *webAPIHandlers) AddIAMUser(r *http.Request, args *AddIAMUserArgs, rep
 	}
 
 	if strings.TrimSpace(args.Policy) != "" {
+		if _, err := webAdminAuth(r, iampolicy.AttachPolicyAdminAction); err != nil {
+			return toJSONError(ctx, err)
+		}
 		if err := globalIAMSys.PolicyDBSet(ak, args.Policy, false); err != nil {
 			return toJSONError(ctx, err)
 		}
@@ -3179,8 +3194,9 @@ func (web *webAPIHandlers) SetBucketPolicyDoc(r *http.Request, args *SetBucketPo
 
 // Per-bucket feature toggles
 const (
-	obstorTagS3Enabled   = "__obstor_s3_enabled"
-	obstorTagSFTPEnabled = "__obstor_sftp_enabled"
+	obstorTagS3Enabled      = "__obstor_s3_enabled"
+	obstorTagSFTPEnabled    = "__obstor_sftp_enabled"
+	obstorReservedTagPrefix = "__obstor_"
 )
 
 // Check if the feature toggle is enabled
@@ -3250,8 +3266,19 @@ type GetBucketTogglesRep struct {
 // Feature toggles for the given bucket
 func (web *webAPIHandlers) GetBucketToggles(r *http.Request, args *GetBucketTogglesArgs, reply *GetBucketTogglesRep) error {
 	ctx := newWebContext(r, args, "WebGetBucketToggles")
-	if _, _, authErr := webRequestAuthenticate(r); authErr != nil {
+	claims, owner, authErr := webRequestAuthenticate(r)
+	if authErr != nil {
 		return toJSONError(ctx, authErr)
+	}
+	if !globalIAMSys.IsAllowed(iampolicy.Args{
+		AccountName:     claims.AccessKey,
+		Action:          iampolicy.GetBucketTaggingAction,
+		BucketName:      args.BucketName,
+		ConditionValues: getConditionValues(r, "", claims.AccessKey, claims.Map()),
+		IsOwner:         owner,
+		Claims:          claims.Map(),
+	}) {
+		return toJSONError(ctx, errAccessDenied)
 	}
 	reply.S3Enabled = IsBucketS3Enabled(args.BucketName)
 	reply.SFTPEnabled = IsBucketSFTPEnabled(args.BucketName)

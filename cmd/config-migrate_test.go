@@ -36,7 +36,7 @@ func TestServerConfigMigrateV1(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Init Test config failed")
 	}
-	rootPath, err := os.MkdirTemp(globalTestTmpDir, "minio-")
+	rootPath, err := os.MkdirTemp(globalTestTmpDir, "obstor-")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -73,7 +73,7 @@ func TestServerConfigMigrateV1(t *testing.T) {
 // Test if all migrate code returns nil when config file does not
 // exist
 func TestServerConfigMigrateInexistentConfig(t *testing.T) {
-	rootPath, err := os.MkdirTemp(globalTestTmpDir, "minio-")
+	rootPath, err := os.MkdirTemp(globalTestTmpDir, "obstor-")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -163,7 +163,7 @@ func TestServerConfigMigrateInexistentConfig(t *testing.T) {
 
 // Test if a config migration from v2 to v33 is successfully done
 func TestServerConfigMigrateV2toV33(t *testing.T) {
-	rootPath, err := os.MkdirTemp(globalTestTmpDir, "minio-")
+	rootPath, err := os.MkdirTemp(globalTestTmpDir, "obstor-")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -233,7 +233,7 @@ func TestServerConfigMigrateV2toV33(t *testing.T) {
 
 // Test if all migrate code returns error with corrupted config files
 func TestServerConfigMigrateFaultyConfig(t *testing.T) {
-	rootPath, err := os.MkdirTemp(globalTestTmpDir, "minio-")
+	rootPath, err := os.MkdirTemp(globalTestTmpDir, "obstor-")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -330,7 +330,7 @@ func TestServerConfigMigrateFaultyConfig(t *testing.T) {
 
 // Test if all migrate code returns error with corrupted config files
 func TestServerConfigMigrateCorruptedConfig(t *testing.T) {
-	rootPath, err := os.MkdirTemp(globalTestTmpDir, "minio-")
+	rootPath, err := os.MkdirTemp(globalTestTmpDir, "obstor-")
 	if err != nil {
 		t.Fatal(err)
 	}

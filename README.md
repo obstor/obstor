@@ -1,12 +1,10 @@
 # :lobster: Obstor Quickstart Guide
-[![Discord](https://pgg.net/discord?type=svg)](https://pgg.net/discord)
+[![Obstor](https://raw.githubusercontent.com/obstor/obstor/main/.github/logo.svg?sanitize=true)](https://obster.net)
 
-[![Obstor](https://raw.githubusercontent.com/cloudment/obstor/main/.github/logo.svg?sanitize=true)](https://obster.net)
-
-Obstor is a high-performance object storage system supporting popular transfer protocols like S3 and SFTP, making it suitable for building high-performance infrastructure for machine learning, analytics, and application data workloads. Obstor is based on the 2021 Apache-licensed release of MinIO, prior to the project's transition to AGPL and later archival.
+Obstor is a high-performance object storage system supporting popular transfer protocols like S3 and SFTP, making it suitable for building high-performance infrastructure for machine learning, analytics, and application data workloads. Obstor is based on the 2021 Apache-licensed release of Obstor, prior to the project's transition to AGPL and later archival.
 
 This README provides quickstart instructions on running Obstor on baremetal hardware, including Docker-based installations. For Kubernetes environments,
-use the [Obstor Kubernetes Operator](https://github.com/minio/operator/blob/master/README.md).
+use the [Obstor Kubernetes Operator](https://github.com/obstor/operator/blob/master/README.md).
 
 # Docker Installation
 
@@ -22,15 +20,15 @@ for more complete documentation.
 Run the following command to run the latest stable image of Obstor on a Docker container using an ephemeral data volume:
 
 ```sh
-docker run -p 9000:9000 ghcr.io/cloudment/obstor server /data
+docker run -p 9000:9000 ghcr.io/obstor/obstor server /data
 ```
 
 The Obstor deployment starts using default root credentials `obstoradmin:obstoradmin`. You can test the deployment using the Obstor Browser, an embedded
 web-based object browser built into Obstor Server. Point a web browser running on the host machine to http://127.0.0.1:9000 and log in with the
 root credentials. You can use the Browser to create buckets, upload objects, and browse the contents of the Obstor server.
 
-You can also connect using any S3-compatible tool, such as the Obstor Client `mc` commandline tool. See
-[Test using Obstor Client `mc`](#test-using-obstor-client-mc) for more information on using the `mc` commandline tool. For application developers,
+You can also connect using any S3-compatible tool, such as `rclone`, `rsync` (over an S3 mount), or the AWS CLI. See
+[Test using an S3 client](#test-using-an-s3-client) for more information. For application developers,
 see https://obstor.net/docs/ and click **OBSTOR SDKS** in the navigation to view Obstor SDKs for supported languages.
 
 
@@ -71,8 +69,8 @@ The Obstor deployment starts using default root credentials `obstoradmin:obstora
 web-based object browser built into Obstor Server. Point a web browser running on the host machine to http://127.0.0.1:9000 and log in with the
 root credentials. You can use the Browser to create buckets, upload objects, and browse the contents of the Obstor server.
 
-You can also connect using any S3-compatible tool, such as the Obstor Client `mc` commandline tool. See
-[Test using Obstor Client `mc`](#test-using-obstor-client-mc) for more information on using the `mc` commandline tool. For application developers,
+You can also connect using any S3-compatible tool, such as `rclone`, `rsync` (over an S3 mount), or the AWS CLI. See
+[Test using an S3 client](#test-using-an-s3-client) for more information. For application developers,
 see https://obstor.net/docs/ and click **OBSTOR SDKS** in the navigation to view Obstor SDKs for supported languages.
 
 
@@ -99,8 +97,8 @@ The Obstor deployment starts using default root credentials `obstoradmin:obstora
 web-based object browser built into Obstor Server. Point a web browser running on the host machine to http://127.0.0.1:9000 and log in with the
 root credentials. You can use the Browser to create buckets, upload objects, and browse the contents of the Obstor server.
 
-You can also connect using any S3-compatible tool, such as the Obstor Client `mc` commandline tool. See
-[Test using Obstor Client `mc`](#test-using-obstor-client-mc) for more information on using the `mc` commandline tool. For application developers,
+You can also connect using any S3-compatible tool, such as `rclone`, `rsync` (over an S3 mount), or the AWS CLI. See
+[Test using an S3 client](#test-using-an-s3-client) for more information. For application developers,
 see https://obstor.net/docs/ and click **OBSTOR SDKS** in the navigation to view Obstor SDKs for supported languages.
 
 > NOTE: Standalone Obstor servers are best suited for early development and evaluation. Certain features such as versioning, object locking, and bucket replication
@@ -120,8 +118,8 @@ The Obstor deployment starts using default root credentials `obstoradmin:obstora
 web-based object browser built into Obstor Server. Point a web browser running on the host machine to http://127.0.0.1:9000 and log in with the
 root credentials. You can use the Browser to create buckets, upload objects, and browse the contents of the Obstor server.
 
-You can also connect using any S3-compatible tool, such as the Obstor Client `mc` commandline tool. See
-[Test using Obstor Client `mc`](#test-using-obstor-client-mc) for more information on using the `mc` commandline tool. For application developers,
+You can also connect using any S3-compatible tool, such as `rclone`, `rsync` (over an S3 mount), or the AWS CLI. See
+[Test using an S3 client](#test-using-an-s3-client) for more information. For application developers,
 see https://obstor.net/docs/ and click **OBSTOR SDKS** in the navigation to view Obstor SDKs for supported languages.
 
 
@@ -199,38 +197,34 @@ The above statement is also valid for all gateway backends.
 ## Test using Browser Dashboard
 Obstor Server comes with an embedded web based object browser. Point your web browser to http://127.0.0.1:9000 to ensure your server has started successfully.
 
-![Dashboard](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/dashboard.png)
+![Dashboard](https://raw.githubusercontent.com/obstor/obstor/main/docs/screenshots/dashboard.png)
 
-![Object Browser](https://raw.githubusercontent.com/cloudment/obstor/main/docs/screenshots/browser.png)
+![Object Browser](https://raw.githubusercontent.com/obstor/obstor/main/docs/screenshots/browser.png)
 
-## Test using Obstor Client `mc`
-`mc` provides a modern alternative to UNIX commands like ls, cat, cp, mirror, diff etc. It supports filesystems and Amazon S3-compatible cloud storage services. Follow the Obstor Client [Quickstart Guide](https://obstor.net/docs/obstor-client-quickstart-guide) for further instructions.
+## Test using an S3 client
+Obstor is S3-compatible, so any S3 client works for data access. `rclone` is a modern alternative to UNIX commands like ls, cat, cp, sync, etc. against S3-compatible storage; `rsync` works over an S3 mount (for example an `rclone mount` or `s3fs` mount); the AWS CLI (`aws s3`) also works. Point the client at the server endpoint with a root or user credential.
 
 # Upgrading Obstor
-Obstor server supports rolling upgrades, i.e. you can update one Obstor instance at a time in a distributed cluster. This allows upgrades with no downtime. Upgrades can be done manually by replacing the binary with the latest release and restarting all servers in a rolling fashion. However, we recommend all our users to use [`mc admin update`](https://obstor.net/docs/obstor-admin-complete-guide#update) from the client. This will update all the nodes in the cluster simultaneously and restart them, as shown in the following command from the Obstor client (mc):
+Obstor server supports rolling upgrades, i.e. you can update one Obstor instance at a time in a distributed cluster. This allows upgrades with no downtime. Upgrade by replacing the binary with the latest release and restarting servers one at a time in a rolling fashion.
 
-```
-mc admin update <obstor alias, e.g., myobstor>
-```
-
-> NOTE: some releases might not allow rolling upgrades, this is always called out in the release notes and it is generally advised to read release notes before upgrading. In such a situation `mc admin update` is the recommended upgrading mechanism to upgrade all servers at once.
+> NOTE: some releases might not allow rolling upgrades, this is always called out in the release notes and it is generally advised to read release notes before upgrading.
 
 ## Important things to remember during Obstor upgrades
 
-- `mc admin update` will only work if the user running Obstor has write access to the parent directory where the binary is located, for example if the current binary is at `/usr/local/bin/obstor`, you would need write access to `/usr/local/bin`.
-- `mc admin update` updates and restarts all servers simultaneously, applications would retry and continue their respective operations upon upgrade.
-- `mc admin update` is disabled in kubernetes/container environments, container environments provide their own mechanisms to rollout of updates.
-- In the case of federated setups `mc admin update` should be run against each cluster individually. Avoid updating `mc` to any new releases until all clusters have been successfully updated.
-- If using `kes` as KMS with Obstor, just replace the binary and restart `kes` more information about `kes` can be found [here](https://github.com/minio/kes/wiki)
+- Replacing the binary only works if the user running Obstor has write access to the parent directory where the binary is located, for example if the current binary is at `/usr/local/bin/obstor`, you would need write access to `/usr/local/bin`.
+- Restart servers one at a time; applications retry and continue their respective operations during the rolling restart.
+- In kubernetes/container environments, use the platform's own mechanism to roll out the updated image.
+- In the case of federated setups, upgrade each cluster individually.
+- If using `kes` as KMS with Obstor, just replace the binary and restart `kes` more information about `kes` can be found [here](https://github.com/obstor/kes/wiki)
 - If using Vault as KMS with Obstor, ensure you have followed the Vault upgrade procedure outlined here: https://www.vaultproject.io/docs/upgrading/index.html
 - If using etcd with Obstor for the federation, ensure you have followed the etcd upgrade procedure outlined here: https://github.com/etcd-io/etcd/blob/master/Documentation/upgrades/upgrading-etcd.md
 
 # Explore Further
 - [Obstor Erasure Code QuickStart Guide](https://obstor.net/docs/obstor-erasure-code-quickstart-guide)
-- [Use `mc` with Obstor Server](https://obstor.net/docs/obstor-client-quickstart-guide)
+- [Use `rclone` with Obstor Server](https://obstor.net/docs/rclone-with-obstor)
 - [Use `aws-cli` with Obstor Server](https://obstor.net/docs/aws-cli-with-obstor)
 - [Use `s3cmd` with Obstor Server](https://obstor.net/docs/s3cmd-with-obstor)
-- [Use `minio-go` SDK with Obstor Server](https://obstor.net/docs/golang-client-quickstart-guide)
+- [Use `obstor-go` SDK with Obstor Server](https://obstor.net/docs/golang-client-quickstart-guide)
 - [The Obstor documentation website](https://obstor.net/docs/obstor)
 
 # Contribute to Obstor Project

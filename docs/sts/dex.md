@@ -37,9 +37,7 @@ time="2026-05-12T20:45:50Z" level=info msg="listening (http) on 0.0.0.0:5556"
   -cscopes groups,openid,email,profile
 ```
 
-```bash
-~ mc admin policy add admin allaccess.json
-```
+Create a policy named `allaccess` from the file below using Obstor's API or the dashboard.
 
 Contents of `allaccess.json`
 ```json
@@ -90,7 +88,7 @@ Now you have successfully configured Dex IdP with Obstor.
 export OBSTOR_IDENTITY_OPENID_CLAIM_NAME=groups
 ```
 
-and add relevant policies on Obstor using `mc admin policy add myobstor/ <group_name> group-access.json`
+and add the relevant per-group policies (for example, a `group-access.json` policy keyed by `<group_name>`).
 
 ## Explore Further
 

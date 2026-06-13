@@ -117,7 +117,7 @@ func TestIsValidVolname(t *testing.T) {
 // creates a temp dir and sets up xlStorage layer.
 // returns xlStorage layer, temp dir path to be used for the purpose of tests.
 func newXLStorageTestSetup() (*xlStorageDiskIDCheck, string, error) {
-	diskPath, err := os.MkdirTemp(globalTestTmpDir, "minio-")
+	diskPath, err := os.MkdirTemp(globalTestTmpDir, "obstor-")
 	if err != nil {
 		return nil, "", err
 	}
@@ -154,7 +154,7 @@ func createPermDeniedFile(t *testing.T) (permDeniedDir string) {
 	}()
 
 	var err error
-	if permDeniedDir, err = os.MkdirTemp(globalTestTmpDir, "minio-"); err != nil {
+	if permDeniedDir, err = os.MkdirTemp(globalTestTmpDir, "obstor-"); err != nil {
 		errMsg = fmt.Sprintf("Unable to create temporary directory. %v", err)
 		return permDeniedDir
 	}
@@ -192,7 +192,7 @@ func removePermDeniedFile(permDeniedDir string) {
 
 // TestXLStorages xlStorage.getDiskInfo()
 func TestXLStorageGetDiskInfo(t *testing.T) {
-	path, err := os.MkdirTemp(globalTestTmpDir, "minio-")
+	path, err := os.MkdirTemp(globalTestTmpDir, "obstor-")
 	if err != nil {
 		t.Fatalf("Unable to create a temporary directory, %s", err)
 	}
@@ -215,7 +215,7 @@ func TestXLStorageGetDiskInfo(t *testing.T) {
 }
 
 func TestXLStorageIsDirEmpty(t *testing.T) {
-	tmp, err := os.MkdirTemp(globalTestTmpDir, "minio-")
+	tmp, err := os.MkdirTemp(globalTestTmpDir, "obstor-")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -427,9 +427,9 @@ func TestXLStorageReadAll(t *testing.T) {
 // TestNewXLStorage all the cases handled in xlStorage storage layer initialization.
 func TestNewXLStorage(t *testing.T) {
 	// Temporary dir name.
-	tmpDirName := globalTestTmpDir + SlashSeparator + "minio-" + nextSuffix()
+	tmpDirName := globalTestTmpDir + SlashSeparator + "obstor-" + nextSuffix()
 	// Temporary file name.
-	tmpFileName := globalTestTmpDir + SlashSeparator + "minio-" + nextSuffix()
+	tmpFileName := globalTestTmpDir + SlashSeparator + "obstor-" + nextSuffix()
 	f, _ := os.Create(tmpFileName)
 	f.Close()
 	defer os.Remove(tmpFileName)
@@ -525,7 +525,7 @@ func TestXLStorageMakeVol(t *testing.T) {
 
 	// TestXLStorage for permission denied.
 	if runtime.GOOS != globalWindowsOSName {
-		permDeniedDir, err := os.MkdirTemp(globalTestTmpDir, "minio-")
+		permDeniedDir, err := os.MkdirTemp(globalTestTmpDir, "obstor-")
 		if err != nil {
 			t.Fatalf("Unable to create temporary directory. %v", err)
 		}
@@ -622,7 +622,7 @@ func TestXLStorageDeleteVol(t *testing.T) {
 	// TestXLStorage for permission denied.
 	if runtime.GOOS != globalWindowsOSName {
 		var permDeniedDir string
-		if permDeniedDir, err = os.MkdirTemp(globalTestTmpDir, "minio-"); err != nil {
+		if permDeniedDir, err = os.MkdirTemp(globalTestTmpDir, "obstor-"); err != nil {
 			t.Fatalf("Unable to create temporary directory. %v", err)
 		}
 		defer removePermDeniedFile(permDeniedDir)

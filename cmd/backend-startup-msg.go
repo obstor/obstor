@@ -35,7 +35,7 @@ func printBackendStartupMessage(apiEndPoints []string, backendType string) {
 	// Prints credential.
 	printBackendCommonMsg(strippedAPIEndpoints)
 
-	// Prints `mc` cli configuration message chooses
+	// Prints S3 client configuration message, chooses
 	// first endpoint as default.
 	printCLIAccessMsg(strippedAPIEndpoints[0], fmt.Sprintf("my%s", backendType))
 

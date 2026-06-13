@@ -99,10 +99,13 @@ start_frontend() {
 
         # Enable TLS if certs exist
         PROTO="http"
+        CA_CERT=""
         if [ -n "$CERTS_DIR" ] && [ -f "$CERTS_DIR/public.crt" ]; then
             PROTO="https"
-        elif [ -f /etc/minio/certs/public.crt ]; then
+            CA_CERT="$CERTS_DIR/public.crt"
+        elif [ -f /etc/obstor/certs/public.crt ]; then
             PROTO="https"
+            CA_CERT="/etc/obstor/certs/public.crt"
         fi
 
         # OBSTOR_ENDPOINT is internal RPC
@@ -114,10 +117,16 @@ start_frontend() {
             DEFAULT_HOST="$EXTERNAL_HOST:$API_PORT"
         fi
 
+        if [ "$PROTO" = "https" ]; then
+            DEFAULT_ENDPOINT="https://${EXTERNAL_HOST}:${API_PORT}"
+        else
+            DEFAULT_ENDPOINT="http://127.0.0.1:${API_PORT}"
+        fi
+
         PORT=3000 \
         HOSTNAME=127.0.0.1 \
-        NODE_TLS_REJECT_UNAUTHORIZED=0 \
-        OBSTOR_ENDPOINT=${OBSTOR_ENDPOINT:-${PROTO}://127.0.0.1:${API_PORT}} \
+        ${CA_CERT:+NODE_EXTRA_CA_CERTS=$CA_CERT} \
+        OBSTOR_ENDPOINT=${OBSTOR_ENDPOINT:-${DEFAULT_ENDPOINT}} \
         OBSTOR_HOST=${OBSTOR_HOST:-${DEFAULT_HOST}} \
         node /opt/frontend/server.js > /dev/null &
     fi

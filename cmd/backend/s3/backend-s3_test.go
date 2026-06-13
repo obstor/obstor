@@ -21,14 +21,14 @@ import (
 	"fmt"
 	"testing"
 
-	miniogo "github.com/obstor/obstor-go/v7"
+	obstorgo "github.com/obstor/obstor-go/v7"
 	"github.com/obstor/obstor/pkg/hash"
 
 	obstor "github.com/obstor/obstor/cmd"
 )
 
-func errResponse(code string) miniogo.ErrorResponse {
-	return miniogo.ErrorResponse{
+func errResponse(code string) obstorgo.ErrorResponse {
+	return obstorgo.ErrorResponse{
 		Code: code,
 	}
 }
@@ -63,7 +63,7 @@ func TestS3ToObjectError(t *testing.T) {
 			inputErr:    errResponse("NoSuchBucket"),
 			expectedErr: obstor.BucketNotFound{},
 		},
-		// with empty Object in miniogo.ErrorRepsonse, NoSuchKey
+		// with empty Object in obstorgo.ErrorRepsonse, NoSuchKey
 		// is interpreted as BucketNotFound
 		{
 			inputErr:    errResponse("NoSuchKey"),
@@ -95,7 +95,7 @@ func TestS3ToObjectError(t *testing.T) {
 		},
 		// Special test case for NoSuchKey with object name
 		{
-			inputErr: miniogo.ErrorResponse{
+			inputErr: obstorgo.ErrorResponse{
 				Code: "NoSuchKey",
 			},
 			expectedErr: obstor.ObjectNotFound{
@@ -109,7 +109,7 @@ func TestS3ToObjectError(t *testing.T) {
 		// N B error values that aren't of expected types
 		// should be left untouched.
 		// Special test case for error that is not of type
-		// miniogo.ErrorResponse
+		// obstorgo.ErrorResponse
 		{
 			inputErr:    fmt.Errorf("not a ErrorResponse"),
 			expectedErr: fmt.Errorf("not a ErrorResponse"),

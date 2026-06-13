@@ -1,16 +1,10 @@
 #!/bin/sh
 
-# create buckets with versioning enabled
-mc mb source/bucket --l    # --l flag enables object locking.If not needed, uncomment the 'mc version enable' commands
-mc mb dest/bucket  --l 
-#mc version enable source/bucket
-#mc version enable dest/bucket
+HOST=localhost:9000
+SRC="aws --endpoint-url http://$HOST s3api"
 
-#### Create a replication admin on source alias
-# create a replication admin user : repladmin
-mc admin user add source repladmin repladmin123
-
-# create a replication policy for repladmin
+$SRC create-bucket --bucket bucket --object-lock-enabled-for-bucket
+# $SRC put-bucket-versioning --bucket bucket --versioning-configuration Status=Enabled
 cat > repladmin-policy-source.json <<EOF
 {
     "Version": "2012-10-17",
@@ -22,7 +16,7 @@ cat > repladmin-policy-source.json <<EOF
         ],
         "Effect": "Allow",
         "Sid": ""
-     }, 
+     },
      {
       "Effect": "Allow",
       "Action": [
@@ -40,19 +34,7 @@ cat > repladmin-policy-source.json <<EOF
     ]
    }
 EOF
-mc admin policy add source repladmin-policy ./repladmin-policy-source.json
 cat ./repladmin-policy-source.json
-
-#assign this replication policy to repladmin
-mc admin policy set source repladmin-policy user=repladmin
-
-### on dest alias
-# Create a replication user : repluser on dest alias
-mc admin user add dest repluser repluser123
-
-# create a replication policy for repluser
-# Remove "s3:GetBucketObjectLockConfiguration" if object locking is not enabled, i.e. bucket was not created with `mc mb --with-lock` option
-# Remove "s3:ReplicateDelete" if delete marker replication is not required
 cat > replpolicy.json <<EOF
 {
  "Version": "2012-10-17",
@@ -92,15 +74,5 @@ cat > replpolicy.json <<EOF
  ]
 }
 EOF
-mc admin policy add dest replpolicy ./replpolicy.json
 cat ./replpolicy.json
-
-#assign this replication policy to repluser
-mc admin policy set dest replpolicy user=repluser
-
-# define remote target for replication from source/bucket -> dest/bucket
-mc admin bucket remote add repladminAlias/bucket http://repluser:repluser123@localhost:9000/bucket --service replication --region us-east-1
-
-echo "Now, use this ARN to add replication rules using 'mc replicate add' command"
-# use arn returned by above command to create a replication policy on the source/bucket with `mc replicate add`
-#mc replicate add source/bucket --priority 1 --remote-bucket bucket --arn arn:obstor:replication:us-east-1:21fb52f5857473e2dbdcf62dcac21240861caf0f8301c3d26aad4de7677869c7:bucket --replicate delete-marker,delete
+echo "Use this ARN to add replication rules on Obstor's dashboard or API"

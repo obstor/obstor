@@ -22,10 +22,10 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/obstor/obstor/cmd/logger"
-	"github.com/obstor/obstor/pkg/bucket/policy"
 	humanize "github.com/dustin/go-humanize"
 	"github.com/gorilla/mux"
+	"github.com/obstor/obstor/cmd/logger"
+	"github.com/obstor/obstor/pkg/bucket/policy"
 )
 
 const (

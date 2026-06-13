@@ -10,25 +10,25 @@ Only Obstor generates version IDs, and they can't be edited. Version IDs are sim
 
 When you PUT an object in a versioning-enabled bucket, the noncurrent version is not overwritten. The following figure shows that when a new version of `spark.csv` is PUT into a bucket that already contains an object with the same name, the original object (ID = `ede336f2`) remains in the bucket, Obstor generates a new version (ID = `fae684da`), and adds the newer version to the bucket.
 
-![put](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning-put-enabled.png)
+![put](https://raw.githubusercontent.com/obstor/obstor/main/docs/bucket/versioning/versioning-put-enabled.png)
 
 This means accidental overwrites or deletes of objects are protected, allows previous version of on object to be retrieved.
 
 When you DELETE an object, all versions remain in the bucket and Obstor adds a delete marker, as shown below:
 
-![delete](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning-delete-enabled.png)
+![delete](https://raw.githubusercontent.com/obstor/obstor/main/docs/bucket/versioning/versioning-delete-enabled.png)
 
 Now the delete marker becomes the current version of the object. GET requests by default always retrieve the latest stored version. So performing a simple GET object request when the current version is a delete marker would return `404` `The specified key does not exist` as shown below:
 
-![get](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning-get-enabled.png)
+![get](https://raw.githubusercontent.com/obstor/obstor/main/docs/bucket/versioning/versioning-get-enabled.png)
 
 GET requests by specifying a version ID as shown below, you can retrieve the specific object version `fae684da`.
 
-![get_version_id](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning-get-enabled-id.png)
+![get_version_id](https://raw.githubusercontent.com/obstor/obstor/main/docs/bucket/versioning/versioning-get-enabled-id.png)
 
 To permanently delete an object you need to specify the version you want to delete, only the user with appropriate permissions can permanently delete a version.  As shown below DELETE request called with a specific version id permanently deletes an object from a bucket. Delete marker is not added for DELETE requests with version id.
 
-![delete_version_id](https://raw.githubusercontent.com/cloudment/obstor/main/docs/bucket/versioning/versioning-delete-enabled-id.png)
+![delete_version_id](https://raw.githubusercontent.com/obstor/obstor/main/docs/bucket/versioning/versioning-delete-enabled-id.png)
 
 ## Concepts
 - All Buckets on Obstor are always in one of the following states: unversioned (the default) and all other existing deployments, versioning-enabled, or versioning-suspended.
@@ -66,37 +66,37 @@ Only users with explicit permissions or the root credential can configure the ve
 
 ```java
 import net.obstor.EnableVersioningArgs;
-import net.obstor.MinioClient;
-import net.obstor.errors.MinioException;
+import net.obstor.ObstorClient;
+import net.obstor.errors.ObstorException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 public class EnableVersioning {
-  /** MinioClient.enableVersioning() example. */
+  /** ObstorClient.enableVersioning() example. */
   public static void main(String[] args)
       throws IOException, NoSuchAlgorithmException, InvalidKeyException {
     try {
-      /* play.obstor.net for test and development. */
-      MinioClient minioClient =
-          MinioClient.builder()
-              .endpoint("https://play.obstor.net")
+      /* demo.obstor.net for test and development. */
+      ObstorClient obstorClient =
+          ObstorClient.builder()
+              .endpoint("https://demo.obstor.net")
               .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
               .build();
 
       /* Amazon S3: */
-      // MinioClient minioClient =
-      //     MinioClient.builder()
+      // ObstorClient obstorClient =
+      //     ObstorClient.builder()
       //         .endpoint("https://s3.amazonaws.com")
       //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
       //         .build();
 
       // Enable versioning on 'my-bucketname'.
-      minioClient.enableVersioning(EnableVersioningArgs.builder().bucket("my-bucketname").build());
+      obstorClient.enableVersioning(EnableVersioningArgs.builder().bucket("my-bucketname").build());
 
       System.out.println("Bucket versioning is enabled successfully");
 
-    } catch (MinioException e) {
+    } catch (ObstorException e) {
       System.out.println("Error occurred: " + e);
     }
   }
@@ -107,32 +107,32 @@ public class EnableVersioning {
 
 ```java
 public class IsVersioningEnabled {
-  /** MinioClient.isVersioningEnabled() example. */
+  /** ObstorClient.isVersioningEnabled() example. */
   public static void main(String[] args)
       throws IOException, NoSuchAlgorithmException, InvalidKeyException {
     try {
-      /* play.obstor.net for test and development. */
-      MinioClient minioClient =
-          MinioClient.builder()
-              .endpoint("https://play.obstor.net")
+      /* demo.obstor.net for test and development. */
+      ObstorClient obstorClient =
+          ObstorClient.builder()
+              .endpoint("https://demo.obstor.net")
               .credentials("Q3AM3UQ867SPQQA43P2F", "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG")
               .build();
 
       /* Amazon S3: */
-      // MinioClient minioClient =
-      //     MinioClient.builder()
+      // ObstorClient obstorClient =
+      //     ObstorClient.builder()
       //         .endpoint("https://s3.amazonaws.com")
       //         .credentials("YOUR-ACCESSKEY", "YOUR-SECRETACCESSKEY")
       //         .build();
 
       // Create bucket 'my-bucketname' if it doesn`t exist.
-      if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket("my-bucketname").build())) {
-        minioClient.makeBucket(MakeBucketArgs.builder().bucket("my-bucketname").build());
+      if (!obstorClient.bucketExists(BucketExistsArgs.builder().bucket("my-bucketname").build())) {
+        obstorClient.makeBucket(MakeBucketArgs.builder().bucket("my-bucketname").build());
         System.out.println("my-bucketname is created successfully");
       }
 
       boolean isVersioningEnabled =
-          minioClient.isVersioningEnabled(
+          obstorClient.isVersioningEnabled(
               IsVersioningEnabledArgs.builder().bucket("my-bucketname").build());
       if (isVersioningEnabled) {
         System.out.println("Bucket versioning is enabled");
@@ -140,11 +140,11 @@ public class IsVersioningEnabled {
         System.out.println("Bucket versioning is disabled");
       }
       // Enable versioning on 'my-bucketname'.
-      minioClient.enableVersioning(EnableVersioningArgs.builder().bucket("my-bucketname").build());
+      obstorClient.enableVersioning(EnableVersioningArgs.builder().bucket("my-bucketname").build());
       System.out.println("Bucket versioning is enabled successfully");
 
       isVersioningEnabled =
-          minioClient.isVersioningEnabled(
+          obstorClient.isVersioningEnabled(
               IsVersioningEnabledArgs.builder().bucket("my-bucketname").build());
       if (isVersioningEnabled) {
         System.out.println("Bucket versioning is enabled");
@@ -152,7 +152,7 @@ public class IsVersioningEnabled {
         System.out.println("Bucket versioning is disabled");
       }
 
-    } catch (MinioException e) {
+    } catch (ObstorException e) {
       System.out.println("Error occurred: " + e);
     }
   }
@@ -160,7 +160,7 @@ public class IsVersioningEnabled {
 ```
 
 ## Explore Further
-- Use `minio-java` SDK with Obstor Server
+- Use `obstor-java` SDK with Obstor Server
 - [Object Lock and Immutablity Guide](/docs/bucket/retention)
 - Obstor Admin Complete Guide
 - [The Obstor documentation website](/docs)

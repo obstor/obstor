@@ -49,8 +49,6 @@ var globalHandlers = []mux.MiddlewareFunc{
 	// routes them accordingly. Client receives a HTTP error for
 	// invalid/unsupported signatures.
 	setAuthHandler,
-	// Validates one-time presigned URL tokens.
-	setPresignedOTPHandler,
 	// Validates all incoming requests to have a valid date header.
 	setTimeValidityHandler,
 	// Adds cache control for all browser requests.

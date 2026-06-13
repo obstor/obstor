@@ -27,8 +27,8 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/obstor/obstor/cmd/logger"
 	"github.com/klauspost/compress/s2"
+	"github.com/obstor/obstor/cmd/logger"
 	"github.com/tinylib/msgp/msgp"
 )
 

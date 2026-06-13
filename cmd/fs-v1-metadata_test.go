@@ -45,7 +45,7 @@ func TestFSV1MetadataObjInfo(t *testing.T) {
 
 // TestReadFSMetadata - readFSMetadata testing with a healthy and faulty disk
 func TestReadFSMetadata(t *testing.T) {
-	disk := filepath.Join(globalTestTmpDir, "minio-"+nextSuffix())
+	disk := filepath.Join(globalTestTmpDir, "obstor-"+nextSuffix())
 	defer os.RemoveAll(disk)
 
 	obj := initFSObjects(disk, t)
@@ -80,7 +80,7 @@ func TestReadFSMetadata(t *testing.T) {
 
 // TestWriteFSMetadata - tests of writeFSMetadata with healthy disk.
 func TestWriteFSMetadata(t *testing.T) {
-	disk := filepath.Join(globalTestTmpDir, "minio-"+nextSuffix())
+	disk := filepath.Join(globalTestTmpDir, "obstor-"+nextSuffix())
 	defer os.RemoveAll(disk)
 
 	obj := initFSObjects(disk, t)

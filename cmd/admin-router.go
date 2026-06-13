@@ -20,8 +20,8 @@ package cmd
 import (
 	"net/http"
 
-	"github.com/obstor/obstor/pkg/madmin"
 	"github.com/gorilla/mux"
+	"github.com/obstor/obstor/pkg/madmin"
 )
 
 const (
@@ -211,7 +211,7 @@ func registerAdminRouter(router *mux.Router, enableConfigOps, enableIAMOps bool)
 		adminRouter.Methods(http.MethodGet).Path(adminVersion + "/kms/key/status").HandlerFunc(httpTraceAll(adminAPI.KMSKeyStatusHandler))
 
 		if !globalIsBackend {
-			// Keep obdinfo for backward compatibility with mc
+			// Keep obdinfo for backward compatibility with older clients
 			adminRouter.Methods(http.MethodGet).Path(adminVersion + "/obdinfo").
 				HandlerFunc(httpTraceHdrs(adminAPI.HealthInfoHandler))
 			// -- Health API --

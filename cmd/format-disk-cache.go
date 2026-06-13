@@ -31,7 +31,7 @@ import (
 	"encoding/json"
 
 	"github.com/obstor/obstor/cmd/logger"
-	"github.com/minio/sio"
+	"github.com/obstor/sio"
 )
 
 const (

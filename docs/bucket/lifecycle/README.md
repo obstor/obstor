@@ -4,15 +4,14 @@ Enable object lifecycle configuration on buckets to setup automatic deletion of 
 
 ## 1. Prerequisites
 - Install Obstor - Obstor Quickstart Guide.
-- Install `mc` - mc Quickstart Guide
+- Install the AWS CLI - [Installing AWS Command Line Interface](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 
 ## 2. Enable bucket lifecycle configuration
 
 - Create a bucket lifecycle configuration which expires the objects under the prefix `old/` on `2026-01-01T00:00:00.000Z` date and the objects under `temp/` after 7 days.
-- Enable bucket lifecycle configuration using `mc`:
+- Save the configuration to a file `lifecycle.json`:
 
-```bash
-$ mc ilm import play/testbucket <<EOF
+```json
 {
   "Rules": [
     {
@@ -37,22 +36,20 @@ $ mc ilm import play/testbucket <<EOF
     }
   ]
 }
-EOF
 ```
 
-```
-Lifecycle configuration imported successfully to `play/testbucket`.
+- Apply the bucket lifecycle configuration using the AWS CLI:
+
+```bash
+$ aws --endpoint-url http://localhost:9000 s3api put-bucket-lifecycle-configuration \
+  --bucket testbucket \
+  --lifecycle-configuration file://lifecycle.json
 ```
 
 - List the current settings
 ```bash
-$ mc ilm ls play/testbucket
-     ID     |  Prefix  |  Enabled   | Expiry |  Date/Days   |  Transition  |    Date/Days     |  Storage-Class   |       Tags
-------------|----------|------------|--------|--------------|--------------|------------------|------------------|------------------
-OldPictures |   old/   |    ✓       |  ✓     |  1 Jan 2026  |     ✗        |                  |                  |
-------------|----------|------------|--------|--------------|--------------|------------------|------------------|------------------
-TempUploads |  temp/   |    ✓       |  ✓     |   7 day(s)   |     ✗        |                  |                  |
-------------|----------|------------|--------|--------------|--------------|------------------|------------------|------------------
+$ aws --endpoint-url http://localhost:9000 s3api get-bucket-lifecycle-configuration \
+  --bucket testbucket
 ```
 
 ## 3. Activate ILM versioning features

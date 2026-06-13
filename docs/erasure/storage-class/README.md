@@ -82,12 +82,12 @@ export OBSTOR_STORAGE_CLASS_STANDARD=EC:3
 export OBSTOR_STORAGE_CLASS_RRS=EC:2
 ```
 
-Storage class can also be set via `mc admin config` get/set commands to update the configuration. Refer [storage class](/docs/config#storage-class) for
+Storage class is configured via the `OBSTOR_STORAGE_CLASS_STANDARD` and `OBSTOR_STORAGE_CLASS_RRS` environment variables. Refer [storage class](/docs/config#storage-class) for
 more details.
 
 *Note*
 
-- If `STANDARD` storage class is set via environment variables or `mc admin config` get/set commands, and `x-amz-storage-class` is not present in request metadata, Obstor server will
+- If `STANDARD` storage class is set via the `OBSTOR_STORAGE_CLASS_STANDARD` environment variable, and `x-amz-storage-class` is not present in request metadata, Obstor server will
 apply `STANDARD` storage class to the object. This means the data and parity disks will be used as set in `STANDARD` storage class.
 
 - If storage class is not defined before starting Obstor server, and subsequent PutObject metadata field has `x-amz-storage-class` present
@@ -95,7 +95,7 @@ with values `REDUCED_REDUNDANCY` or `STANDARD`, Obstor server uses default parit
 
 ### Set metadata
 
-In below example `minio-go` is used to set the storage class to `REDUCED_REDUNDANCY`. This means this object will be split across 6 data disks and 2 parity disks (as per the storage class set in previous step).
+In below example `obstor-go` is used to set the storage class to `REDUCED_REDUNDANCY`. This means this object will be split across 6 data disks and 2 parity disks (as per the storage class set in previous step).
 
 ```go
 s3Client, err := obstor.New("localhost:9000", "YOUR-ACCESSKEYID", "YOUR-SECRETACCESSKEY", true)

@@ -115,6 +115,19 @@ func (br *BlockReplicator) BlockRange(offset, length, totalSize int64) (startBlo
 }
 
 // Return the two-level on-disk path for a block hash.
+func isValidBlockHash(hash string) bool {
+	if len(hash) != 64 {
+		return false
+	}
+	for i := 0; i < len(hash); i++ {
+		c := hash[i]
+		if (c < '0' || c > '9') && (c < 'a' || c > 'f') {
+			return false
+		}
+	}
+	return true
+}
+
 func blockStoragePath(hash string) string {
 	if len(hash) < 4 {
 		return path.Join("blocks", hash)

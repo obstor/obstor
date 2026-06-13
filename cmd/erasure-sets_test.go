@@ -168,7 +168,7 @@ func TestNewErasureSets(t *testing.T) {
 		// Do not attempt to create this path, the test validates
 		// so that newErasureSets initializes non existing paths
 		// and successfully returns initialized object layer.
-		disk := filepath.Join(globalTestTmpDir, "minio-"+nextSuffix())
+		disk := filepath.Join(globalTestTmpDir, "obstor-"+nextSuffix())
 		erasureDisks = append(erasureDisks, disk)
 		defer os.RemoveAll(disk)
 	}

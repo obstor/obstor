@@ -28,12 +28,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/obstor/obstor/cmd/logger"
 	b "github.com/obstor/obstor/pkg/bucket/bandwidth"
 	"github.com/obstor/obstor/pkg/event"
 	"github.com/obstor/obstor/pkg/madmin"
 	trace "github.com/obstor/obstor/pkg/trace"
-	"github.com/gorilla/mux"
 	"github.com/tinylib/msgp/msgp"
 )
 
